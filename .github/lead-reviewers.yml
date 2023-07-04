@@ -1,0 +1,9 @@
+reviewers:
+  # The default lead reviewers.
+  # Reviews may only be requested from collaborators.
+  defaults:
+    - danilkukryakov
+    - dbitkovski
+    - pavel-romanov8
+    - chernodub
+    - pavelzadorin-saritasa

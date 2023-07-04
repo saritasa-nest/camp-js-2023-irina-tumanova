@@ -1,0 +1,1 @@
+export { GenresPage } from './GenresPage';

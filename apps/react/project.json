@@ -1,0 +1,69 @@
+{
+  "name": "react",
+  "$schema": "..\\..\\node_modules\\nx\\schemas\\project-schema.json",
+  "sourceRoot": "apps/react/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/react",
+        "baseHref": "/",
+        "configFile": "apps/react/vite.config.ts",
+        "frameworkConfigFile": "@nx/react/plugins/vite"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/vite:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "outputPath": "dist/apps/react",
+        "baseHref": "/",
+        "configFile": "apps/react/vite.config.ts",
+        "frameworkConfigFile": "@nx/react/plugins/vite"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "react:build:development"
+        },
+        "production": {
+          "buildTarget": "react:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/react/src/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "stylelint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/react/**/*.css"]
+      }
+    }
+  },
+  "tags": []
+}
