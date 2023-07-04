@@ -1,0 +1,40 @@
+# Check if lead reviewers should be added to PR.
+name: 2 Stage of Approval PR process
+on:
+  pull_request:
+    types: [review_requested]
+  pull_request_review:
+    types: [submitted]
+
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  onSubmit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checks whether the lead reviewers are invited
+        # https://github.com/saritasa-nest/saritasa-pr-approved-action/tree/leads-check
+        uses: saritasa-nest/saritasa-pr-approved-action@leads-check
+        id: leadsCheck
+        with:
+          config: .github/lead-reviewers.yml
+
+      - name: Checks if the PR is approved
+        if: steps.leadsCheck.outputs.areLeadReviewersInvited == 'false'
+        # https://github.com/saritasa-nest/saritasa-pr-approved-action/tree/approves-check
+        uses: saritasa-nest/saritasa-pr-approved-action@approves-check
+        id: approvesCheck
+        with:
+          requiredApprovesAmount: 2
+
+      - name: Request lead reviewers.
+        if: steps.approvesCheck.outputs.isApproved == 'true'
+        uses: necojackarc/auto-request-review@v0.7.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config: .github/lead-reviewers.yml

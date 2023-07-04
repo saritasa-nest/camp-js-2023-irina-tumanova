@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "../../out-tsc/lib",
+    "target": "es2015",
+    "declaration": true,
+    "declarationMap": true,
+    "inlineSources": true,
+    "lib": [
+      "dom",
+      "es2018"
+    ]
+  },
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    }
+  ]
+}

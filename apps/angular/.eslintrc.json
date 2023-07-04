@@ -1,0 +1,87 @@
+{
+  "extends": ["../../.eslintrc.json"],
+  "ignorePatterns": ["!**/*"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": ["apps/angular/tsconfig.*?.json"],
+        "createDefaultProgram": true
+      },
+      "extends": ["plugin:@angular-eslint/recommended"],
+      "plugins": ["rxjs"],
+      "rules": {
+        "@nx/enforce-module-boundaries": [
+          "error",
+          {
+            "enforceBuildableLibDependency": true,
+            "allow": ["@js-camp/angular/", "@js-camp/angular/*"],
+            "depConstraints": [
+              {
+                "sourceTag": "*",
+                "onlyDependOnLibsWithTags": ["*"]
+              }
+            ]
+          }
+        ],
+        "rxjs/no-exposed-subjects": ["error", { "allowProtected": true }],
+        "rxjs/finnish": [
+          "error",
+          {
+            "functions": false,
+            "methods": false,
+            "names": {
+              "^(canActivate|canActivateChild|canDeactivate|canLoad|intercept|resolve|validate)$": false
+            },
+            "parameters": true,
+            "properties": true,
+            "strict": true,
+            "types": {
+              "^EventEmitter$": false
+            },
+            "variables": true
+          }
+        ],
+        "rxjs/no-ignored-replay-buffer": "error",
+        "rxjs/no-internal": "error",
+        "rxjs/no-nested-subscribe": "error",
+        "rxjs/no-unbound-methods": "error",
+        "rxjs/throw-error": "error",
+        "rxjs/no-async-subscribe": "error",
+        "rxjs/no-create": "error",
+        "rxjs/no-ignored-observable": "error",
+        "rxjs/no-implicit-any-catch": "error",
+        "rxjs/no-index": "error",
+        "rxjs/no-sharereplay": [
+          "error",
+          {
+            "allowConfig": true
+          }
+        ],
+        "rxjs/no-subclass": "error",
+        "rxjs/no-subject-value": "error",
+        "rxjs/no-unsafe-takeuntil": [
+          "error",
+          {
+            "alias": ["takeUntilDestroy"]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["*.html"],
+      "extends": ["plugin:@nx/angular-template"],
+      "rules": {
+        "@angular-eslint/template/button-has-type": "error"
+      }
+    },
+    {
+      "files": ["*.component.ts"],
+      "extends": ["plugin:@angular-eslint/template/process-inline-templates"],
+      "plugins": ["rxjs"],
+      "rules": {
+        "rxjs/no-exposed-subjects": "off"
+      }
+    }
+  ]
+}

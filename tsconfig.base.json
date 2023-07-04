@@ -1,0 +1,29 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "noImplicitOverride": true,
+    "allowJs": true,
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "es2020",
+    "lib": ["es2019", "dom", "DOM.Iterable"],
+    "paths": {
+      "@js-camp/*": ["libs/*"],
+      "@js-camp/angular/*": ["apps/angular/src/*"],
+      "@js-camp/react/*": ["apps/react/src/*"],
+      "@js-camp/vanilla/*": ["apps/vanilla/src/*"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"],
+  "include": ["**/*.js", "**/*.ts"]
+}

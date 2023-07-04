@@ -1,0 +1,20 @@
+reviewers:
+  # The default core reviewers.
+  # Reviews may only be requested from collaborators.
+  defaults:
+    - panov-aleksey-saritasa
+    - artem-sotnichenko-saritasa
+    - DaniilMaslovSaritasa
+    - elena-dragunova
+    - ShestakovaElena
+    - gevorg-gevorgyan-saritasa
+    - irina-baleevskih-saritasa
+    - karbik-creator
+    - khuongsaritasa
+    - kristinaSvobodinaSaritasa
+    - maxineo
+    - TienLuu-Saritasa
+    - timofei-maximov-saritasa
+    - viktor-sakhno-saritasa
+    - golovachev-yaroslav
+    - andrey-gazzaev

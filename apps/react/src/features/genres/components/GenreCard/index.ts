@@ -1,0 +1,1 @@
+export { GenreCard } from './GenreCard';

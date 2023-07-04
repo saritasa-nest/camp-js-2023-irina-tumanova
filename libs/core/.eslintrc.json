@@ -1,0 +1,33 @@
+{
+  "extends": ["../../.eslintrc.json"],
+  "ignorePatterns": ["!**/*"],
+  "parserOptions": {
+    "project": ["libs/core/tsconfig.*?.json"]
+  },
+  "overrides": [
+    {
+      "files": ["**/models/**/*.ts"],
+      "rules": {
+        "import/export": "off"
+      }
+    },
+    {
+      "files": ["**/dtos/**/*.ts"],
+      "rules": {
+        "jsdoc/require-jsdoc": "off",
+        "@typescript-eslint/naming-convention": "off",
+        "no-restricted-syntax": [
+          "error",
+          {
+            "selector": "TSPropertySignature[readonly=undefined]",
+            "message": "Missing 'readonly' modifier for the DTO property."
+          },
+          {
+            "selector": "TSPropertySignature TSTypeAnnotation[typeAnnotation.type='TSArrayType']",
+            "message": "Missing 'readonly' type modifier for array."
+          }
+        ]
+      }
+    }
+  ]
+}
