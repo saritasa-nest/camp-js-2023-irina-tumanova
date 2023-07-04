@@ -21,4 +21,7 @@
 	--little-space: 8px;
 
 	--icon-size: 24px;
+	--header-height: calc(3 * var(--medium-space) + var(--body-font-size));
+
+	--standart-border-options: 1px solid var(--border);
 }

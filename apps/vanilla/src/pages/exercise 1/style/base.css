@@ -1,20 +1,15 @@
 html {
-  font-size: var(--body-font-size);
-  font-family: Inter, system-ui, sans-serif;
+	font-size: var(--body-font-size);
+	font-family: Inter, system-ui, sans-serif;
 }
 
 * {
-  margin: 0;
-  padding: 0;
+	margin: 0;
+	padding: 0;
 	box-sizing: border-box;
 }
 
-.default-layout{
-	padding: 0 max(calc(50% - 622px), var(--very-large-space));
-}
-
-@media (max-width: 786px) {
-	.default-layout{
-		padding: 0 var(--medium-space);
-	}
+.default-layout {
+	--container-padding-on-sides: max(calc(50% - 622px), var(--very-large-space));
+	padding: 0 var(--container-padding-on-sides);
 }

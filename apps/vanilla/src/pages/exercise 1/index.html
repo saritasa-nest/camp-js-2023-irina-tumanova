@@ -7,67 +7,71 @@
 	<title>Books app</title>
 </head>
 <body class="default-layout">
+
 <header>
 	<p class="logo">📚 Books app</p>
 </header>
 
-<div class="book-list">
-	<p class="subtitle">Sun</p>
-	<div class="book-card">
-		<div class="book-cover" style="background-image: url('https://debuggingcss.com/images/book.jpg')"></div>
-		<p class="body-small">dEBBUGING</p>
-	</div>
-	<div class="book-card">
-		<div class="book-cover" style="background-image: url('https://debuggingcss.com/images/book.jpg')"></div>
-		<p class="body-small">dEBBUGING</p>
-	</div>
-	<div class="book-card">
-		<div class="book-cover" style="background-image: url('https://debuggingcss.com/images/book.jpg')"></div>
-		<p class="body-small">dEBBUGING</p>
-	</div>
-</div>
-<div class="book-list">
-	<p class="subtitle">Sun</p>
-	<div class="book-card">
-		<div class="book-cover" style="background-image: url('https://debuggingcss.com/images/book.jpg')"></div>
-		<p class="body-small">dEBBUGING</p>
-	</div>
-	<div class="book-card">
-		<div class="book-cover" style="background-image: url('https://debuggingcss.com/images/book.jpg')"></div>
-		<p class="body-small">dEBBUGING</p>
-	</div>
-	<div class="book-card">
-		<div class="book-cover" style="background-image: url('https://debuggingcss.com/images/book.jpg')"></div>
-		<p class="body-small">dEBBUGING</p>
-	</div>
-</div>
+<div class="content">
+	<aside class="filters">
+		<p class="subtitle">Filters</p>
 
+		<label class="search-input">
+			<img src="assets/heroicons_magnifying-glass.svg" alt="search something" class="search-icon" />
+			<input type="text" placeholder="e.g.Refactoring" class="body" />
+		</label>
 
-<div class="filters">
-	<p class="subtitle">Filters</p>
+		<div class="select-wrapper">
+			<select class="body">
+				<option value="Option 1">Option 1</option>
+				<option value="Option 2">Option 2</option>
+				<option value="Option 3">Option 3</option>
+				<option value="Option 4">Option 4</option>
+				<option value="Option 5">Option 5</option>
+				<option value="Option length">Option that has too long of a value to fit</option>
+			</select>
+			<img src="assets/heroicons_chevron-down.svg" alt="toggle select" class="select-icon">
+		</div>
 
-	<label class="search-input">
-		<img src="assets/heroicons_magnifying-glass.svg" alt="search something" class="search-icon" />
-		<input type="text" placeholder="e.g.Refactoring" class="body" />
-	</label>
+		<label for="checkbox" class="checkbox-wrapper">
+			<input type="checkbox" class="checkbox-input" id="checkbox">
+			<span class="checkbox"></span>
+			<span>Show comics</span>
+		</label>
+	</aside>
 
-	<div class="select-wrapper">
-		<select class="body">
-			<option value="Option 1">Option 1</option>
-			<option value="Option 2">Option 2</option>
-			<option value="Option 3">Option 3</option>
-			<option value="Option 4">Option 4</option>
-			<option value="Option 5">Option 5</option>
-			<option value="Option length">Option that has too long of a value to fit</option>
-		</select>
-		<img src="assets/heroicons_chevron-down.svg" alt="toggle select" class="select-icon">
-	</div>
-
-	<label for="checkbox" class="checkbox-wrapper">
-		<input type="checkbox" class="checkbox-input" id="checkbox">
-		<span class="checkbox"></span>
-		<span>adw</span>
-	</label>
+	<section class="books">
+		<div class="book-list">
+			<p class="subtitle">Sun</p>
+			<div class="book-card">
+				<div class="book-cover" style="background-image: url('https://debuggingcss.com/images/book.jpg')"></div>
+				<p class="body-small">dEBBUGING</p>
+			</div>
+			<div class="book-card">
+				<div class="book-cover" style="background-image: url('https://debuggingcss.com/images/book.jpg')"></div>
+				<p class="body-small">dEBBUGING</p>
+			</div>
+			<div class="book-card">
+				<div class="book-cover" style="background-image: url('https://debuggingcss.com/images/book.jpg')"></div>
+				<p class="body-small">dEBBUGING</p>
+			</div>
+		</div>
+		<div class="book-list">
+			<p class="subtitle">Sun</p>
+			<div class="book-card">
+				<div class="book-cover" style="background-image: url('https://debuggingcss.com/images/book.jpg')"></div>
+				<p class="body-small">dEBBUGING</p>
+			</div>
+			<div class="book-card">
+				<div class="book-cover" style="background-image: url('https://debuggingcss.com/images/book.jpg')"></div>
+				<p class="body-small">dEBBUGING</p>
+			</div>
+			<div class="book-card">
+				<div class="book-cover" style="background-image: url('https://debuggingcss.com/images/book.jpg')"></div>
+				<p class="body-small">dEBBUGING</p>
+			</div>
+		</div>
+	</section>
 </div>
 
 <footer>
@@ -77,9 +81,9 @@
 	</div>
 
 	<a class="body social-link link" href="#">Github</a>
-	<snap class="body button-to-top">Go to top ↑</snap>
+	<span class="body button-to-top">Go to top ↑</span>
 </footer>
 
-<script type="module" src="script.ts"></script>
+<script type="text/javascript" src="script.ts"></script>
 </body>
 </html>
