@@ -12,11 +12,15 @@ function fixFilters(){
 	})
 }
 
-function fixBookCategory(offset){
+function fixBookCategory(){
 	const bookLists = document.querySelectorAll('.book-list');
+	const maxWidthWindowWithOutsideFilters = 1000
 
 	addEventListener('scroll', () => {
 		const scrollY = window.scrollY;
+		let offset = window.innerWidth <= maxWidthWindowWithOutsideFilters ?
+			filtersComponent?.clientHeight ?? 0 :
+			0
 
 		for(let i = 0; i < bookLists.length; i++){
 			const bookList = bookLists[i];
@@ -28,13 +32,11 @@ function fixBookCategory(offset){
 			if(position.top <= offset && scrollY >= headerHeight) category.classList.add('fixed')
 			else category.classList.remove('fixed')
 
-			category.style.top = offset + 'px'
+			category.setAttribute('style', `top: ${offset}px`);
 		}
 	})
 }
 
-const windowWidth = window.innerWidth;
-const filtersHeight = filtersComponent?.clientHeight ?? 0;
 
-fixBookCategory(windowWidth <= 1000 ? filtersHeight : 0)
+fixBookCategory()
 fixFilters()

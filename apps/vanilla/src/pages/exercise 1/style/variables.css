@@ -1,27 +1,34 @@
 :root {
-	--body-font-size: 20px;
-	--body-small-font-size: 16px;
-	--subtitle-font-size: 18px;
+  /* Font size */
+  --body-font-size: 20px;
+  --body-small-font-size: 16px;
+  --subtitle-font-size: 18px;
 
-	--primary: hsla(16, 88%, 54%, 1);
-	--on-primary: hsla(0, 0%, 100%, 1);
-	--surface: hsla(0, 0%, 100%, 1);
-	--surface-overlay: hsla(0, 0%, 0%, 0.05);
-	--on-surface: hsla(0, 0%, 0%, 1);
-	--on-surface-dim: hsla(0, 0%, 0%, 0.5);
-	--border: hsla(0, 0%, 0%, 0.15);
+  /* Colors */
+  --primary: hsl(16deg 88% 54% / 100%);
+  --on-primary: hsl(0deg 0% 100% / 100%);
+  --surface: hsl(0deg 0% 100% / 100%);
+  --surface-overlay: hsl(0deg 0% 0% / 5%);
+  --on-surface: hsl(0deg 0% 0% / 100%);
+  --on-surface-dim: hsl(0deg 0% 0% / 50%);
+  --border: hsl(0deg 0% 0% / 15%);
 
-	--medius-border-radius: 24px;
-	--small-border-radius: 16px;
+  /* Border radius */
+  --medius-border-radius: 24px;
+  --small-border-radius: 16px;
 
-	--very-large-space: 40px;
-	--large-space: 32px;
-	--medium-space: 24px;
-	--small-space: 16px;
-	--little-space: 8px;
+  /* Spaces */
+  --very-large-space: 40px;
+  --large-space: 32px;
+  --medium-space: 24px;
+  --small-space: 16px;
+  --little-space: 8px;
 
-	--icon-size: 24px;
-	--header-height: calc(3 * var(--medium-space) + var(--body-font-size));
+  /* Sizes */
+  --icon-size: 24px;
+  --header-height: calc(3 * var(--medium-space) + var(--body-font-size));
+  --filters-height: calc(24px + 2 * var(--little-space));
 
-	--standart-border-options: 1px solid var(--border);
+  /* Other styles */
+  --standart-border-options: 1px solid var(--border);
 }
