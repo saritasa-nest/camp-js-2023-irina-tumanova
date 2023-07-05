@@ -27,7 +27,7 @@
   /* Sizes */
   --icon-size: 24px;
   --header-height: calc(3 * var(--medium-space) + var(--body-font-size));
-  --filters-height: calc(24px + 2 * var(--little-space));
+  --filters-height: calc(32px + 2 * var(--little-space));
 
   /* Other styles */
   --standart-border-options: 1px solid var(--border);

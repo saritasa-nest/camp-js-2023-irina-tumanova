@@ -73,7 +73,6 @@
   gap: var(--little-space);
   position: relative;
   min-width: 210px;
-  height: var(--filters-height);
 }
 
 .search-input .search-icon {
@@ -87,6 +86,7 @@
 .search-input input {
   --left-padding-with-icon: calc(var(--small-space) + var(--icon-size) + var(--little-space));
 
+  height: var(--filters-height);
   width: 100%;
   border: none;
   outline: 1px solid transparent;
