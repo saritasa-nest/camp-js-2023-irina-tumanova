@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<link rel="stylesheet" href="style/index.css" />
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link rel="stylesheet" href="style/index.css"/>
 	<title>Books app</title>
 </head>
 <body class="default-layout">
@@ -12,23 +12,21 @@
 	<p class="logo">📚 Books app</p>
 </header>
 
-<div class="content">
+<main class="content">
 	<aside class="filters">
 		<p class="subtitle">Filters</p>
 
 		<label class="search-input">
-			<img src="assets/heroicons_magnifying-glass.svg" alt="search something" class="search-icon" />
-			<input type="text" placeholder="e.g.Refactoring" class="body" />
+			<img src="assets/heroicons_magnifying-glass.svg" alt="search something" class="search-icon"/>
+			<input type="text" placeholder="e.g.Refactoring" class="body"/>
 		</label>
 
 		<div class="select-wrapper">
 			<select class="body">
-				<option value="Option 1">Option 1</option>
-				<option value="Option 2">Option 2</option>
-				<option value="Option 3">Option 3</option>
-				<option value="Option 4">Option 4</option>
-				<option value="Option 5">Option 5</option>
-				<option value="Option length">Option that has too long of a value to fit</option>
+				<option value="Length">Length</option>
+				<option value="Author">Author</option>
+				<option value="Publication year">Publication year</option>
+				<option value="Score">Score</option>
 			</select>
 			<img src="assets/heroicons_chevron-down.svg" alt="toggle select" class="select-icon">
 		</div>
@@ -42,37 +40,49 @@
 
 	<section class="books">
 		<div class="book-list">
-			<p class="subtitle">Sun</p>
+			<div class="subtitle book-category">2022 year</div>
 			<div class="book-card">
-				<div class="book-cover" style="background-image: url('https://debuggingcss.com/images/book.jpg')"></div>
-				<p class="body-small">dEBBUGING</p>
+				<div class="book-cover" style="background-image: url('assets/covers/09.png')"></div>
+				<p class="body-small">Refactoring UI</p>
 			</div>
 			<div class="book-card">
-				<div class="book-cover" style="background-image: url('https://debuggingcss.com/images/book.jpg')"></div>
-				<p class="body-small">dEBBUGING</p>
+				<div class="book-cover" style="background-image: url('assets/covers/11.png')"></div>
+				<p class="body-small">Master the Skill of Debugging CSS</p>
 			</div>
 			<div class="book-card">
-				<div class="book-cover" style="background-image: url('https://debuggingcss.com/images/book.jpg')"></div>
-				<p class="body-small">dEBBUGING</p>
+				<div class="book-cover" style="background-image: url('assets/covers/03.png')"></div>
+				<p class="body-small">Blue period</p>
 			</div>
 		</div>
 		<div class="book-list">
-			<p class="subtitle">Sun</p>
+			<p class="subtitle book-category">1980 year</p>
 			<div class="book-card">
-				<div class="book-cover" style="background-image: url('https://debuggingcss.com/images/book.jpg')"></div>
-				<p class="body-small">dEBBUGING</p>
+				<div class="book-cover" style="background-image: url('assets/covers/02.png')"></div>
+				<p class="body-small">Yokohama Kaidashi Kikou</p>
 			</div>
 			<div class="book-card">
-				<div class="book-cover" style="background-image: url('https://debuggingcss.com/images/book.jpg')"></div>
-				<p class="body-small">dEBBUGING</p>
+				<div class="book-cover" style="background-image: url('assets/covers/08.png')"></div>
+				<p class="body-small">Learning JavaScript Design Patterns</p>
 			</div>
 			<div class="book-card">
-				<div class="book-cover" style="background-image: url('https://debuggingcss.com/images/book.jpg')"></div>
-				<p class="body-small">dEBBUGING</p>
+				<div class="book-cover" style="background-image: url('assets/covers/01.png')"></div>
+				<p class="body-small">Yotsuba to!</p>
+			</div>
+			<div class="book-card">
+				<div class="book-cover" style="background-image: url('assets/covers/07.png')"></div>
+				<p class="body-small">Domain-Driven Design</p>
+			</div>
+			<div class="book-card">
+				<div class="book-cover" style="background-image: url('assets/covers/06.png')"></div>
+				<p class="body-small">Implementing Domain-Driven Design</p>
+			</div>
+			<div class="book-card">
+				<div class="book-cover" style="background-image: url('assets/covers/04.png')"></div>
+				<p class="body-small">7 Навыков высокэффективных...</p>
 			</div>
 		</div>
 	</section>
-</div>
+</main>
 
 <footer>
 	<div class="footer-info">
@@ -84,6 +94,8 @@
 	<span class="body button-to-top">Go to top ↑</span>
 </footer>
 
-<script type="text/javascript" src="script.ts"></script>
+<script type="text/javascript" src="script.ts">
+
+</script>
 </body>
 </html>

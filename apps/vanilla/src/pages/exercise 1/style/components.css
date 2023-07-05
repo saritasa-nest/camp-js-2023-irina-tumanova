@@ -227,13 +227,20 @@ footer .button-to-top {
   position: fixed;
   top: 0;
 	right:var(--container-padding-on-sides);
-	width: 320px
+	width: 320px;
+
+	/* Фильтры поверх категорий */
+	z-index:1;
+}
+
+.filters.fixed + .books{
+	margin-top: var(--filters-top-padding);
 }
 
 @media (max-width: 1000px) {
   .filters {
     flex-direction: row;
-    flex-wrap: wrap;
+	  flex-wrap: wrap;
 	  width: 100%;
     border-bottom: var(--standart-border-options);
     margin-bottom: var(--small-space);
@@ -250,6 +257,14 @@ footer .button-to-top {
   }
 }
 
+
+
+@media (max-width: 720px) {
+	.filters {
+		flex-direction: column;
+	}
+}
+
 /* Books List */
 .book-list {
   width: 100%;
@@ -259,13 +274,25 @@ footer .button-to-top {
   margin-bottom: var(--very-large-space);
 }
 
-.book-list .subtitle {
-  margin-bottom: calc(var(--medium-space) - var(--small-space));
+.book-list .book-category {
+  padding: var(--small-space) 0;
   width: 100%;
+	background-color: #fff;
+}
+
+.book-category.fixed{
+	position: fixed;
+	top: 0;
+}
+
+.book-list:has(.book-category.fixed){
+	padding-top: calc(24px + 2 * var(--small-space));
 }
 
 /***** COMPONENTS | Macrocomponents *****/
 .content{
+	--filters-top-padding: 0;
+
 	display: grid;
 	grid-template-columns: 1fr 320px;
 	grid-template-areas: "books filters";
@@ -286,5 +313,13 @@ footer .button-to-top {
 		grid-template-columns: 1fr;
 		grid-template-areas: "filters"
 	 							"books";
+		--filters-top-padding: calc(var(--small-space) * 3 + 24px + 2 * var(--little-space));
+	}
+}
+
+
+@media (max-width: 720px) {
+	.content{
+		--filters-top-padding: calc(var(--small-space) * 3 + (24px + 2 * var(--little-space)) * 3 + 2 * var(--medium-space));
 	}
 }
