@@ -273,14 +273,14 @@ footer .button-to-top {
       );
   }
 
-  .content .filters {
-    order: -1;
-  }
-
   .filters {
     flex-flow: row wrap;
     width: 100%;
     border-bottom: var(--standart-border-options);
+  }
+
+  .content .filters {
+    order: -1;
   }
 
   .filters .select-wrapper,
