@@ -1,0 +1,35 @@
+name: Deploy PR previews
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+
+concurrency: preview-${{ github.ref }}
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v2
+
+    - name: Install nodejs
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.15.0
+
+    - name: Install and Build
+      run: |
+        npm ci
+        PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
+        REPO_NAME=camp-js-2023-irina-tumanova
+        npm run vanilla:build -- --base=/$REPO_NAME/pr-preview/pr-$PR_NUMBER/
+
+    - name: Deploy preview
+      uses: rossjrw/pr-preview-action@v1
+      with:
+        source-dir: dist/apps/vanilla
