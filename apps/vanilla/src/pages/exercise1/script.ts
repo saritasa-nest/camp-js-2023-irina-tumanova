@@ -49,5 +49,18 @@ function fixBookCategory(): void {
 	});
 }
 
+/** Scroll to top. */
+function scrollTop(): void {
+	const buttonToTop = document.querySelector('.button-to-top');
+	if (buttonToTop === null) {
+		return;
+	}
+
+	buttonToTop.addEventListener('click', () => {
+		window.scrollTo(0, 0);
+	});
+}
+
 fixBookCategory();
 fixFilters();
+scrollTop();
