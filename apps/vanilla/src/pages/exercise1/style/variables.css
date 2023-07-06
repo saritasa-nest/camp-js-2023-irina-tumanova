@@ -4,6 +4,10 @@
   --body-small-font-size: 16px;
   --subtitle-font-size: 18px;
 
+  /* Line height */
+  --medium-line-height: 24px;
+  --large-line-height: 32px;
+
   /* Colors */
   --primary: hsl(16deg 88% 54% / 100%);
   --on-primary: hsl(0deg 0% 100% / 100%);
@@ -26,8 +30,7 @@
 
   /* Sizes */
   --icon-size: 24px;
-  --header-height: calc(3 * var(--medium-space) + var(--body-font-size));
-  --filters-height: calc(32px + 2 * var(--little-space));
+  --filter-height: calc(var(--large-line-height) + 2 * var(--little-space));
 
   /* Other styles */
   --standart-border-options: 1px solid var(--border);
