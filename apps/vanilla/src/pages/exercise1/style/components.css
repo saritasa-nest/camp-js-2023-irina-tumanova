@@ -209,6 +209,7 @@ footer .footer-info {
 footer .button-to-top {
   margin-left: auto;
   cursor: pointer;
+  border: none;
 }
 
 /* Filters */
@@ -250,6 +251,8 @@ footer .button-to-top {
   padding: var(--small-space) 0;
   width: 100%;
   background-color: #fff;
+  position: sticky;
+  top: var(--filters-top-padding);
 }
 
 .book-category.fixed {
@@ -291,7 +294,7 @@ footer .button-to-top {
       "filters"
       "books";
 
-    --filters-top-padding: calc(var(--small-space) * 3 + var(--filters-height));
+    --filters-top-padding: calc(var(--small-space) * 2 + var(--filters-height) + 24px + var(--medium-space));
   }
 
   .filters {
@@ -316,8 +319,9 @@ footer .button-to-top {
   .content {
     --filters-top-padding:
       calc(
-        var(--small-space) * 3 +
-        (var(--filters-height) * 3 + 2 * var(--medium-space))
+        var(--small-space) * 2 +
+        var(--filters-height) * 2 +
+        3 * var(--medium-space) + 48px
       );
   }
 
