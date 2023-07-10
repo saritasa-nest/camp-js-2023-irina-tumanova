@@ -1,0 +1,17 @@
+html {
+  font-size: var(--body-font-size);
+  font-family: Inter, system-ui, sans-serif;
+  scroll-behavior: smooth;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.default-layout {
+  --container-padding-on-sides: max(calc(50% - 622px), var(--very-large-space));
+
+  padding: 0 var(--container-padding-on-sides);
+}

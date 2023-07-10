@@ -1,0 +1,320 @@
+/***** TEXT *****/
+
+.subtitle {
+  font-size: var(--subtitle-font-size);
+  font-weight: 600;
+  line-height: var(--medium-line-height);
+  letter-spacing: 0.05em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.text_small {
+  font-size: var(--body-small-font-size);
+  font-weight: 500;
+  line-height: var(--medium-line-height);
+  letter-spacing: 0;
+  text-align: left;
+}
+
+.text {
+  font-size: var(--body-font-size);
+  font-weight: 400;
+  line-height: var(--large-line-height);
+  letter-spacing: 0;
+  text-align: left;
+}
+
+.logo {
+  font-size: var(--body-font-size);
+  font-weight: 700;
+  line-height: var(--medium-line-height);
+  letter-spacing: 0;
+  text-align: left;
+}
+
+.link {
+  color: var(--on-surface-color);
+  text-decoration: none;
+  border-bottom: 1px solid var(--on-surface-color);
+}
+
+.link:hover {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+/***** COMPONENTS *****/
+
+/* Book Card */
+.book-card {
+  max-width: 180px;
+  width: 100%;
+  word-break: break-all;
+}
+
+.book-card .book-card__cover {
+  width: 100%;
+  height: 300px;
+  border-radius: var(--medius-border-radius);
+  background: center/cover no-repeat var(--surface-overlay-color);
+  margin-bottom: var(--little-space);
+  overflow: hidden;
+}
+
+.book-card .book-card__cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Search Input */
+.search-input {
+  border-radius: var(--small-border-radius);
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: var(--little-space);
+  position: relative;
+  min-width: 210px;
+}
+
+.search-input .search-input__icon {
+  position: absolute;
+  left: var(--small-space);
+  width: var(--icon-size);
+  height: var(--icon-size);
+  pointer-events: none;
+}
+
+.search-input input {
+  --left-padding-with-icon: calc(var(--small-space) + var(--icon-size) + var(--little-space));
+
+  height: var(--filter-height);
+  width: 100%;
+  border: 1px solid transparent;
+  outline: 1px solid transparent;
+  background-color: var(--surface-overlay-color);
+  border-radius: var(--small-border-radius);
+  padding:
+    var(--little-space)
+    var(--small-space)
+    var(--little-space)
+    var(--left-padding-with-icon);
+}
+
+.search-input input:hover,
+.search-input input:focus {
+  outline-color: var(--on-surface-color);
+}
+
+.search-input input:focus {
+  border-color: var(--on-surface-color);
+}
+
+/* Select */
+.select-wrapper {
+  position: relative;
+  width: 100%;
+  min-width: 210px;
+}
+
+.select-wrapper .select-icon {
+  position: absolute;
+  right: var(--small-space);
+  top: calc(50% - var(--icon-size) / 2);
+  pointer-events: none;
+}
+
+.select-wrapper select {
+  outline: 1px solid transparent;
+  appearance: none;
+  width: 100%;
+  border: 1px solid transparent;
+  padding: var(--little-space) var(--small-space);
+  border-radius: var(--small-border-radius);
+  background-color: var(--surface-overlay-color);
+  height: var(--filter-height);
+}
+
+.select-wrapper select:focus,
+.select-wrapper select:hover {
+  outline-color: var(--on-surface-color);
+}
+
+.select-wrapper select:focus {
+  border-color: var(--on-surface-color);
+}
+
+/* Checkbox */
+.checkbox-wrapper {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  gap: var(--small-space);
+  margin-right: auto;
+}
+
+.checkbox-wrapper .checkbox__input {
+  display: none;
+}
+
+.checkbox-wrapper .checkbox {
+  box-sizing: border-box;
+  cursor: pointer;
+  border: 2px solid var(--border-color);
+  border-radius: 4px;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  position: relative;
+}
+
+.checkbox-wrapper .checkbox::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 10px;
+  height: 10px;
+  background-color: var(--primary-color);
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+.checkbox-wrapper:hover .checkbox,
+.checkbox-wrapper .checkbox__input:checked + .checkbox {
+  border-color: var(--primary-color);
+}
+
+.checkbox-wrapper .checkbox__input:checked + .checkbox::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Filters */
+.filters {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: var(--surface-color);
+  gap: var(--medium-space);
+  padding: var(--small-space) 0;
+  width: 320px;
+  position: sticky;
+  top: 0;
+
+  /* Filters are above headings */
+  z-index: 1;
+}
+
+.filters .subtitle {
+  width: 100%;
+}
+
+/* Books List */
+.book-list {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--small-space);
+  margin-bottom: var(--very-large-space);
+}
+
+.book-list .book-category {
+  padding: var(--small-space) 0;
+  width: 100%;
+  background-color: var(--on-primary-color);
+  position: sticky;
+  top: var(--filters-top-padding);
+}
+
+/* Header */
+.header {
+  width: 100%;
+  padding: var(--medium-space) 0;
+  border-bottom: var(--standart-border-options);
+}
+
+/** Footer */
+.footer {
+  margin-top: var(--medium-space);
+  border-top: var(--standart-border-options);
+  padding: var(--medium-space) 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--medium-space);
+  width: 100%;
+}
+
+.footer .footer__info {
+  display: flex;
+  align-items: center;
+  gap: var(--little-space);
+}
+
+.footer .button-to-top {
+  margin-left: auto;
+  cursor: pointer;
+  border: none;
+}
+
+/** Content **/
+.content {
+  --filters-top-padding: 0;
+
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  grid-gap: var(--medium-space);
+  align-items: start;
+}
+
+@media (max-width: 1000px) {
+  .content {
+    grid-template-columns: 1fr;
+
+    /* Fixed height filters */
+    --filters-top-padding: 128px;
+  }
+
+  .filters {
+    flex-flow: row wrap;
+    width: 100%;
+    border-bottom: var(--standart-border-options);
+  }
+
+  .content .filters {
+    order: -1;
+  }
+
+  .filters .select-wrapper,
+  .filters .search-input {
+    flex: 1;
+  }
+}
+
+@media (max-width: 720px) {
+  .content {
+    /* Fixed height filters */
+    --filters-top-padding: 247px;
+  }
+
+  .filters {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 500px) {
+  .book-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .book-list .book-category {
+    grid-column: 1/3;
+  }
+}

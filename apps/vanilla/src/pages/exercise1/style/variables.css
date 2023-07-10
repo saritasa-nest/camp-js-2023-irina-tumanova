@@ -1,0 +1,37 @@
+:root {
+  /* Font size */
+  --body-font-size: 20px;
+  --body-small-font-size: 16px;
+  --subtitle-font-size: 18px;
+
+  /* Line height */
+  --medium-line-height: 24px;
+  --large-line-height: 32px;
+
+  /* Colors */
+  --primary-color: hsl(16deg 88% 54% / 100%);
+  --on-primary-color: hsl(0deg 0% 100% / 100%);
+  --surface-color: hsl(0deg 0% 100% / 100%);
+  --surface-overlay-color: hsl(0deg 0% 0% / 5%);
+  --on-surface-color: hsl(0deg 0% 0% / 100%);
+  --on-surface-dim-color: hsl(0deg 0% 0% / 50%);
+  --border-color: hsl(0deg 0% 0% / 15%);
+
+  /* Border radius */
+  --medius-border-radius: 24px;
+  --small-border-radius: 16px;
+
+  /* Spaces */
+  --very-large-space: 40px;
+  --large-space: 32px;
+  --medium-space: 24px;
+  --small-space: 16px;
+  --little-space: 8px;
+
+  /* Sizes */
+  --icon-size: 24px;
+  --filter-height: calc(var(--large-line-height) + 2 * var(--little-space));
+
+  /* Other styles */
+  --standart-border-options: 1px solid var(--border);
+}
