@@ -9,13 +9,13 @@
   --large-line-height: 32px;
 
   /* Colors */
-  --primary: hsl(16deg 88% 54% / 100%);
-  --on-primary: hsl(0deg 0% 100% / 100%);
-  --surface: hsl(0deg 0% 100% / 100%);
-  --surface-overlay: hsl(0deg 0% 0% / 5%);
-  --on-surface: hsl(0deg 0% 0% / 100%);
-  --on-surface-dim: hsl(0deg 0% 0% / 50%);
-  --border: hsl(0deg 0% 0% / 15%);
+  --primary-color: hsl(16deg 88% 54% / 100%);
+  --on-primary-color: hsl(0deg 0% 100% / 100%);
+  --surface-color: hsl(0deg 0% 100% / 100%);
+  --surface-overlay-color: hsl(0deg 0% 0% / 5%);
+  --on-surface-color: hsl(0deg 0% 0% / 100%);
+  --on-surface-dim-color: hsl(0deg 0% 0% / 50%);
+  --border-color: hsl(0deg 0% 0% / 15%);
 
   /* Border radius */
   --medius-border-radius: 24px;
