@@ -162,7 +162,7 @@
 .checkbox-wrapper .checkbox {
   box-sizing: border-box;
   cursor: pointer;
-  border: 2px solid var(--border);
+  border: 2px solid var(--border-color);
   border-radius: 4px;
   width: 20px;
   height: 20px;
@@ -205,6 +205,9 @@
   width: 320px;
   position: sticky;
   top: 0;
+
+  /* Filters are above headings */
+  z-index: 1;
 }
 
 .filters .subtitle {
@@ -274,13 +277,8 @@ footer .button-to-top {
   .content {
     grid-template-columns: 1fr;
 
-    --filters-top-padding:
-      calc(
-        2 * var(--small-space) +
-        var(--filter-height) +
-        var(--medium-line-height) +
-        var(--medium-space)
-      );
+    /* Fixed height filters */
+    --filters-top-padding: 128px;
   }
 
   .filters {
@@ -301,13 +299,8 @@ footer .button-to-top {
 
 @media (max-width: 720px) {
   .content {
-    --filters-top-padding:
-      calc(
-        2 * var(--small-space) +
-        2 * var(--filter-height) +
-        3 * var(--medium-space) +
-        2 * var(--medium-line-height)
-      );
+    /* Fixed height filters */
+    --filters-top-padding: 247px;
   }
 
   .filters {
@@ -315,13 +308,13 @@ footer .button-to-top {
   }
 }
 
-@media (max-width: 500px){
-  .book-list{
+@media (max-width: 500px) {
+  .book-list {
     display: grid;
     grid-template-columns: 1fr 1fr;
   }
 
-  .book-list .book-category{
+  .book-list .book-category {
     grid-column: 1/3;
   }
 }
