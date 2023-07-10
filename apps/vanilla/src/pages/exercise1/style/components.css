@@ -226,20 +226,20 @@
 .book-list .book-category {
   padding: var(--small-space) 0;
   width: 100%;
-  background-color: #fff;
+  background-color: var(--on-primary-color);
   position: sticky;
   top: var(--filters-top-padding);
 }
 
 /* Header */
-header {
+.header {
   width: 100%;
   padding: var(--medium-space) 0;
   border-bottom: var(--standart-border-options);
 }
 
 /** Footer */
-footer {
+.footer {
   margin-top: var(--medium-space);
   border-top: var(--standart-border-options);
   padding: var(--medium-space) 0;
@@ -251,13 +251,13 @@ footer {
   width: 100%;
 }
 
-footer .footer__info {
+.footer .footer__info {
   display: flex;
   align-items: center;
   gap: var(--little-space);
 }
 
-footer .button-to-top {
+.footer .button-to-top {
   margin-left: auto;
   cursor: pointer;
   border: none;
