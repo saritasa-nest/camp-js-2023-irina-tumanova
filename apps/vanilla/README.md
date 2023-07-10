@@ -1,5 +1,8 @@
 # Camp vanilla boilerplate
 
+## Link
+https://saritasa-nest.github.io/camp-js-2023-irina-tumanova/apps/vanilla/src/pages/
+
 ## Usage
 
 ### Development
