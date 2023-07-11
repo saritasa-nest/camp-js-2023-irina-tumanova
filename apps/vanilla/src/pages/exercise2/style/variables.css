@@ -3,6 +3,9 @@
   --font-size-m: 20px;
   --font-size-s: calc(var(--font-size-m) * 0.9);
 
+  /* Line height */
+  --line-height: calc(var(--font-size-m) * 1.2);
+
   /* Colors */
   --primary-color: hsl(16deg 88% 54% / 100%);
   --on-primary-color: hsl(0deg 0% 100% / 100%);

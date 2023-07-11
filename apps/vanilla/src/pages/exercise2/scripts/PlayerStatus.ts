@@ -38,15 +38,16 @@ export class PlayerStatus extends Publisher<IDisplayStatusData> implements ISubs
 	 * @param isActive - Is the user active (walking now).
 	 * @param score - Player score.
 	 */
-	public getPlayerStatus(score: number, isActive: boolean): TDisplayStatus {
+	public getPlayerStatus(score: number, isActive: boolean): TDisplayStatus[] {
+		const status: TDisplayStatus[] = [];
 		if (score >= this.winningPoints) {
-			return TDisplayStatus.Win;
+			status.push(TDisplayStatus.Win);
 		}
 
 		if (isActive) {
-			return TDisplayStatus.Active;
+			status.push(TDisplayStatus.Active);
 		}
 
-		return TDisplayStatus.Inactive;
+		return status;
 	}
 }

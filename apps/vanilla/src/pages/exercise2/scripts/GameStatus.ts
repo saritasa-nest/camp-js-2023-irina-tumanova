@@ -1,5 +1,5 @@
 import { Publisher } from './Publisher';
-import { IDisplayStatusData, IMoveData, ISubscriber, TDisplayStatus } from './types';
+import { IDisplayStatusData, IMoveData, ISubscriber } from './types';
 
 /** Game result class. */
 export class GameStatus extends Publisher<IDisplayStatusData> implements ISubscriber<IMoveData> {
@@ -12,7 +12,7 @@ export class GameStatus extends Publisher<IDisplayStatusData> implements ISubscr
 	public update(data: IMoveData): void {
 		this.results = [...this.results, data.diceSide];
 
-		const notifyData = { status: TDisplayStatus.Inactive, results: this.results };
+		const notifyData = { status: [], results: this.results };
 		this.notify(notifyData);
 	}
 }

@@ -31,7 +31,9 @@ export class UIStatusDisplayer implements ISubscriber<IDisplayStatusData> {
 		}
 
 		this.resultHtml.classList.remove(TDisplayStatus.Active);
-		this.resultHtml.classList.add(data.status);
+		if (data.status.length > 0) {
+			this.resultHtml.className += ` ${data.status.join(' ')}`;
+		}
 
 		if (data.results === undefined) {
 			return;

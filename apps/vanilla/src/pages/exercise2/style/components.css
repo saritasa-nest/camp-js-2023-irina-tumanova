@@ -29,11 +29,13 @@
   align-items: center;
   gap: var(--space-s);
   font-size: var(--font-size-s);
-  min-height: var(--font-size-s);
+  line-height: var(--line-height);
+  min-height: var(--line-height);
 }
 
 .blackjack__result-item .result-item__name,
 .blackjack__result-item .result-item__score {
   font-weight: 500;
   font-size: var(--font-size-m);
+  line-height: var(--line-height);
 }

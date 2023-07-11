@@ -26,7 +26,7 @@ export interface IMoveData extends ICurrentPlayerMoveData {
 export interface IDisplayStatusData{
 
 	/** Player status. */
-	readonly status: TDisplayStatus;
+	readonly status: TDisplayStatus[];
 
 	/** Results data */
 	readonly results?: number[];
