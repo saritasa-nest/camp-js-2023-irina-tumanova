@@ -1,7 +1,7 @@
-import { IDisplayResultData, ISubscriber, TDisplayPlayerStatus } from './types';
+import { IDisplayStatusData, ISubscriber, TDisplayStatus } from './types';
 
 /** Result block display class. */
-export class UIScoreDisplayer implements ISubscriber<IDisplayResultData> {
+export class UIStatusDisplayer implements ISubscriber<IDisplayStatusData> {
 
 	/** Result item html. */
 	private resultHtml: HTMLDivElement | null = null;
@@ -25,12 +25,12 @@ export class UIScoreDisplayer implements ISubscriber<IDisplayResultData> {
 	/** Function update data.
 	 * @param data - Game move data.
 	 */
-	public update(data: IDisplayResultData): void {
+	public update(data: IDisplayStatusData): void {
 		if (this.resultHtml === null || this.resultMovesHtml === null || this.resultScoreHtml === null) {
 			return;
 		}
 
-		this.resultHtml.classList.remove(TDisplayPlayerStatus.Active);
+		this.resultHtml.classList.remove(TDisplayStatus.Active);
 		this.resultHtml.classList.add(data.status);
 
 		if (data.results === undefined) {

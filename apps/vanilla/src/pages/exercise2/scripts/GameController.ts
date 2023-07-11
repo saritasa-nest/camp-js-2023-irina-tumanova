@@ -1,7 +1,7 @@
 import { DiceGenerator } from './DiceGenerator';
 import { MoveGenerator } from './MoveGenerator';
 import { GameStatus } from './GameStatus';
-import { UIScoreDisplayer } from './UIScoreDisplayer';
+import { UIStatusDisplayer } from './UIStatusDisplayer';
 import { PlayerStatus } from './PlayerStatus';
 
 /** Game controller. */
@@ -35,7 +35,7 @@ export class GameController {
 		this.lastPlayerId += 1;
 		this.playerIds = [...this.playerIds, this.lastPlayerId];
 		const player = new PlayerStatus(this.lastPlayerId);
-		const uiPlayerDisplayer = new UIScoreDisplayer(playerName);
+		const uiPlayerDisplayer = new UIStatusDisplayer(playerName);
 		player.subscribe(uiPlayerDisplayer);
 
 		this.diceGenerator.subscribe(player);
@@ -45,7 +45,7 @@ export class GameController {
 	/** Function add game result. */
 	public addGameStatus(): void {
 		const game = new GameStatus();
-		const uiGameScoreDisplayer = new UIScoreDisplayer('Dice');
+		const uiGameScoreDisplayer = new UIStatusDisplayer('Dice');
 		game.subscribe(uiGameScoreDisplayer);
 
 		this.diceGenerator.subscribe(game);

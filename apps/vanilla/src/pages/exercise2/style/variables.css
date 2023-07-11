@@ -1,6 +1,7 @@
 :root {
   /* Font size */
-  --body-font-size: 20px;
+  --font-size-m: 20px;
+  --font-size-s: calc(var(--font-size-m) * 0.75);
 
   /* Colors */
   --primary-color: hsl(16deg 88% 54% / 100%);
@@ -12,13 +13,9 @@
   --border-color: hsl(0deg 0% 0% / 15%);
 
   /* Border radius */
-  --medius-border-radius: 24px;
-  --small-border-radius: 16px;
+  --border-radius: 16px;
 
   /* Spaces */
-  --space-xl: 40px;
-  --space-l: 32px;
-  --space-m: 24px;
-  --space-s: 16px;
-  --space-xs: 8px;
+  --space-m: 16px;
+  --space-s: calc(var(--space-m) * 0.75);
 }

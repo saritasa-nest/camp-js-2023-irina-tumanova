@@ -5,12 +5,13 @@
 
 .blackjack__result-item {
   width: 100%;
-  padding: var(--space-s);
+  padding: var(--space-m);
   border: 1px solid var(--surface-color);
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: var(--space-s);
+  border-radius: var(--border-radius);
 }
 
 .blackjack__result-item.win {
@@ -26,10 +27,13 @@
   width: 100%;
   overflow: auto;
   align-items: center;
-  gap: calc(var(--space-s) * 0.75);
+  gap: var(--space-s);
+  font-size: var(--font-size-s);
+  min-height: var(--font-size-s);
 }
 
 .blackjack__result-item .result-item__name,
 .blackjack__result-item .result-item__score {
   font-weight: 500;
+  font-size: var(--font-size-m);
 }

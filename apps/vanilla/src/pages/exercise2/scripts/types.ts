@@ -23,17 +23,17 @@ export interface IMoveData extends ICurrentPlayerMoveData {
 }
 
 /** Data to display the result. */
-export interface IDisplayResultData{
+export interface IDisplayStatusData{
 
 	/** Player status. */
-	readonly status: TDisplayPlayerStatus;
+	readonly status: TDisplayStatus;
 
 	/** Results data */
 	readonly results?: number[];
 }
 
 /** Player status. */
-export enum TDisplayPlayerStatus {
+export enum TDisplayStatus {
 	Inactive = 'inactive',
 	Active = 'active',
 	Win = 'win',

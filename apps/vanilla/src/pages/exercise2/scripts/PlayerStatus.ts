@@ -1,8 +1,8 @@
 import { Publisher } from './Publisher';
-import { IDisplayResultData, IMoveData, ISubscriber, TDisplayPlayerStatus } from './types';
+import { IDisplayStatusData, IMoveData, ISubscriber, TDisplayStatus } from './types';
 
 /** Player result class. */
-export class PlayerStatus extends Publisher<IDisplayResultData> implements ISubscriber<IMoveData> {
+export class PlayerStatus extends Publisher<IDisplayStatusData> implements ISubscriber<IMoveData> {
 
 	/** Players count. */
 	private results: number[] = [];
@@ -24,7 +24,7 @@ export class PlayerStatus extends Publisher<IDisplayResultData> implements ISubs
 			this.results = [...this.results, data.diceSide];
 		}
 
-		const notifyData: IDisplayResultData = {
+		const notifyData: IDisplayStatusData = {
 			status: this.getPlayerStatus(score, data.nextPlayerId === this.playerId),
 			results: this.playerId === data.currentPlayerId ?
 				this.results :
@@ -38,15 +38,15 @@ export class PlayerStatus extends Publisher<IDisplayResultData> implements ISubs
 	 * @param isActive - Is the user active (walking now).
 	 * @param score - Player score.
 	 */
-	public getPlayerStatus(score: number, isActive: boolean): TDisplayPlayerStatus {
+	public getPlayerStatus(score: number, isActive: boolean): TDisplayStatus {
 		if (score >= this.winningPoints) {
-			return TDisplayPlayerStatus.Win;
+			return TDisplayStatus.Win;
 		}
 
 		if (isActive) {
-			return TDisplayPlayerStatus.Active;
+			return TDisplayStatus.Active;
 		}
 
-		return TDisplayPlayerStatus.Inactive;
+		return TDisplayStatus.Inactive;
 	}
 }
