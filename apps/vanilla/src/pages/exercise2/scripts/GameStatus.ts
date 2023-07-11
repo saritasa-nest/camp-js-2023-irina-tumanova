@@ -6,7 +6,8 @@ export class GameStatus extends Publisher<IDisplayStatusData> implements ISubscr
 	/** Players count. */
 	private results: number[] = [];
 
-	/** Function update data.
+	/**
+	 * Update data.
 	 * @param data - Game move data.
 	 */
 	public update(data: IMoveData): void {

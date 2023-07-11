@@ -1,25 +1,20 @@
 import { Publisher } from './Publisher';
 import { ICurrentPlayerMoveData, ISubscriber, IMoveData } from './types';
+import { generateRandomNumber } from './utils';
 
 /** Random dice generator. */
 export class DiceGenerator extends Publisher<IMoveData> implements ISubscriber<ICurrentPlayerMoveData> {
 
-	/** Function update data.
+	/**
+	 * Update data.
 	 * @param data - Walking player data.
 	 */
 	public update(data: ICurrentPlayerMoveData): void {
-		const diceSide = this.generateRandomNumber(1, 7);
+		const minResultValue = 1;
+		const maxResultValue = 6;
+		const diceSide = generateRandomNumber(minResultValue, maxResultValue);
 
 		const notifyData = { ...data, diceSide };
 		this.notify(notifyData);
-	}
-
-	/** Function generate random number.
-	 * @param min - Minimal number.
-	 * @param max - Maximum number.
-	 */
-	public generateRandomNumber(min: number, max: number): number {
-		const rand = min + Math.random() * (max - min);
-		return Math.floor(rand);
 	}
 }

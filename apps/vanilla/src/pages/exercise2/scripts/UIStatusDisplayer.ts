@@ -1,4 +1,4 @@
-import { createResultElementHtml } from './createResultElement';
+import { createResultElementHtml } from './utils';
 import { IDisplayStatusData, ISubscriber, TDisplayStatus } from './types';
 
 /** Result block display class. */
@@ -23,7 +23,8 @@ export class UIStatusDisplayer implements ISubscriber<IDisplayStatusData> {
 		this.createElement(containerHtml, scoreName, className);
 	}
 
-	/** Function update data.
+	/**
+	 * Update data.
 	 * @param data - Game move data.
 	 */
 	public update(data: IDisplayStatusData): void {
@@ -45,7 +46,8 @@ export class UIStatusDisplayer implements ISubscriber<IDisplayStatusData> {
 		this.resultScoreHtml.textContent = `${data.results.reduce((prev, next) => prev + next, 0)} points`;
 	}
 
-	/** Function result block creation .
+	/**
+	 * Create result item block.
 	 * @param parent - Parent element.
 	 * @param name - Result name.
 	 * @param className - Result element class name.

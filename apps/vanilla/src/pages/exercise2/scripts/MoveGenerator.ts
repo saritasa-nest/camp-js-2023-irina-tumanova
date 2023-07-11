@@ -16,7 +16,7 @@ export class MoveGenerator extends Publisher<ICurrentPlayerMoveData> {
 		this.move = this.move.bind(this);
 	}
 
-	/** Function roll button. */
+	/** Make a move. */
 	public move(): void {
 		const nextPlayerIndex = (this.currentPlayerIndex + 1) % this.playersIds.length;
 		const nextPlayerId = this.playersIds[nextPlayerIndex];
@@ -27,7 +27,8 @@ export class MoveGenerator extends Publisher<ICurrentPlayerMoveData> {
 		this.currentPlayerIndex = nextPlayerIndex;
 	}
 
-	/** Function update players.
+	/**
+	 * Update players.
 	 * @param playerIds - Player's ids.
 	 */
 	public updatePlayers(playerIds: number[]): void {

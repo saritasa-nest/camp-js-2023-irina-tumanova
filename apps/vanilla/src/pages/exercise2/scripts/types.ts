@@ -2,7 +2,7 @@
 export interface ISubscriber<T>{
 
 	/** Function update subscriber. */
-	update(data: T): void;
+	readonly update: (data: T) => void;
 }
 
 /** Data about who is walking. */
@@ -26,10 +26,10 @@ export interface IMoveData extends ICurrentPlayerMoveData {
 export interface IDisplayStatusData{
 
 	/** Player status. */
-	readonly status: TDisplayStatus[];
+	readonly status: readonly TDisplayStatus[];
 
 	/** Results data. */
-	readonly results?: number[];
+	readonly results?: readonly number[];
 }
 
 /** Player status. */
@@ -43,11 +43,11 @@ export enum TDisplayStatus {
 export interface IResultElementHtml {
 
 	/** Result item container. */
-	resultHtml: HTMLElement;
+	readonly resultHtml: HTMLElement;
 
 	/** Result's score. */
-	resultScoreHtml: HTMLElement;
+	readonly resultScoreHtml: HTMLElement;
 
 	/** Result's moves container html. */
-	resultMovesDataHtml: HTMLElement;
+	readonly resultMovesDataHtml: HTMLElement;
 }

@@ -7,9 +7,9 @@ import { PlayerStatus } from './PlayerStatus';
 /** Game controller. */
 export class GameController {
 
-	private moveGenerator: MoveGenerator;
+	private readonly moveGenerator: MoveGenerator;
 
-	private diceGenerator: DiceGenerator;
+	private readonly diceGenerator: DiceGenerator;
 
 	private playerIds: number[] = [];
 
@@ -28,7 +28,8 @@ export class GameController {
 		this.listenMove();
 	}
 
-	/** Function add player.
+	/**
+	 * Add player.
 	 * @param playerName - Player's name for display.
 	 */
 	public addPlayerStatus(playerName: string): void {
@@ -42,7 +43,7 @@ export class GameController {
 		this.moveGenerator.updatePlayers(this.playerIds);
 	}
 
-	/** Function add game result. */
+	/** Add game result. */
 	public addGameStatus(): void {
 		const game = new GameStatus();
 		const uiGameScoreDisplayer = new UIStatusDisplayer('Dice', 'game-result');
@@ -51,7 +52,7 @@ export class GameController {
 		this.diceGenerator.subscribe(game);
 	}
 
-	/** Function listen click on turn button. */
+	/** Add a click listener on the move button. */
 	public listenMove(): void {
 		document.querySelector('.blackjack__turn-button')?.addEventListener('click', this.moveGenerator.move);
 	}

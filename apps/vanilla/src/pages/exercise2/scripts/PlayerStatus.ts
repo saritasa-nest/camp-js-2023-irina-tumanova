@@ -1,4 +1,5 @@
 import { Publisher } from './Publisher';
+import { winningPoints } from './const';
 import { IDisplayStatusData, IMoveData, ISubscriber, TDisplayStatus } from './types';
 
 /** Player result class. */
@@ -7,14 +8,12 @@ export class PlayerStatus extends Publisher<IDisplayStatusData> implements ISubs
 	/** Players count. */
 	private results: number[] = [];
 
-	/** Required number of points. */
-	private readonly winningPoints = 21;
-
 	public constructor(public readonly playerId: number) {
 		super();
 	}
 
-	/** Function update data.
+	/**
+	 * FUpdate data.
 	 * @param data - Game move data.
 	 */
 	public update(data: IMoveData): void {
@@ -34,13 +33,14 @@ export class PlayerStatus extends Publisher<IDisplayStatusData> implements ISubs
 		this.notify(notifyData);
 	}
 
-	/** Function get player status.
+	/**
+	 * Get player status.
 	 * @param isActive - Is the user active (walking now).
 	 * @param score - Player score.
 	 */
 	public getPlayerStatus(score: number, isActive: boolean): TDisplayStatus[] {
 		const status: TDisplayStatus[] = [];
-		if (score >= this.winningPoints) {
+		if (score >= winningPoints) {
 			status.push(TDisplayStatus.Win);
 		}
 
