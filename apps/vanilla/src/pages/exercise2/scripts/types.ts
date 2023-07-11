@@ -48,6 +48,6 @@ export interface IResultElementHtml {
 	/** Result's score. */
 	resultScoreHtml: HTMLElement;
 
-	/** Result's moves container html */
+	/** Result's moves container html. */
 	resultMovesDataHtml: HTMLElement;
 }
