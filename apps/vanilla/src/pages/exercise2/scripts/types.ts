@@ -9,27 +9,27 @@ export interface ISubscriber<T>{
 export interface ICurrentPlayerMoveData {
 
 	/** Current player's index. */
-	currentPlayerId: number;
+	readonly currentPlayerId: number;
 
 	/** Next player's index. */
-	nextPlayerId: number;
+	readonly nextPlayerId: number;
 }
 
 /** Data about who is walking. */
 export interface IMoveData extends ICurrentPlayerMoveData {
 
 	/** Number of the side of the dice that has fallen. */
-	diceSide: number;
+	readonly diceSide: number;
 }
 
 /** Data to display the result. */
 export interface IDisplayResultData{
 
 	/** Player status. */
-	status: TDisplayPlayerStatus;
+	readonly status: TDisplayPlayerStatus;
 
 	/** Results data */
-	results?: number[];
+	readonly results?: number[];
 }
 
 /** Player status. */

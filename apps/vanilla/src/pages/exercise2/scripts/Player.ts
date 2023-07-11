@@ -6,9 +6,6 @@ export class Player extends Publisher<IDisplayResultData> implements ISubscriber
 	/** Players count. */
 	private results: number[] = [];
 
-	/** Player score. */
-	private score = 0;
-
 	/** Required number of points. */
 	private readonly requiredPointsNumber = 21;
 
@@ -20,25 +17,35 @@ export class Player extends Publisher<IDisplayResultData> implements ISubscriber
 	 * @param data - Game move data.
 	 */
 	public update(data: IMoveData): void {
+		let score = this.results.reduce((prev, next) => prev + next);
 		if (data.currentPlayerId === this.playerId) {
-			this.score += data.diceSide;
+			score += data.diceSide;
 			this.results = [...this.results, data.diceSide];
 		}
 
-		let status: TDisplayPlayerStatus = TDisplayPlayerStatus.Inactive;
-		if (this.score >= this.requiredPointsNumber) {
-			status = TDisplayPlayerStatus.Win;
-		} else if (data.nextPlayerId === this.playerId) {
-			status = TDisplayPlayerStatus.Active;
-		}
-
 		const notifyData: IDisplayResultData = {
-			status,
+			status: this.getPlayerStatus(score, data.nextPlayerId === this.playerId),
 			results: this.playerId === data.currentPlayerId ?
 				this.results :
 				undefined,
 		};
 
 		this.notify(notifyData);
+	}
+
+	/** Function get player status.
+	 * @param isActive - Is the user active (walking now).
+	 * @param score - Player score.
+	 */
+	public getPlayerStatus(score: number, isActive: boolean): TDisplayPlayerStatus {
+		if (score >= this.requiredPointsNumber) {
+			return TDisplayPlayerStatus.Win;
+		}
+
+		if (isActive) {
+			return TDisplayPlayerStatus.Active;
+		}
+
+		return TDisplayPlayerStatus.Inactive;
 	}
 }

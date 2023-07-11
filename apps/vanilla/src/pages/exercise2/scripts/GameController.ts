@@ -1,5 +1,5 @@
 import { DiceGenerator } from './DiceGenerator';
-import { TurnGenerator } from './TurnGenerator';
+import { MoveGenerator } from './MoveGenerator';
 import { Game } from './Game';
 import { UIScoreDisplayer } from './UIScoreDisplayer';
 import { Player } from './Player';
@@ -7,7 +7,7 @@ import { Player } from './Player';
 /** Game controller. */
 export class GameController {
 
-	private turnGenerator: TurnGenerator;
+	private moveGenerator: MoveGenerator;
 
 	private diceGenerator: DiceGenerator;
 
@@ -16,16 +16,16 @@ export class GameController {
 	private lastPlayerId = 0;
 
 	public constructor() {
-		this.turnGenerator = new TurnGenerator();
+		this.moveGenerator = new MoveGenerator();
 		this.diceGenerator = new DiceGenerator();
 
 		this.addGame();
 		this.addPlayer('Computer');
 		this.addPlayer('You');
 
-		this.turnGenerator.subscribe(this.diceGenerator);
+		this.moveGenerator.subscribe(this.diceGenerator);
 
-		this.listenTurn();
+		this.listenMove();
 	}
 
 	/** Function add player.
@@ -39,6 +39,7 @@ export class GameController {
 		player.subscribe(uiPlayerDisplayer);
 
 		this.diceGenerator.subscribe(player);
+		this.moveGenerator.updatePlayers(this.playerIds);
 	}
 
 	/** Function add game result. */
@@ -51,7 +52,7 @@ export class GameController {
 	}
 
 	/** Function listen click on turn button. */
-	public listenTurn(): void {
-		document.querySelector('.blackjack__turn_button')?.addEventListener('click', this.turnGenerator.turn);
+	public listenMove(): void {
+		document.querySelector('.blackjack__turn_button')?.addEventListener('click', this.moveGenerator.move);
 	}
 }
