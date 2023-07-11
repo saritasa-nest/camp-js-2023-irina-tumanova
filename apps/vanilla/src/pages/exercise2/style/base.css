@@ -13,6 +13,6 @@ html {
 .default-layout {
   padding: 0 var(--space-l);
   display: flex;
-  ali: center;
+  align-items: center;
   flex-direction: column;
 }
