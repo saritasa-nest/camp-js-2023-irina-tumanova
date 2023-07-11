@@ -80,6 +80,10 @@
   background-color: var(--on-surface-color);
 }
 
+.result-item .result-item__moves {
+  grid-column: 1/3;
+}
+
 .result-item .result-item__moves__data {
   display: flex;
   align-items: center;
