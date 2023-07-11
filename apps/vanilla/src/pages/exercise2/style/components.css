@@ -1,3 +1,9 @@
+@import url("../../../global/index.css");
+
+.title {
+  color: var(--heading-color-2);
+}
+
 .blackjack {
   max-width: 500px;
   width: 100%;
