@@ -1,0 +1,24 @@
+:root {
+  /* Font size */
+  --body-font-size: 20px;
+
+  /* Colors */
+  --primary-color: hsl(16deg 88% 54% / 100%);
+  --on-primary-color: hsl(0deg 0% 100% / 100%);
+  --surface-color: hsl(0deg 0% 100% / 100%);
+  --surface-overlay-color: hsl(0deg 0% 0% / 5%);
+  --on-surface-color: hsl(0deg 0% 0% / 100%);
+  --on-surface-dim-color: hsl(0deg 0% 0% / 50%);
+  --border-color: hsl(0deg 0% 0% / 15%);
+
+  /* Border radius */
+  --medius-border-radius: 24px;
+  --small-border-radius: 16px;
+
+  /* Spaces */
+  --space-xl: 40px;
+  --space-l: 32px;
+  --space-m: 24px;
+  --space-s: 16px;
+  --space-xs: 8px;
+}
