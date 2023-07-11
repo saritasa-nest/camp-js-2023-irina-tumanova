@@ -19,7 +19,7 @@ export class DiceGenerator extends Publisher<IMoveData> implements ISubscriber<I
 	 * @param max - Maximum number.
 	 */
 	public generateRandomNumber(min: number, max: number): number {
-		const rand = min + Math.random() * (max + 1 - min);
+		const rand = min + Math.random() * (max - min);
 		return Math.floor(rand);
 	}
 }

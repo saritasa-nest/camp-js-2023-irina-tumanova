@@ -2,10 +2,14 @@ import { IDisplayResultData, ISubscriber, TDisplayPlayerStatus } from './types';
 
 /** Result block display class. */
 export class UIScoreDisplayer implements ISubscriber<IDisplayResultData> {
+
+	/** Result item html. */
 	private resultHtml: HTMLDivElement | null = null;
 
+	/** Result's moves html. */
 	private resultMovesHtml: HTMLDivElement | null = null;
 
+	/** Result's score. */
 	private resultScoreHtml: HTMLParagraphElement | null = null;
 
 	public constructor(scoreName: string) {

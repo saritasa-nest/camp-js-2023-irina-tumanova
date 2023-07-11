@@ -32,6 +32,5 @@ export class MoveGenerator extends Publisher<ICurrentPlayerMoveData> {
 	 */
 	public updatePlayers(playerIds: number[]): void {
 		this.playersIds = playerIds;
-		console.log(playerIds);
 	}
 }

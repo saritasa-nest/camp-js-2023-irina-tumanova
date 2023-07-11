@@ -3,11 +3,12 @@ import { IDisplayResultData, IMoveData, ISubscriber, TDisplayPlayerStatus } from
 
 /** Player result class. */
 export class Player extends Publisher<IDisplayResultData> implements ISubscriber<IMoveData> {
+
 	/** Players count. */
 	private results: number[] = [];
 
 	/** Required number of points. */
-	private readonly requiredPointsNumber = 21;
+	private readonly winningPoints = 21;
 
 	public constructor(public readonly playerId: number) {
 		super();
@@ -17,7 +18,7 @@ export class Player extends Publisher<IDisplayResultData> implements ISubscriber
 	 * @param data - Game move data.
 	 */
 	public update(data: IMoveData): void {
-		let score = this.results.reduce((prev, next) => prev + next);
+		let score = this.results.reduce((prev, next) => prev + next, 0);
 		if (data.currentPlayerId === this.playerId) {
 			score += data.diceSide;
 			this.results = [...this.results, data.diceSide];
@@ -38,7 +39,7 @@ export class Player extends Publisher<IDisplayResultData> implements ISubscriber
 	 * @param score - Player score.
 	 */
 	public getPlayerStatus(score: number, isActive: boolean): TDisplayPlayerStatus {
-		if (score >= this.requiredPointsNumber) {
+		if (score >= this.winningPoints) {
 			return TDisplayPlayerStatus.Win;
 		}
 
