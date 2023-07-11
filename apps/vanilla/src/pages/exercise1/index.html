@@ -7,6 +7,9 @@
 	<link rel="stylesheet" href="style/variables.css"/>
 	<link rel="stylesheet" href="style/base.css"/>
 	<link rel="stylesheet" href="style/components.css"/>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 	<title>Books app</title>
 </head>
 <body class="default-layout">
@@ -88,7 +91,8 @@
 		</label>
 
 		<div class="filters__select select-wrapper">
-			<select class="text">
+			<select class="text" required>
+				<option value="Choose sort field" disabled selected hidden>Choose sort field</option>
 				<option value="Length">Length</option>
 				<option value="Author">Author</option>
 				<option value="Publication year">Publication year</option>
