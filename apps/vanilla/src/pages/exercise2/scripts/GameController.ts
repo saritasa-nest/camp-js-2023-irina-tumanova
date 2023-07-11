@@ -1,8 +1,8 @@
 import { DiceGenerator } from './DiceGenerator';
 import { MoveGenerator } from './MoveGenerator';
-import { Game } from './Game';
+import { GameStatus } from './GameStatus';
 import { UIScoreDisplayer } from './UIScoreDisplayer';
-import { Player } from './Player';
+import { PlayerStatus } from './PlayerStatus';
 
 /** Game controller. */
 export class GameController {
@@ -19,9 +19,9 @@ export class GameController {
 		this.moveGenerator = new MoveGenerator();
 		this.diceGenerator = new DiceGenerator();
 
-		this.addGame();
-		this.addPlayer('Computer');
-		this.addPlayer('You');
+		this.addGameStatus();
+		this.addPlayerStatus('Computer');
+		this.addPlayerStatus('You');
 
 		this.moveGenerator.subscribe(this.diceGenerator);
 
@@ -31,10 +31,10 @@ export class GameController {
 	/** Function add player.
 	 * @param playerName - Player's name for display.
 	 */
-	public addPlayer(playerName: string): void {
+	public addPlayerStatus(playerName: string): void {
 		this.lastPlayerId += 1;
 		this.playerIds = [...this.playerIds, this.lastPlayerId];
-		const player = new Player(this.lastPlayerId);
+		const player = new PlayerStatus(this.lastPlayerId);
 		const uiPlayerDisplayer = new UIScoreDisplayer(playerName);
 		player.subscribe(uiPlayerDisplayer);
 
@@ -43,8 +43,8 @@ export class GameController {
 	}
 
 	/** Function add game result. */
-	public addGame(): void {
-		const game = new Game();
+	public addGameStatus(): void {
+		const game = new GameStatus();
 		const uiGameScoreDisplayer = new UIScoreDisplayer('Dice');
 		game.subscribe(uiGameScoreDisplayer);
 

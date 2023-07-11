@@ -2,7 +2,7 @@ import { Publisher } from './Publisher';
 import { IDisplayResultData, IMoveData, ISubscriber, TDisplayPlayerStatus } from './types';
 
 /** Player result class. */
-export class Player extends Publisher<IDisplayResultData> implements ISubscriber<IMoveData> {
+export class PlayerStatus extends Publisher<IDisplayResultData> implements ISubscriber<IMoveData> {
 
 	/** Players count. */
 	private results: number[] = [];
