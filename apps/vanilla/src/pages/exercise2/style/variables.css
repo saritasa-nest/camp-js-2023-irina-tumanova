@@ -1,7 +1,7 @@
 :root {
   /* Font size */
   --font-size-m: 20px;
-  --font-size-s: calc(var(--font-size-m) * 0.75);
+  --font-size-s: calc(var(--font-size-m) * 0.9);
 
   /* Colors */
   --primary-color: hsl(16deg 88% 54% / 100%);
