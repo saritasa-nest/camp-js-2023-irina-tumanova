@@ -1,24 +1,34 @@
 :root {
   /* Font size */
+  --font-size-xl: 40px;
+  --font-size-l: 25px;
   --font-size-m: 20px;
-  --font-size-s: calc(var(--font-size-m) * 0.9);
+  --font-size-s: 18px;
 
   /* Line height */
   --line-height: calc(var(--font-size-m) * 1.2);
 
   /* Colors */
-  --primary-color: hsl(16deg 88% 54% / 100%);
-  --on-primary-color: hsl(0deg 0% 100% / 100%);
-  --surface-color: hsl(0deg 0% 100% / 100%);
-  --surface-overlay-color: hsl(0deg 0% 0% / 5%);
-  --on-surface-color: hsl(0deg 0% 0% / 100%);
-  --on-surface-dim-color: hsl(0deg 0% 0% / 50%);
+  --primary-color: #a279d7;
+  --primary-hover-color: #8c49e1;
+  --on-primary-color: #fff;
+  --accent-color: #79d7cb;
+  --on-accent-color: #fff;
+  --surface-color: #141322;
+  --surface-overlay-color: #5d5c7e;
+  --on-surface-color: #abaabc;
   --border-color: hsl(0deg 0% 0% / 15%);
 
   /* Border radius */
-  --border-radius: 16px;
+  --border-radius-m: 16px;
+  --border-radius-s: 4px;
 
   /* Spaces */
+  --space-xl: 48px;
+  --space-l: 32px;
   --space-m: 16px;
-  --space-s: calc(var(--space-m) * 0.75);
+  --space-s: 8px;
+
+  /* Other */
+  --indicator-size: 48px;
 }

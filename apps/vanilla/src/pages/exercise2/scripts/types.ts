@@ -36,5 +36,18 @@ export interface IDisplayStatusData{
 export enum TDisplayStatus {
 	Inactive = 'inactive',
 	Active = 'active',
-	Win = 'win',
+	Win = 'winning',
+}
+
+/** Data with references to html result elements. */
+export interface IResultElementHtml {
+
+	/** Result item container. */
+	resultHtml: HTMLElement;
+
+	/** Result's score. */
+	resultScoreHtml: HTMLElement;
+
+	/** Result's moves container html */
+	resultMovesDataHtml: HTMLElement;
 }

@@ -7,17 +7,19 @@
 	<link rel="stylesheet" href="style/variables.css"/>
 	<link rel="stylesheet" href="style/base.css"/>
 	<link rel="stylesheet" href="style/components.css"/>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
 	<title>Blackjack</title>
 </head>
-<body class="default-layout">
-	<h1 class="title">Blackjack🎰</h1>
-    <div class="links">
-      <a href="../">Take me to main page</a>
-    </div>
-	<div class="blackjack">
-		<div class="blackjack__results">
-		</div>
-		<button class="blackjack__turn_button">Roll the dice</button>
+<body class="blackjack">
+	<h1 class="typography-title">21 points</h1>
+	<p class="typography-body blackjack__description">
+		Get 21 dice points as quickly as possible. May luck be with you (only she will help)
+	</p>
+	<button class="blackjack__turn-button typography-body">Roll the dice</button>
+	
+	<div class="blackjack__results">
 	</div>
 </body>
 <script src="scripts/index.ts" type="module"></script>

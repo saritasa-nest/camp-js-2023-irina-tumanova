@@ -19,9 +19,9 @@ export class GameController {
 		this.moveGenerator = new MoveGenerator();
 		this.diceGenerator = new DiceGenerator();
 
-		this.addGameStatus();
 		this.addPlayerStatus('Computer');
 		this.addPlayerStatus('You');
+		this.addGameStatus();
 
 		this.moveGenerator.subscribe(this.diceGenerator);
 
@@ -45,7 +45,7 @@ export class GameController {
 	/** Function add game result. */
 	public addGameStatus(): void {
 		const game = new GameStatus();
-		const uiGameScoreDisplayer = new UIStatusDisplayer('Dice');
+		const uiGameScoreDisplayer = new UIStatusDisplayer('Dice', 'game-result');
 		game.subscribe(uiGameScoreDisplayer);
 
 		this.diceGenerator.subscribe(game);
@@ -53,6 +53,6 @@ export class GameController {
 
 	/** Function listen click on turn button. */
 	public listenMove(): void {
-		document.querySelector('.blackjack__turn_button')?.addEventListener('click', this.moveGenerator.move);
+		document.querySelector('.blackjack__turn-button')?.addEventListener('click', this.moveGenerator.move);
 	}
 }

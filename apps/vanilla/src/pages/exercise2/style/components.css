@@ -1,47 +1,150 @@
-@import url("../../../global/index.css");
+/***** TEXT *****/
 
-.title {
-  color: var(--heading-color-2);
+.typography-title {
+  color: var(--on-surface-color);
+  font-size: var(--font-size-xl);
+  font-family: "Abril Fatface", cursive;
+}
+
+.typography-body {
+  color: var(--on-primary-color);
+  font-size: var(--font-size-m);
+}
+
+.typography-subtitle {
+  color: var(--on-surface-color);
+  font-size: var(--font-size-s);
+  font-family: "Abril Fatface", cursive;
 }
 
 .blackjack {
-  max-width: 500px;
+  padding: var(--space-l) max(calc(50vw - 500px), var(--space-l));
+  background-color: var(--surface-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.blackjack .blackjack__description {
+  color: var(--on-surface-color);
+  text-align: center;
+}
+
+.blackjack__turn-button {
+  border: none;
+  outline: none;
+  padding: var(--space-m) var(--space-l);
+  border-radius: var(--border-radius-s);
+  background-color: var(--primary-color);
+  box-shadow: 0 5px 10px var(--primary-color);
+  margin: var(--space-xl) 0;
+}
+
+.blackjack__turn-button:hover {
+  background-color: var(--primary-hover-color);
+}
+
+.blackjack .blackjack__results {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: var(--space-m);
   width: 100%;
 }
 
-.blackjack__result-item {
+/***** RESULT ITEM *****/
+.result-item {
   width: 100%;
+  background-color: var(--surface-overlay-color);
+  border-radius: var(--border-radius-m);
   padding: var(--space-m);
-  border: 1px solid var(--surface-color);
+  display: grid;
+  grid-template-columns: 1fr var(--indicator-size);
+  grid-gap: var(--space-xl) var(--space-m);
+}
+
+.result-item .result-item__player__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+}
+
+.result-item .result-item__player__points {
+  font-size: calc(var(--font-size-m) * 1.25);
+  color: var(--on-primary-color);
+}
+
+.result-item .result_item__indicator {
+  width: var(--indicator-size);
+  height: var(--indicator-size);
+  border-radius: 100%;
+  background-color: var(--on-surface-color);
+}
+
+.result-item .result-item__moves__data {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: var(--space-s);
-  border-radius: var(--border-radius);
 }
 
-.blackjack__result-item.win {
-  background-color: lightpink;
-}
+/* Result item - game-result */
 
-.blackjack__result-item.active {
-  border-color: lightgreen;
-}
-
-.blackjack__result-item .result-item__moves {
+.result-item.game-result {
   display: flex;
-  width: 100%;
-  overflow: auto;
-  align-items: center;
-  gap: var(--space-s);
-  font-size: var(--font-size-s);
-  line-height: var(--line-height);
-  min-height: var(--line-height);
+  grid-column: 1/3;
+  grid-gap: var(--space-m);
+  flex-direction: column;
 }
 
-.blackjack__result-item .result-item__name,
-.blackjack__result-item .result-item__score {
-  font-weight: 500;
+.result-item.game-result .result-item__player__info {
+  flex-direction: row;
+  align-items: center;
+}
+
+.result-item.game-result .result-item__player__points {
   font-size: var(--font-size-m);
-  line-height: var(--line-height);
+}
+
+.result-item.game-result .result_item__indicator {
+  display: none;
+}
+
+.result-item.game-result .result_item__moves__subtitle {
+  display: none;
+}
+
+/* Result item - active */
+.result-item.active .result_item__indicator {
+  background-color: var(--accent-color);
+  box-shadow: 0 0 10px var(--accent-color);
+}
+
+/* Result-item - winning */
+.result-item.winning {
+  background-color: var(--accent-color);
+  box-shadow: 0 0 10px var(--accent-color);
+}
+
+.result-item.winning .result_item__indicator {
+  background-color: var(--accent-color);
+}
+
+.result-item.winning .result-item__player__name,
+.result-item.winning .result_item__moves__subtitle {
+  color: var(--surface-overlay-color);
+}
+
+.result-item.winning .result-item__player__points,
+.result-item.winning .result-item__moves__data {
+  color: var(--surface-color);
+}
+
+@media (max-width: 1000px) {
+  .blackjack .blackjack__results {
+    grid-template-columns: 1fr;
+  }
+
+  .blackjack .blackjack__results .result-item.game-result {
+    grid-column: 1;
+  }
 }

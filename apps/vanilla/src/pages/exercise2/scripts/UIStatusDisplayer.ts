@@ -1,25 +1,26 @@
+import { createResultElementHtml } from './createResultElement';
 import { IDisplayStatusData, ISubscriber, TDisplayStatus } from './types';
 
 /** Result block display class. */
 export class UIStatusDisplayer implements ISubscriber<IDisplayStatusData> {
 
 	/** Result item html. */
-	private resultHtml: HTMLDivElement | null = null;
+	private resultHtml: HTMLElement | null = null;
 
-	/** Result's moves html. */
-	private resultMovesHtml: HTMLDivElement | null = null;
+	/** Result's moves container html. */
+	private resultMovesHtml: HTMLElement | null = null;
 
 	/** Result's score. */
-	private resultScoreHtml: HTMLParagraphElement | null = null;
+	private resultScoreHtml: HTMLElement | null = null;
 
-	public constructor(scoreName: string) {
+	public constructor(scoreName: string, className?: string) {
 		const containerHtml = document.querySelector('.blackjack__results');
 
 		if (containerHtml === null) {
 			return;
 		}
 
-		this.createElement(containerHtml, scoreName);
+		this.createElement(containerHtml, scoreName, className);
 	}
 
 	/** Function update data.
@@ -41,36 +42,19 @@ export class UIStatusDisplayer implements ISubscriber<IDisplayStatusData> {
 		const diceSideHtml = document.createElement('p');
 		diceSideHtml.innerText = `${data.results[data.results.length - 1]}`;
 		this.resultMovesHtml.appendChild(diceSideHtml);
-		this.resultScoreHtml.textContent = data.results.reduce((prev, next) => prev + next, 0).toString();
+		this.resultScoreHtml.textContent = `${data.results.reduce((prev, next) => prev + next, 0)} points`;
 	}
 
 	/** Function result block creation .
 	 * @param parent - Parent element.
 	 * @param name - Result name.
+	 * @param className - Result element class name.
 	 */
-	public createElement(parent: Element, name: string): void {
-		const resultHtml = document.createElement('div');
-		resultHtml.className = 'blackjack__result-item result-item';
-
-		const resultNameHtml = document.createElement('p');
-		resultNameHtml.className = 'result-item__name';
-		resultNameHtml.textContent = `${name} -`;
-
-		const resultScoreHtml = document.createElement('p');
-		resultScoreHtml.className = 'result-item__score';
-		resultScoreHtml.textContent = '0';
-
-		const resultMovesHtml = document.createElement('div');
-		resultMovesHtml.className = 'result-item__moves';
-
-		resultHtml.appendChild(resultNameHtml);
-		resultHtml.appendChild(resultScoreHtml);
-		resultHtml.appendChild(resultMovesHtml);
-
-		parent.appendChild(resultHtml);
+	public createElement(parent: Element, name: string, className?: string): void {
+		const { resultHtml, resultMovesDataHtml, resultScoreHtml } = createResultElementHtml(parent, name, className);
 
 		this.resultHtml = resultHtml;
-		this.resultMovesHtml = resultMovesHtml;
+		this.resultMovesHtml = resultMovesDataHtml;
 		this.resultScoreHtml = resultScoreHtml;
 	}
 }
