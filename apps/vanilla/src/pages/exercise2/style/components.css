@@ -17,6 +17,8 @@
   font-family: "Abril Fatface", cursive;
 }
 
+/**** BLACKJACK *****/
+
 .blackjack {
   padding: var(--space-l) max(calc(50vw - 500px), var(--space-l));
   background-color: var(--surface-color);
@@ -25,7 +27,7 @@
   align-items: center;
 }
 
-.blackjack .blackjack__description {
+.blackjack__description {
   color: var(--on-surface-color);
   text-align: center;
 }
@@ -44,7 +46,7 @@
   background-color: var(--primary-hover-color);
 }
 
-.blackjack .blackjack__results {
+.blackjack__results {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: var(--space-m);
@@ -62,33 +64,59 @@
   grid-gap: var(--space-xl) var(--space-m);
 }
 
-.result-item .result-item__player__info {
+.result-item__player-info {
   display: flex;
   flex-direction: column;
   gap: var(--space-s);
 }
 
-.result-item .result-item__player__points {
+.result-item__player-points {
   font-size: calc(var(--font-size-m) * 1.25);
   color: var(--on-primary-color);
 }
 
-.result-item .result_item__indicator {
+.result_item__indicator {
   width: var(--indicator-size);
   height: var(--indicator-size);
   border-radius: 100%;
   background-color: var(--on-surface-color);
 }
 
-.result-item .result-item__moves {
+.result-item__moves {
   grid-column: 1/3;
 }
 
-.result-item .result-item__moves__data {
+.result-item__moves-data {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: var(--space-s);
+}
+
+/* Result item - active */
+.result-item_active .result_item__indicator {
+  background-color: var(--accent-color);
+  box-shadow: 0 0 10px var(--accent-color);
+}
+
+/* Result-item - winning */
+.result-item_winning {
+  background-color: var(--accent-color);
+  box-shadow: 0 0 10px var(--accent-color);
+}
+
+.result-item_winning .result_item__indicator {
+  background-color: var(--accent-color);
+}
+
+.result-item_winning .result-item__player-name,
+.result-item_winning .result_item__moves-subtitle {
+  color: var(--surface-overlay-color);
+}
+
+.result-item_winning .result-item__player-points,
+.result-item_winning .result-item__moves-data {
+  color: var(--surface-color);
 }
 
 /* Result item - game-result */
@@ -100,12 +128,12 @@
   flex-direction: column;
 }
 
-.result-item.game-result .result-item__player__info {
+.result-item.game-result .result-item__player-info {
   flex-direction: row;
   align-items: center;
 }
 
-.result-item.game-result .result-item__player__points {
+.result-item.game-result .result-item__player-points {
   font-size: var(--font-size-m);
 }
 
@@ -113,42 +141,16 @@
   display: none;
 }
 
-.result-item.game-result .result_item__moves__subtitle {
+.result-item.game-result .result_item__moves-subtitle {
   display: none;
 }
 
-/* Result item - active */
-.result-item.active .result_item__indicator {
-  background-color: var(--accent-color);
-  box-shadow: 0 0 10px var(--accent-color);
-}
-
-/* Result-item - winning */
-.result-item.winning {
-  background-color: var(--accent-color);
-  box-shadow: 0 0 10px var(--accent-color);
-}
-
-.result-item.winning .result_item__indicator {
-  background-color: var(--accent-color);
-}
-
-.result-item.winning .result-item__player__name,
-.result-item.winning .result_item__moves__subtitle {
-  color: var(--surface-overlay-color);
-}
-
-.result-item.winning .result-item__player__points,
-.result-item.winning .result-item__moves__data {
-  color: var(--surface-color);
-}
-
 @media (max-width: 1000px) {
-  .blackjack .blackjack__results {
+  .blackjack__results {
     grid-template-columns: 1fr;
   }
 
-  .blackjack .blackjack__results .result-item.game-result {
+  .result-item.game-result {
     grid-column: 1;
   }
 }

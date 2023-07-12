@@ -8,12 +8,15 @@ export class PlayerStatus extends Publisher<IDisplayStatusData> implements ISubs
 	/** Players count. */
 	private results: number[] = [];
 
+	/**
+	 * @param playerId - Player id.
+	 */
 	public constructor(public readonly playerId: number) {
 		super();
 	}
 
 	/**
-	 * FUpdate data.
+	 * Update data.
 	 * @param data - Game move data.
 	 */
 	public update(data: IMoveData): void {

@@ -34,9 +34,8 @@ export interface IDisplayStatusData{
 
 /** Player status. */
 export enum TDisplayStatus {
-	Inactive = 'inactive',
-	Active = 'active',
-	Win = 'winning',
+	Active = 'result-item_active',
+	Win = 'result-item_winning',
 }
 
 /** Data with references to html result elements. */

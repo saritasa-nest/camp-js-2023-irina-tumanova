@@ -54,6 +54,9 @@ export class GameController {
 
 	/** Add a click listener on the move button. */
 	public listenMove(): void {
-		document.querySelector('.blackjack__turn-button')?.addEventListener('click', this.moveGenerator.move);
+		const turnButtonHtml = document.querySelector('.blackjack__turn-button');
+		if (turnButtonHtml) {
+			turnButtonHtml.addEventListener('click', this.moveGenerator.move);
+		}
 	}
 }
