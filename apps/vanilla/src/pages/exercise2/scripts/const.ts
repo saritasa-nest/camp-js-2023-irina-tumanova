@@ -1,2 +1,2 @@
 /** Required number of points. */
-export const winningPoints = 21;
+export const WINNING_POINTS = 21;

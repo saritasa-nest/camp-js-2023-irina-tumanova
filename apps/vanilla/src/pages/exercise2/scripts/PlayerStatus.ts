@@ -1,5 +1,5 @@
 import { Publisher } from './Publisher';
-import { winningPoints } from './const';
+import { WINNING_POINTS } from './const';
 import { IDisplayStatusData, IMoveData, ISubscriber, TDisplayStatus } from './types';
 
 /** Player result class. */
@@ -40,7 +40,7 @@ export class PlayerStatus extends Publisher<IDisplayStatusData> implements ISubs
 	 */
 	public getPlayerStatus(score: number, isActive: boolean): TDisplayStatus[] {
 		const status: TDisplayStatus[] = [];
-		if (score >= winningPoints) {
+		if (score >= WINNING_POINTS) {
 			status.push(TDisplayStatus.Win);
 		}
 
