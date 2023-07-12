@@ -37,12 +37,7 @@ export class UIStatusDisplayer implements ISubscriber<IDisplayStatusData> {
 			this.resultHtml.className += ` ${data.status.join(' ')}`;
 		}
 
-		if (data.results === undefined) {
-			return;
-		}
-		const diceSideHtml = document.createElement('p');
-		diceSideHtml.innerText = `${data.results[data.results.length - 1]}`;
-		this.resultMovesHtml.appendChild(diceSideHtml);
+		this.resultMovesHtml.textContent = data.results.join('');
 		this.resultScoreHtml.textContent = `${data.results.reduce((prev, next) => prev + next, 0)} points`;
 	}
 

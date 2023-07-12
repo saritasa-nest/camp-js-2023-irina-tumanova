@@ -17,46 +17,53 @@ export function generateRandomNumber(min: number, max: number): number {
  * @param className - Result element class name.
  */
 export function createResultElementHtml(parent: Element, name: string, className?: string): IResultElementHtml {
-	const resultHtml = document.createElement('div');
-	resultHtml.className = `blackjack__result-item result-item ${className ?? ''}`;
 
-	const resultInfoHtml = document.createElement('div');
-	resultInfoHtml.className = 'result-item__player-info';
+	// Result-item: Info
+	const resultName = document.createElement('p');
+	resultName.className = 'result-item__player-name typography-subtitle';
+	resultName.textContent = name;
 
-	const resultNameHtml = document.createElement('p');
-	resultNameHtml.className = 'result-item__player-name typography-subtitle';
-	resultNameHtml.textContent = name;
+	const resultScore = document.createElement('p');
+	resultScore.className = 'result-item__player-points typography-subtitle';
+	resultScore.textContent = '0 points';
 
-	const resultScoreHtml = document.createElement('p');
-	resultScoreHtml.className = 'result-item__player-points typography-subtitle';
-	resultScoreHtml.textContent = '0 points';
+	const resultInfo = document.createElement('div');
+	resultInfo.className = 'result-item__player-info';
 
-	resultInfoHtml.appendChild(resultNameHtml);
-	resultInfoHtml.appendChild(resultScoreHtml);
+	resultInfo.appendChild(resultName);
+	resultInfo.appendChild(resultScore);
 
-	const resultIndicatorHtml = document.createElement('div');
-	resultIndicatorHtml.className = 'result_item__indicator';
+	// Result-item: Indicator
+	const resultIndicator = document.createElement('div');
+	resultIndicator.className = 'result_item__indicator';
 
-	const resultMovesHtml = document.createElement('div');
-	resultMovesHtml.className = 'result-item__moves';
-
+	// Result-item: Moves
 	const resultMovesTitle = document.createElement('p');
 	resultMovesTitle.className = 'result_item__moves-subtitle typography-subtitle';
 	resultMovesTitle.textContent = 'Moves';
 
-	const resultMovesDataHtml = document.createElement('div');
-	resultMovesDataHtml.className = 'result-item__moves-data typography-body';
+	const resultMovesData = document.createElement('p');
+	resultMovesData.className = 'result-item__moves-data typography-body';
 
-	resultMovesHtml.appendChild(resultMovesTitle);
-	resultMovesHtml.appendChild(resultMovesDataHtml);
+	const resultMoves = document.createElement('div');
+	resultMoves.className = 'result-item__moves';
 
-	resultHtml.appendChild(resultInfoHtml);
-	resultHtml.appendChild(resultIndicatorHtml);
-	resultHtml.appendChild(resultMovesHtml);
+	resultMoves.appendChild(resultMovesTitle);
+	resultMoves.appendChild(resultMovesData);
 
-	parent.appendChild(resultHtml);
+	// Result-item: root
+	const result = document.createElement('div');
+	result.className = `blackjack__result-item result-item ${className ?? ''}`;
+
+	result.appendChild(resultInfo);
+	result.appendChild(resultIndicator);
+	result.appendChild(resultMoves);
+
+	parent.appendChild(result);
 
 	return {
-		resultHtml, resultMovesDataHtml, resultScoreHtml,
+		resultHtml: result,
+		resultMovesDataHtml: resultMovesData,
+		resultScoreHtml: resultScore,
 	};
 }

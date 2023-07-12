@@ -6,7 +6,9 @@
   --font-size-s: 18px;
 
   /* Line height */
-  --line-height: calc(var(--font-size-m) * 1.2);
+  --line-height-coefficient: 1.25;
+  --line-height-m: calc(var(--font-size-m) * var(--line-height-coefficient));
+  --line-height-s: calc(var(--font-size-s) * var(--line-height-coefficient));
 
   /* Colors */
   --primary-color: #a279d7;

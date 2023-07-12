@@ -29,7 +29,7 @@ export interface IDisplayStatusData{
 	readonly status: readonly TDisplayStatus[];
 
 	/** Results data. */
-	readonly results?: readonly number[];
+	readonly results: readonly number[];
 }
 
 /** Player status. */

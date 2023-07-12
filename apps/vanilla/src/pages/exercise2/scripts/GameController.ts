@@ -19,8 +19,8 @@ export class GameController {
 		this.moveGenerator = new MoveGenerator();
 		this.diceGenerator = new DiceGenerator();
 
-		this.addPlayerStatus('Computer');
-		this.addPlayerStatus('You');
+		this.addPlayerStatus('Player One');
+		this.addPlayerStatus('Player Two');
 		this.addGameStatus();
 
 		this.moveGenerator.subscribe(this.diceGenerator);
@@ -36,6 +36,7 @@ export class GameController {
 		this.lastPlayerId += 1;
 		this.playerIds = [...this.playerIds, this.lastPlayerId];
 		const player = new PlayerStatus(this.lastPlayerId);
+
 		const uiPlayerDisplayer = new UIStatusDisplayer(playerName);
 		player.subscribe(uiPlayerDisplayer);
 
@@ -46,6 +47,7 @@ export class GameController {
 	/** Add game result. */
 	public addGameStatus(): void {
 		const game = new GameStatus();
+
 		const uiGameScoreDisplayer = new UIStatusDisplayer('Dice', 'game-result');
 		game.subscribe(uiGameScoreDisplayer);
 

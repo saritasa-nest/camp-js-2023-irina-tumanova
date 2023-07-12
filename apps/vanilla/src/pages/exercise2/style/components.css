@@ -9,12 +9,14 @@
 .typography-body {
   color: var(--on-primary-color);
   font-size: var(--font-size-m);
+  line-height: var(--line-height-m);
 }
 
 .typography-subtitle {
   color: var(--on-surface-color);
   font-size: var(--font-size-s);
   font-family: "Abril Fatface", cursive;
+  line-height: var(--line-height-s);
 }
 
 /**** BLACKJACK *****/
@@ -71,7 +73,10 @@
 }
 
 .result-item__player-points {
-  font-size: calc(var(--font-size-m) * 1.25);
+  --points-font-size: calc(var(--font-size-m) * 1.25);
+
+  font-size: var(--points-font-size);
+  line-height: calc(var(--points-font-size) * var(--line-height-coefficient));
   color: var(--on-primary-color);
 }
 
@@ -87,10 +92,8 @@
 }
 
 .result-item__moves-data {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--space-s);
+  letter-spacing: var(--space-s);
+  min-height: var(--line-height-m);
 }
 
 /* Result item - active */

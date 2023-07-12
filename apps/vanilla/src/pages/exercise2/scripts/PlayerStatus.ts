@@ -28,9 +28,7 @@ export class PlayerStatus extends Publisher<IDisplayStatusData> implements ISubs
 
 		const notifyData: IDisplayStatusData = {
 			status: this.getPlayerStatus(score, data.nextPlayerId === this.playerId),
-			results: this.playerId === data.currentPlayerId ?
-				this.results :
-				undefined,
+			results: this.results,
 		};
 
 		this.notify(notifyData);
