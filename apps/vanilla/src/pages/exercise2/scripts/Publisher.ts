@@ -4,7 +4,7 @@ import { ISubscriber } from './types';
 export class Publisher<T> {
 
 	/** Subscribers. */
-	public subscribers: ISubscriber<T>[] = [];
+	private subscribers: readonly ISubscriber<T>[] = [];
 
 	/**
 	 * Subscribe of changes..

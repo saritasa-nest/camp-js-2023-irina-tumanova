@@ -5,7 +5,7 @@ import { CurrentTurnOrder } from './types';
 export class TurnGenerator extends Publisher<CurrentTurnOrder> {
 
 	/** Players count. */
-	private playersIds: number[] = [];
+	private playersIds: readonly number[] = [];
 
 	/** Current player's index. */
 	private currentPlayerIndex = 0;
@@ -13,6 +13,7 @@ export class TurnGenerator extends Publisher<CurrentTurnOrder> {
 	public constructor() {
 		super();
 
+		// This method is used in GameController
 		this.turn = this.turn.bind(this);
 	}
 
@@ -30,7 +31,7 @@ export class TurnGenerator extends Publisher<CurrentTurnOrder> {
 	 * Update players.
 	 * @param playerIds Player's ids.
 	 */
-	public updatePlayers(playerIds: number[]): void {
+	public updatePlayers(playerIds: readonly number[]): void {
 		this.playersIds = playerIds;
 	}
 }

@@ -1,5 +1,5 @@
 import { createResultElementHtml } from './utils';
-import { DisplayResult, ISubscriber, EDisplayStatus } from './types';
+import { DisplayResult, ISubscriber, DisplayStatus } from './types';
 
 /** Result block display class. */
 export class UIStatusDisplayer implements ISubscriber<DisplayResult> {
@@ -32,7 +32,7 @@ export class UIStatusDisplayer implements ISubscriber<DisplayResult> {
 			return;
 		}
 
-		this.resultHtml.classList.remove(EDisplayStatus.Active);
+		this.resultHtml.classList.remove(DisplayStatus.Active);
 		if (message.status.length > 0) {
 			this.resultHtml.className += ` ${message.status.join(' ')}`;
 		}

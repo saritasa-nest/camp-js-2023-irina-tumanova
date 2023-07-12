@@ -5,7 +5,7 @@ import { DisplayResult, TurnData, ISubscriber } from './types';
 export class GameStatus extends Publisher<DisplayResult> implements ISubscriber<TurnData> {
 
 	/** Dice roll values. */
-	private rollValues: number[] = [];
+	private rollValues: readonly number[] = [];
 
 	/**
 	 * Update data.

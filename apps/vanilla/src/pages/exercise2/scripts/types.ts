@@ -23,17 +23,17 @@ export interface TurnData extends CurrentTurnOrder {
 }
 
 /** Data to display the result. */
-export interface DisplayResult{
+export interface DisplayResult {
 
 	/** Player status. */
-	readonly status: readonly EDisplayStatus[];
+	readonly status: readonly DisplayStatus[];
 
 	/** Turn's values. */
 	readonly turnValues: readonly number[];
 }
 
 /** Player status. */
-export enum EDisplayStatus {
+export enum DisplayStatus {
 	Active = 'result-item_active',
 	Win = 'result-item_winning',
 }
