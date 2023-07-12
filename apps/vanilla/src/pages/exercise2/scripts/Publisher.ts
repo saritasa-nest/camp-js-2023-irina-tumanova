@@ -8,7 +8,7 @@ export class Publisher<T> {
 
 	/**
 	 * Subscribe of changes..
-	 * @param subscriber - Added subscriber.
+	 * @param subscriber Added subscriber.
 	 */
 	public subscribe(subscriber: ISubscriber<T>): void {
 		this.subscribers = [...this.subscribers, subscriber];
@@ -16,7 +16,7 @@ export class Publisher<T> {
 
 	/**
 	 * Unsubscribe of changes.
-	 * @param subscriber - Deleted subscriber.
+	 * @param subscriber Deleted subscriber.
 	 */
 	public unsubscribe(subscriber: ISubscriber<T>): void {
 		this.subscribers = this.subscribers.filter(currentSubscribe => currentSubscribe !== subscriber);
@@ -24,11 +24,11 @@ export class Publisher<T> {
 
 	/**
 	 * Notify updating.
-	 * @param data - Data for update.
+	 * @param message Data for update.
 	 */
-	public notify(data: T): void {
+	public notify(message: T): void {
 		this.subscribers.forEach(subscriber => {
-			subscriber.update(data);
+			subscriber.update(message);
 		});
 	}
 }

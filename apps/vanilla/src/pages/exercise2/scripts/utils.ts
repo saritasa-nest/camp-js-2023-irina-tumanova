@@ -1,9 +1,9 @@
-import { IResultElementHtml } from './types';
+import { ResultElementHtml } from './types';
 
 /**
  * Generate random number.
- * @param min - Minimal number.
- * @param max - Maximum number.
+ * @param min Minimal number.
+ * @param max Maximum number.
  */
 export function generateRandomNumber(min: number, max: number): number {
 	const rand = min + Math.random() * (max + 1 - min);
@@ -12,11 +12,11 @@ export function generateRandomNumber(min: number, max: number): number {
 
 /**
  * Create html result block.
- * @param parent - Parent element.
- * @param name - Result name.
- * @param className - Result element class name.
+ * @param parent Parent element.
+ * @param name Result name.
+ * @param className Result element class name.
  */
-export function createResultElementHtml(parent: Element, name: string, className?: string): IResultElementHtml {
+export function createResultElementHtml(parent: Element, name: string, className?: string): ResultElementHtml {
 
 	// Result-item: Info
 	const resultName = document.createElement('p');

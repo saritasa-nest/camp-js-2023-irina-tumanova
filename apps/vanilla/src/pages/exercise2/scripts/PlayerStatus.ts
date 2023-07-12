@@ -1,15 +1,15 @@
 import { Publisher } from './Publisher';
 import { WINNING_POINTS } from './const';
-import { IDisplayStatusData, IMoveData, ISubscriber, TDisplayStatus } from './types';
+import { DisplayResultStatus, TurnData, ISubscriber, EDisplayStatus } from './types';
 
-/** Player result class. */
-export class PlayerStatus extends Publisher<IDisplayStatusData> implements ISubscriber<IMoveData> {
+/** Player's status. */
+export class PlayerStatus extends Publisher<DisplayResultStatus> implements ISubscriber<TurnData> {
 
-	/** Players count. */
-	private results: number[] = [];
+	/** Dice roll values. */
+	private rollValues: number[] = [];
 
 	/**
-	 * @param playerId - Player id.
+	 * @param playerId Player id.
 	 */
 	public constructor(public readonly playerId: number) {
 		super();
@@ -17,18 +17,18 @@ export class PlayerStatus extends Publisher<IDisplayStatusData> implements ISubs
 
 	/**
 	 * Update data.
-	 * @param data - Game move data.
+	 * @param message Turn information.
 	 */
-	public update(data: IMoveData): void {
-		let score = this.results.reduce((prev, next) => prev + next, 0);
-		if (data.currentPlayerId === this.playerId) {
-			score += data.diceSide;
-			this.results = [...this.results, data.diceSide];
+	public update(message: TurnData): void {
+		let score = this.rollValues.reduce((prev, next) => prev + next, 0);
+		if (message.currentPlayerId === this.playerId) {
+			score += message.diceSide;
+			this.rollValues = [...this.rollValues, message.diceSide];
 		}
 
-		const notifyData: IDisplayStatusData = {
-			status: this.getPlayerStatus(score, data.nextPlayerId === this.playerId),
-			results: this.results,
+		const notifyData: DisplayResultStatus = {
+			status: this.getPlayerStatus(score, message.nextPlayerId === this.playerId),
+			rollValues: this.rollValues,
 		};
 
 		this.notify(notifyData);
@@ -36,17 +36,17 @@ export class PlayerStatus extends Publisher<IDisplayStatusData> implements ISubs
 
 	/**
 	 * Get player status.
-	 * @param isActive - Is the user active (walking now).
-	 * @param score - Player score.
+	 * @param isActive Is the user active (turning now).
+	 * @param score Player score.
 	 */
-	public getPlayerStatus(score: number, isActive: boolean): TDisplayStatus[] {
-		const status: TDisplayStatus[] = [];
+	public getPlayerStatus(score: number, isActive: boolean): EDisplayStatus[] {
+		const status: EDisplayStatus[] = [];
 		if (score >= WINNING_POINTS) {
-			status.push(TDisplayStatus.Win);
+			status.push(EDisplayStatus.Win);
 		}
 
 		if (isActive) {
-			status.push(TDisplayStatus.Active);
+			status.push(EDisplayStatus.Active);
 		}
 
 		return status;

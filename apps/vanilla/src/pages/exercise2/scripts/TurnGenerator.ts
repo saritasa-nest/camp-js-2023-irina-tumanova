@@ -1,8 +1,8 @@
 import { Publisher } from './Publisher';
-import { ICurrentPlayerMoveData } from './types';
+import { CurrentTurnOrder } from './types';
 
-/** Next move generator. */
-export class MoveGenerator extends Publisher<ICurrentPlayerMoveData> {
+/** Next turn generator. */
+export class TurnGenerator extends Publisher<CurrentTurnOrder> {
 
 	/** Players count. */
 	private playersIds: number[] = [];
@@ -13,23 +13,22 @@ export class MoveGenerator extends Publisher<ICurrentPlayerMoveData> {
 	public constructor() {
 		super();
 
-		this.move = this.move.bind(this);
+		this.turn = this.turn.bind(this);
 	}
 
-	/** Make a move. */
-	public move(): void {
+	/** Make a turn. */
+	public turn(): void {
 		const nextPlayerIndex = (this.currentPlayerIndex + 1) % this.playersIds.length;
 		const nextPlayerId = this.playersIds[nextPlayerIndex];
 
-		const notifyData = { currentPlayerId: this.playersIds[this.currentPlayerIndex], nextPlayerId };
-		this.notify(notifyData);
+		this.notify({ currentPlayerId: this.playersIds[this.currentPlayerIndex], nextPlayerId });
 
 		this.currentPlayerIndex = nextPlayerIndex;
 	}
 
 	/**
 	 * Update players.
-	 * @param playerIds - Player's ids.
+	 * @param playerIds Player's ids.
 	 */
 	public updatePlayers(playerIds: number[]): void {
 		this.playersIds = playerIds;

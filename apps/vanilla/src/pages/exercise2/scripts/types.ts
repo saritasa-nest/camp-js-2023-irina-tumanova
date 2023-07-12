@@ -1,12 +1,12 @@
-/** ISubscriber - interface for subscribers. */
+/** Interface for subscribers. */
 export interface ISubscriber<T>{
 
-	/** Function update subscriber. */
-	readonly update: (data: T) => void;
+	/** Update subscriber. */
+	readonly update: (message: T) => void;
 }
 
-/** Data about who is walking. */
-export interface ICurrentPlayerMoveData {
+/** Data about who is turn. */
+export interface CurrentTurnOrder {
 
 	/** Current player's index. */
 	readonly currentPlayerId: number;
@@ -15,31 +15,31 @@ export interface ICurrentPlayerMoveData {
 	readonly nextPlayerId: number;
 }
 
-/** Data about who is walking. */
-export interface IMoveData extends ICurrentPlayerMoveData {
+/** Data about a turn. */
+export interface TurnData extends CurrentTurnOrder {
 
-	/** Number of the side of the dice that has fallen. */
+	/** Number on the dice. */
 	readonly diceSide: number;
 }
 
 /** Data to display the result. */
-export interface IDisplayStatusData{
+export interface DisplayResultStatus{
 
 	/** Player status. */
-	readonly status: readonly TDisplayStatus[];
+	readonly status: readonly EDisplayStatus[];
 
-	/** Results data. */
-	readonly results: readonly number[];
+	/** Results. */
+	readonly rollValues: readonly number[];
 }
 
 /** Player status. */
-export enum TDisplayStatus {
+export enum EDisplayStatus {
 	Active = 'result-item_active',
 	Win = 'result-item_winning',
 }
 
 /** Data with references to html result elements. */
-export interface IResultElementHtml {
+export interface ResultElementHtml {
 
 	/** Result item container. */
 	readonly resultHtml: HTMLElement;

@@ -1,5 +1,5 @@
 import { DiceGenerator } from './DiceGenerator';
-import { MoveGenerator } from './MoveGenerator';
+import { TurnGenerator } from './TurnGenerator';
 import { GameStatus } from './GameStatus';
 import { UIStatusDisplayer } from './UIStatusDisplayer';
 import { PlayerStatus } from './PlayerStatus';
@@ -7,30 +7,34 @@ import { PlayerStatus } from './PlayerStatus';
 /** Game controller. */
 export class GameController {
 
-	private readonly moveGenerator: MoveGenerator;
+	/** Turn generator. */
+	private readonly turnGenerator: TurnGenerator;
 
+	/** Dice generator. */
 	private readonly diceGenerator: DiceGenerator;
 
+	/** Players ids. */
 	private playerIds: number[] = [];
 
+	/** Id of the last added player. */
 	private lastPlayerId = 0;
 
 	public constructor() {
-		this.moveGenerator = new MoveGenerator();
+		this.turnGenerator = new TurnGenerator();
 		this.diceGenerator = new DiceGenerator();
 
 		this.addPlayerStatus('Player One');
 		this.addPlayerStatus('Player Two');
 		this.addGameStatus();
 
-		this.moveGenerator.subscribe(this.diceGenerator);
+		this.turnGenerator.subscribe(this.diceGenerator);
 
 		this.listenMove();
 	}
 
 	/**
-	 * Add player.
-	 * @param playerName - Player's name for display.
+	 * Add player status.
+	 * @param playerName Player's name for display.
 	 */
 	public addPlayerStatus(playerName: string): void {
 		this.lastPlayerId += 1;
@@ -41,10 +45,10 @@ export class GameController {
 		player.subscribe(uiPlayerDisplayer);
 
 		this.diceGenerator.subscribe(player);
-		this.moveGenerator.updatePlayers(this.playerIds);
+		this.turnGenerator.updatePlayers(this.playerIds);
 	}
 
-	/** Add game result. */
+	/** Add game status. */
 	public addGameStatus(): void {
 		const game = new GameStatus();
 
@@ -54,11 +58,11 @@ export class GameController {
 		this.diceGenerator.subscribe(game);
 	}
 
-	/** Add a click listener on the move button. */
+	/** Add a click listener on the turn button. */
 	public listenMove(): void {
 		const turnButtonHtml = document.querySelector('.blackjack__turn-button');
 		if (turnButtonHtml) {
-			turnButtonHtml.addEventListener('click', this.moveGenerator.move);
+			turnButtonHtml.addEventListener('click', this.turnGenerator.turn);
 		}
 	}
 }

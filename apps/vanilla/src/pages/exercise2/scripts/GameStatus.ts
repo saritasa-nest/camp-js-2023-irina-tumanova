@@ -1,19 +1,19 @@
 import { Publisher } from './Publisher';
-import { IDisplayStatusData, IMoveData, ISubscriber } from './types';
+import { DisplayResultStatus, TurnData, ISubscriber } from './types';
 
-/** Game result class. */
-export class GameStatus extends Publisher<IDisplayStatusData> implements ISubscriber<IMoveData> {
-	/** Players count. */
-	private results: number[] = [];
+/** Game's status. */
+export class GameStatus extends Publisher<DisplayResultStatus> implements ISubscriber<TurnData> {
+
+	/** Dice roll values. */
+	private rollValues: number[] = [];
 
 	/**
 	 * Update data.
-	 * @param data - Game move data.
+	 * @param message Turn information.
 	 */
-	public update(data: IMoveData): void {
-		this.results = [...this.results, data.diceSide];
+	public update(message: TurnData): void {
+		this.rollValues = [...this.rollValues, message.diceSide];
 
-		const notifyData = { status: [], results: this.results };
-		this.notify(notifyData);
+		this.notify({ status: [], rollValues: this.rollValues });
 	}
 }

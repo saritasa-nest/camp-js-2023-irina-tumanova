@@ -1,8 +1,8 @@
 import { createResultElementHtml } from './utils';
-import { IDisplayStatusData, ISubscriber, TDisplayStatus } from './types';
+import { DisplayResultStatus, ISubscriber, EDisplayStatus } from './types';
 
 /** Result block display class. */
-export class UIStatusDisplayer implements ISubscriber<IDisplayStatusData> {
+export class UIStatusDisplayer implements ISubscriber<DisplayResultStatus> {
 
 	/** Result item html. */
 	private resultHtml: HTMLElement | null = null;
@@ -25,27 +25,27 @@ export class UIStatusDisplayer implements ISubscriber<IDisplayStatusData> {
 
 	/**
 	 * Update data.
-	 * @param data - Game move data.
+	 * @param message Display information.
 	 */
-	public update(data: IDisplayStatusData): void {
+	public update(message: DisplayResultStatus): void {
 		if (this.resultHtml === null || this.resultMovesHtml === null || this.resultScoreHtml === null) {
 			return;
 		}
 
-		this.resultHtml.classList.remove(TDisplayStatus.Active);
-		if (data.status.length > 0) {
-			this.resultHtml.className += ` ${data.status.join(' ')}`;
+		this.resultHtml.classList.remove(EDisplayStatus.Active);
+		if (message.status.length > 0) {
+			this.resultHtml.className += ` ${message.status.join(' ')}`;
 		}
 
-		this.resultMovesHtml.textContent = data.results.join('');
-		this.resultScoreHtml.textContent = `${data.results.reduce((prev, next) => prev + next, 0)} points`;
+		this.resultMovesHtml.textContent = message.rollValues.join('');
+		this.resultScoreHtml.textContent = `${message.rollValues.reduce((prev, next) => prev + next, 0)} points`;
 	}
 
 	/**
 	 * Create result item block.
-	 * @param parent - Parent element.
-	 * @param name - Result name.
-	 * @param className - Result element class name.
+	 * @param parent Parent element.
+	 * @param name Result name.
+	 * @param className Result element class name.
 	 */
 	public createElement(parent: Element, name: string, className?: string): void {
 		const { resultHtml, resultMovesDataHtml, resultScoreHtml } = createResultElementHtml(parent, name, className);

@@ -1,20 +1,15 @@
 import { Publisher } from './Publisher';
-import { ICurrentPlayerMoveData, ISubscriber, IMoveData } from './types';
+import { CurrentTurnOrder, ISubscriber, TurnData } from './types';
 import { generateRandomNumber } from './utils';
 
 /** Random dice generator. */
-export class DiceGenerator extends Publisher<IMoveData> implements ISubscriber<ICurrentPlayerMoveData> {
+export class DiceGenerator extends Publisher<TurnData> implements ISubscriber<CurrentTurnOrder> {
 
 	/**
 	 * Update data.
-	 * @param data - Walking player data.
+	 * @param message Player information.
 	 */
-	public update(data: ICurrentPlayerMoveData): void {
-		const minResultValue = 1;
-		const maxResultValue = 6;
-		const diceSide = generateRandomNumber(minResultValue, maxResultValue);
-
-		const notifyData = { ...data, diceSide };
-		this.notify(notifyData);
+	public update(message: CurrentTurnOrder): void {
+		this.notify({ ...message, diceSide: generateRandomNumber(1, 6) });
 	}
 }
