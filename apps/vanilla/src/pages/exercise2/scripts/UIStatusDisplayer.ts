@@ -1,5 +1,4 @@
-import { createResultElementHtml } from './utils';
-import { DisplayResult, ISubscriber, DisplayStatus } from './types';
+import { DisplayResult, ISubscriber, PlayerStatus } from './types';
 
 /** Result block display class. */
 export class UIStatusDisplayer implements ISubscriber<DisplayResult> {
@@ -20,7 +19,21 @@ export class UIStatusDisplayer implements ISubscriber<DisplayResult> {
 			return;
 		}
 
-		this.createElement(containerHtml, scoreName, className);
+		const result = this.createResultRootElement(className);
+		const { resultInfo, resultScore } = this.createResultInfoElement(scoreName);
+		const resultIndicatorHtml = this.createResultIndicatorElement();
+		const { resultTurns, resultTurnsData } = this.createResultTurnsElement();
+
+		result.appendChild(resultInfo);
+		result.appendChild(resultIndicatorHtml);
+		result.appendChild(resultTurns);
+
+		containerHtml.appendChild(result);
+
+		this.resultHtml = result;
+		this.resultTurnsDataHtml = resultTurnsData;
+		this.resultScoreHtml = resultScore;
+
 	}
 
 	/**
@@ -32,7 +45,7 @@ export class UIStatusDisplayer implements ISubscriber<DisplayResult> {
 			return;
 		}
 
-		this.resultHtml.classList.remove(DisplayStatus.Active);
+		this.resultHtml.classList.remove(PlayerStatus.Active);
 		if (message.status.length > 0) {
 			this.resultHtml.className += ` ${message.status.join(' ')}`;
 		}
@@ -41,17 +54,51 @@ export class UIStatusDisplayer implements ISubscriber<DisplayResult> {
 		this.resultScoreHtml.textContent = `${message.turnValues.reduce((prev, next) => prev + next, 0)} points`;
 	}
 
-	/**
-	 * Create result item block.
-	 * @param parent Parent element.
-	 * @param name Result name.
-	 * @param className Result element class name.
-	 */
-	public createElement(parent: Element, name: string, className?: string): void {
-		const { resultHtml, resultTurnsDataHtml, resultScoreHtml } = createResultElementHtml(parent, name, className);
+	private createResultRootElement(className?: string): HTMLElement {
+		const result = document.createElement('div');
+		result.className = `blackjack__result-item result-item ${className ?? ''}`;
 
-		this.resultHtml = resultHtml;
-		this.resultTurnsDataHtml = resultTurnsDataHtml;
-		this.resultScoreHtml = resultScoreHtml;
+		return result;
+	}
+
+	private createResultInfoElement(playerName: string): {resultInfo: HTMLElement; resultScore: HTMLElement;} {
+		const resultName = document.createElement('p');
+		resultName.className = 'result-item__player-name typography-subtitle';
+		resultName.textContent = playerName;
+
+		const resultScore = document.createElement('p');
+		resultScore.className = 'result-item__player-points typography-subtitle';
+		resultScore.textContent = '0 points';
+
+		const resultInfo = document.createElement('div');
+		resultInfo.className = 'result-item__player-info';
+
+		resultInfo.appendChild(resultName);
+		resultInfo.appendChild(resultScore);
+
+		return { resultInfo, resultScore };
+	}
+
+	private createResultIndicatorElement(): HTMLElement {
+		const resultIndicator = document.createElement('div');
+		resultIndicator.className = 'result_item__indicator';
+		return resultIndicator;
+	}
+
+	private createResultTurnsElement(): {resultTurns: HTMLElement; resultTurnsData: HTMLElement;} {
+		const resultTurnsTitle = document.createElement('p');
+		resultTurnsTitle.className = 'result_item__moves-subtitle typography-subtitle';
+		resultTurnsTitle.textContent = 'Moves';
+
+		const resultTurnsData = document.createElement('p');
+		resultTurnsData.className = 'result-item__moves-data typography-body';
+
+		const resultTurns = document.createElement('div');
+		resultTurns.className = 'result-item__moves';
+
+		resultTurns.appendChild(resultTurnsTitle);
+		resultTurns.appendChild(resultTurnsData);
+
+		return { resultTurns, resultTurnsData };
 	}
 }

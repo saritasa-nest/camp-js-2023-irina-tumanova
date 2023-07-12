@@ -10,13 +10,6 @@ export class TurnGenerator extends Publisher<CurrentTurnOrder> {
 	/** Current player's index. */
 	private currentPlayerIndex = 0;
 
-	public constructor() {
-		super();
-
-		// This method is used in GameController
-		this.turn = this.turn.bind(this);
-	}
-
 	/** Make a turn. */
 	public turn(): void {
 		const nextPlayerIndex = (this.currentPlayerIndex + 1) % this.playersIds.length;

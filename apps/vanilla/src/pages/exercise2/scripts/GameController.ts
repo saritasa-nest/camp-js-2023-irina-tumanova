@@ -2,16 +2,16 @@ import { DiceGenerator } from './DiceGenerator';
 import { TurnGenerator } from './TurnGenerator';
 import { GameStatus } from './GameStatus';
 import { UIStatusDisplayer } from './UIStatusDisplayer';
-import { PlayerStatus } from './PlayerStatus';
+import { Player } from './Player';
 
 /** Game controller. */
 export class GameController {
 
 	/** Turn generator. */
-	private turnGenerator?: TurnGenerator;
+	private turnGenerator: TurnGenerator;
 
 	/** Dice generator. */
-	private diceGenerator?: DiceGenerator;
+	private diceGenerator: DiceGenerator;
 
 	/** Players ids. */
 	private playerIds: readonly number[] = [];
@@ -19,11 +19,13 @@ export class GameController {
 	/** Id of the last added player. */
 	private lastPlayerId = 0;
 
-	/** Init game controller. */
-	public init(): void {
+	public constructor() {
 		this.turnGenerator = new TurnGenerator();
 		this.diceGenerator = new DiceGenerator();
+	}
 
+	/** Init game controller. */
+	public init(): void {
 		this.addPlayerStatus('Player One');
 		this.addPlayerStatus('Player Two');
 		this.addGameStatus();
@@ -38,12 +40,9 @@ export class GameController {
 	 * @param playerName Player's name for display.
 	 */
 	public addPlayerStatus(playerName: string): void {
-		if (this.turnGenerator === undefined || this.diceGenerator === undefined) {
-			return;
-		}
 		this.lastPlayerId += 1;
 		this.playerIds = [...this.playerIds, this.lastPlayerId];
-		const player = new PlayerStatus(this.lastPlayerId);
+		const player = new Player(this.lastPlayerId);
 
 		const uiPlayerDisplayer = new UIStatusDisplayer(playerName);
 		player.subscribe(uiPlayerDisplayer);
@@ -54,10 +53,6 @@ export class GameController {
 
 	/** Add game status. */
 	public addGameStatus(): void {
-		if (this.diceGenerator === undefined) {
-			return;
-		}
-
 		const game = new GameStatus();
 
 		const uiGameScoreDisplayer = new UIStatusDisplayer('Dice', 'game-result');
@@ -68,13 +63,11 @@ export class GameController {
 
 	/** Add a click listener on the turn button. */
 	public listenMove(): void {
-		if (this.turnGenerator === undefined) {
-			return;
-		}
-
 		const turnButtonHtml = document.querySelector('.blackjack__turn-button');
 		if (turnButtonHtml) {
-			turnButtonHtml.addEventListener('click', this.turnGenerator.turn);
+			turnButtonHtml.addEventListener('click', () => {
+				this.turnGenerator.turn();
+			});
 		}
 	}
 }

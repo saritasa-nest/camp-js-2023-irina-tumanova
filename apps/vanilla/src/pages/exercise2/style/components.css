@@ -19,8 +19,6 @@
   line-height: var(--line-height-s);
 }
 
-/**** BLACKJACK *****/
-
 .blackjack {
   padding: var(--space-l) max(calc(50vw - 500px), var(--space-l));
   background-color: var(--surface-color);

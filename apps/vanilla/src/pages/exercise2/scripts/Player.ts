@@ -1,9 +1,9 @@
 import { Publisher } from './Publisher';
 import { WINNING_POINTS } from './const';
-import { DisplayResult, TurnData, ISubscriber, DisplayStatus } from './types';
+import { DisplayResult, TurnData, ISubscriber, PlayerStatus } from './types';
 
 /** Player's status. */
-export class PlayerStatus extends Publisher<DisplayResult> implements ISubscriber<TurnData> {
+export class Player extends Publisher<DisplayResult> implements ISubscriber<TurnData> {
 
 	/** Dice roll values. */
 	private rollValues: readonly number[] = [];
@@ -39,14 +39,14 @@ export class PlayerStatus extends Publisher<DisplayResult> implements ISubscribe
 	 * @param isActive Is the user active (turning now).
 	 * @param score Player score.
 	 */
-	public getPlayerStatus(score: number, isActive: boolean): DisplayStatus[] {
-		const status: DisplayStatus[] = [];
+	public getPlayerStatus(score: number, isActive: boolean): PlayerStatus[] {
+		const status: PlayerStatus[] = [];
 		if (score >= WINNING_POINTS) {
-			status.push(DisplayStatus.Win);
+			status.push(PlayerStatus.Win);
 		}
 
 		if (isActive) {
-			status.push(DisplayStatus.Active);
+			status.push(PlayerStatus.Active);
 		}
 
 		return status;
