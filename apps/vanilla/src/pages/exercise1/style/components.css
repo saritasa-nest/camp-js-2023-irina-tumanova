@@ -132,7 +132,6 @@
 }
 
 /* It need for solve problem with placeholder in Microsoft Edge, Internet Explorer 10-11 */
-
 /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
 .search-input input:input-placeholder {
   color: var(--on-surface-dim-color);
