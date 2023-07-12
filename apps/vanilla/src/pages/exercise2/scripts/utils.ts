@@ -37,19 +37,19 @@ export function createResultElementHtml(parent: Element, name: string, className
 	const resultIndicator = document.createElement('div');
 	resultIndicator.className = 'result_item__indicator';
 
-	// Result-item: Moves
-	const resultMovesTitle = document.createElement('p');
-	resultMovesTitle.className = 'result_item__moves-subtitle typography-subtitle';
-	resultMovesTitle.textContent = 'Moves';
+	// Result-item: Turns
+	const resultTurnsTitle = document.createElement('p');
+	resultTurnsTitle.className = 'result_item__moves-subtitle typography-subtitle';
+	resultTurnsTitle.textContent = 'Moves';
 
-	const resultMovesData = document.createElement('p');
-	resultMovesData.className = 'result-item__moves-data typography-body';
+	const resultTurnsData = document.createElement('p');
+	resultTurnsData.className = 'result-item__moves-data typography-body';
 
-	const resultMoves = document.createElement('div');
-	resultMoves.className = 'result-item__moves';
+	const resultTurns = document.createElement('div');
+	resultTurns.className = 'result-item__moves';
 
-	resultMoves.appendChild(resultMovesTitle);
-	resultMoves.appendChild(resultMovesData);
+	resultTurns.appendChild(resultTurnsTitle);
+	resultTurns.appendChild(resultTurnsData);
 
 	// Result-item: root
 	const result = document.createElement('div');
@@ -57,13 +57,13 @@ export function createResultElementHtml(parent: Element, name: string, className
 
 	result.appendChild(resultInfo);
 	result.appendChild(resultIndicator);
-	result.appendChild(resultMoves);
+	result.appendChild(resultTurns);
 
 	parent.appendChild(result);
 
 	return {
 		resultHtml: result,
-		resultMovesDataHtml: resultMovesData,
+		resultTurnsDataHtml: resultTurnsData,
 		resultScoreHtml: resultScore,
 	};
 }

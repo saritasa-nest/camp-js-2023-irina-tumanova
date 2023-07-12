@@ -1,8 +1,8 @@
 import { Publisher } from './Publisher';
-import { DisplayResultStatus, TurnData, ISubscriber } from './types';
+import { DisplayResult, TurnData, ISubscriber } from './types';
 
 /** Game's status. */
-export class GameStatus extends Publisher<DisplayResultStatus> implements ISubscriber<TurnData> {
+export class GameStatus extends Publisher<DisplayResult> implements ISubscriber<TurnData> {
 
 	/** Dice roll values. */
 	private rollValues: number[] = [];
@@ -14,6 +14,6 @@ export class GameStatus extends Publisher<DisplayResultStatus> implements ISubsc
 	public update(message: TurnData): void {
 		this.rollValues = [...this.rollValues, message.diceSide];
 
-		this.notify({ status: [], rollValues: this.rollValues });
+		this.notify({ status: [], turnValues: this.rollValues });
 	}
 }

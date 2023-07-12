@@ -1,14 +1,14 @@
 import { createResultElementHtml } from './utils';
-import { DisplayResultStatus, ISubscriber, EDisplayStatus } from './types';
+import { DisplayResult, ISubscriber, EDisplayStatus } from './types';
 
 /** Result block display class. */
-export class UIStatusDisplayer implements ISubscriber<DisplayResultStatus> {
+export class UIStatusDisplayer implements ISubscriber<DisplayResult> {
 
 	/** Result item html. */
 	private resultHtml: HTMLElement | null = null;
 
 	/** Result's moves container html. */
-	private resultMovesHtml: HTMLElement | null = null;
+	private resultTurnsDataHtml: HTMLElement | null = null;
 
 	/** Result's score. */
 	private resultScoreHtml: HTMLElement | null = null;
@@ -27,8 +27,8 @@ export class UIStatusDisplayer implements ISubscriber<DisplayResultStatus> {
 	 * Update data.
 	 * @param message Display information.
 	 */
-	public update(message: DisplayResultStatus): void {
-		if (this.resultHtml === null || this.resultMovesHtml === null || this.resultScoreHtml === null) {
+	public update(message: DisplayResult): void {
+		if (this.resultHtml === null || this.resultTurnsDataHtml === null || this.resultScoreHtml === null) {
 			return;
 		}
 
@@ -37,8 +37,8 @@ export class UIStatusDisplayer implements ISubscriber<DisplayResultStatus> {
 			this.resultHtml.className += ` ${message.status.join(' ')}`;
 		}
 
-		this.resultMovesHtml.textContent = message.rollValues.join('');
-		this.resultScoreHtml.textContent = `${message.rollValues.reduce((prev, next) => prev + next, 0)} points`;
+		this.resultTurnsDataHtml.textContent = message.turnValues.join('');
+		this.resultScoreHtml.textContent = `${message.turnValues.reduce((prev, next) => prev + next, 0)} points`;
 	}
 
 	/**
@@ -48,10 +48,10 @@ export class UIStatusDisplayer implements ISubscriber<DisplayResultStatus> {
 	 * @param className Result element class name.
 	 */
 	public createElement(parent: Element, name: string, className?: string): void {
-		const { resultHtml, resultMovesDataHtml, resultScoreHtml } = createResultElementHtml(parent, name, className);
+		const { resultHtml, resultTurnsDataHtml, resultScoreHtml } = createResultElementHtml(parent, name, className);
 
 		this.resultHtml = resultHtml;
-		this.resultMovesHtml = resultMovesDataHtml;
+		this.resultTurnsDataHtml = resultTurnsDataHtml;
 		this.resultScoreHtml = resultScoreHtml;
 	}
 }

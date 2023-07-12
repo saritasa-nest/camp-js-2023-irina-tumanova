@@ -23,13 +23,13 @@ export interface TurnData extends CurrentTurnOrder {
 }
 
 /** Data to display the result. */
-export interface DisplayResultStatus{
+export interface DisplayResult{
 
 	/** Player status. */
 	readonly status: readonly EDisplayStatus[];
 
-	/** Results. */
-	readonly rollValues: readonly number[];
+	/** Turn's values. */
+	readonly turnValues: readonly number[];
 }
 
 /** Player status. */
@@ -38,15 +38,15 @@ export enum EDisplayStatus {
 	Win = 'result-item_winning',
 }
 
-/** Data with references to html result elements. */
+/** References to html result elements. */
 export interface ResultElementHtml {
 
 	/** Result item container. */
 	readonly resultHtml: HTMLElement;
 
-	/** Result's score. */
+	/** Result's score container. */
 	readonly resultScoreHtml: HTMLElement;
 
-	/** Result's moves container html. */
-	readonly resultMovesDataHtml: HTMLElement;
+	/** Result's turns container. */
+	readonly resultTurnsDataHtml: HTMLElement;
 }

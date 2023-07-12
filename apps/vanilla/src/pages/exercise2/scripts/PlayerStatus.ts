@@ -1,9 +1,9 @@
 import { Publisher } from './Publisher';
 import { WINNING_POINTS } from './const';
-import { DisplayResultStatus, TurnData, ISubscriber, EDisplayStatus } from './types';
+import { DisplayResult, TurnData, ISubscriber, EDisplayStatus } from './types';
 
 /** Player's status. */
-export class PlayerStatus extends Publisher<DisplayResultStatus> implements ISubscriber<TurnData> {
+export class PlayerStatus extends Publisher<DisplayResult> implements ISubscriber<TurnData> {
 
 	/** Dice roll values. */
 	private rollValues: number[] = [];
@@ -26,9 +26,9 @@ export class PlayerStatus extends Publisher<DisplayResultStatus> implements ISub
 			this.rollValues = [...this.rollValues, message.diceSide];
 		}
 
-		const notifyData: DisplayResultStatus = {
+		const notifyData: DisplayResult = {
 			status: this.getPlayerStatus(score, message.nextPlayerId === this.playerId),
-			rollValues: this.rollValues,
+			turnValues: this.rollValues,
 		};
 
 		this.notify(notifyData);
