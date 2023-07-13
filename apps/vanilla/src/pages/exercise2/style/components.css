@@ -85,6 +85,11 @@
   background-color: var(--on-surface-color);
 }
 
+.result_item__indicator_active {
+  background-color: var(--accent-color);
+  box-shadow: 0 0 10px var(--accent-color);
+}
+
 .result-item__moves {
   grid-column: 1/3;
 }
@@ -92,12 +97,6 @@
 .result-item__moves-data {
   letter-spacing: var(--space-s);
   min-height: var(--line-height-m);
-}
-
-/* Result item - active */
-.result-item_active .result_item__indicator {
-  background-color: var(--accent-color);
-  box-shadow: 0 0 10px var(--accent-color);
 }
 
 /* Result-item - winner */

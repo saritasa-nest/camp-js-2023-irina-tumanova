@@ -1,18 +1,27 @@
+import { DiceAccumulator } from './DiceAccumulator';
 import { Publisher } from './Publisher';
 import { WINNING_POINTS } from './const';
-import { TurnResultsForDisplay, TurnResult, ISubscriber } from './types';
+import { TurnResult, ISubscriber, IsActiveMessage, IsWinnerMessage } from './types';
 
 /** Player's status. */
-export class Player extends Publisher<TurnResultsForDisplay> implements ISubscriber<TurnResult> {
+export class Player implements ISubscriber<TurnResult> {
 
 	/** Turns results. */
-	private turnResults: readonly number[] = [];
+	public results: DiceAccumulator;
+
+	/** Player is active. */
+	public isActive: Publisher<IsActiveMessage>;
+
+	/** Player is winner. */
+	public isWinner: Publisher<IsWinnerMessage>;
 
 	/**
 	 * @param playerIndex Player index.
 	 */
 	public constructor(public readonly playerIndex: number) {
-		super();
+		this.results = new DiceAccumulator();
+		this.isActive = new Publisher();
+		this.isWinner = new Publisher();
 	}
 
 	/**
@@ -20,18 +29,11 @@ export class Player extends Publisher<TurnResultsForDisplay> implements ISubscri
 	 * @param message Turn information.
 	 */
 	public update(message: TurnResult): void {
-		let score = this.turnResults.reduce((prev, next) => prev + next, 0);
 		if (message.currentPlayerIndex === this.playerIndex) {
-			score += message.diceResult;
-			this.turnResults = [...this.turnResults, message.diceResult];
+			this.results.next(message.diceResult);
 		}
 
-		const notifyData: TurnResultsForDisplay = {
-			isActive: message.nextPlayerIndex === this.playerIndex,
-			isWinner: score >= WINNING_POINTS,
-			turnResults: this.turnResults,
-		};
-
-		this.notify(notifyData);
+		this.isActive.notify({ isActive: message.nextPlayerIndex === this.playerIndex });
+		this.isWinner.notify({ isWinner: this.results.getScore() >= WINNING_POINTS });
 	}
 }
