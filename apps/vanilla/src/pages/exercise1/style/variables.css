@@ -33,5 +33,5 @@
   --filter-height: calc(var(--large-line-height) + 2 * var(--little-space));
 
   /* Other styles */
-  --standart-border-options: 1px solid var(--border);
+  --standart-border-options: 1px solid var(--border-color);
 }
