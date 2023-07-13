@@ -173,7 +173,7 @@
   border-color: var(--on-surface-color);
 }
 
-.select-wrapper select:not(:checked) {
+.select-wrapper select:invalid {
   color: var(--on-surface-dim-color);
 }
 
