@@ -100,23 +100,23 @@
   box-shadow: 0 0 10px var(--accent-color);
 }
 
-/* Result-item - winning */
-.result-item_winning {
+/* Result-item - winner */
+.result-item_winner {
   background-color: var(--accent-color);
   box-shadow: 0 0 10px var(--accent-color);
 }
 
-.result-item_winning .result_item__indicator {
+.result-item_winner .result_item__indicator {
   background-color: var(--accent-color);
 }
 
-.result-item_winning .result-item__player-name,
-.result-item_winning .result_item__moves-subtitle {
+.result-item_winner .result-item__player-name,
+.result-item_winner .result_item__moves-subtitle {
   color: var(--surface-overlay-color);
 }
 
-.result-item_winning .result-item__player-points,
-.result-item_winning .result-item__moves-data {
+.result-item_winner .result-item__player-points,
+.result-item_winner .result-item__moves-data {
   color: var(--surface-color);
 }
 

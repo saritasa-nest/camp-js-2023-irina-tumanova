@@ -1,7 +1,7 @@
-import { DisplayResult, ISubscriber, PlayerStatus } from './types';
+import { TurnResultsForDisplay, ISubscriber } from './types';
 
 /** Result block display class. */
-export class UIStatusDisplayer implements ISubscriber<DisplayResult> {
+export class ResultDisplayer implements ISubscriber<TurnResultsForDisplay> {
 
 	/** Result item html. */
 	private resultHtml: HTMLElement | null = null;
@@ -40,18 +40,23 @@ export class UIStatusDisplayer implements ISubscriber<DisplayResult> {
 	 * Update data.
 	 * @param message Display information.
 	 */
-	public update(message: DisplayResult): void {
+	public update(message: TurnResultsForDisplay): void {
 		if (this.resultHtml === null || this.resultTurnsDataHtml === null || this.resultScoreHtml === null) {
 			return;
 		}
 
-		this.resultHtml.classList.remove(PlayerStatus.Active);
-		if (message.status.length > 0) {
-			this.resultHtml.className += ` ${message.status.join(' ')}`;
+		if (message.isActive) {
+			this.resultHtml.classList.add('result-item_active');
+		} else {
+			this.resultHtml.classList.remove('result-item_active');
 		}
 
-		this.resultTurnsDataHtml.textContent = message.turnValues.join('');
-		this.resultScoreHtml.textContent = `${message.turnValues.reduce((prev, next) => prev + next, 0)} points`;
+		if (message.isWinner) {
+			this.resultHtml.classList.add('result-item_winner');
+		}
+
+		this.resultTurnsDataHtml.textContent = message.turnResults.join('');
+		this.resultScoreHtml.textContent = `${message.turnResults.reduce((prev, next) => prev + next, 0)} points`;
 	}
 
 	private createResultRootElement(className?: string): HTMLElement {

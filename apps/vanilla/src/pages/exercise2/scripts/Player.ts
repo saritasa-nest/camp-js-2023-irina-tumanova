@@ -1,17 +1,17 @@
 import { Publisher } from './Publisher';
 import { WINNING_POINTS } from './const';
-import { DisplayResult, TurnData, ISubscriber, PlayerStatus } from './types';
+import { TurnResultsForDisplay, TurnResult, ISubscriber } from './types';
 
 /** Player's status. */
-export class Player extends Publisher<DisplayResult> implements ISubscriber<TurnData> {
+export class Player extends Publisher<TurnResultsForDisplay> implements ISubscriber<TurnResult> {
 
-	/** Dice roll values. */
-	private rollValues: readonly number[] = [];
+	/** Turns results. */
+	private turnResults: readonly number[] = [];
 
 	/**
-	 * @param playerId Player id.
+	 * @param playerIndex Player index.
 	 */
-	public constructor(public readonly playerId: number) {
+	public constructor(public readonly playerIndex: number) {
 		super();
 	}
 
@@ -19,36 +19,19 @@ export class Player extends Publisher<DisplayResult> implements ISubscriber<Turn
 	 * Update data.
 	 * @param message Turn information.
 	 */
-	public update(message: TurnData): void {
-		let score = this.rollValues.reduce((prev, next) => prev + next, 0);
-		if (message.currentPlayerId === this.playerId) {
-			score += message.diceSide;
-			this.rollValues = [...this.rollValues, message.diceSide];
+	public update(message: TurnResult): void {
+		let score = this.turnResults.reduce((prev, next) => prev + next, 0);
+		if (message.currentPlayerIndex === this.playerIndex) {
+			score += message.diceResult;
+			this.turnResults = [...this.turnResults, message.diceResult];
 		}
 
-		const notifyData: DisplayResult = {
-			status: this.getPlayerStatus(score, message.nextPlayerId === this.playerId),
-			turnValues: this.rollValues,
+		const notifyData: TurnResultsForDisplay = {
+			isActive: message.nextPlayerIndex === this.playerIndex,
+			isWinner: score >= WINNING_POINTS,
+			turnResults: this.turnResults,
 		};
 
 		this.notify(notifyData);
-	}
-
-	/**
-	 * Get player status.
-	 * @param isActive Is the user active (turning now).
-	 * @param score Player score.
-	 */
-	public getPlayerStatus(score: number, isActive: boolean): PlayerStatus[] {
-		const status: PlayerStatus[] = [];
-		if (score >= WINNING_POINTS) {
-			status.push(PlayerStatus.Win);
-		}
-
-		if (isActive) {
-			status.push(PlayerStatus.Active);
-		}
-
-		return status;
 	}
 }

@@ -5,26 +5,17 @@ import { CurrentTurnOrder } from './types';
 export class TurnGenerator extends Publisher<CurrentTurnOrder> {
 
 	/** Players count. */
-	private playersIds: readonly number[] = [];
+	public playersCount = 0;
 
 	/** Current player's index. */
 	private currentPlayerIndex = 0;
 
 	/** Make a turn. */
 	public turn(): void {
-		const nextPlayerIndex = (this.currentPlayerIndex + 1) % this.playersIds.length;
-		const nextPlayerId = this.playersIds[nextPlayerIndex];
+		const nextPlayerIndex = (this.currentPlayerIndex + 1) % this.playersCount;
 
-		this.notify({ currentPlayerId: this.playersIds[this.currentPlayerIndex], nextPlayerId });
+		this.notify({ currentPlayerIndex: this.currentPlayerIndex, nextPlayerIndex });
 
 		this.currentPlayerIndex = nextPlayerIndex;
-	}
-
-	/**
-	 * Update players.
-	 * @param playerIds Player's ids.
-	 */
-	public updatePlayers(playerIds: readonly number[]): void {
-		this.playersIds = playerIds;
 	}
 }

@@ -1,23 +1,20 @@
 import { DiceGenerator } from './DiceGenerator';
 import { TurnGenerator } from './TurnGenerator';
-import { GameStatus } from './GameStatus';
-import { UIStatusDisplayer } from './UIStatusDisplayer';
+import { Game } from './Game';
+import { ResultDisplayer } from './ResultDisplayer';
 import { Player } from './Player';
 
 /** Game controller. */
 export class GameController {
 
 	/** Turn generator. */
-	private turnGenerator: TurnGenerator;
+	private readonly turnGenerator: TurnGenerator;
 
 	/** Dice generator. */
-	private diceGenerator: DiceGenerator;
+	private readonly diceGenerator: DiceGenerator;
 
-	/** Players ids. */
-	private playerIds: readonly number[] = [];
-
-	/** Id of the last added player. */
-	private lastPlayerId = 0;
+	/** Players count. */
+	private playersCount = 0;
 
 	public constructor() {
 		this.turnGenerator = new TurnGenerator();
@@ -40,22 +37,22 @@ export class GameController {
 	 * @param playerName Player's name for display.
 	 */
 	public addPlayerStatus(playerName: string): void {
-		this.lastPlayerId += 1;
-		this.playerIds = [...this.playerIds, this.lastPlayerId];
-		const player = new Player(this.lastPlayerId);
+		const player = new Player(this.playersCount);
 
-		const uiPlayerDisplayer = new UIStatusDisplayer(playerName);
+		const uiPlayerDisplayer = new ResultDisplayer(playerName);
 		player.subscribe(uiPlayerDisplayer);
 
 		this.diceGenerator.subscribe(player);
-		this.turnGenerator.updatePlayers(this.playerIds);
+
+		this.playersCount += 1;
+		this.turnGenerator.playersCount += 1;
 	}
 
 	/** Add game status. */
 	public addGameStatus(): void {
-		const game = new GameStatus();
+		const game = new Game();
 
-		const uiGameScoreDisplayer = new UIStatusDisplayer('Dice', 'game-result');
+		const uiGameScoreDisplayer = new ResultDisplayer('Dice', 'game-result');
 		game.subscribe(uiGameScoreDisplayer);
 
 		this.diceGenerator.subscribe(game);

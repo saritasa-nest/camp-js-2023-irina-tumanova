@@ -9,27 +9,30 @@ export interface ISubscriber<T>{
 export interface CurrentTurnOrder {
 
 	/** Current player's index. */
-	readonly currentPlayerId: number;
+	readonly currentPlayerIndex: number;
 
 	/** Next player's index. */
-	readonly nextPlayerId: number;
+	readonly nextPlayerIndex: number;
 }
 
 /** Data about a turn. */
-export interface TurnData extends CurrentTurnOrder {
+export interface TurnResult extends CurrentTurnOrder {
 
 	/** Number on the dice. */
-	readonly diceSide: number;
+	readonly diceResult: number;
 }
 
 /** Data to display the result. */
-export interface DisplayResult {
-
-	/** Player status. */
-	readonly status: readonly PlayerStatus[];
+export interface TurnResultsForDisplay {
 
 	/** Turn's values. */
-	readonly turnValues: readonly number[];
+	readonly turnResults: readonly number[];
+
+	/** Player is active. */
+	readonly isActive?: boolean;
+
+	/** Player is a winner. */
+	readonly isWinner?: boolean;
 }
 
 /** Player status. */
