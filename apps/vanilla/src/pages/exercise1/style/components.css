@@ -164,16 +164,16 @@
   height: var(--filter-height);
 }
 
-.select-wrapper select:focus,
-.select-wrapper select:hover {
+.select-wrapper .select:focus,
+.select-wrapper .select:hover {
   outline-color: var(--on-surface-color);
 }
 
-.select-wrapper select:focus {
+.select-wrapper .select:focus {
   border-color: var(--on-surface-color);
 }
 
-.select-wrapper select:invalid {
+.select-wrapper .select:invalid {
   color: var(--on-surface-dim-color);
 }
 
