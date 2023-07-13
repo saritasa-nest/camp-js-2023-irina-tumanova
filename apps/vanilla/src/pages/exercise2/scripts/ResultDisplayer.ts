@@ -12,7 +12,12 @@ export class ResultDisplayer implements ISubscriber<TurnResultsForDisplay> {
 	/** Result's score. */
 	private resultScoreHtml: HTMLElement | null = null;
 
-	public constructor(scoreName: string, className?: string) {
+	/**
+	 * Render component.
+	 * @param scoreName Name of a score.
+	 * @param className Component class name.
+	 * */
+	public render(scoreName: string, className?: string): void {
 		const containerHtml = document.querySelector('.blackjack__results');
 
 		if (containerHtml === null) {
@@ -33,7 +38,6 @@ export class ResultDisplayer implements ISubscriber<TurnResultsForDisplay> {
 		this.resultHtml = result;
 		this.resultTurnsDataHtml = resultTurnsData;
 		this.resultScoreHtml = resultScore;
-
 	}
 
 	/**

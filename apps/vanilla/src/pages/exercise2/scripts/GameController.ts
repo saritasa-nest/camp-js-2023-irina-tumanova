@@ -23,39 +23,31 @@ export class GameController {
 
 	/** Init game controller. */
 	public init(): void {
-		this.addPlayerStatus('Player One');
-		this.addPlayerStatus('Player Two');
-		this.addGameStatus();
+		const displayerPlayerFirst = new ResultDisplayer();
+		displayerPlayerFirst.render('Player One');
+		const playerFirst = new Player(0);
+		playerFirst.subscribe(displayerPlayerFirst);
+
+		const displayerPlayerSecond = new ResultDisplayer();
+		displayerPlayerSecond.render('Player Second');
+		const playerSecond = new Player(1);
+		playerSecond.subscribe(displayerPlayerSecond);
+
+		const displayerGameScore = new ResultDisplayer();
+		displayerGameScore.render('Dice', 'game-result');
+		const gameScore = new Game();
+		gameScore.subscribe(displayerGameScore);
+
+		this.diceGenerator.subscribe(gameScore);
+		this.diceGenerator.subscribe(playerFirst);
+		this.diceGenerator.subscribe(playerSecond);
 
 		this.turnGenerator.subscribe(this.diceGenerator);
 
+		this.playersCount = 2;
+		this.turnGenerator.playersCount = this.playersCount;
+
 		this.listenMove();
-	}
-
-	/**
-	 * Add player status.
-	 * @param playerName Player's name for display.
-	 */
-	public addPlayerStatus(playerName: string): void {
-		const player = new Player(this.playersCount);
-
-		const uiPlayerDisplayer = new ResultDisplayer(playerName);
-		player.subscribe(uiPlayerDisplayer);
-
-		this.diceGenerator.subscribe(player);
-
-		this.playersCount += 1;
-		this.turnGenerator.playersCount += 1;
-	}
-
-	/** Add game status. */
-	public addGameStatus(): void {
-		const game = new Game();
-
-		const uiGameScoreDisplayer = new ResultDisplayer('Dice', 'game-result');
-		game.subscribe(uiGameScoreDisplayer);
-
-		this.diceGenerator.subscribe(game);
 	}
 
 	/** Add a click listener on the turn button. */
