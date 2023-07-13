@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	
+	
+	
+	
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<title>Books app</title>
+  <link rel="stylesheet" href="/camp-js-2023-irina-tumanova/pr-preview/pr-4/assets/index-9b463724.css">
+</head>
+<body class="default-layout">
+
+<header class="header">
+	<p class="logo">📚 Books app</p>
+</header>
+
+<main class="content">
+	<section class="books">
+		<div class="book-list">
+			<h3 class="subtitle book-category">2022 year</h3>
+			<div class="book-card">
+				<div class="book-card__cover">
+					<img src="/camp-js-2023-irina-tumanova/pr-preview/pr-4/assets/09-ed10ab58.png" alt="Refactoring UI">
+				</div>
+				<h4 class="book-card__title text_small">Refactoring UI</h4>
+			</div>
+			<div class="book-card">
+				<div class="book-card__cover">
+					<img src="/camp-js-2023-irina-tumanova/pr-preview/pr-4/assets/01-0f2012ca.png" alt="Master the Skill of Debugging CSS">
+				</div>
+				<h4 class="book-card__title text_small">Master the Skill of Debugging CSS</h4>
+			</div>
+			<div class="book-card">
+				<div class="book-card__cover">
+					<img src="/camp-js-2023-irina-tumanova/pr-preview/pr-4/assets/03-f5a5b5b8.png" alt="Blue period">
+				</div>
+				<h4 class="book-card__title text_small">Blue period</h4>
+			</div>
+		</div>
+		<div class="book-list">
+			<h3 class="subtitle book-category">1980 year</h3>
+			<div class="book-card">
+				<div class="book-card__cover">
+					<img src="/camp-js-2023-irina-tumanova/pr-preview/pr-4/assets/02-08762ce6.png" alt="Yokohama Kaidashi Kikou">
+				</div>
+				<h4 class="book-card__title text_small">Yokohama Kaidashi Kikou</h4>
+			</div>
+			<div class="book-card">
+				<div class="book-card__cover">
+					<img src="/camp-js-2023-irina-tumanova/pr-preview/pr-4/assets/08-bd65bab1.png" alt="Learning JavaScript Design Patterns">
+				</div>
+				<h4 class="book-card__title text_small">Learning JavaScript Design Patterns</h4>
+			</div>
+			<div class="book-card">
+				<div class="book-card__cover">
+					<img src="/camp-js-2023-irina-tumanova/pr-preview/pr-4/assets/01-0f2012ca.png" alt="Yotsuba to!">
+				</div>
+				<h4 class="book-card__title text_small">Yotsuba to!</h4>
+			</div>
+			<div class="book-card">
+				<div class="book-card__cover">
+					<img src="/camp-js-2023-irina-tumanova/pr-preview/pr-4/assets/07-ca5da553.png" alt="Domain-Driven Design">
+				</div>
+				<h4 class="book-card__title text_small">Domain-Driven Design</h4>
+			</div>
+			<div class="book-card">
+				<div class="book-card__cover">
+					<img src="/camp-js-2023-irina-tumanova/pr-preview/pr-4/assets/06-09a0d3c4.png" alt="Implementing Domain-Driven Design">
+				</div>
+				<h4 class="book-card__title text_small">Implementing Domain-Driven Design</h4>
+			</div>
+			<div class="book-card">
+				<div class="book-card__cover">
+					<img src="/camp-js-2023-irina-tumanova/pr-preview/pr-4/assets/04-586364d4.png" alt="7 Навыков высокэффективных...">
+				</div>
+				<h4 class="book-card__title text_small">7 Навыков высокэффективных...</h4>
+			</div>
+		</div>
+	</section>
+
+	<aside class="filters">
+		<p class="filters__title subtitle">Filters</p>
+
+		<label class="filters__search search-input">
+			<img src="/camp-js-2023-irina-tumanova/pr-preview/pr-4/assets/heroicons_magnifying-glass-85df81de.svg" alt="search something" class="search-input__icon"/>
+			<input type="text" placeholder="e.g.Refactoring" class="text"/>
+		</label>
+
+		<div class="filters__select select-wrapper">
+			<select class="text select" required>
+				<option value="" disabled selected hidden>Choose sort field</option>
+				<option value="Length">Length</option>
+				<option value="Author">Author</option>
+				<option value="Publication year">Publication year</option>
+				<option value="Score">Score</option>
+			</select>
+			<img src="/camp-js-2023-irina-tumanova/pr-preview/pr-4/assets/heroicons_chevron-down-8a844d2c.svg" alt="toggle select" class="select-icon">
+		</div>
+
+		<label for="show-comics-checkbox" class="filters__chexbox checkbox-wrapper">
+			<input type="checkbox" class="checkbox__input" id="show-comics-checkbox">
+			<span class="checkbox"></span>
+			<span>Show comics</span>
+		</label>
+	</aside>
+</main>
+
+<footer class="footer">
+	<div class="footer__info">
+		<span class="logo">Books app</span>
+		<span class="body">&copy; 2023</span>
+	</div>
+
+	<a class="body social-link link" href="#">Github</a>
+	<a class="body button-to-top link" href="#">Go to top ↑</a>
+</footer>
+</body>
+</html>
