@@ -5,7 +5,7 @@ import { ResultsMessage } from './types';
 export class DiceAccumulator extends Publisher<ResultsMessage> {
 
 	/** Turns results. */
-	private results: number[] = [];
+	private results: readonly number[] = [];
 
 	/**
 	 * Get next dice result.

@@ -35,29 +35,23 @@ export interface TurnResultsForDisplay {
 	readonly isWinner?: boolean;
 }
 
-/** Player status. */
-export enum PlayerStatus {
-	Active = 'result-item_active',
-	Win = 'result-item_winning',
-}
-
 /** Message with only results. */
 export interface ResultsMessage{
 
 	/** Turns results. */
-	results: number[];
+	readonly results: readonly number[];
 }
 
 /** Message with only activity status. */
 export interface IsActiveMessage{
 
 	/** Player is active. */
-	isActive: boolean;
+	readonly isActive: boolean;
 }
 
 /** Message with only with winning status. */
 export interface IsWinnerMessage{
 
 	/** Player is winner. */
-	isWinner: boolean;
+	readonly isWinner: boolean;
 }

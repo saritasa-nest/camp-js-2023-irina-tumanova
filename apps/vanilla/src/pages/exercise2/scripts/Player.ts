@@ -7,13 +7,13 @@ import { TurnResult, ISubscriber, IsActiveMessage, IsWinnerMessage } from './typ
 export class Player implements ISubscriber<TurnResult> {
 
 	/** Turns results. */
-	public results: DiceAccumulator;
+	public readonly results: DiceAccumulator;
 
 	/** Player is active. */
-	public isActive: Publisher<IsActiveMessage>;
+	public readonly isActive: Publisher<IsActiveMessage>;
 
 	/** Player is winner. */
-	public isWinner: Publisher<IsWinnerMessage>;
+	public readonly isWinner: Publisher<IsWinnerMessage>;
 
 	/**
 	 * @param playerIndex Player index.
