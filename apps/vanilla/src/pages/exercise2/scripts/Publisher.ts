@@ -24,11 +24,11 @@ export class Publisher<T> {
 
 	/**
 	 * Notify updating.
-	 * @param message Data for update.
+	 * @param value Data for update.
 	 */
-	public notify(message: T): void {
+	public notify(value: T): void {
 		this.subscribers.forEach(subscriber => {
-			subscriber.update(message);
+			subscriber.update(value);
 		});
 	}
 }
