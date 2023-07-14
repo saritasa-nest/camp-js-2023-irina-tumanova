@@ -10,10 +10,10 @@ export class Player implements ISubscriber<TurnInfo> {
 	public readonly results = new DiceAccumulator();
 
 	/** Player is active. */
-	public readonly isActive = new Publisher();
+	public readonly isActive = new Publisher<boolean>();
 
 	/** Player is winner. */
-	public readonly isWinner = new Publisher();
+	public readonly isWinner = new Publisher<boolean>();
 
 	/**
 	 * @param playerIndex Player index.

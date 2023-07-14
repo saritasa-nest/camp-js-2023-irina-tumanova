@@ -2,10 +2,10 @@ import { DiceGenerator } from './DiceGenerator';
 import { TurnGenerator } from './TurnGenerator';
 import { DiceResults } from './DiceResults';
 import { Player } from './Player';
-import { ResultInfoComponent } from './UI-result-item/ResultInfoComponent';
-import { ResultStatusComponent } from './UI-result-item/ResultStatusComponent';
-import { ResultTurnsComponent } from './UI-result-item/ResultTurnsComponent';
-import { ResultComponent } from './UI-result-item/ResultComponent';
+import { ResultInfoComponent } from './UI/ResultInfoComponent';
+import { ResultStatusComponent } from './UI/ResultStatusComponent';
+import { ResultTurnsComponent } from './UI/ResultTurnsComponent';
+import { ResultComponent } from './UI/ResultComponent';
 
 /** Game controller. */
 export class GameController {
@@ -47,7 +47,7 @@ export class GameController {
 	 * @param name Player's name.
 	 * @param index Players's index.
 	 */
-	public initPlayer(name: string, index: number): Player {
+	private initPlayer(name: string, index: number): Player {
 		const resultInfoComponent = new ResultInfoComponent();
 		resultInfoComponent.render(name);
 		const resultStatusComponent = new ResultStatusComponent();
@@ -71,7 +71,7 @@ export class GameController {
 	}
 
 	/** Init dice result. */
-	public initDiceResults(): DiceResults {
+	private initDiceResults(): DiceResults {
 		const resultInfoComponent = new ResultInfoComponent();
 		resultInfoComponent.render('Dice');
 		const resultTurnsComponent = new ResultTurnsComponent();
@@ -92,7 +92,7 @@ export class GameController {
 	}
 
 	/** Add a click listener on the turn button. */
-	public listenTurn(): void {
+	private listenTurn(): void {
 		const turnButtonHtml = document.querySelector('.blackjack__turn-button');
 		if (turnButtonHtml) {
 			turnButtonHtml.addEventListener('click', () => {

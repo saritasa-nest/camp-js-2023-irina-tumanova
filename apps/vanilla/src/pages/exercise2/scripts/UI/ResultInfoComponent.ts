@@ -34,7 +34,7 @@ export class ResultInfoComponent implements ISubscriber<number[]> {
 
 	/**
 	 * Update data.
-	 * @param message Display information.
+	 * @param message Turns results.
 	 */
 	public update(message: number[]): void {
 		if (this.resultScoreElement === null) {

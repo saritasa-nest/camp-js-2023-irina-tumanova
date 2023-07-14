@@ -15,7 +15,7 @@ export class ResultStatusComponent implements ISubscriber<boolean> {
 
 	/**
 	 * Update data.
-	 * @param message Display information.
+	 * @param message Is active player result.
 	 */
 	public update(message: boolean): void {
 		if (this.resultStatusElement === null) {

@@ -4,14 +4,14 @@ import { ISubscriber } from './types';
 export class Publisher<T> {
 
 	/** Subscribers. */
-	private subscribers: readonly ISubscriber<T>[] = [];
+	private subscribers: Set<ISubscriber<T>> = new Set();
 
 	/**
 	 * Subscribe of changes..
 	 * @param subscriber Added subscriber.
 	 */
 	public subscribe(subscriber: ISubscriber<T>): void {
-		this.subscribers = [...this.subscribers, subscriber];
+		this.subscribers.add(subscriber);
 	}
 
 	/**
@@ -19,7 +19,7 @@ export class Publisher<T> {
 	 * @param subscriber Deleted subscriber.
 	 */
 	public unsubscribe(subscriber: ISubscriber<T>): void {
-		this.subscribers = this.subscribers.filter(currentSubscribe => currentSubscribe !== subscriber);
+		this.subscribers.delete(subscriber);
 	}
 
 	/**

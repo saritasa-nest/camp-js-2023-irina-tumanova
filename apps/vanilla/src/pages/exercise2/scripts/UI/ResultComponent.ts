@@ -43,7 +43,7 @@ export class ResultComponent implements ISubscriber<boolean> {
 
 	/**
 	 * Update data.
-	 * @param message Display information.
+	 * @param message Is winner result.
 	 */
 	public update(message: boolean): void {
 		if (this.resultElement === null) {
