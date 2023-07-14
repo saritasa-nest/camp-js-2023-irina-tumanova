@@ -3,15 +3,15 @@ import { Publisher } from './Publisher';
 /** Dice accumulator. */
 export class DiceAccumulatorPublisher extends Publisher<number[]> {
 
-	/** Turns results. */
+	/** Dice's results. */
 	private results: readonly number[] = [];
 
 	/**
-	 * Get next dice result.
-	 * @param diceResult Dice result.
+	 * Get next dice's result.
+	 * @param dice Dice result.
 	 */
-	public next(diceResult: number): void {
-		const results = [...this.results, diceResult];
+	public next(dice: number): void {
+		const results = [...this.results, dice];
 		this.results = results;
 
 		this.notify(results);

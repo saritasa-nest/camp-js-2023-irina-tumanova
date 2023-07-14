@@ -5,7 +5,7 @@ import { Turn } from './models/Turn';
 /** Common dice results. */
 export class DiceResultsSubscriber implements Subscriber<Turn> {
 
-	/** Turns results. */
+	/** Dice's results. */
 	public readonly results = new DiceAccumulatorPublisher();
 
 	/**

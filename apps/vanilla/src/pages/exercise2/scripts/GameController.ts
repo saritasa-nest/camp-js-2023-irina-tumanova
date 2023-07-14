@@ -8,6 +8,7 @@ import { ResultTurnsComponent } from './ui/ResultTurnsComponent';
 import { ResultComponent } from './ui/ResultComponent';
 import { players } from './data/players';
 import { Player } from './models/Player';
+import { ResultComponents } from './models/ResultComponents';
 
 /** Game controller. */
 export class GameController {
@@ -36,47 +37,50 @@ export class GameController {
 	 * @param info Info about player.
 	 */
 	private initPlayer(info: Player): void {
-		const resultInfoComponent = new ResultInfoComponent();
-		resultInfoComponent.render(info.name);
-		const resultStatusComponent = new ResultStatusComponent();
-		resultStatusComponent.render();
-		const resultsComponent = new ResultTurnsComponent();
-		resultsComponent.render();
-		const resultRootComponent = new ResultComponent();
-		resultRootComponent.render({
-			resultInfo: resultInfoComponent.resultInfoElement,
-			resultStatus: resultStatusComponent.resultStatusElement,
-			resultTurns: resultsComponent.resultsContainer,
-		});
+		const components = this.createResultComponents(info.name);
 
 		const player = new PlayerSubscriber(info);
-		player.results.subscribe(resultInfoComponent);
-		player.results.subscribe(resultsComponent);
-		player.isActive.subscribe(resultStatusComponent);
-		player.isWinner.subscribe(resultRootComponent);
+		player.results.subscribe(components.resultInfoComponent);
+		player.results.subscribe(components.resultTurnsComponent);
+		player.isActive.subscribe(components.resultStatusComponent);
+		player.isWinner.subscribe(components.resultComponent);
 
 		this.diceGenerator.subscribe(player);
 	}
 
 	/** Init dice result. */
 	private initDiceResults(): void {
-		const resultInfoComponent = new ResultInfoComponent();
-		resultInfoComponent.render('Dice');
-		const resultTurnsComponent = new ResultTurnsComponent();
-		resultTurnsComponent.render();
-		const resultRootComponent = new ResultComponent();
-		resultRootComponent.render({
-			resultInfo: resultInfoComponent.resultInfoElement,
-			resultStatus: null,
-			resultTurns: resultTurnsComponent.resultsContainer,
-			className: 'game-result',
-		});
+		const components = this.createResultComponents('Dice', 'result-items_total-dices');
 
 		const diceResults = new DiceResultsSubscriber();
-		diceResults.results.subscribe(resultInfoComponent);
-		diceResults.results.subscribe(resultTurnsComponent);
+		diceResults.results.subscribe(components.resultInfoComponent);
+		diceResults.results.subscribe(components.resultTurnsComponent);
 
 		this.diceGenerator.subscribe(diceResults);
+	}
+
+	/**
+	 * Create result element.
+	 * @param name Score name.
+	 * @param className REsult component class name.
+	 */
+	private createResultComponents(name: string, className?: string): ResultComponents {
+		const resultInfoComponent = new ResultInfoComponent();
+		resultInfoComponent.render(name);
+		const resultStatusComponent = new ResultStatusComponent();
+		resultStatusComponent.render();
+		const resultTurnsComponent = new ResultTurnsComponent();
+		resultTurnsComponent.render();
+
+		const resultComponent = new ResultComponent();
+		resultComponent.render({
+			resultInfo: resultInfoComponent.resultInfoElement,
+			resultStatus: resultStatusComponent.resultStatusElement,
+			resultTurns: resultTurnsComponent.resultsContainer,
+			className,
+		});
+
+		return { resultComponent, resultInfoComponent, resultStatusComponent, resultTurnsComponent };
 	}
 
 	/** Add a click listener on the turn button. */

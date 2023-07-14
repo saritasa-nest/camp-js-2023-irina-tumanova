@@ -4,10 +4,10 @@ import { Subscriber } from './models/Subscriber';
 export class Publisher<T> {
 
 	/** Subscribers. */
-	private subscribers: Set<Subscriber<T>> = new Set();
+	private readonly subscribers: Set<Subscriber<T>> = new Set();
 
 	/**
-	 * Subscribe of changes..
+	 * Subscribe of changes.
 	 * @param subscriber Added subscriber.
 	 */
 	public subscribe(subscriber: Subscriber<T>): void {

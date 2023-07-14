@@ -8,7 +8,7 @@ import { Subscriber } from './models/Subscriber';
 /** Player's status. */
 export class PlayerSubscriber implements Subscriber<Turn> {
 
-	/** Turns results. */
+	/** Dice's results. */
 	public readonly results = new DiceAccumulatorPublisher();
 
 	/** Player is active. */
@@ -17,21 +17,19 @@ export class PlayerSubscriber implements Subscriber<Turn> {
 	/** Player is winner. */
 	public readonly isWinner = new Publisher<boolean>();
 
-	/**
-	 * @param playerInfo Player info.
-	 */
-	public constructor(public readonly playerInfo: Player) {}
+	/** @param player Player's information. */
+	public constructor(public readonly player: Player) {}
 
 	/**
 	 * Update data.
 	 * @param message Turn information.
 	 */
 	public update(message: Turn): void {
-		if (message.currentPlayerIndex === this.playerInfo.index) {
+		if (message.currentPlayerIndex === this.player.index) {
 			this.results.next(message.dice);
 		}
 
-		this.isActive.notify(message.nextPlayerIndex === this.playerInfo.index);
+		this.isActive.notify(message.nextPlayerIndex === this.player.index);
 		this.isWinner.notify(this.results.getScore() >= WINNING_POINTS);
 	}
 }
