@@ -16,7 +16,7 @@ export interface CurrentTurnOrder {
 }
 
 /** Data about a turn. */
-export interface TurnResult extends CurrentTurnOrder {
+export interface TurnInfo extends CurrentTurnOrder {
 
 	/** Number on the dice. */
 	readonly diceResult: number;
@@ -33,25 +33,4 @@ export interface TurnResultsForDisplay {
 
 	/** Player is a winner. */
 	readonly isWinner?: boolean;
-}
-
-/** Message with only results. */
-export interface ResultsMessage{
-
-	/** Turns results. */
-	readonly results: readonly number[];
-}
-
-/** Message with only activity status. */
-export interface IsActiveMessage{
-
-	/** Player is active. */
-	readonly isActive: boolean;
-}
-
-/** Message with only with winning status. */
-export interface IsWinnerMessage{
-
-	/** Player is winner. */
-	readonly isWinner: boolean;
 }

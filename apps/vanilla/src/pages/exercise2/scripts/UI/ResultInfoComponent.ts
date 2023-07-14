@@ -1,7 +1,7 @@
-import { ISubscriber, ResultsMessage } from '../types';
+import { ISubscriber } from '../types';
 
 /** Result info component. */
-export class ResultInfoComponent implements ISubscriber<ResultsMessage> {
+export class ResultInfoComponent implements ISubscriber<number[]> {
 
 	/** Result's turns element. */
 	public resultInfoElement: HTMLElement | null = null;
@@ -36,11 +36,11 @@ export class ResultInfoComponent implements ISubscriber<ResultsMessage> {
 	 * Update data.
 	 * @param message Display information.
 	 */
-	public update(message: ResultsMessage): void {
+	public update(message: number[]): void {
 		if (this.resultScoreElement === null) {
 			return;
 		}
 
-		this.resultScoreElement.textContent = `${message.results.reduce((prev, next) => prev + next, 0)} points`;
+		this.resultScoreElement.textContent = `${message.reduce((prev, next) => prev + next, 0)} points`;
 	}
 }

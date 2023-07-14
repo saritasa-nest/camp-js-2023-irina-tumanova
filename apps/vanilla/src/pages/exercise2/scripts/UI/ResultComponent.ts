@@ -1,9 +1,9 @@
-import { ISubscriber, IsWinnerMessage } from '../types';
+import { ISubscriber } from '../types';
 
 import { ResultComponentProps } from './types';
 
 /** Result component. */
-export class ResultComponent implements ISubscriber<IsWinnerMessage> {
+export class ResultComponent implements ISubscriber<boolean> {
 
 	/** Result element. */
 	public resultElement: HTMLElement | null = null;
@@ -45,12 +45,12 @@ export class ResultComponent implements ISubscriber<IsWinnerMessage> {
 	 * Update data.
 	 * @param message Display information.
 	 */
-	public update(message: IsWinnerMessage): void {
+	public update(message: boolean): void {
 		if (this.resultElement === null) {
 			return;
 		}
 
-		if (message.isWinner) {
+		if (message) {
 			this.resultElement.classList.add('result-item_winner');
 		}
 	}

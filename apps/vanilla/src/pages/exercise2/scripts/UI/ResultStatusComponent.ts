@@ -1,7 +1,7 @@
-import { ISubscriber, IsActiveMessage } from '../types';
+import { ISubscriber } from '../types';
 
 /** Result status component. */
-export class ResultStatusComponent implements ISubscriber<IsActiveMessage> {
+export class ResultStatusComponent implements ISubscriber<boolean> {
 
 	/** Result's status element. */
 	public resultStatusElement: HTMLElement | null = null;
@@ -17,12 +17,12 @@ export class ResultStatusComponent implements ISubscriber<IsActiveMessage> {
 	 * Update data.
 	 * @param message Display information.
 	 */
-	public update(message: IsActiveMessage): void {
+	public update(message: boolean): void {
 		if (this.resultStatusElement === null) {
 			return;
 		}
 
-		if (message.isActive) {
+		if (message) {
 			this.resultStatusElement.classList.add('result_item__indicator_active');
 		} else {
 			this.resultStatusElement.classList.remove('result_item__indicator_active');

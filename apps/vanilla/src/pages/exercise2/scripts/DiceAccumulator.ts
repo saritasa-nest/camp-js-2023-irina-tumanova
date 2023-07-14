@@ -1,8 +1,7 @@
 import { Publisher } from './Publisher';
-import { ResultsMessage } from './types';
 
 /** Dice accumulator. */
-export class DiceAccumulator extends Publisher<ResultsMessage> {
+export class DiceAccumulator extends Publisher<number[]> {
 
 	/** Turns results. */
 	private results: readonly number[] = [];
@@ -12,9 +11,10 @@ export class DiceAccumulator extends Publisher<ResultsMessage> {
 	 * @param diceResult Dice result.
 	 */
 	public next(diceResult: number): void {
-		this.results = [...this.results, diceResult];
+		const results = [...this.results, diceResult];
+		this.results = results;
 
-		this.notify({ results: this.results });
+		this.notify(results);
 	}
 
 	/** Get results summary. */

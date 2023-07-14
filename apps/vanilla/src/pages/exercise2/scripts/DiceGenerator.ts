@@ -1,9 +1,9 @@
 import { Publisher } from './Publisher';
-import { CurrentTurnOrder, ISubscriber, TurnResult } from './types';
+import { CurrentTurnOrder, ISubscriber, TurnInfo } from './types';
 import { generateRandomNumber } from './utils';
 
 /** Random dice generator. */
-export class DiceGenerator extends Publisher<TurnResult> implements ISubscriber<CurrentTurnOrder> {
+export class DiceGenerator extends Publisher<TurnInfo> implements ISubscriber<CurrentTurnOrder> {
 
 	/**
 	 * Update data.

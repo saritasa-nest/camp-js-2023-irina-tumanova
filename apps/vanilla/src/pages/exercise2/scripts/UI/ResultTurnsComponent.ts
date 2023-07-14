@@ -1,7 +1,7 @@
-import { ISubscriber, ResultsMessage } from '../types';
+import { ISubscriber } from '../types';
 
 /** Result block display class. */
-export class ResultTurnsComponent implements ISubscriber<ResultsMessage> {
+export class ResultTurnsComponent implements ISubscriber<number[]> {
 
 	/** Results's turns container. */
 	public resultsContainer: HTMLElement | null = null;
@@ -32,11 +32,11 @@ export class ResultTurnsComponent implements ISubscriber<ResultsMessage> {
 	 * Update data.
 	 * @param message Display information.
 	 */
-	public update(message: ResultsMessage): void {
+	public update(message: number[]): void {
 		if (this.resultsValueContainer === null) {
 			return;
 		}
 
-		this.resultsValueContainer.textContent = message.results.join('');
+		this.resultsValueContainer.textContent = message.join('');
 	}
 }
