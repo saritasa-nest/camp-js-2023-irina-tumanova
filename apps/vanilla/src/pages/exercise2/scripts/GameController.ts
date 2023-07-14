@@ -21,10 +21,8 @@ export class GameController {
 
 	/** Init game controller. */
 	public init(): void {
-		for (let i = 0; i < players.length; i++) {
-			this.initPlayer({ ...players[i], index: i });
-			this.turnGenerator.playersCount += 1;
-		}
+		players.forEach((player, id) => this.initPlayer({ ...player, id }));
+		this.turnGenerator.playersCount = players.length;
 
 		this.initDiceResults();
 

@@ -8,14 +8,14 @@ export class TurnGeneratorPublisher extends Publisher<TurnOrder> {
 	public playersCount = 0;
 
 	/** Current player's index. */
-	private currentPlayerIndex = 0;
+	private currentPlayerId = 0;
 
 	/** Make a turn. */
 	public turn(): void {
-		const nextPlayerIndex = (this.currentPlayerIndex + 1) % this.playersCount;
+		const nextPlayerId = (this.currentPlayerId + 1) % this.playersCount;
 
-		this.notify({ currentPlayerIndex: this.currentPlayerIndex, nextPlayerIndex });
+		this.notify({ currentPlayerId: this.currentPlayerId, nextPlayerId });
 
-		this.currentPlayerIndex = nextPlayerIndex;
+		this.currentPlayerId = nextPlayerId;
 	}
 }

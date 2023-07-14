@@ -1,6 +1,6 @@
 import { Player } from '../models/Player';
 
-export const players: Omit<Player, 'index'>[] = [
-	{ name: 'Player First' },
-	{ name: 'Player Second' },
+export const players: readonly Player[] = [
+	{ name: 'Player First', id: 0 },
+	{ name: 'Player Second', id: 1 },
 ];

@@ -2,7 +2,7 @@
 export interface Player{
 
 	/** Player's index. */
-	index: number;
+	id: number;
 
 	/** Player's name. */
 	name: string;

@@ -25,11 +25,11 @@ export class PlayerSubscriber implements Subscriber<Turn> {
 	 * @param message Turn information.
 	 */
 	public update(message: Turn): void {
-		if (message.currentPlayerIndex === this.player.index) {
+		if (message.currentPlayerId === this.player.id) {
 			this.results.next(message.dice);
 		}
 
-		this.isActive.notify(message.nextPlayerIndex === this.player.index);
+		this.isActive.notify(message.nextPlayerId === this.player.id);
 		this.isWinner.notify(this.results.getScore() >= WINNING_POINTS);
 	}
 }

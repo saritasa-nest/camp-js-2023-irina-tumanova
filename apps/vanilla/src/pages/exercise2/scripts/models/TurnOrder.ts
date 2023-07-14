@@ -1,9 +1,11 @@
+import { Player } from './Player';
+
 /** Data about who is turn. */
 export interface TurnOrder {
 
 	/** Current player's index. */
-	readonly currentPlayerIndex: number;
+	readonly currentPlayerId: Player['id'];
 
 	/** Next player's index. */
-	readonly nextPlayerIndex: number;
+	readonly nextPlayerId: Player['id'];
 }
