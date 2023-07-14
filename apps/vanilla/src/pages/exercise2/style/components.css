@@ -97,6 +97,7 @@
 .result-item__moves-data {
   letter-spacing: var(--space-s);
   min-height: var(--line-height-m);
+  word-wrap: break-word;
 }
 
 /* Result-item - winner */
