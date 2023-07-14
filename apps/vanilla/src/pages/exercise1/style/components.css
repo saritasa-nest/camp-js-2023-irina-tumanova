@@ -132,12 +132,12 @@
 }
 
 /* It need for solve problem with placeholder in Microsoft Edge, Internet Explorer 10-11 */
-/* stylelint-disable-next-line selector-pseudo-class-no-unknown */
+/* stylelint-disable selector-pseudo-class-no-unknown,  selector-pseudo-element-no-unknown */
 .search-input input:input-placeholder,
-/* stylelint-disable-next-line selector-pseudo-element-no-unknown */
-.search-input input::input-placeholder { /* Microsoft Edge */
+.search-input input::input-placeholder {
   color: var(--on-surface-dim-color);
 }
+/* stylelint-enable */
 
 /* Select */
 .select-wrapper {
@@ -164,16 +164,16 @@
   height: var(--filter-height);
 }
 
-.select-wrapper select:focus,
-.select-wrapper select:hover {
+.select-wrapper .select:focus,
+.select-wrapper .select:hover {
   outline-color: var(--on-surface-color);
 }
 
-.select-wrapper select:focus {
+.select-wrapper .select:focus {
   border-color: var(--on-surface-color);
 }
 
-.select-wrapper select:not(:checked) {
+.select-wrapper .select:invalid {
   color: var(--on-surface-dim-color);
 }
 
