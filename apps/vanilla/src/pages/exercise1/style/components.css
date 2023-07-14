@@ -112,6 +112,22 @@
   border-color: var(--on-surface-color);
 }
 
+/* Chrome, Firefox, Opera, Safari 10.1+ */
+.search-input input::placeholder {
+  color: var(--on-surface-dim-color);
+
+  /* Firefox */
+  opacity: 1;
+}
+
+/* It need for solve problem with placeholder in Microsoft Edge, Internet Explorer 10-11 */
+/* stylelint-disable selector-pseudo-class-no-unknown,  selector-pseudo-element-no-unknown */
+.search-input input:input-placeholder,
+.search-input input::input-placeholder {
+  color: var(--on-surface-dim-color);
+}
+/* stylelint-enable */
+
 /* Select */
 .select-wrapper {
   position: relative;
