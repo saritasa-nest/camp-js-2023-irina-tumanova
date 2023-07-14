@@ -1,8 +1,8 @@
 import { Publisher } from './Publisher';
-import { CurrentTurnOrder } from './types';
+import { TurnOrder } from './models/TurnOrder';
 
 /** Next turn generator. */
-export class TurnGenerator extends Publisher<CurrentTurnOrder> {
+export class TurnGeneratorPublisher extends Publisher<TurnOrder> {
 
 	/** Players count. */
 	public playersCount = 0;

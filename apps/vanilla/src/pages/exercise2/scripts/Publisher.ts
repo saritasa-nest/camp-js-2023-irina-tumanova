@@ -1,16 +1,16 @@
-import { ISubscriber } from './types';
+import { Subscriber } from './models/Subscriber';
 
 /** Publisher. */
 export class Publisher<T> {
 
 	/** Subscribers. */
-	private subscribers: Set<ISubscriber<T>> = new Set();
+	private subscribers: Set<Subscriber<T>> = new Set();
 
 	/**
 	 * Subscribe of changes..
 	 * @param subscriber Added subscriber.
 	 */
-	public subscribe(subscriber: ISubscriber<T>): void {
+	public subscribe(subscriber: Subscriber<T>): void {
 		this.subscribers.add(subscriber);
 	}
 
@@ -18,7 +18,7 @@ export class Publisher<T> {
 	 * Unsubscribe of changes.
 	 * @param subscriber Deleted subscriber.
 	 */
-	public unsubscribe(subscriber: ISubscriber<T>): void {
+	public unsubscribe(subscriber: Subscriber<T>): void {
 		this.subscribers.delete(subscriber);
 	}
 

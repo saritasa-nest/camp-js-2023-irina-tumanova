@@ -1,7 +1,7 @@
 import { Publisher } from './Publisher';
 
 /** Dice accumulator. */
-export class DiceAccumulator extends Publisher<number[]> {
+export class DiceAccumulatorPublisher extends Publisher<number[]> {
 
 	/** Turns results. */
 	private results: readonly number[] = [];

@@ -1,55 +1,43 @@
-import { DiceGenerator } from './DiceGenerator';
-import { TurnGenerator } from './TurnGenerator';
-import { DiceResults } from './DiceResults';
-import { Player } from './Player';
-import { ResultInfoComponent } from './UI/ResultInfoComponent';
-import { ResultStatusComponent } from './UI/ResultStatusComponent';
-import { ResultTurnsComponent } from './UI/ResultTurnsComponent';
-import { ResultComponent } from './UI/ResultComponent';
+import { DiceGeneratorObserver } from './DiceGeneratorObserver';
+import { TurnGeneratorPublisher } from './TurnGeneratorPublisher';
+import { DiceResultsSubscriber } from './DiceResultsSubscriber';
+import { PlayerSubscriber } from './PlayerSubscriber';
+import { ResultInfoComponent } from './ui/ResultInfoComponent';
+import { ResultStatusComponent } from './ui/ResultStatusComponent';
+import { ResultTurnsComponent } from './ui/ResultTurnsComponent';
+import { ResultComponent } from './ui/ResultComponent';
+import { players } from './data/players';
+import { Player } from './models/Player';
 
 /** Game controller. */
 export class GameController {
 
 	/** Turn generator. */
-	private readonly turnGenerator: TurnGenerator;
+	private readonly turnGenerator = new TurnGeneratorPublisher();
 
 	/** Dice generator. */
-	private readonly diceGenerator: DiceGenerator;
-
-	/** Players count. */
-	private playersCount = 0;
-
-	public constructor() {
-		this.turnGenerator = new TurnGenerator();
-		this.diceGenerator = new DiceGenerator();
-	}
+	private readonly diceGenerator = new DiceGeneratorObserver();
 
 	/** Init game controller. */
 	public init(): void {
-		const playerFirst = this.initPlayer('Player First', 0);
-		const playerSecond = this.initPlayer('Player Second', 1);
-		const diceResults = this.initDiceResults();
+		for (let i = 0; i < players.length; i++) {
+			this.initPlayer({ ...players[i], index: i });
+			this.turnGenerator.playersCount += 1;
+		}
 
-		this.diceGenerator.subscribe(diceResults);
-		this.diceGenerator.subscribe(playerFirst);
-		this.diceGenerator.subscribe(playerSecond);
+		this.initDiceResults();
 
 		this.turnGenerator.subscribe(this.diceGenerator);
-
-		this.playersCount = 2;
-		this.turnGenerator.playersCount = this.playersCount;
-
 		this.listenTurn();
 	}
 
 	/**
 	 * Init player.
-	 * @param name Player's name.
-	 * @param index Players's index.
+	 * @param info Info about player.
 	 */
-	private initPlayer(name: string, index: number): Player {
+	private initPlayer(info: Player): void {
 		const resultInfoComponent = new ResultInfoComponent();
-		resultInfoComponent.render(name);
+		resultInfoComponent.render(info.name);
 		const resultStatusComponent = new ResultStatusComponent();
 		resultStatusComponent.render();
 		const resultsComponent = new ResultTurnsComponent();
@@ -61,17 +49,17 @@ export class GameController {
 			resultTurns: resultsComponent.resultsContainer,
 		});
 
-		const playerFirst = new Player(index);
-		playerFirst.results.subscribe(resultInfoComponent);
-		playerFirst.results.subscribe(resultsComponent);
-		playerFirst.isActive.subscribe(resultStatusComponent);
-		playerFirst.isWinner.subscribe(resultRootComponent);
+		const player = new PlayerSubscriber(info);
+		player.results.subscribe(resultInfoComponent);
+		player.results.subscribe(resultsComponent);
+		player.isActive.subscribe(resultStatusComponent);
+		player.isWinner.subscribe(resultRootComponent);
 
-		return playerFirst;
+		this.diceGenerator.subscribe(player);
 	}
 
 	/** Init dice result. */
-	private initDiceResults(): DiceResults {
+	private initDiceResults(): void {
 		const resultInfoComponent = new ResultInfoComponent();
 		resultInfoComponent.render('Dice');
 		const resultTurnsComponent = new ResultTurnsComponent();
@@ -84,11 +72,11 @@ export class GameController {
 			className: 'game-result',
 		});
 
-		const diceResults = new DiceResults();
+		const diceResults = new DiceResultsSubscriber();
 		diceResults.results.subscribe(resultInfoComponent);
 		diceResults.results.subscribe(resultTurnsComponent);
 
-		return diceResults;
+		this.diceGenerator.subscribe(diceResults);
 	}
 
 	/** Add a click listener on the turn button. */

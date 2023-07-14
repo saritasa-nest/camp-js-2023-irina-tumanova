@@ -1,9 +1,9 @@
-import { ISubscriber } from '../types';
+import { Subscriber } from '../models/Subscriber';
 
 import { ResultComponentProps } from './types';
 
 /** Result component. */
-export class ResultComponent implements ISubscriber<boolean> {
+export class ResultComponent implements Subscriber<boolean> {
 
 	/** Result element. */
 	public resultElement: HTMLElement | null = null;

@@ -1,7 +1,7 @@
-import { ISubscriber } from '../types';
+import { Subscriber } from '../models/Subscriber';
 
 /** Result status component. */
-export class ResultStatusComponent implements ISubscriber<boolean> {
+export class ResultStatusComponent implements Subscriber<boolean> {
 
 	/** Result's status element. */
 	public resultStatusElement: HTMLElement | null = null;

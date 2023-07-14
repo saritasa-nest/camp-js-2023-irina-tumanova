@@ -1,7 +1,7 @@
-import { ISubscriber } from '../types';
+import { Subscriber } from '../models/Subscriber';
 
 /** Result info component. */
-export class ResultInfoComponent implements ISubscriber<number[]> {
+export class ResultInfoComponent implements Subscriber<number[]> {
 
 	/** Result's turns element. */
 	public resultInfoElement: HTMLElement | null = null;

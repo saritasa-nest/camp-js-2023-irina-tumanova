@@ -1,7 +1,7 @@
-import { ISubscriber } from '../types';
+import { Subscriber } from '../models/Subscriber';
 
 /** Result block display class. */
-export class ResultTurnsComponent implements ISubscriber<number[]> {
+export class ResultTurnsComponent implements Subscriber<number[]> {
 
 	/** Results's turns container. */
 	public resultsContainer: HTMLElement | null = null;
