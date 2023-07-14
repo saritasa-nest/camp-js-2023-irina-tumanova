@@ -30,13 +30,13 @@ export class ResultTurnsComponent implements Subscriber<number[]> {
 
 	/**
 	 * Update data.
-	 * @param message Turns results.
+	 * @param results Turns results.
 	 */
-	public update(message: number[]): void {
+	public update(results: number[]): void {
 		if (this.resultsValueContainer === null) {
 			return;
 		}
 
-		this.resultsValueContainer.textContent = message.join('');
+		this.resultsValueContainer.textContent = results.join('');
 	}
 }

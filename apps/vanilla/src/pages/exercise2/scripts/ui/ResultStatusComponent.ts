@@ -15,14 +15,14 @@ export class ResultStatusComponent implements Subscriber<boolean> {
 
 	/**
 	 * Update data.
-	 * @param message Is active player result.
+	 * @param isActive Is active player result.
 	 */
-	public update(message: boolean): void {
+	public update(isActive: boolean): void {
 		if (this.resultStatusElement === null) {
 			return;
 		}
 
-		if (message) {
+		if (isActive) {
 			this.resultStatusElement.classList.add('result_item__indicator_active');
 		} else {
 			this.resultStatusElement.classList.remove('result_item__indicator_active');

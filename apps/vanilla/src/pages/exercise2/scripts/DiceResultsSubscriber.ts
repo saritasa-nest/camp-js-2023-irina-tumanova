@@ -10,9 +10,9 @@ export class DiceResultsSubscriber implements Subscriber<Turn> {
 
 	/**
 	 * Update data.
-	 * @param message Turn information.
+	 * @param turn Turn information.
 	 */
-	public update(message: Turn): void {
-		this.results.next(message.dice);
+	public update(turn: Turn): void {
+		this.results.next(turn.dice);
 	}
 }

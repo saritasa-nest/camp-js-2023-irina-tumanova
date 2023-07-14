@@ -43,14 +43,14 @@ export class ResultComponent implements Subscriber<boolean> {
 
 	/**
 	 * Update data.
-	 * @param message Is winner result.
+	 * @param isWinner Is winner result.
 	 */
-	public update(message: boolean): void {
+	public update(isWinner: boolean): void {
 		if (this.resultElement === null) {
 			return;
 		}
 
-		if (message) {
+		if (isWinner) {
 			this.resultElement.classList.add('result-item_winner');
 		}
 	}

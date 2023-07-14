@@ -9,9 +9,9 @@ export class DiceGeneratorObserver extends Publisher<Turn> implements Subscriber
 
 	/**
 	 * Update data.
-	 * @param message Player information.
+	 * @param turnOrder Player information.
 	 */
-	public update(message: TurnOrder): void {
-		this.notify({ ...message, dice: generateRandomNumber(1, 6) });
+	public update(turnOrder: TurnOrder): void {
+		this.notify({ ...turnOrder, dice: generateRandomNumber(1, 6) });
 	}
 }

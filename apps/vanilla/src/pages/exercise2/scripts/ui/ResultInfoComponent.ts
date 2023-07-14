@@ -34,13 +34,13 @@ export class ResultInfoComponent implements Subscriber<number[]> {
 
 	/**
 	 * Update data.
-	 * @param message Turns results.
+	 * @param results Turns results.
 	 */
-	public update(message: number[]): void {
+	public update(results: number[]): void {
 		if (this.resultScoreElement === null) {
 			return;
 		}
 
-		this.resultScoreElement.textContent = `${message.reduce((prev, next) => prev + next, 0)} points`;
+		this.resultScoreElement.textContent = `${results.reduce((prev, next) => prev + next, 0)} points`;
 	}
 }
