@@ -61,6 +61,7 @@ export class GameController {
 	 * Create result element.
 	 * @param name Score name.
 	 * @param className REsult component class name.
+	 * @returns Returns component objects for subsequent subscription to data changes.
 	 */
 	private createResultComponents(name: string, className?: string): ResultComponents {
 		const resultInfoComponent = new ResultInfoComponent();
