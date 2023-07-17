@@ -7,15 +7,21 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/angular",
         "index": "apps/angular/src/index.html",
         "main": "apps/angular/src/main.ts",
         "polyfills": "apps/angular/src/polyfills.ts",
         "tsConfig": "apps/angular/tsconfig.app.json",
-        "assets": ["apps/angular/src/favicon.ico", "apps/angular/src/assets"],
+        "assets": [
+          "apps/angular/src/favicon.ico",
+          "apps/angular/src/assets"
+        ],
         "styles": [
+          "@angular/material/prebuilt-themes/pink-bluegrey.css",
           "apps/angular/src/theme/styles.css",
           "libs/theme/src/index.css"
         ],
@@ -75,14 +81,21 @@
     "lint": {
       "executor": "@nx/linter:eslint",
       "options": {
-        "lintFilePatterns": ["apps/angular/**/*.ts", "apps/angular/**/*.html"]
+        "lintFilePatterns": [
+          "apps/angular/**/*.ts",
+          "apps/angular/**/*.html"
+        ]
       }
     },
     "stylelint": {
       "executor": "nx-stylelint:lint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["apps/angular/**/*.css"]
+        "lintFilePatterns": [
+          "apps/angular/**/*.css"
+        ]
       }
     }
   },
