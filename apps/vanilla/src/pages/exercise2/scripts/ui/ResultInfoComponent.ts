@@ -12,7 +12,7 @@ export class ResultInfoComponent implements Subscriber<number[]> {
 	/**
 	 * Render component.
 	 * @param name Name of a score.
-	 * */
+	 */
 	public render(name: string): void {
 		const resultName = document.createElement('p');
 		resultName.className = 'result-item__player-name typography-subtitle';

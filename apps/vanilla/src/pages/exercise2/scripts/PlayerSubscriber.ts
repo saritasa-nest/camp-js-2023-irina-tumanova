@@ -5,7 +5,7 @@ import { Turn } from './models/Turn';
 import { Player } from './models/Player';
 import { Subscriber } from './models/Subscriber';
 
-/** Player's status. */
+/** Player's game status. */
 export class PlayerSubscriber implements Subscriber<Turn> {
 
 	/** Dice's results. */

@@ -14,7 +14,7 @@ export class ResultComponent implements Subscriber<boolean> {
 	 * @param resultIndicator Component result activity indicator.
 	 * @param resultTurns Component result turns values.
 	 * @param className Component class name.
-	 * */
+	 */
 	public render({ resultInfo, resultStatus, resultTurns, className }: ResultComponentProps): void {
 		const parentContainerHtml = document.querySelector('.blackjack__results');
 

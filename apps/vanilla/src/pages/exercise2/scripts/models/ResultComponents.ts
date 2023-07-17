@@ -5,8 +5,9 @@ import { ResultTurnsComponent } from '../ui/ResultTurnsComponent';
 
 /**
  * Links to ui result's components.
- * This is needed for the component creation method that returns
- * component references for further processing.
+ *
+ * This is needed for the component creation method
+ * that returns component references for further processing.
  */
 export interface ResultComponents {
 
