@@ -4,10 +4,10 @@ import { Subscriber } from '../models/Subscriber';
 export class ResultTurnsComponent implements Subscriber<number[]> {
 
 	/** Results's turns container. */
-	public resultsContainer: HTMLElement | null = null;
+	public resultTurnsElement: HTMLElement | null = null;
 
 	/** Result's turns values container. */
-	public resultsValueContainer: HTMLElement | null = null;
+	public resultTurnsDataElement: HTMLElement | null = null;
 
 	/** Render component. */
 	public render(): void {
@@ -24,8 +24,8 @@ export class ResultTurnsComponent implements Subscriber<number[]> {
 		resultTurns.appendChild(resultTurnsTitle);
 		resultTurns.appendChild(resultTurnsData);
 
-		this.resultsContainer = resultTurns;
-		this.resultsValueContainer = resultTurnsData;
+		this.resultTurnsElement = resultTurns;
+		this.resultTurnsDataElement = resultTurnsData;
 	}
 
 	/**
@@ -33,10 +33,10 @@ export class ResultTurnsComponent implements Subscriber<number[]> {
 	 * @param results Turns results.
 	 */
 	public update(results: number[]): void {
-		if (this.resultsValueContainer === null) {
+		if (this.resultTurnsDataElement === null) {
 			return;
 		}
 
-		this.resultsValueContainer.textContent = results.join('');
+		this.resultTurnsDataElement.textContent = results.join('');
 	}
 }

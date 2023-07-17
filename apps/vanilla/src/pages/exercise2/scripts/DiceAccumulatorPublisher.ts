@@ -17,7 +17,7 @@ export class DiceAccumulatorPublisher extends Publisher<number[]> {
 		this.notify(results);
 	}
 
-	/** Get results summary. */
+	/** Get score. */
 	public getScore(): number {
 		return this.results.reduce((prev, next) => prev + next, 0);
 	}

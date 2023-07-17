@@ -74,7 +74,7 @@ export class GameController {
 		resultComponent.render({
 			resultInfo: resultInfoComponent.resultInfoElement,
 			resultStatus: resultStatusComponent.resultStatusElement,
-			resultTurns: resultTurnsComponent.resultsContainer,
+			resultTurns: resultTurnsComponent.resultTurnsElement,
 			className,
 		});
 

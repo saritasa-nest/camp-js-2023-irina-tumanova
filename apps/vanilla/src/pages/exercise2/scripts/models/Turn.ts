@@ -1,6 +1,6 @@
 import { TurnOrder } from './TurnOrder';
 
-/** Data about a turn. */
+/** Full turn data: turn order and number on the dice. */
 export interface Turn extends TurnOrder {
 
 	/** Number on the dice. */

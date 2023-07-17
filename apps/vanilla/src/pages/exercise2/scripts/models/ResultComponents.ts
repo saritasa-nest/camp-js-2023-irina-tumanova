@@ -3,10 +3,14 @@ import { ResultInfoComponent } from '../ui/ResultInfoComponent';
 import { ResultStatusComponent } from '../ui/ResultStatusComponent';
 import { ResultTurnsComponent } from '../ui/ResultTurnsComponent';
 
-/** Result root component's props. */
+/**
+ * Links to ui result's components.
+ * This is needed for the component creation method that returns
+ * component references for further processing.
+ */
 export interface ResultComponents {
 
-	/** Result info component component. */
+	/** Result info component. */
 	readonly resultInfoComponent: ResultInfoComponent;
 
 	/** Result activity status component. */
