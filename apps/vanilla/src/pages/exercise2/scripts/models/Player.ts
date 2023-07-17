@@ -1,5 +1,5 @@
 /** Info about player. */
-export interface Player{
+export interface Player {
 
 	/** Player's index. */
 	id: number;
