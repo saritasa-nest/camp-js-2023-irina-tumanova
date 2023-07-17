@@ -1,0 +1,157 @@
+/***** TEXT *****/
+
+.typography-title {
+  color: var(--on-surface-color);
+  font-size: var(--font-size-xl);
+  font-family: "Abril Fatface", cursive;
+}
+
+.typography-body {
+  color: var(--on-primary-color);
+  font-size: var(--font-size-m);
+  line-height: var(--line-height-m);
+}
+
+.typography-subtitle {
+  color: var(--on-surface-color);
+  font-size: var(--font-size-s);
+  font-family: "Abril Fatface", cursive;
+  line-height: var(--line-height-s);
+}
+
+.blackjack {
+  padding: var(--space-l) max(calc(50vw - 500px), var(--space-l));
+  background-color: var(--surface-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.blackjack__description {
+  color: var(--on-surface-color);
+  text-align: center;
+}
+
+.blackjack__turn-button {
+  border: none;
+  outline: none;
+  padding: var(--space-m) var(--space-l);
+  border-radius: var(--border-radius-s);
+  background-color: var(--primary-color);
+  box-shadow: 0 5px 10px var(--primary-color);
+  margin: var(--space-xl) 0;
+}
+
+.blackjack__turn-button:hover {
+  background-color: var(--primary-hover-color);
+}
+
+.blackjack__results {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: var(--space-m);
+  width: 100%;
+}
+
+/***** RESULT ITEM *****/
+.result-item {
+  width: 100%;
+  background-color: var(--surface-overlay-color);
+  border-radius: var(--border-radius-m);
+  padding: var(--space-m);
+  display: grid;
+  grid-template-columns: 1fr var(--indicator-size);
+  grid-gap: var(--space-xl) var(--space-m);
+}
+
+.result-item__player-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+}
+
+.result-item__player-points {
+  --points-font-size: calc(var(--font-size-m) * 1.25);
+
+  font-size: var(--points-font-size);
+  line-height: calc(var(--points-font-size) * var(--line-height-coefficient));
+  color: var(--on-primary-color);
+}
+
+.result_item__indicator {
+  width: var(--indicator-size);
+  height: var(--indicator-size);
+  border-radius: 100%;
+  background-color: var(--on-surface-color);
+}
+
+.result_item__indicator_active {
+  background-color: var(--accent-color);
+  box-shadow: 0 0 10px var(--accent-color);
+}
+
+.result-item__moves {
+  grid-column: 1/3;
+}
+
+.result-item__moves-data {
+  letter-spacing: var(--space-s);
+  min-height: var(--line-height-m);
+  word-wrap: break-word;
+}
+
+/* Result-item - winner */
+.result-item_winner {
+  background-color: var(--accent-color);
+  box-shadow: 0 0 10px var(--accent-color);
+}
+
+.result-item_winner .result_item__indicator {
+  background-color: var(--accent-color);
+}
+
+.result-item_winner .result-item__player-name,
+.result-item_winner .result_item__moves-subtitle {
+  color: var(--surface-overlay-color);
+}
+
+.result-item_winner .result-item__player-points,
+.result-item_winner .result-item__moves-data {
+  color: var(--surface-color);
+}
+
+/* Result item - total dices */
+
+.result-items_total-dices {
+  display: flex;
+  grid-column: 1/3;
+  grid-gap: var(--space-m);
+  flex-direction: column;
+}
+
+.result-items_total-dices .result-item__player-info {
+  flex-direction: row;
+  align-items: center;
+}
+
+.result-items_total-dices .result-item__player-points {
+  font-size: var(--font-size-m);
+}
+
+.result-items_total-dices .result_item__indicator {
+  display: none;
+}
+
+.result-items_total-dices .result_item__moves-subtitle {
+  display: none;
+}
+
+@media (max-width: 1000px) {
+  .blackjack__results {
+    grid-template-columns: 1fr;
+  }
+
+  .result-item.game-result {
+    grid-column: 1;
+  }
+}

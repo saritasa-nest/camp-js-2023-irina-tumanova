@@ -23,6 +23,7 @@ export default defineConfig({
 				resolve(root, 'index.html'),
 				resolve(root, 'example', 'index.html'),
 				resolve(root, 'exercise1', 'index.html'),
+				resolve(root, 'exercise2', 'index.html'),
 				resolve(root, 'example', 'nested', 'index.html'),
 			],
 		},

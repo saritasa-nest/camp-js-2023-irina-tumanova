@@ -1,0 +1,36 @@
+:root {
+  /* Font size */
+  --font-size-xl: 40px;
+  --font-size-l: 25px;
+  --font-size-m: 20px;
+  --font-size-s: 18px;
+
+  /* Line height */
+  --line-height-coefficient: 1.25;
+  --line-height-m: calc(var(--font-size-m) * var(--line-height-coefficient));
+  --line-height-s: calc(var(--font-size-s) * var(--line-height-coefficient));
+
+  /* Colors */
+  --primary-color: #a279d7;
+  --primary-hover-color: #8c49e1;
+  --on-primary-color: #fff;
+  --accent-color: #79d7cb;
+  --on-accent-color: #fff;
+  --surface-color: #141322;
+  --surface-overlay-color: #5d5c7e;
+  --on-surface-color: #abaabc;
+  --border-color: hsl(0deg 0% 0% / 15%);
+
+  /* Border radius */
+  --border-radius-m: 16px;
+  --border-radius-s: 4px;
+
+  /* Spaces */
+  --space-xl: 48px;
+  --space-l: 32px;
+  --space-m: 16px;
+  --space-s: 8px;
+
+  /* Other */
+  --indicator-size: 48px;
+}

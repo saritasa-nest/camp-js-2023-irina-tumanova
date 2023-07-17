@@ -1,0 +1,11 @@
+html {
+  font-size: var(--body-font-size);
+  font-family: "Open Sans", system-ui, sans-serif;
+  scroll-behavior: smooth;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
