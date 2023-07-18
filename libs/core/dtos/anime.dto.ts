@@ -1,4 +1,4 @@
-import { DateRangeDto } from './dateRangeDto';
+import { DateRangeDto } from './date-range.dto';
 
 /** Anime data dto. */
 export interface AnimeDto {
@@ -25,10 +25,10 @@ export interface AnimeDto {
 	readonly aired: DateRangeDto;
 
 	/** Anime type. */
-	readonly type: AnimeTypeDto;
+	readonly type: AnimeType;
 
 	/** Anime status. */
-	readonly status: AnimeStatusDto;
+	readonly status: AnimeStatus;
 
 	/** Anime score. */
 	readonly score: number | null;
@@ -38,7 +38,7 @@ export interface AnimeDto {
 }
 
 /** Anime type dto. */
-export enum AnimeTypeDto {
+export enum AnimeType {
 	TV = 'TV',
 	OVA = 'OVA',
 	Movie = 'MOVIE',
@@ -49,7 +49,7 @@ export enum AnimeTypeDto {
 }
 
 /** Anime status dto. */
-export enum AnimeStatusDto {
+export enum AnimeStatus {
 	Airing = 'AIRING',
 	Finished = 'FINISHED',
 	NotYetAired = 'NOT_YET_AIRED',

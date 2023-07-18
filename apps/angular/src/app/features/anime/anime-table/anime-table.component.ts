@@ -2,16 +2,18 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Anime } from '@js-camp/core/models/anime';
-import { AnimeQueryParams, AnimeSortDirection, AnimeSortField } from '@js-camp/core/models/anime-query-params';
-import { Pagination } from '@js-camp/core/models/pagination.dto';
+import { AnimeSortField, GetAnimeParams } from '@js-camp/core/models/get-anime-params';
+import { Pagination } from '@js-camp/core/models/pagination';
 import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, shareReplay } from 'rxjs';
 
-const defaultParams: AnimeQueryParams = {
+const defaultParams: GetAnimeParams = {
 	limit: 10,
 	page: 0,
-	sorting: { field: AnimeSortField.None, direction: AnimeSortDirection.Asc },
-	type: [],
-	search: '',
+	sorting: { field: AnimeSortField.None, direction: 'asc' },
+	filters: {
+		type: [],
+		search: '',
+	},
 };
 
 /** Anime table component. */
@@ -33,7 +35,7 @@ export class AnimeTableComponent {
 	public readonly isLoading$ = new BehaviorSubject<boolean>(false);
 
 	/** Anime query parameters. */
-	private readonly params$: Observable<AnimeQueryParams>;
+	private readonly params$: Observable<GetAnimeParams>;
 
 	/** Current table page data. */
 	private readonly pagination$: Observable<Pagination<Anime>>;
@@ -54,12 +56,14 @@ export class AnimeTableComponent {
 		this.params$ = this.page$.pipe(
 			debounceTime(500),
 			map(page => {
-				const params: AnimeQueryParams = {
+				const params: GetAnimeParams = {
 					limit: this.limit,
 					page,
 					sorting: defaultParams.sorting,
-					type: defaultParams.type,
-					search: defaultParams.search,
+					filters: {
+						type: defaultParams.filters.type,
+						search: defaultParams.filters.search,
+					},
 				};
 
 				return params;

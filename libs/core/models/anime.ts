@@ -1,4 +1,6 @@
-import { DateRange } from './dateRange';
+import { AnimeStatus, AnimeType } from '../dtos/anime.dto';
+
+import { DateRange } from './date-range';
 
 /** Anime data. */
 export interface Anime {
@@ -35,22 +37,4 @@ export interface Anime {
 
 	/** Anime user score. */
 	readonly userScore: number | null;
-}
-
-/** Anime type. */
-export enum AnimeType {
-	TV = 'TV',
-	OVA = 'OVA',
-	Movie = 'Movie',
-	Special = 'Special',
-	ONA = 'ONA',
-	Music = 'Music',
-	Unknown = 'Unknown',
-}
-
-/** Anime status. */
-export enum AnimeStatus {
-	Airing = 'Airing',
-	Finished = 'Finished',
-	NotYetAired = 'Not yet aired',
 }

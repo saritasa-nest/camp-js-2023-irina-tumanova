@@ -1,25 +1,7 @@
-import { AnimeDto, AnimeStatusDto, AnimeTypeDto } from '../dtos/anime.dto';
-import { Anime, AnimeStatus, AnimeType } from '../models/anime';
+import { AnimeDto } from '../dtos/anime.dto';
+import { Anime } from '../models/anime';
 
-import { DateRangeMapper } from './dateRange.mapper';
-
-/** Anime type transformation object in model. */
-export const ANIME_TYPE_FROM_DTO = {
-	[AnimeTypeDto.TV]: AnimeType.TV,
-	[AnimeTypeDto.OVA]: AnimeType.OVA,
-	[AnimeTypeDto.Movie]: AnimeType.Movie,
-	[AnimeTypeDto.Special]: AnimeType.Special,
-	[AnimeTypeDto.ONA]: AnimeType.ONA,
-	[AnimeTypeDto.Music]: AnimeType.Music,
-	[AnimeTypeDto.Unknown]: AnimeType.Unknown,
-};
-
-/** Anime type transformation object in dto. */
-export const ANIME_STATUS_FROM_DTO = {
-	[AnimeStatusDto.Airing]: AnimeStatus.Airing,
-	[AnimeStatusDto.Finished]: AnimeStatus.Finished,
-	[AnimeStatusDto.NotYetAired]: AnimeStatus.NotYetAired,
-};
+import { DateRangeMapper } from './date-range.mapper';
 
 export namespace AnimeMapper {
 
@@ -36,8 +18,8 @@ export namespace AnimeMapper {
 			titleJpn: dto.title_jpn,
 			image: dto.image,
 			aired: DateRangeMapper.fromDto(dto.aired),
-			type: ANIME_TYPE_FROM_DTO[dto.type],
-			status: ANIME_STATUS_FROM_DTO[dto.status],
+			type: dto.type,
+			status: dto.status,
 			score: dto.score,
 			userScore: dto.user_score,
 		};
