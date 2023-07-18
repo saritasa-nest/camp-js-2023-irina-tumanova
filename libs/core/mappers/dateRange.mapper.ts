@@ -5,7 +5,7 @@ export namespace DateRangeMapper {
 
 	/**
 	 * Maps dto to model.
-	 * @param dto Genre dto.
+	 * @param dto Date range dto.
 	 */
 	export function fromDto(dto: DateRangeDto): DateRange {
 		return {

@@ -1,19 +1,20 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { AnimeService } from '@js-camp/angular/core/services/anime-service.service';
 import { Anime } from '@js-camp/core/models/anime';
-import { AnimeQueryParams, AnimeSort, AnimeSortField } from '@js-camp/core/models/anime-query-params';
+import { AnimeQueryParams, AnimeSort, AnimeSortDirection, AnimeSortField } from '@js-camp/core/models/anime-query-params';
 import { Pagination } from '@js-camp/core/models/pagination.dto';
 import { BehaviorSubject, Observable, tap, map, combineLatestWith, debounceTime, switchMap, shareReplay } from 'rxjs';
 
 const defaultParams: AnimeQueryParams = {
 	limit: 10,
 	page: 0,
-	sort: { field: AnimeSortField.None, direction: '' },
+	sort: { field: AnimeSortField.None, direction: AnimeSortDirection.Asc },
 	type: [],
 	search: '',
 };
 
+/** Anime table component. */
 @Component({
 	selector: 'camp-anime-table',
 	templateUrl: './anime-table.component.html',
@@ -22,38 +23,45 @@ const defaultParams: AnimeQueryParams = {
 })
 export class AnimeTableComponent {
 
+	/** Columns in a table. */
 	public readonly displayedColumns = ['image', 'titleEng', 'titleJpn', 'aired.start', 'type', 'status'];
 
+	/** Anime list. */
 	public readonly animeList$: Observable<readonly Anime[]>;
 
+	/** Anime is loading. */
 	public readonly isLoading$ = new BehaviorSubject<boolean>(false);
 
-	public readonly params$: Observable<AnimeQueryParams>;
+	/** Anime query parameters. */
+	private readonly params$: Observable<AnimeQueryParams>;
 
+	/** Current table page. */
 	public readonly currentPage$ = new BehaviorSubject<number>(defaultParams.page);
 
-	public readonly pageSize$ = new BehaviorSubject<number>(defaultParams.limit);
+	/** Number of elements per page. */
+	public limit = defaultParams.limit;
 
-	public currentPageSize = defaultParams.limit;
+	/** Sorting: sort field and direction. */
+	private readonly sort$ = new BehaviorSubject<AnimeSort>(defaultParams.sort);
 
-	public readonly sort$ = new BehaviorSubject<AnimeSort>(defaultParams.sort);
+	/** Current table page data. */
+	private readonly currentPagination$: Observable<Pagination<Anime>>;
 
-	public readonly currentPagination$: Observable<Pagination<Anime>>;
+	/** Total number of anime. */
+	public readonly animeTotalCount$: Observable<number>;
 
-	public readonly count$: Observable<number>;
-
-	// @ViewChild(MatPaginator) public paginator: MatPaginator;
-
+	/**
+	 * @param animeService Anime request service.
+	 */
 	public constructor(public readonly animeService: AnimeService) {
 		this.params$ = this.currentPage$.pipe(
 			combineLatestWith(
 				this.sort$,
-				this.pageSize$,
 			),
 			debounceTime(500),
-			map(([page, sort, pageSize]) => {
+			map(([page, sort]) => {
 				const params: AnimeQueryParams = {
-					limit: pageSize,
+					limit: this.limit,
 					page,
 					sort,
 					type: defaultParams.type,
@@ -75,19 +83,17 @@ export class AnimeTableComponent {
 			map(({ results }) => results),
 		);
 
-		this.count$ = this.currentPagination$.pipe(
+		this.animeTotalCount$ = this.currentPagination$.pipe(
 			map(({ count }) => count),
 		);
 	}
 
-	public handlePageEvent(event: PageEvent) {
-		this.currentPage$.next(this.currentPageSize === event.pageSize ? event.pageIndex : 0);
-		this.pageSize$.next(event.pageSize);
-
-		this.currentPageSize = event.pageSize;
-
-		/* this.length = event.length;
-		this.pageSize = event.pageSize;
-		this.pageIndex = event.pageIndex;*/
-	  }
+	/**
+	 * Change paginator data.
+	 * @param event Page event.
+	 */
+	public handlePageEvent(event: PageEvent): void {
+		this.currentPage$.next(this.limit === event.pageSize ? event.pageIndex : 0);
+		this.limit = event.pageSize;
+	}
 }

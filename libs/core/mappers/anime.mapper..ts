@@ -3,6 +3,7 @@ import { Anime, AnimeStatus, AnimeType } from '../models/anime';
 
 import { DateRangeMapper } from './dateRange.mapper';
 
+/** Anime type transformation object in model. */
 export const ANIME_TYPE_FROM_DTO = {
 	[AnimeTypeDto.TV]: AnimeType.TV,
 	[AnimeTypeDto.OVA]: AnimeType.OVA,
@@ -13,6 +14,7 @@ export const ANIME_TYPE_FROM_DTO = {
 	[AnimeType.Unknown]: AnimeType.Unknown,
 };
 
+/** Anime type transformation object in dto. */
 export const ANIME_TYPE_TO_DTO = {
 	[AnimeType.TV]: AnimeTypeDto.TV,
 	[AnimeType.OVA]: AnimeTypeDto.OVA,
@@ -23,6 +25,7 @@ export const ANIME_TYPE_TO_DTO = {
 	[AnimeType.Unknown]: AnimeTypeDto.Unknown,
 };
 
+/** Anime type transformation object in dto. */
 export const ANIME_STATUS_FROM_DTO = {
 	[AnimeStatusDto.Airing]: AnimeStatus.Airing,
 	[AnimeStatusDto.Finished]: AnimeStatus.Finished,
@@ -33,7 +36,7 @@ export namespace AnimeMapper {
 
 	/**
 	 * Maps dto to model.
-	 * @param dto Genre dto.
+	 * @param dto Anime dto.
 	 */
 	export function fromDto(dto: AnimeDto): Anime {
 		return {

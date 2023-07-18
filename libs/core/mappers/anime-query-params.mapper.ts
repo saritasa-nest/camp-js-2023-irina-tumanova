@@ -20,6 +20,7 @@ export namespace AnimeQueryParamsMapper {
 	}
 }
 
+/** Anime sort field transformation object in dto. */
 const ANIME_SORT_FIELD_TO_DTO = {
 	[AnimeSortField.TitleEng]: AnimeSortFieldDto.TitleEng,
 	[AnimeSortField.TitleJpn]: AnimeSortFieldDto.TitleJpn,
