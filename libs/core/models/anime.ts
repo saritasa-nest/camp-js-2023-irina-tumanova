@@ -45,7 +45,7 @@ export enum AnimeType {
 	Special = 'Special',
 	ONA = 'ONA',
 	Music = 'Music',
-	Unknown = 'UNKNOWN',
+	Unknown = 'Unknown',
 }
 
 /** Anime status. */

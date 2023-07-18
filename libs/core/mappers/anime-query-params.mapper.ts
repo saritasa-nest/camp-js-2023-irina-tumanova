@@ -3,6 +3,15 @@ import { AnimeQueryParams, AnimeSortField } from '../models/anime-query-params';
 
 import { ANIME_TYPE_TO_DTO } from './anime.mapper.';
 
+/** Anime sort field transformation object in dto. */
+const ANIME_SORT_FIELD_TO_DTO = {
+	[AnimeSortField.TitleEng]: AnimeSortFieldDto.TitleEng,
+	[AnimeSortField.TitleJpn]: AnimeSortFieldDto.TitleJpn,
+	[AnimeSortField.AiredStart]: AnimeSortFieldDto.AiredStart,
+	[AnimeSortField.Status]: AnimeSortFieldDto.Status,
+	[AnimeSortField.None]: AnimeSortField.None,
+};
+
 export namespace AnimeQueryParamsMapper {
 
 	/**
@@ -19,12 +28,3 @@ export namespace AnimeQueryParamsMapper {
 		};
 	}
 }
-
-/** Anime sort field transformation object in dto. */
-const ANIME_SORT_FIELD_TO_DTO = {
-	[AnimeSortField.TitleEng]: AnimeSortFieldDto.TitleEng,
-	[AnimeSortField.TitleJpn]: AnimeSortFieldDto.TitleJpn,
-	[AnimeSortField.AiredStart]: AnimeSortFieldDto.AiredStart,
-	[AnimeSortField.Status]: AnimeSortFieldDto.Status,
-	[AnimeSortField.None]: AnimeSortField.None,
-};

@@ -11,7 +11,7 @@ export const ANIME_TYPE_FROM_DTO = {
 	[AnimeTypeDto.Special]: AnimeType.Special,
 	[AnimeTypeDto.ONA]: AnimeType.ONA,
 	[AnimeTypeDto.Music]: AnimeType.Music,
-	[AnimeType.Unknown]: AnimeType.Unknown,
+	[AnimeTypeDto.Unknown]: AnimeType.Unknown,
 };
 
 /** Anime type transformation object in dto. */
