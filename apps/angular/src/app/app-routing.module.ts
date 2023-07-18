@@ -10,7 +10,7 @@ const routes: Routes = [
 	{
 		path: 'anime',
 		title: 'Anime',
-		loadChildren: () => import('./features/anime/anime.module').then(m => m.AnimeModule),
+		loadChildren: () => import('./features/anime/anime.module').then(module => module.AnimeModule),
 	},
 ];
 

@@ -15,17 +15,6 @@ export const ANIME_TYPE_FROM_DTO = {
 };
 
 /** Anime type transformation object in dto. */
-export const ANIME_TYPE_TO_DTO = {
-	[AnimeType.TV]: AnimeTypeDto.TV,
-	[AnimeType.OVA]: AnimeTypeDto.OVA,
-	[AnimeType.Movie]: AnimeTypeDto.Movie,
-	[AnimeType.Special]: AnimeTypeDto.Special,
-	[AnimeType.ONA]: AnimeTypeDto.ONA,
-	[AnimeType.Music]: AnimeTypeDto.Music,
-	[AnimeType.Unknown]: AnimeTypeDto.Unknown,
-};
-
-/** Anime type transformation object in dto. */
 export const ANIME_STATUS_FROM_DTO = {
 	[AnimeStatusDto.Airing]: AnimeStatus.Airing,
 	[AnimeStatusDto.Finished]: AnimeStatus.Finished,

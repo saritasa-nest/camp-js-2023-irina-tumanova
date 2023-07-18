@@ -3,7 +3,7 @@ import { DateRange } from './dateRange';
 /** Anime data. */
 export interface Anime {
 
-	/** Anime's id. */
+	/** Anime id. */
 	readonly id: number;
 
 	/** Anime creation date. */
