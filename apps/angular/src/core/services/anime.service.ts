@@ -7,7 +7,7 @@ import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
-import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper.';
+import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { GetAnimeParams } from '@js-camp/core/models/get-anime-params';
 import { ListParamsMapper } from '@js-camp/core/mappers/list-params.mapper';
 import { GetAnimeFilterParamsMapper } from '@js-camp/core/mappers/get-anime-filter-params.mapper';

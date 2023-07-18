@@ -54,7 +54,7 @@ export class AnimeTableComponent {
 	/**
 	 * @param animeService Anime request service.
 	 */
-	public constructor(public readonly animeService: AnimeService) {
+	public constructor(private readonly animeService: AnimeService) {
 		this.params$ = this.page$.pipe(
 			debounceTime(REQUEST_DEBOUNCE_TIME),
 			map(page => {
