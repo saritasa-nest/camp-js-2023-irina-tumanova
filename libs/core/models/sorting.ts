@@ -5,8 +5,8 @@ import { SortDirection } from '@angular/material/sort';
 export interface Sorting<TField>{
 
 	/** Field to sort by. */
-	field: TField;
+	readonly field: TField;
 
 	/** Sorting direction. */
-	direction: SortDirection;
+	readonly direction: SortDirection;
 }
