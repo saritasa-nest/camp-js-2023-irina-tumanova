@@ -3,7 +3,7 @@
        *ngIf="(isLoading$ | async) as isLoading">
        <camp-spinner *ngIf="isLoading"></camp-spinner>
   </div>
-  <table mat-table [dataSource]="animeList" class="mat-elevation-z8 anime-table" aria-describedby="anime list>
+  <table mat-table [dataSource]="animeList" class="mat-elevation-z8 anime-table" aria-describedby="anime list">
       
     <!-- Image Column -->
     <ng-container matColumnDef="image">
@@ -47,6 +47,7 @@
 
     <!-- Paginator column -->
     <ng-container matColumnDef="paginator">
+      <th mat-header-cell *matHeaderCellDef></th>
       <td mat-footer-cell *matFooterCellDef colspan="6">
         <mat-paginator [pageSizeOptions]="[5, 10, 20]"
           showFirstLastButtons
