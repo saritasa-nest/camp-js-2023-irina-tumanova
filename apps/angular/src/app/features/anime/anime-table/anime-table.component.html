@@ -1,6 +1,5 @@
 <div class="anime-table__wrapper" *ngIf="(animeList$ | async) as animeList; else Loading">
-  <div class="anime-table__shade"
-       *ngIf="(isLoading$ | async) as isLoading">
+  <div class="anime-table__shade" *ngIf="(isLoading$ | async) as isLoading">
        <camp-spinner *ngIf="isLoading"></camp-spinner>
   </div>
   <table mat-table [dataSource]="animeList" class="mat-elevation-z8 anime-table" aria-describedby="anime list">

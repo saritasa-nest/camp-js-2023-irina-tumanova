@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
 	selector: 'camp-anime',
 	templateUrl: './anime-page.component.html',
-	styleUrls: [],
+	styleUrls: ['./anime-page.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimePageComponent {}

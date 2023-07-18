@@ -2,26 +2,21 @@
   position: relative;
 }
 
-.anime-table {
-  height: 500px;
-}
-
 .anime-table__shade {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  bottom: 56px;
+  bottom: 0;
   right: 0;
   background: var(--on-surface-color);
-  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .anime-table__image-cell {
-  height: 150px;
-  width: 150px;
+  height: var(--table-image-size);
+  width: var(--table-image-size);
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,4 +1,11 @@
 :root {
+  /* Colors */
   --surface-color: rgb(66 66 66 / 100%);
   --on-surface-color: rgb(66 66 66 / 50%);
+
+  /* Spaces */
+  --space-m: 32px;
+
+  /* Other */
+  --table-image-size: 150px;
 }
