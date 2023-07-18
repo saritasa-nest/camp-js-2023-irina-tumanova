@@ -19,7 +19,15 @@
   justify-content: center;
 }
 
+.anime-table__image-cell {
+  height: 150px;
+  width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .anime-table__image-cell img {
-  max-width: 150px;
-  max-height: 150px;
+  max-width: 100%;
+  max-height: 100%;
 }

@@ -22,7 +22,7 @@ export namespace AnimeQueryParamsMapper {
 		return {
 			limit: model.limit,
 			offset: model.page * model.limit,
-			ordering: `${model.sort.direction}${ANIME_SORT_FIELD_TO_DTO[model.sort.field]}`,
+			ordering: `${model.sorting.direction}${ANIME_SORT_FIELD_TO_DTO[model.sorting.field]}`,
 			type: model.type.map(type => ANIME_TYPE_TO_DTO[type]),
 			search: model.search,
 		};

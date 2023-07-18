@@ -10,7 +10,7 @@ export interface AnimeQueryParams {
 	page: number;
 
 	/** Sorting: sort field and direction. */
-	sort: AnimeSort;
+	sorting: AnimeSorting;
 
 	/** Selected anime types to display. */
 	type: AnimeType[];
@@ -20,7 +20,7 @@ export interface AnimeQueryParams {
 }
 
 /** Sorting: sort field and direction. */
-export interface AnimeSort{
+export interface AnimeSorting{
 
 	/** Field to sort by. */
 	field: AnimeSortField;

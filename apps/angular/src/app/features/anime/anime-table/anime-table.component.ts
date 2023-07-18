@@ -9,7 +9,7 @@ import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, shareRe
 const defaultParams: AnimeQueryParams = {
 	limit: 10,
 	page: 0,
-	sort: { field: AnimeSortField.None, direction: AnimeSortDirection.Asc },
+	sorting: { field: AnimeSortField.None, direction: AnimeSortDirection.Asc },
 	type: [],
 	search: '',
 };
@@ -57,7 +57,7 @@ export class AnimeTableComponent {
 				const params: AnimeQueryParams = {
 					limit: this.limit,
 					page,
-					sort: defaultParams.sort,
+					sorting: defaultParams.sorting,
 					type: defaultParams.type,
 					search: defaultParams.search,
 				};
