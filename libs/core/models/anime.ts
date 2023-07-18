@@ -1,4 +1,6 @@
-import { AnimeStatus, AnimeType } from '../dtos/anime.dto';
+import { AnimeType } from '../dtos/anime.dto';
+
+import { AnimeStatus } from './anime-status';
 
 import { DateRange } from './date-range';
 

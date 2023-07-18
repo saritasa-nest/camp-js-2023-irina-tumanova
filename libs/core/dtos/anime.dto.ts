@@ -1,3 +1,5 @@
+import { AnimeStatus } from '../models/anime-status';
+
 import { DateRangeDto } from './date-range.dto';
 
 /** Anime data dto. */
@@ -46,11 +48,4 @@ export enum AnimeType {
 	ONA = 'ONA',
 	Music = 'MUSIC',
 	Unknown = 'UNKNOWN',
-}
-
-/** Anime status dto. */
-export enum AnimeStatus {
-	Airing = 'AIRING',
-	Finished = 'FINISHED',
-	NotYetAired = 'NOT_YET_AIRED',
 }
