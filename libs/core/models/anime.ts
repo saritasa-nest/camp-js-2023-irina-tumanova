@@ -17,10 +17,10 @@ export interface Anime {
 	readonly modified: string;
 
 	/** English anime title. */
-	readonly titleEng: string;
+	readonly titleEnglish: string;
 
 	/** Japanese anime title. */
-	readonly titleJpn: string;
+	readonly titleJapanese: string;
 
 	/** Anime image. */
 	readonly image: string;

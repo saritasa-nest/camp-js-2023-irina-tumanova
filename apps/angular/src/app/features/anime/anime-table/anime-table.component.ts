@@ -16,6 +16,8 @@ const defaultParams: GetAnimeParams = {
 	},
 };
 
+const REQUEST_DEBOUNCE_TIME = 500;
+
 /** Anime table component. */
 @Component({
 	selector: 'camp-anime-table',
@@ -26,7 +28,7 @@ const defaultParams: GetAnimeParams = {
 export class AnimeTableComponent {
 
 	/** Columns in a table. */
-	public readonly displayedColumns = ['image', 'titleEng', 'titleJpn', 'aired.start', 'type', 'status'];
+	public readonly displayedColumns = ['image', 'titleEnglish', 'titleJapanese', 'aired.start', 'type', 'status'];
 
 	/** Anime list. */
 	public readonly animeList$: Observable<readonly Anime[]>;
@@ -54,7 +56,7 @@ export class AnimeTableComponent {
 	 */
 	public constructor(public readonly animeService: AnimeService) {
 		this.params$ = this.page$.pipe(
-			debounceTime(500),
+			debounceTime(REQUEST_DEBOUNCE_TIME),
 			map(page => {
 				const params: GetAnimeParams = {
 					limit: this.limit,

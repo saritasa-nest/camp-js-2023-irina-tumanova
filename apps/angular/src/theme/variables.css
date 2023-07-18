@@ -1,3 +1,4 @@
 :root {
-  --surface-color: #424242;
+  --surface-color: rgb(66 66 66 / 100%);
+  --on-surface-color: rgb(66 66 66 / 50%);
 }
