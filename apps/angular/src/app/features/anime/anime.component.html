@@ -1,7 +1,11 @@
-<header>
-    <mat-toolbar>
-        <a mat-button routerLink="/anime">Anime</a>
-    </mat-toolbar>
-</header>
+<div class="anime-page">
+    <header>
+        <mat-toolbar>
+            <a mat-button routerLink="/anime">Anime</a>
+        </mat-toolbar>
+    </header>
 
-<router-outlet></router-outlet>
+    <main class="anime-page__content">
+        <router-outlet></router-outlet>
+    </main>
+</div>

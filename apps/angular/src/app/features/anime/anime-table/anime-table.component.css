@@ -1,0 +1,25 @@
+.anime-table__wrapper {
+  position: relative;
+}
+
+.anime-table {
+  height: 500px;
+}
+
+.anime-table__shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgb(0 0 0 / 25%);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.anime-table__image-cell img {
+  max-width: 150px;
+  max-height: 150px;
+}

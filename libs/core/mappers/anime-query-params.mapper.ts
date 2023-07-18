@@ -12,7 +12,7 @@ export namespace AnimeQueryParamsMapper {
 	export function toDto(model: AnimeQueryParams): AnimeQueryParamsDto {
 		return {
 			limit: model.limit,
-			offset: (model.page - 1) * model.limit,
+			offset: model.page * model.limit,
 			ordering: `${model.sort.direction}${ANIME_SORT_FIELD_TO_DTO[model.sort.field]}`,
 			type: model.type.map(type => ANIME_TYPE_TO_DTO[type]),
 			search: model.search,
