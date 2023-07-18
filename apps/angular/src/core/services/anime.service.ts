@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Anime } from '@js-camp/core/models/anime';
-import { Observable, delay, map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { environment } from '@js-camp/angular/environments/environment';
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
 import { Pagination } from '@js-camp/core/models/pagination.dto';
@@ -16,7 +16,7 @@ import { AnimeQueryParamsMapper } from '@js-camp/core/mappers/anime-query-params
 	providedIn: 'root',
 })
 export class AnimeService {
-	public constructor(private http: HttpClient) { }
+	public constructor(private readonly http: HttpClient) { }
 
 	/**
 	 * Get anime list.
@@ -31,7 +31,6 @@ export class AnimeService {
 		return this.http
 			.get<PaginationDto<AnimeDto>>(url, { params })
 			.pipe(
-				delay(500),
 				map(paginationDto =>
 					PaginationMapper.fromDto(paginationDto, animeDto =>
 						AnimeMapper.fromDto(animeDto))),

@@ -48,10 +48,11 @@
     <!-- Paginator column -->
     <ng-container matColumnDef="paginator">
       <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-footer-cell *matFooterCellDef colspan="6">
+      <td mat-footer-cell *matFooterCellDef colspan="6" >
         <mat-paginator [pageSizeOptions]="[5, 10, 20]"
           showFirstLastButtons
-          [pageIndex]="(page$ | async)!"
+          *ngIf="(page$ | async) as page"
+          [pageIndex]="page"
           [pageSize]="limit"
           [length]="animeTotalCount$ | async"
           (page)="handlePageEvent($event)"
