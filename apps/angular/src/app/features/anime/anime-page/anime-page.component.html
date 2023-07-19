@@ -1,5 +1,5 @@
 <div class="anime-page__wrapper" *ngIf="(animeList$ | async) as animeList">
-  <table mat-table [dataSource]="animeList" class="mat-elevation-z8" aria-describedby="anime list">
+  <table mat-table [dataSource]="animeList.items" class="mat-elevation-z8" aria-describedby="anime list">
       
     <!-- Image Column -->
     <ng-container matColumnDef="image">
@@ -50,7 +50,7 @@
           *ngIf="{value: page$ | async} as page"
           [pageIndex]="page.value"
           [pageSize]="limit"
-          [length]="animeTotalCount$ | async"
+          [length]="animeList.count"
           (page)="handlePageEvent($event)"
           aria-label="Select page of periodic elements">
         </mat-paginator>

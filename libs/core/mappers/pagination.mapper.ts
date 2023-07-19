@@ -13,7 +13,7 @@ export namespace PaginationMapper {
 			count: dto.count,
 			next: dto.next,
 			previous: dto.previous,
-			results: dto.results.map(mapper),
+			items: dto.results.map(mapper),
 		};
 	}
 }

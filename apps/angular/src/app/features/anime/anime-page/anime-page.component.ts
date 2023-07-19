@@ -34,16 +34,10 @@ export class AnimePageComponent {
 	public readonly pageSizeOptions: readonly number[] = [5, 10, 20];
 
 	/** Anime list. */
-	public readonly animeList$: Observable<readonly Anime[]>;
+	public readonly animeList$: Observable<Pagination<Anime>>;
 
 	/** Anime is loading. */
 	public readonly isLoading$ = new BehaviorSubject<boolean>(false);
-
-	/** Anime query parameters. */
-	private readonly params$: Observable<AnimeParams>;
-
-	/** Current table page data. */
-	private readonly pagination$: Observable<Pagination<Anime>>;
 
 	/** Current table page. */
 	public readonly page$ = new BehaviorSubject<number>(defaultParams.page);
@@ -51,14 +45,16 @@ export class AnimePageComponent {
 	/** Number of elements per page. */
 	public limit = defaultParams.limit;
 
-	/** Total number of anime. */
-	public readonly animeTotalCount$: Observable<number>;
-
 	/**
 	 * @param animeService Anime request service.
 	 */
 	public constructor(private readonly animeService: AnimeService) {
-		this.params$ = this.page$.pipe(
+		this.animeList$ = this.createAnimeListStream();
+	}
+
+	/** Create anime list stream. */
+	private createAnimeListStream(): Observable<Pagination<Anime>> {
+		return this.page$.pipe(
 			debounceTime(REQUEST_DEBOUNCE_TIME),
 			map(page => {
 				const params: AnimeParams = {
@@ -73,21 +69,10 @@ export class AnimePageComponent {
 
 				return params;
 			}),
-		);
-
-		this.pagination$ = this.params$.pipe(
 			tap(() => this.isLoading$.next(true)),
-			switchMap(params => this.animeService.getAllAnime(params)),
+			switchMap(params => this.animeService.getAnime(params)),
 			tap(() => this.isLoading$.next(false)),
 			shareReplay({ refCount: true, bufferSize: 1 }),
-		);
-
-		this.animeList$ = this.pagination$.pipe(
-			map(({ results }) => results),
-		);
-
-		this.animeTotalCount$ = this.pagination$.pipe(
-			map(({ count }) => count),
 		);
 	}
 

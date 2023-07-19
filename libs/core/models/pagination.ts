@@ -11,5 +11,5 @@ export interface Pagination<T> {
 	readonly previous: string;
 
 	/** Array of items requested. */
-	readonly results: readonly T[];
+	readonly items: readonly T[];
 }

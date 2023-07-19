@@ -23,7 +23,7 @@ export class AnimeService {
 	 * Get anime list.
 	 * @param animeParams Params from anime table.
 	 */
-	public getAllAnime(animeParams: AnimeParams): Observable<Pagination<Anime>> {
+	public getAnime(animeParams: AnimeParams): Observable<Pagination<Anime>> {
 		const url = `${environment.apiUrl}/anime/anime/`;
 		const params = new HttpParams({
 			fromObject: { ...ListParamsMapper.toDto(animeParams, AnimeFilterParamsMapper.toDto) },
