@@ -20,12 +20,12 @@ const REQUEST_DEBOUNCE_TIME = 500;
 
 /** Anime table component. */
 @Component({
-	selector: 'camp-anime-table',
-	templateUrl: './anime-table.component.html',
-	styleUrls: ['./anime-table.component.css'],
+	selector: 'camp-anime-table-page',
+	templateUrl: './anime-table-page.component.html',
+	styleUrls: ['./anime-table-page.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnimeTableComponent {
+export class AnimeTablePageComponent {
 
 	/** Columns in a table. */
 	public readonly displayedColumns: readonly string[] = ['image', 'titleEnglish', 'titleJapanese', 'aired.start', 'type', 'status'];

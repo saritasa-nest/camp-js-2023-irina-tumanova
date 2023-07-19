@@ -10,11 +10,11 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AnimePageComponent } from './anime-page.component';
 import { AnimeRoutingModule } from './anime-routing.module';
-import { AnimeTableComponent } from './anime-table/anime-table.component';
+import { AnimeTablePageComponent } from './anime-table/anime-table-page.component';
 
 /** Anime module. */
 @NgModule({
-	declarations: [AnimePageComponent, AnimeTableComponent],
+	declarations: [AnimePageComponent, AnimeTablePageComponent],
 	imports: [
 		CommonModule,
 		SharedModule,

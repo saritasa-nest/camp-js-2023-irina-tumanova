@@ -1,8 +1,8 @@
-.anime-table__wrapper {
+.anime-table-page__wrapper {
   position: relative;
 }
 
-.anime-table__shade {
+.anime-table-page__shade {
   position: fixed;
   top: 0;
   left: 0;
@@ -14,7 +14,7 @@
   justify-content: center;
 }
 
-.anime-table__image-cell {
+.anime-table-page__image-cell {
   height: var(--table-image-size);
   width: var(--table-image-size);
   display: flex;
@@ -22,7 +22,7 @@
   justify-content: center;
 }
 
-.anime-table__image {
+.anime-table-page__image {
   max-width: 100%;
   max-height: 100%;
 }
