@@ -1,4 +1,4 @@
-<div class="anime-page__wrapper" *ngIf="(animeList$ | async) as animeList">
+<div class="anime-page__wrapper" *ngIf="animeList$ | async as animeList">
   <table mat-table [dataSource]="animeList.items" class="mat-elevation-z8" aria-describedby="anime list">
       
     <!-- Image Column -->

@@ -10,10 +10,11 @@ export class AppUrlsConfig {
 
 	/** Anime routes. */
 	public readonly anime = {
-		getAnime: this.toApi('/anime/anime/'),
+		getAnime: this.toApi('anime/anime/'),
 	};
 
-	private toApi(path: string): string {
-		return `${this.appConfig.apiUrl}${path}`;
+	private toApi(...args: readonly string[]): string {
+		const path = args.join('/');
+		return new URL(path, this.appConfig.apiUrl).toString();
 	}
 }
