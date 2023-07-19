@@ -1,6 +1,6 @@
 .anime-page__header {
   position: relative;
 
-  /* Header over shadow when table is loaded */
+  /* Header over loader's shade when table is loaded */
   z-index: 1;
 }

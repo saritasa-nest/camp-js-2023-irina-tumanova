@@ -28,7 +28,10 @@ const REQUEST_DEBOUNCE_TIME = 500;
 export class AnimeTableComponent {
 
 	/** Columns in a table. */
-	public readonly displayedColumns = ['image', 'titleEnglish', 'titleJapanese', 'aired.start', 'type', 'status'];
+	public readonly displayedColumns: readonly string[] = ['image', 'titleEnglish', 'titleJapanese', 'aired.start', 'type', 'status'];
+
+	/** Page size options. */
+	public readonly pageSizeOptions: readonly number[] = [5, 10, 20];
 
 	/** Anime list. */
 	public readonly animeList$: Observable<readonly Anime[]>;
