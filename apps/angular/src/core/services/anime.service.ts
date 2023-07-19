@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Anime } from '@js-camp/core/models/anime';
 import { Observable, catchError, map, throwError } from 'rxjs';
-import { environment } from '@js-camp/angular/environments/environment';
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
@@ -12,19 +11,25 @@ import { AnimeParams } from '@js-camp/core/models/anime-params';
 import { ListParamsMapper } from '@js-camp/core/mappers/list-params.mapper';
 import { AnimeFilterParamsMapper } from '@js-camp/core/mappers/anime-filter-params.mapper';
 
+import { AppUrlsConfig } from './app-urls.config';
+
 /** Anime service. */
 @Injectable({
 	providedIn: 'root',
 })
 export class AnimeService {
-	public constructor(private readonly http: HttpClient) { }
+
+	public constructor(
+		private readonly http: HttpClient,
+		private readonly appUrlsConfig: AppUrlsConfig,
+	) { }
 
 	/**
 	 * Get anime list.
 	 * @param animeParams Params from anime table.
 	 */
 	public getAnime(animeParams: AnimeParams): Observable<Pagination<Anime>> {
-		const url = `${environment.apiUrl}/anime/anime/`;
+		const url = this.appUrlsConfig.anime.getAnime;
 		const params = new HttpParams({
 			fromObject: { ...ListParamsMapper.toDto(animeParams, AnimeFilterParamsMapper.toDto) },
 		});

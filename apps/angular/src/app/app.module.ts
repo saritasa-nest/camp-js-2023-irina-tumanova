@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { ApiKeyInterceptor } from '../core/interceptors/api-key.interceptor';
+import { AppConfig } from '../core/services/app.config';
+import { AppUrlsConfig } from '../core/services/app-urls.config';
 
 import { SharedModule } from './../shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -24,6 +26,6 @@ import { AppComponent } from './app.component';
 		HttpClientModule,
 	],
 	bootstrap: [AppComponent],
-	providers: [{ provide: HTTP_INTERCEPTORS, useClass: ApiKeyInterceptor, multi: true }],
+	providers: [{ provide: HTTP_INTERCEPTORS, useClass: ApiKeyInterceptor, multi: true }, AppUrlsConfig, AppConfig],
 })
 export class AppModule {}
