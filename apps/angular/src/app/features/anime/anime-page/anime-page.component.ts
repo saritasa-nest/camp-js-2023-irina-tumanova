@@ -18,7 +18,7 @@ const defaultParams: AnimeParams = {
 
 const REQUEST_DEBOUNCE_TIME = 500;
 
-/** Anime table component. */
+/** Anime list page. */
 @Component({
 	selector: 'camp-anime-page',
 	templateUrl: './anime-page.component.html',
