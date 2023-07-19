@@ -3,7 +3,7 @@ import { AnimeType } from '../dtos/anime.dto';
 import { ListParams } from './list-params';
 
 /** Filters parameters for getting anime. */
-export interface GetAnimeFilterParams {
+export interface AnimeFilterParams {
 
 	/** Selected anime types to display. */
 	readonly type: AnimeType[];
@@ -22,4 +22,4 @@ export enum AnimeSortField {
 }
 
 /** Request parameters for getting anime. */
-export type GetAnimeParams = ListParams<GetAnimeFilterParams, AnimeSortField>;
+export type AnimeParams = ListParams<AnimeFilterParams, AnimeSortField>;

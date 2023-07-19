@@ -1,4 +1,7 @@
+import { SortDirection } from '@angular/material/sort';
+
 import { ListParamsDto } from '../dtos/list-params.dto';
+import { SortDirectionDto } from '../dtos/sort-direction.dto';
 import { ListParams } from '../models/list-params';
 
 export namespace ListParamsMapper {
@@ -13,7 +16,7 @@ export namespace ListParamsMapper {
 		return {
 			limit: model.limit,
 			offset: model.limit * model.page,
-			ordering: `${model.sorting.direction === 'desc' ? '-' : ''}${model.sorting.field}`,
+			ordering: `${model.sorting.direction === 'desc' ? SortDirectionDto.Desc : SortDirectionDto.Asc}${model.sorting.field}`,
 			...filterMapper(model.filters),
 		};
 	}

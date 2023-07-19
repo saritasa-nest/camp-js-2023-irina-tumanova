@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Anime } from '@js-camp/core/models/anime';
-import { AnimeSortField, GetAnimeParams } from '@js-camp/core/models/get-anime-params';
+import { AnimeSortField, AnimeParams } from '@js-camp/core/models/anime-params';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, shareReplay } from 'rxjs';
 
-const defaultParams: GetAnimeParams = {
+const defaultParams: AnimeParams = {
 	limit: 10,
 	page: 0,
 	sorting: { field: AnimeSortField.None, direction: 'asc' },
@@ -40,7 +40,7 @@ export class AnimeTablePageComponent {
 	public readonly isLoading$ = new BehaviorSubject<boolean>(false);
 
 	/** Anime query parameters. */
-	private readonly params$: Observable<GetAnimeParams>;
+	private readonly params$: Observable<AnimeParams>;
 
 	/** Current table page data. */
 	private readonly pagination$: Observable<Pagination<Anime>>;
@@ -61,7 +61,7 @@ export class AnimeTablePageComponent {
 		this.params$ = this.page$.pipe(
 			debounceTime(REQUEST_DEBOUNCE_TIME),
 			map(page => {
-				const params: GetAnimeParams = {
+				const params: AnimeParams = {
 					limit: this.limit,
 					page,
 					sorting: defaultParams.sorting,
