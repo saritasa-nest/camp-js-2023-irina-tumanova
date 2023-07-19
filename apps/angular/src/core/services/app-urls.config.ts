@@ -6,7 +6,7 @@ import { AppConfig } from './app.config';
 @Injectable({ providedIn: 'root' })
 export class AppUrlsConfig {
 
-	public constructor(private readonly appConfig: AppConfig) {}
+	private readonly appConfig = inject(AppConfig);
 
 	/** Anime routes. */
 	public readonly anime = {

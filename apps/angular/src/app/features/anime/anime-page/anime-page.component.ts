@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Anime } from '@js-camp/core/models/anime';
@@ -45,10 +45,12 @@ export class AnimePageComponent {
 	/** Number of elements per page. */
 	public limit = defaultParams.limit;
 
+	private readonly animeService = inject(AnimeService);
+
 	/**
 	 * @param animeService Anime request service.
 	 */
-	public constructor(private readonly animeService: AnimeService) {
+	public constructor() {
 		this.animeList$ = this.createAnimeListStream();
 	}
 
