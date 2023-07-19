@@ -32,10 +32,3 @@ export namespace AnimeStatus {
 		return TO_READABLE_MAP[type] ? type : AnimeStatus.Unknown;
 	}
 }
-
-export const ANIME_STATUS_READABLE_MAP = {
-	[AnimeStatus.Airing]: AnimeStatus.toReadable(AnimeStatus.Airing),
-	[AnimeStatus.Finished]: AnimeStatus.toReadable(AnimeStatus.Finished),
-	[AnimeStatus.NotYetAired]: AnimeStatus.toReadable(AnimeStatus.NotYetAired),
-	[AnimeStatus.Unknown]: AnimeStatus.toReadable(AnimeStatus.Unknown),
-};
