@@ -1,7 +1,7 @@
 :root {
   /* Colors */
-  --surface-color: hsla(0deg 0% 26% / 100%);
-  --on-surface-color: hsla(0deg 0% 26% / 50%);
+  --surface-color: hsl(0deg 0% 26% / 100%);
+  --on-surface-color: hsl(0deg 0% 26% / 50%);
 
   /* Spaces */
   --space-m: 32px;
