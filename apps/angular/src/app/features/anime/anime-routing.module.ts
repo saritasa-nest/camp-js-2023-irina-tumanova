@@ -1,19 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AnimePageComponent } from './anime-page.component';
-import { AnimeTablePageComponent } from './anime-table/anime-table-page.component';
+import { AnimePageComponent } from './anime-page/anime-page.component';
 
 const routes: Routes = [
 	{
 		path: '',
 		component: AnimePageComponent,
-		children: [
-			{
-				path: '',
-				component: AnimeTablePageComponent,
-			},
-		],
 	},
 ];
 
