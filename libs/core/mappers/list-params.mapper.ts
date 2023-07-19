@@ -1,5 +1,3 @@
-import { SortDirection } from '@angular/material/sort';
-
 import { ListParamsDto } from '../dtos/list-params.dto';
 import { SortDirectionDto } from '../dtos/sort-direction.dto';
 import { ListParams } from '../models/list-params';
