@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Anime } from '@js-camp/core/models/anime';
-import { Observable, catchError, map } from 'rxjs';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { environment } from '@js-camp/angular/environments/environment';
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
 import { Pagination } from '@js-camp/core/models/pagination';
@@ -35,7 +35,21 @@ export class AnimeService {
 				map(paginationDto =>
 					PaginationMapper.fromDto(paginationDto, animeDto =>
 						AnimeMapper.fromDto(animeDto))),
-				catchError((error: unknown, caught$) => caught$),
+				catchError((error: unknown) => this.handleError(error as HttpErrorResponse)),
 			);
+	}
+
+	/**
+	 * Handle error.
+	 * @param error Error.
+	 */
+	private handleError(error: HttpErrorResponse): Observable<never> {
+		if (error.status === 0) {
+			console.error('An error occurred:', error.error);
+		} else {
+			console.error(`Backend returned code ${error.status}, body was: `, error.error);
+		}
+
+		return throwError(() => new Error('Something bad happened; please try again later.'));
 	}
 }
