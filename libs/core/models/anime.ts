@@ -10,17 +10,11 @@ export interface Anime {
 	/** Anime id. */
 	readonly id: number;
 
-	/**
-	 * Anime creation date.
-	 * @example 2023-07-18T10:32:17.881Z
-	 */
-	readonly created: string;
+	/** Anime creation date. */
+	readonly created: Date;
 
-	/**
-	 * Anime modification date.
-	 * @example 2023-07-18T10:32:17.881Z
-	 */
-	readonly modified: string;
+	/** Anime modification date. */
+	readonly modified: Date;
 
 	/** English anime title. */
 	readonly titleEnglish: string;

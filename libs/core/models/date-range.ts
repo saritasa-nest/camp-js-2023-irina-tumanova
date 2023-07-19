@@ -2,8 +2,8 @@
 export interface DateRange {
 
 	/** Start date. */
-	readonly start: string;
+	readonly start: Date;
 
 	/** End date. */
-	readonly end: string;
+	readonly end: Date;
 }
