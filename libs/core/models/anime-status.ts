@@ -1,9 +1,9 @@
 /** Anime statuses. */
 export enum AnimeStatus {
-	Airing = 'AIRING',
-	Finished = 'FINISHED',
-	NotYetAired = 'NOT_YET_AIRED',
-	Unknown = 'UNKNOWN',
+	Airing = 'Airing',
+	Finished = 'Finished',
+	NotYetAired = 'NotYetAired',
+	Unknown = 'Unknown',
 }
 
 export namespace AnimeStatus {

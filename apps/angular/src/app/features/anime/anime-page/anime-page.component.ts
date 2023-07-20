@@ -3,6 +3,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Anime } from '@js-camp/core/models/anime';
 import { AnimeSortField, AnimeParams } from '@js-camp/core/models/anime-params';
+import { AnimeStatus } from '@js-camp/core/models/anime-status';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, shareReplay } from 'rxjs';
 
@@ -85,5 +86,13 @@ export class AnimePageComponent {
 	protected handlePageEvent(event: PageEvent): void {
 		this.page$.next(this.limit === event.pageSize ? event.pageIndex : 0);
 		this.limit = event.pageSize;
+	}
+
+	/**
+	 * Get readable status.
+	 * @param status Anime status.
+	 */
+	protected getReadableStatus(status: AnimeStatus): string {
+		return AnimeStatus.toReadable(status);
 	}
 }

@@ -1,5 +1,4 @@
-import { AnimeType } from '../dtos/anime.dto';
-
+import { AnimeType } from './anime';
 import { ListParams } from './list-params';
 
 /** Filters parameters for getting anime. */

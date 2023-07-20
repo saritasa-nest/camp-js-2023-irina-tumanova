@@ -1,5 +1,3 @@
-import { AnimeStatus } from '../models/anime-status';
-
 import { DateRangeDto } from './date-range.dto';
 
 /** Anime data dto. */
@@ -33,10 +31,10 @@ export interface AnimeDto {
 	readonly aired: DateRangeDto;
 
 	/** Anime type. */
-	readonly type: AnimeType;
+	readonly type: AnimeTypeDto;
 
 	/** Anime status. */
-	readonly status: AnimeStatus;
+	readonly status: AnimeStatusDto;
 
 	/** Anime score. */
 	readonly score: number | null;
@@ -46,12 +44,20 @@ export interface AnimeDto {
 }
 
 /** Anime type dto. */
-export enum AnimeType {
+export enum AnimeTypeDto {
 	TV = 'TV',
 	OVA = 'OVA',
 	Movie = 'MOVIE',
 	Special = 'SPECIAL',
 	ONA = 'ONA',
 	Music = 'MUSIC',
+	Unknown = 'UNKNOWN',
+}
+
+/** Anime statuses. */
+export enum AnimeStatusDto {
+	Airing = 'AIRING',
+	Finished = 'FINISHED',
+	NotYetAired = 'NOT_YET_AIRED',
 	Unknown = 'UNKNOWN',
 }

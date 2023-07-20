@@ -1,5 +1,3 @@
-import { AnimeType } from '../dtos/anime.dto';
-
 import { AnimeStatus } from './anime-status';
 
 import { DateRange } from './date-range';
@@ -39,4 +37,15 @@ export interface Anime {
 
 	/** Anime user score. */
 	readonly userScore: number | null;
+}
+
+/** Anime type dto. */
+export enum AnimeType {
+	TV = 'TV',
+	OVA = 'OVA',
+	Movie = 'Movie',
+	Special = 'Special',
+	ONA = 'ONA',
+	Music = 'Music',
+	Unknown = 'Unknown',
 }
