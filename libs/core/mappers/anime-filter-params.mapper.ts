@@ -6,7 +6,7 @@ import { AnimeTypeDto } from '../dtos/anime.dto';
 export namespace AnimeFilterParamsMapper {
 
 	/**
-	 * Maps model to dto.
+	 * Maps model to DTO.
 	 * @param model Anime query params model.
 	 */
 	export function toDto(model: AnimeFilterParams): AnimeFilterParamsDto {
@@ -16,7 +16,7 @@ export namespace AnimeFilterParamsMapper {
 		};
 	}
 
-	/** Anime type transformation object in dto. */
+	/** Anime type transformation object in DTO. */
 	const ANIME_TYPE_TO_DTO = {
 		[AnimeType.TV]: AnimeTypeDto.TV,
 		[AnimeType.OVA]: AnimeTypeDto.OVA,

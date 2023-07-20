@@ -2,8 +2,8 @@
 export interface PaginationParams {
 
 	/** Number of elements per page. */
-	readonly limit: number;
+	readonly pageSize: number;
 
 	/** Number of page. */
-	readonly page: number;
+	readonly pageNumber: number;
 }

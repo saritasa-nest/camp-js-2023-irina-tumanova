@@ -8,8 +8,8 @@ import { Pagination } from '@js-camp/core/models/pagination';
 import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, shareReplay } from 'rxjs';
 
 const defaultParams: AnimeParams = {
-	limit: 10,
-	page: 0,
+	pageSize: 10,
+	pageNumber: 0,
 	sorting: { field: AnimeSortField.None, direction: 'asc' },
 	filters: {
 		type: [],
@@ -38,13 +38,13 @@ export class AnimePageComponent {
 	protected readonly animeList$: Observable<Pagination<Anime>>;
 
 	/** Anime is loading. */
-	protected readonly isLoading$ = new BehaviorSubject<boolean>(false);
+	protected readonly isLoading$ = new BehaviorSubject(false);
 
 	/** Current table page. */
-	protected readonly page$ = new BehaviorSubject<number>(defaultParams.page);
+	protected readonly pageNumber$ = new BehaviorSubject(defaultParams.pageNumber);
 
 	/** Number of elements per page. */
-	protected limit = defaultParams.limit;
+	protected pageSize = defaultParams.pageSize;
 
 	private readonly animeService = inject(AnimeService);
 
@@ -57,21 +57,9 @@ export class AnimePageComponent {
 
 	/** Create anime list stream. */
 	private createAnimeListStream(): Observable<Pagination<Anime>> {
-		return this.page$.pipe(
+		return this.pageNumber$.pipe(
 			debounceTime(REQUEST_DEBOUNCE_TIME),
-			map(page => {
-				const params: AnimeParams = {
-					limit: this.limit,
-					page,
-					sorting: defaultParams.sorting,
-					filters: {
-						type: defaultParams.filters.type,
-						search: defaultParams.filters.search,
-					},
-				};
-
-				return params;
-			}),
+			map(pageNumber => this.createParams(pageNumber)),
 			tap(() => this.isLoading$.next(true)),
 			switchMap(params => this.animeService.getAnime(params)),
 			tap(() => this.isLoading$.next(false)),
@@ -79,13 +67,25 @@ export class AnimePageComponent {
 		);
 	}
 
+	private createParams(pageNumber: number): AnimeParams {
+		return {
+			pageSize: this.pageSize,
+			pageNumber,
+			sorting: defaultParams.sorting,
+			filters: {
+				type: defaultParams.filters.type,
+				search: defaultParams.filters.search,
+			},
+		};
+	}
+
 	/**
 	 * Change paginator data.
 	 * @param event Page event.
 	 */
 	protected handlePageEvent(event: PageEvent): void {
-		this.page$.next(this.limit === event.pageSize ? event.pageIndex : 0);
-		this.limit = event.pageSize;
+		this.pageNumber$.next(this.pageSize === event.pageSize ? event.pageIndex : 0);
+		this.pageSize = event.pageSize;
 	}
 
 	/**
@@ -94,5 +94,14 @@ export class AnimePageComponent {
 	 */
 	protected getReadableStatus(status: AnimeStatus): string {
 		return AnimeStatus.toReadable(status);
+	}
+
+	/**
+	 * Track anime by id in table.
+	 * @param index Index.
+	 * @param anime Anime.
+	 */
+	protected trackById(index: number, anime: Anime): number {
+		return anime.id;
 	}
 }

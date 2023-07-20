@@ -1,49 +1,49 @@
 import { DateRangeDto } from './date-range.dto';
 
-/** Anime data dto. */
+/** Anime DTO. */
 export interface AnimeDto {
 
-	/** Anime id. */
+	/** ID. */
 	readonly id: number;
 
 	/**
-	 * Anime creation date.
+	 * Creation date.
 	 * @example 2023-07-18T10:32:17.881Z.
 	 */
 	readonly created: string;
 
 	/**
-	 * Anime modification date.
+	 * Modification date.
 	 * @example 2023-07-18T10:32:17.881Z
 	 */
 	readonly modified: string;
 
-	/** English anime title. */
+	/** English title. */
 	readonly title_eng: string;
 
-	/** Japanese anime title. */
+	/** Japanese title. */
 	readonly title_jpn: string;
 
-	/** Anime image. */
+	/** Image. */
 	readonly image: string;
 
-	/** Anime release period. */
+	/** Release period. */
 	readonly aired: DateRangeDto;
 
-	/** Anime type. */
+	/** Type. */
 	readonly type: AnimeTypeDto;
 
-	/** Anime status. */
+	/** Status. */
 	readonly status: AnimeStatusDto;
 
-	/** Anime score. */
+	/** Score. */
 	readonly score: number | null;
 
-	/** Anime user score. */
+	/** User score. */
 	readonly user_score: number | null;
 }
 
-/** Anime type dto. */
+/** Anime type DTO. */
 export enum AnimeTypeDto {
 	TV = 'TV',
 	OVA = 'OVA',
@@ -54,7 +54,7 @@ export enum AnimeTypeDto {
 	Unknown = 'UNKNOWN',
 }
 
-/** Anime statuses. */
+/** Anime statuses DTO. */
 export enum AnimeStatusDto {
 	Airing = 'AIRING',
 	Finished = 'FINISHED',

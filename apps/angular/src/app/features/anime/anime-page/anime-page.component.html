@@ -1,44 +1,49 @@
-<div class="anime-page__wrapper" *ngIf="animeList$ | async as animeList">
-  <table mat-table [dataSource]="animeList.items" class="mat-elevation-z8" aria-describedby="anime list">
+<div class="anime-page">
+  <table mat-table 
+  *ngIf="animeList$ | async as animeList" 
+  [dataSource]="animeList.items" 
+  [trackBy]="trackById"
+  class="mat-elevation-z8" 
+  aria-describedby="anime list">
       
     <!-- Image Column -->
     <ng-container matColumnDef="image">
-      <th mat-header-cell *matHeaderCellDef> Image </th>
+      <th mat-header-cell *matHeaderCellDef>Image</th>
       <td mat-cell *matCellDef="let element"> 
         <div class="anime-page__image-cell">
-          <img [src] = "element.image" [alt]="element.titleEng + 'cover'" class="anime-page__image"/> 
+          <img [src]="element.image" [alt]="element.titleEng + 'cover'" class="anime-page__image"/> 
         </div>
       </td>
     </ng-container>
       
     <!-- English title Column -->
     <ng-container matColumnDef="titleEnglish">
-      <th mat-header-cell *matHeaderCellDef> Title (eng.) </th>
-      <td mat-cell *matCellDef="let element"> {{element.titleEnglish}} </td>
+      <th mat-header-cell *matHeaderCellDef>Title (eng.)</th>
+      <td mat-cell *matCellDef="let element">{{element.titleEnglish}}</td>
     </ng-container>
       
     <!-- Japanese title Column -->
     <ng-container matColumnDef="titleJapanese">
-      <th mat-header-cell *matHeaderCellDef> Title (jpn.) </th>
-      <td mat-cell *matCellDef="let element"> {{element.titleJapanese}} </td>
+      <th mat-header-cell *matHeaderCellDef>Title (jpn.)</th>
+      <td mat-cell *matCellDef="let element">{{element.titleJapanese}}</td>
     </ng-container>
       
     <!-- Release start date Column -->
     <ng-container matColumnDef="aired.start">
-      <th mat-header-cell *matHeaderCellDef> Aired start </th>
-      <td mat-cell *matCellDef="let element"> {{element.aired.start | date}} </td>
+      <th mat-header-cell *matHeaderCellDef>Aired start</th>
+      <td mat-cell *matCellDef="let element">{{element.aired.start | date}}</td>
     </ng-container>
 
     <!-- Type Column -->
     <ng-container matColumnDef="type">
-      <th mat-header-cell *matHeaderCellDef> Type </th>
-      <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+      <th mat-header-cell *matHeaderCellDef>Type</th>
+      <td mat-cell *matCellDef="let element">{{element.type}}</td>
     </ng-container>
 
     <!-- Status Column -->
     <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef> Status </th>
-      <td mat-cell *matCellDef="let element"> {{getReadableStatus(element.status)}} </td>
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let element">{{getReadableStatus(element.status)}}</td>
     </ng-container>
 
     <!-- Paginator column -->
@@ -47,9 +52,9 @@
       <td mat-footer-cell *matFooterCellDef colspan="6" >
         <mat-paginator [pageSizeOptions]="pageSizeOptions"
           showFirstLastButtons
-          *ngIf="{value: page$ | async} as page"
-          [pageIndex]="page.value"
-          [pageSize]="limit"
+          *ngIf="(pageNumber$ | async) !== null"
+          [pageIndex]="pageNumber$ | async"
+          [pageSize]="pageSize"
           [length]="animeList.count"
           (page)="handlePageEvent($event)"
           aria-label="Select page of periodic elements">
@@ -61,8 +66,8 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     <tr mat-footer-row *matFooterRowDef="['paginator']; sticky: true"></tr>
   </table>
-</div>
 
-<div class="anime-page__shade" *ngIf="isLoading$ | async">
-  <camp-spinner></camp-spinner>
+  <div class="anime-page__shade" *ngIf="isLoading$ | async">
+    <camp-spinner></camp-spinner>
+  </div>
 </div>

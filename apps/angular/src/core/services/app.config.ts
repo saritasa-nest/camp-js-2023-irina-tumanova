@@ -2,12 +2,12 @@ import { environment } from '@js-camp/angular/environments/environment';
 import { Injectable } from '@angular/core';
 
 /** App config. */
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AppConfig {
 
-	/** Api URL. */
+	/** API URL. */
 	public readonly apiUrl = environment.apiUrl;
 
-	/** Api key for headers. */
+	/** API key for headers. */
 	public readonly apiKey = environment.apiKey;
 }

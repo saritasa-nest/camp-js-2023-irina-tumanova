@@ -1,4 +1,4 @@
-/** Pagination meta info. */
+/** Pagination meta info DTO. */
 export interface PaginationDto<T> {
 
 	/** Total count of items. */

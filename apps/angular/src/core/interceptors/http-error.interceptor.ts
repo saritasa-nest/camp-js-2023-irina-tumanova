@@ -19,21 +19,17 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 		return next.handle(request)
 			.pipe(
 				retry(1),
-				catchError((error: unknown) => this.handleError(error as HttpErrorResponse)),
+				catchError((error: unknown) => {
+					if (error instanceof HttpErrorResponse) {
+						if (error.status === 0) {
+							console.error('An error occurred:', error.error);
+						} else {
+							console.error(`Backend returned code ${error.status}, body was: `, error.error);
+						}
+					}
+
+					return throwError(() => new Error('Something bad happened; please try again later.'));
+				}),
 			);
-	}
-
-	/**
-	 * Handle error.
-	 * @param error Error.
-	 */
-	private handleError(error: HttpErrorResponse): Observable<never> {
-		if (error.status === 0) {
-			console.error('An error occurred:', error.error);
-		} else {
-			console.error(`Backend returned code ${error.status}, body was: `, error.error);
-		}
-
-		return throwError(() => new Error('Something bad happened; please try again later.'));
 	}
 }

@@ -7,8 +7,6 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { ApiKeyInterceptor } from '../core/interceptors/api-key.interceptor';
-import { AppConfig } from '../core/services/app.config';
-import { AppUrlsConfig } from '../core/services/app-urls.config';
 import { HttpErrorInterceptor } from '../core/interceptors/http-error.interceptor';
 
 import { SharedModule } from './../shared/shared.module';
@@ -33,8 +31,6 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 	providers: [
 		{ provide: HTTP_INTERCEPTORS, useClass: ApiKeyInterceptor, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
-		AppUrlsConfig,
-		AppConfig,
 	],
 })
 export class AppModule {}
