@@ -28,22 +28,22 @@ const REQUEST_DEBOUNCE_TIME = 500;
 export class AnimePageComponent {
 
 	/** Columns in a table. */
-	public readonly displayedColumns: readonly string[] = ['image', 'titleEnglish', 'titleJapanese', 'aired.start', 'type', 'status'];
+	protected readonly displayedColumns: readonly string[] = ['image', 'titleEnglish', 'titleJapanese', 'aired.start', 'type', 'status'];
 
 	/** Page size options. */
-	public readonly pageSizeOptions: readonly number[] = [5, 10, 20];
+	protected readonly pageSizeOptions: readonly number[] = [5, 10, 20];
 
 	/** Anime list. */
-	public readonly animeList$: Observable<Pagination<Anime>>;
+	protected readonly animeList$: Observable<Pagination<Anime>>;
 
 	/** Anime is loading. */
-	public readonly isLoading$ = new BehaviorSubject<boolean>(false);
+	protected readonly isLoading$ = new BehaviorSubject<boolean>(false);
 
 	/** Current table page. */
-	public readonly page$ = new BehaviorSubject<number>(defaultParams.page);
+	protected readonly page$ = new BehaviorSubject<number>(defaultParams.page);
 
 	/** Number of elements per page. */
-	public limit = defaultParams.limit;
+	protected limit = defaultParams.limit;
 
 	private readonly animeService = inject(AnimeService);
 
@@ -82,7 +82,7 @@ export class AnimePageComponent {
 	 * Change paginator data.
 	 * @param event Page event.
 	 */
-	public handlePageEvent(event: PageEvent): void {
+	protected handlePageEvent(event: PageEvent): void {
 		this.page$.next(this.limit === event.pageSize ? event.pageIndex : 0);
 		this.limit = event.pageSize;
 	}
