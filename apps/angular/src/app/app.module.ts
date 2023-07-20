@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 import { ApiKeyInterceptor } from '../core/interceptors/api-key.interceptor';
 import { AppConfig } from '../core/services/app.config';
@@ -12,14 +13,16 @@ import { AppUrlsConfig } from '../core/services/app-urls.config';
 import { SharedModule } from './../shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 /** App module. */
 @NgModule({
-	declarations: [AppComponent],
+	declarations: [AppComponent, NotFoundComponent],
 	imports: [
 		BrowserModule,
 		SharedModule,
 		AppRoutingModule,
+		RouterModule,
 		BrowserAnimationsModule,
 		MatToolbarModule,
 		MatButtonModule,

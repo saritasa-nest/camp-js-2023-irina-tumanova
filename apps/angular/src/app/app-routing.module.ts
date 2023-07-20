@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { NotFoundComponent } from './components/not-found/not-found.component';
+
 const routes: Routes = [
 	{
 		path: '',
@@ -11,6 +13,10 @@ const routes: Routes = [
 		path: 'anime',
 		title: 'Anime',
 		loadChildren: () => import('./features/anime/anime.module').then(module => module.AnimeModule),
+	},
+	{
+		path: '**',
+		component: NotFoundComponent,
 	},
 ];
 
