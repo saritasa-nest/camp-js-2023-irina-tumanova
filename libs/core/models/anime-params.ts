@@ -12,13 +12,13 @@ export interface AnimeFilterParams {
 }
 
 /** Field to sort by. */
-export enum AnimeSortField {
-	TitleEng = 'title_eng',
-	TitleJpn = 'title_jpn',
-	AiredStart = 'aired__startswith',
+export enum AnimeSortingField {
+	TitleEnglish = 'titleEnglish',
+	TitleJapanese = 'titleJapanese',
+	AiredStart = 'aired.start',
 	Status = 'status',
 	None = '',
 }
 
 /** Request parameters for getting anime. */
-export type AnimeParams = ListParams<AnimeFilterParams, AnimeSortField>;
+export type AnimeParams = ListParams<AnimeFilterParams, AnimeSortingField>;
