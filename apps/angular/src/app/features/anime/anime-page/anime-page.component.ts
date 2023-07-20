@@ -48,9 +48,6 @@ export class AnimePageComponent {
 
 	private readonly animeService = inject(AnimeService);
 
-	/**
-	 * @param animeService Anime request service.
-	 */
 	public constructor() {
 		this.animeList$ = this.createAnimeListStream();
 	}
@@ -67,6 +64,10 @@ export class AnimePageComponent {
 		);
 	}
 
+	/**
+	 * Create query params.
+	 * @param pageNumber Page number.
+	 */
 	private createParams(pageNumber: number): AnimeParams {
 		return {
 			pageSize: this.pageSize,

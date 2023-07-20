@@ -4,7 +4,7 @@ import { ListParams } from './list-params';
 /** Filters parameters for getting anime. */
 export interface AnimeFilterParams {
 
-	/** Selected anime types to display. */
+	/** Anime types. */
 	readonly type: AnimeType[];
 
 	/** Search. */
