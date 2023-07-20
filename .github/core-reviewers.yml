@@ -2,8 +2,8 @@ reviewers:
   # The default core reviewers.
   # Reviews may only be requested from collaborators.
   defaults:
-    - gevorg-gevorgyan-saritasa
-    - kristinaSvobodinaSaritasa
-    - dmitrymaslov13
-    - danilkukryakov
-    - LocTran-saritasa
+    - AndreySkripachev
+    - khoanguyen-saritasa
+    - maxineo
+    - viktor-sakhno-saritasa
+    - pavelzadorin-saritasa
