@@ -54,7 +54,7 @@ export enum AnimeTypeDto {
 	Unknown = 'UNKNOWN',
 }
 
-/** Anime statuses DTO. */
+/** Anime status DTO. */
 export enum AnimeStatusDto {
 	Airing = 'AIRING',
 	Finished = 'FINISHED',
