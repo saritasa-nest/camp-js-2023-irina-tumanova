@@ -7,7 +7,7 @@ import { Anime, AnimeType } from '@js-camp/core/models/anime';
 import { AnimeSortingField, AnimeParams } from '@js-camp/core/models/anime-params';
 import { AnimeStatus } from '@js-camp/core/models/anime-status';
 import { Pagination } from '@js-camp/core/models/pagination';
-import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, shareReplay, combineLatestWith, startWith, merge, Subscription, take } from 'rxjs';
+import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, shareReplay, combineLatestWith, startWith, merge, Subscription, skip, first } from 'rxjs';
 import { Sorting } from '@js-camp/core/models/sorting';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
@@ -59,12 +59,10 @@ export class AnimePageComponent implements OnDestroy, OnInit {
 	protected readonly page$ = new BehaviorSubject<number>(defaultParams.page);
 
 	/** Current table page. */
-	private readonly sorting$ = new BehaviorSubject<Sorting<AnimeSortingField>>(defaultParams.sorting);
+	protected readonly sorting$ = new BehaviorSubject<Sorting<AnimeSortingField>>(defaultParams.sorting);
 
 	/** Number of elements per page. */
 	protected limit = defaultParams.limit;
-
-	private readonly params$: Observable<AnimeParams>;
 
 	private sideEffectsSubscription?: Subscription;
 
@@ -81,9 +79,9 @@ export class AnimePageComponent implements OnDestroy, OnInit {
 	});
 
 	public constructor() {
-		this.params$ = this.createParamsStream();
+		const params$ = this.createParamsStream();
 
-		this.animeList$ = this.params$.pipe(
+		this.animeList$ = params$.pipe(
 			tap(() => this.isLoading$.next(true)),
 			switchMap(params => this.animeService.getAnime(params)),
 			tap(() => this.isLoading$.next(false)),
@@ -102,11 +100,6 @@ export class AnimePageComponent implements OnDestroy, OnInit {
 	}
 
 	private createSideEffectsSubscription(): Subscription {
-		const setFiltersFromParams$ = this.route.queryParams.pipe(
-			tap(params => this.setFiltersFromParams(params)),
-			take(1),
-		);
-
 		const resetPagination$ = this.filtersForm.valueChanges.pipe(
 			tap(() => this.page$.next(0)),
 		);
@@ -115,42 +108,25 @@ export class AnimePageComponent implements OnDestroy, OnInit {
 			tap(() => this.scrollToTopPage()),
 		);
 
-		const navigateByFilters$ = this.params$.pipe(
-			tap(({ limit, page, sorting, filters }) => {
-				const queryParams = {
-					limit,
-					page,
-					field: sorting.field,
-					direction: sorting.direction,
-					search: filters.search,
-					type: filters.type,
-				};
-				this.router.navigate([], {
-					queryParams,
-					queryParamsHandling: 'merge',
-				});
-			}),
-		);
-
 		return merge(
-			setFiltersFromParams$,
 			resetPagination$,
 			scrollToTopAfterChangePage$,
-			navigateByFilters$,
 		).subscribe();
 	}
 
 	/** Create anime list stream. */
 	private createParamsStream(): Observable<AnimeParams> {
-		return this.page$.pipe(
-			combineLatestWith(
-				this.filtersForm.valueChanges.pipe(
-					startWith(this.filtersForm.value),
-				),
-				this.sorting$,
-			),
+		const paramsFromQueryParams$ = this.route.queryParams.pipe(
+			map(params => this.mapQueryParamsToAnimeParams(params)),
+			tap(params => this.setFiltersFromParams(params)),
+			first(),
+		);
+
+		const params$ = this.filtersForm.valueChanges.pipe(
+			startWith(this.filtersForm.value),
+			combineLatestWith(this.page$, this.sorting$),
 			debounceTime(REQUEST_DEBOUNCE_TIME),
-			map(([page, { search, type }, sorting]) => {
+			map(([{ search, type }, page, sorting]) => {
 				const params: AnimeParams = {
 					limit: this.limit,
 					page,
@@ -164,27 +140,54 @@ export class AnimePageComponent implements OnDestroy, OnInit {
 				return params;
 			}),
 		);
+
+		return merge(
+			paramsFromQueryParams$,
+			params$.pipe(skip(1)),
+		).pipe(
+			tap(params => {
+				this.setQueryParamsFromAnimeParams(params);
+			}),
+		);
+	}
+
+	private setQueryParamsFromAnimeParams(params: AnimeParams): void {
+		const queryParams = {
+			limit: params.limit,
+			page: params.page,
+			field: params.sorting.field,
+			direction: params.sorting.direction,
+			search: params.filters.search,
+			type: params.filters.type,
+		};
+
+		this.router.navigate([], { queryParams, queryParamsHandling: 'merge' });
+	}
+
+	private mapQueryParamsToAnimeParams(params: Params): AnimeParams {
+		return {
+			limit: +(params['limit'] ?? defaultParams.limit),
+			page: +(params['page'] ?? defaultParams.page),
+			sorting: {
+				field: params['field'] as AnimeSortingField ?? defaultParams.sorting.field,
+				direction: params['direction'] as SortDirection ?? defaultParams.sorting.direction,
+			},
+			filters: {
+				type: params['type'] as AnimeType[] ?? defaultParams.filters.type,
+				search: params['search'] ?? defaultParams.filters.search,
+			},
+		};
 	}
 
 	/**
 	 * Set filters from params.
 	 * @param params Params: sorting + type + search.
 	 */
-	private setFiltersFromParams(params: Params): void {
-		if (params['type']) {
-			this.filtersForm.controls.type.setValue(params['type'] as AnimeType[]);
-		}
-
-		if (params['search']) {
-			this.filtersForm.controls.search.setValue(params['search']);
-		}
-
-		this.sorting$.next({
-			field: params['field'] as AnimeSortingField ?? defaultParams.sorting.field,
-			direction: params['derection'] as SortDirection ?? defaultParams.sorting.direction,
-		});
-
-		this.page$.next(+(params['page'] ?? defaultParams.page));
+	private setFiltersFromParams(params: AnimeParams): void {
+		this.filtersForm.setValue(params.filters, { emitEvent: false });
+		this.sorting$.next(params.sorting);
+		this.limit = params.limit;
+		this.page$.next(params.page);
 	}
 
 	/**
@@ -201,7 +204,12 @@ export class AnimePageComponent implements OnDestroy, OnInit {
 	 * @param sorting Sorting: direction and field.
 	 */
 	protected handleSortChange(sorting: Sort): void {
-		this.sorting$.next({ direction: sorting.direction, field: sorting.active as AnimeSortingField });
+		this.sorting$.next({
+			direction: sorting.direction,
+			field: sorting.direction !== '' ?
+				sorting.active as AnimeSortingField :
+				AnimeSortingField.None,
+		});
 	}
 
 	/**

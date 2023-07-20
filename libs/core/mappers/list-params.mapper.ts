@@ -15,11 +15,10 @@ export namespace ListParamsMapper {
 		sortFieldMapper: (field: TSortField) => TSortFieldDto): ListParamsDto<TFiltersDto> {
 
 		const sortDirection = model.sorting.direction === 'desc' ? SortDirectionDto.Desc : SortDirectionDto.Asc;
-		const ordering = model.sorting.direction === '' ? '' : `${sortDirection}${sortFieldMapper(model.sorting.field)}`;
 		return {
 			limit: model.limit,
 			offset: model.limit * model.page,
-			ordering,
+			ordering: `${sortDirection}${sortFieldMapper(model.sorting.field)}`,
 			...filterMapper(model.filters),
 		};
 	}
