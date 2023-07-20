@@ -1,4 +1,4 @@
-/** Date range dto. */
+/** Date range DTO. */
 export interface DateRangeDto {
 
 	/** Start date. */

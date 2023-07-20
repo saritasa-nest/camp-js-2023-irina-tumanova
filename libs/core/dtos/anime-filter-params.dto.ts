@@ -1,9 +1,9 @@
 import { AnimeTypeDto } from './anime.dto';
 
-/** Filters params for getting anime dto. */
+/** Filters params for getting anime DTO. */
 export interface AnimeFilterParamsDto {
 
-	/** Selected anime types to display. */
+	/** Anime types. */
 	readonly type: readonly AnimeTypeDto[];
 
 	/** Search. */

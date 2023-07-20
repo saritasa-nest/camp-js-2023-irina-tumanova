@@ -1,14 +1,14 @@
 import { HttpRequest, HttpHandler, HttpInterceptor, HttpEvent } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { AppConfig } from '../services/app.config';
 
-/** Api key interceptor. */
+/** API key interceptor. */
 @Injectable()
 export class ApiKeyInterceptor implements HttpInterceptor {
 
-	public constructor(private readonly appConfig: AppConfig) {}
+	private readonly appConfig = inject(AppConfig);
 
 	/**
 	 * Intercept.

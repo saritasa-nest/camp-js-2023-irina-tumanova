@@ -5,15 +5,3 @@
   flex-direction: column;
   margin: var(--space-m);
 }
-
-.not-found__title {
-  font-size: var(--font-size-l);
-  color: var(--primary-contrast-color);
-  line-height: var(--line-height-l);
-}
-
-.not-found__subtitle {
-  font-size: var(--font-size-m);
-  color: var(--primary-contrast-color);
-  line-height: var(--line-height-m);
-}

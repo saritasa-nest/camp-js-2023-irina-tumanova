@@ -8,7 +8,7 @@ export namespace AnimeMapper {
 
 	/**
 	 * Maps dto to model.
-	 * @param dto Anime dto.
+	 * @param dto Anime DTO.
 	 */
 	export function fromDto(dto: AnimeDto): Anime {
 		return {
@@ -26,7 +26,7 @@ export namespace AnimeMapper {
 		};
 	}
 
-	/** Anime type transformation object in dto. */
+	/** Anime type transformation object in DTO. */
 	const ANIME_TYPE_FROM_DTO = {
 		[AnimeTypeDto.TV]: AnimeType.TV,
 		[AnimeTypeDto.OVA]: AnimeType.OVA,
@@ -37,7 +37,7 @@ export namespace AnimeMapper {
 		[AnimeTypeDto.Unknown]: AnimeType.Unknown,
 	};
 
-	/** Anime type transformation object in dto. */
+	/** Anime type transformation object in DTO. */
 	const ANIME_STATUS_FROM_DTO = {
 		[AnimeStatusDto.Airing]: AnimeStatus.Airing,
 		[AnimeStatusDto.Finished]: AnimeStatus.Finished,

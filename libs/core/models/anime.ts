@@ -2,40 +2,40 @@ import { AnimeStatus } from './anime-status';
 
 import { DateRange } from './date-range';
 
-/** Anime data. */
+/** Anime. */
 export interface Anime {
 
-	/** Anime id. */
+	/** ID. */
 	readonly id: number;
 
-	/** Anime creation date. */
+	/** Creation date. */
 	readonly created: Date;
 
-	/** Anime modification date. */
+	/** Modification date. */
 	readonly modified: Date;
 
-	/** English anime title. */
+	/** English title. */
 	readonly titleEnglish: string;
 
-	/** Japanese anime title. */
+	/** Japanese title. */
 	readonly titleJapanese: string;
 
-	/** Anime image. */
+	/** Image. */
 	readonly image: string;
 
-	/** Anime release period. */
+	/** Release period. */
 	readonly aired: DateRange;
 
-	/** Anime type. */
+	/** Type. */
 	readonly type: AnimeType;
 
-	/** Anime status. */
+	/** Status. */
 	readonly status: AnimeStatus;
 
-	/** Anime score. */
+	/** Score. */
 	readonly score: number | null;
 
-	/** Anime user score. */
+	/** User score. */
 	readonly userScore: number | null;
 }
 

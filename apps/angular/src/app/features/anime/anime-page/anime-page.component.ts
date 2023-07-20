@@ -13,9 +13,9 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 const defaultParams: AnimeParams = {
-	limit: 10,
-	page: 0,
-	sorting: { field: AnimeSortingField.None, direction: '' },
+	pageSize: 10,
+	pageNumber: 0,
+	sorting: { field: AnimeSortingField.None, direction: 'asc' },
 	filters: {
 		type: [],
 		search: '',
@@ -55,16 +55,16 @@ export class AnimePageComponent implements OnInit {
 	protected readonly animeList$: Observable<Pagination<Anime>>;
 
 	/** Anime is loading. */
-	protected readonly isLoading$ = new BehaviorSubject<boolean>(false);
+	protected readonly isLoading$ = new BehaviorSubject(false);
 
 	/** Current table page. */
-	protected readonly page$ = new BehaviorSubject<number>(defaultParams.page);
+	protected readonly pageNumber$ = new BehaviorSubject(defaultParams.pageNumber);
 
 	/** Current table page. */
 	protected readonly sorting$ = new BehaviorSubject<Sorting<AnimeSortingField>>(defaultParams.sorting);
 
 	/** Number of elements per page. */
-	protected limit = defaultParams.limit;
+	protected pageSize = defaultParams.pageSize;
 
 	/** Filters form: search and type filter. */
 	protected readonly filtersForm = new FormGroup({
@@ -103,10 +103,10 @@ export class AnimePageComponent implements OnInit {
 	/** @inheritdoc */
 	public ngOnInit(): void {
 		const resetPaginationSideEffect$ = this.filtersForm.valueChanges.pipe(
-			tap(() => this.page$.next(0)),
+			tap(() => this.pageNumber$.next(0)),
 		);
 
-		const scrollToTopAfterChangePageSideEffect$ = this.page$.pipe(
+		const scrollToTopAfterChangePageSideEffect$ = this.pageNumber$.pipe(
 			tap(() => this.scrollToTopPage()),
 		);
 
@@ -119,9 +119,10 @@ export class AnimePageComponent implements OnInit {
 	private createParamsStream(): Observable<AnimeParams> {
 		return this.filtersForm.valueChanges.pipe(
 			startWith(this.filtersForm.value),
-			combineLatestWith(this.page$, this.sorting$),
+			combineLatestWith(this.pageNumber$, this.sorting$),
 			debounceTime(REQUEST_DEBOUNCE_TIME),
-			map(([{ search, type }, page, { direction, field }]) => this.mapOptionsToAnimeParams({ page, direction, field, search, type })),
+			map(([{ search, type }, pageNumber, { direction, field }]) =>
+				this.mapOptionsToAnimeParams({ pageNumber, direction, field, search, type })),
 			tap(params => {
 				this.setQueryParamsFromAnimeParams(params);
 			}),
@@ -130,8 +131,8 @@ export class AnimePageComponent implements OnInit {
 
 	private setQueryParamsFromAnimeParams(params: AnimeParams): void {
 		const queryParams = {
-			limit: params.limit,
-			page: params.page,
+			pageSize: params.pageSize,
+			pageNumber: params.pageNumber,
 			field: params.sorting.field,
 			direction: params.sorting.direction,
 			search: params.filters.search,
@@ -141,10 +142,10 @@ export class AnimePageComponent implements OnInit {
 		this.router.navigate([], { queryParams, queryParamsHandling: 'merge' });
 	}
 
-	private mapOptionsToAnimeParams({ page, limit, direction, field, search, type }: Partial<FlatAnimeParams>): AnimeParams {
+	private mapOptionsToAnimeParams({ pageNumber, pageSize, direction, field, search, type }: Partial<FlatAnimeParams>): AnimeParams {
 		return {
-			limit: limit ?? this.limit,
-			page: page ?? defaultParams.page,
+			pageNumber: pageNumber ?? defaultParams.pageNumber,
+			pageSize: pageSize ?? this.pageSize,
 			sorting: {
 				direction: direction ?? defaultParams.sorting.direction,
 				field: field ?? defaultParams.sorting.field,
@@ -158,8 +159,8 @@ export class AnimePageComponent implements OnInit {
 
 	private mapQueryParamsToAnimeParams(params: Params): AnimeParams {
 		return {
-			limit: +(params['limit'] ?? this.limit),
-			page: +(params['page'] ?? defaultParams.page),
+			pageSize: +(params['pageSize'] ?? this.pageSize),
+			pageNumber: +(params['pageNumber'] ?? defaultParams.pageNumber),
 			sorting: {
 				direction: params['direction'] as SortDirection ?? defaultParams.sorting.direction,
 				field: params['field'] as AnimeSortingField ?? defaultParams.sorting.field,
@@ -180,8 +181,8 @@ export class AnimePageComponent implements OnInit {
 	private setFiltersFromParams(params: AnimeParams): void {
 		this.filtersForm.setValue(params.filters);
 		this.sorting$.next(params.sorting);
-		this.limit = params.limit;
-		this.page$.next(params.page);
+		this.pageSize = params.pageSize;
+		this.pageNumber$.next(params.pageNumber);
 	}
 
 	/**
@@ -189,8 +190,8 @@ export class AnimePageComponent implements OnInit {
 	 * @param event Page event.
 	 */
 	protected handlePageEvent(event: PageEvent): void {
-		this.page$.next(this.limit === event.pageSize ? event.pageIndex : 0);
-		this.limit = event.pageSize;
+		this.pageNumber$.next(this.pageSize === event.pageSize ? event.pageIndex : 0);
+		this.pageSize = event.pageSize;
 	}
 
 	/**
@@ -226,5 +227,14 @@ export class AnimePageComponent implements OnInit {
 	/** Scroll to top. */
 	private scrollToTopPage(): void {
 		window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+	}
+
+	/**
+	 * Track anime by id in table.
+	 * @param index Index.
+	 * @param anime Anime.
+	 */
+	protected trackById(index: number, anime: Anime): number {
+		return anime.id;
 	}
 }
