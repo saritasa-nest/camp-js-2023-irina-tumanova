@@ -1,9 +1,16 @@
 /** Params for pagination in table. */
-export interface PaginationParams {
+export class PaginationParams {
 
 	/** Number of elements per page. */
-	readonly pageSize: number;
+	public readonly pageSize: number;
 
 	/** Number of page. */
-	readonly pageNumber: number;
+	public readonly pageNumber: number;
+
+	public constructor({ pageNumber, pageSize }: InitPaginationParams) {
+		this.pageSize = pageSize;
+		this.pageNumber = pageNumber;
+	}
 }
+
+type InitPaginationParams = PaginationParams;

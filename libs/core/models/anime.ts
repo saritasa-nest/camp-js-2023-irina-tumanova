@@ -3,41 +3,59 @@ import { AnimeStatus } from './anime-status';
 import { DateRange } from './date-range';
 
 /** Anime. */
-export interface Anime {
+export class Anime {
 
 	/** ID. */
-	readonly id: number;
+	public readonly id: number;
 
 	/** Creation date. */
-	readonly created: Date;
+	public readonly created: Date;
 
 	/** Modification date. */
-	readonly modified: Date;
+	public readonly modified: Date;
 
 	/** English title. */
-	readonly titleEnglish: string;
+	public readonly titleEnglish: string;
 
 	/** Japanese title. */
-	readonly titleJapanese: string;
+	public readonly titleJapanese: string;
 
 	/** Image. */
-	readonly image: string;
+	public readonly image: string;
 
 	/** Release period. */
-	readonly aired: DateRange;
+	public readonly aired: DateRange;
 
 	/** Type. */
-	readonly type: AnimeType;
+	public readonly type: AnimeType;
 
 	/** Status. */
-	readonly status: AnimeStatus;
+	public readonly status: AnimeStatus;
 
 	/** Score. */
-	readonly score: number | null;
+	public readonly score: number | null;
 
 	/** User score. */
-	readonly userScore: number | null;
+	public readonly userScore: number | null;
+
+	public constructor(
+		{ id, created, modified, titleEnglish, titleJapanese, image, aired, type, score, status, userScore }: InitAnimeParams,
+	) {
+		this.id = id;
+		this.created = created;
+		this.modified = modified;
+		this.titleEnglish = titleEnglish;
+		this.titleJapanese = titleJapanese;
+		this.image = image;
+		this.aired = aired;
+		this.type = type;
+		this.status = status;
+		this.score = score;
+		this.userScore = userScore;
+	}
 }
+
+type InitAnimeParams = Anime;
 
 /** Anime type dto. */
 export enum AnimeType {

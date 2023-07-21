@@ -8,9 +8,9 @@ export namespace DateRangeMapper {
 	 * @param dto Date range DTO.
 	 */
 	export function fromDto(dto: DateRangeDto): DateRange {
-		return {
+		return new DateRange({
 			start: new Date(dto.start),
 			end: new Date(dto.end),
-		};
+		});
 	}
 }

@@ -12,8 +12,8 @@ export namespace ListParamsMapper {
 	export function toDto<TFilters, TSortField, TFiltersDto>(model: ListParams<TFilters, TSortField>,
 		filterMapper: (filters: TFilters) => TFiltersDto): ListParamsDto<TFiltersDto> {
 		return {
-			limit: model.pageSize,
-			offset: model.pageSize * model.pageNumber,
+			limit: model.pagination.pageSize,
+			offset: model.pagination.pageSize * model.pagination.pageNumber,
 			ordering: `${model.sorting.direction === 'desc' ? SortDirectionDto.Desc : SortDirectionDto.Asc}${model.sorting.field}`,
 			...filterMapper(model.filters),
 		};

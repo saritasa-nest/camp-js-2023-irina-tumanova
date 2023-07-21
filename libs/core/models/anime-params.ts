@@ -2,14 +2,21 @@ import { AnimeType } from './anime';
 import { ListParams } from './list-params';
 
 /** Filters parameters for getting anime. */
-export interface AnimeFilterParams {
+export class AnimeFilterParams {
 
 	/** Anime types. */
-	readonly type: AnimeType[];
+	public readonly type: AnimeType[];
 
 	/** Search. */
-	readonly search: string;
+	public readonly search: string;
+
+	public constructor({ type, search }: InitAnimeFilterParams) {
+		this.type = type;
+		this.search = search;
+	}
 }
+
+type InitAnimeFilterParams = AnimeFilterParams;
 
 /** Field to sort by. */
 export enum AnimeSortField {

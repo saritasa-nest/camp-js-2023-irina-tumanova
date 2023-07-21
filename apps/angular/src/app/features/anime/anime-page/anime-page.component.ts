@@ -2,19 +2,17 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Anime } from '@js-camp/core/models/anime';
-import { AnimeSortField, AnimeParams } from '@js-camp/core/models/anime-params';
+import { AnimeSortField, AnimeParams, AnimeFilterParams } from '@js-camp/core/models/anime-params';
 import { AnimeStatus } from '@js-camp/core/models/anime-status';
 import { Pagination } from '@js-camp/core/models/pagination';
+import { PaginationParams } from '@js-camp/core/models/pagination-params';
+import { Sorting } from '@js-camp/core/models/sorting';
 import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, shareReplay } from 'rxjs';
 
 const defaultParams: AnimeParams = {
-	pageSize: 10,
-	pageNumber: 0,
-	sorting: { field: AnimeSortField.None, direction: 'asc' },
-	filters: {
-		type: [],
-		search: '',
-	},
+	pagination: new PaginationParams({ pageSize: 10, pageNumber: 0 }),
+	sorting: new Sorting({ field: AnimeSortField.None, direction: 'asc' }),
+	filters: new AnimeFilterParams({ type: [], search: '' }),
 };
 
 const REQUEST_DEBOUNCE_TIME = 500;
@@ -40,11 +38,8 @@ export class AnimePageComponent {
 	/** Anime is loading. */
 	protected readonly isLoading$ = new BehaviorSubject(false);
 
-	/** Current table page. */
-	protected readonly pageNumber$ = new BehaviorSubject(defaultParams.pageNumber);
-
-	/** Number of elements per page. */
-	protected pageSize = defaultParams.pageSize;
+	/** Pagination. */
+	protected readonly pagination$ = new BehaviorSubject(defaultParams.pagination);
 
 	private readonly animeService = inject(AnimeService);
 
@@ -54,9 +49,9 @@ export class AnimePageComponent {
 
 	/** Create anime list stream. */
 	private createAnimeListStream(): Observable<Pagination<Anime>> {
-		return this.pageNumber$.pipe(
+		return this.pagination$.pipe(
 			debounceTime(REQUEST_DEBOUNCE_TIME),
-			map(pageNumber => this.createParams(pageNumber)),
+			map(pagination => this.createParams(pagination)),
 			tap(() => this.isLoading$.next(true)),
 			switchMap(params => this.animeService.getAnime(params)),
 			tap(() => this.isLoading$.next(false)),
@@ -66,12 +61,11 @@ export class AnimePageComponent {
 
 	/**
 	 * Create query params.
-	 * @param pageNumber Page number.
+	 * @param pagination Pagination.
 	 */
-	private createParams(pageNumber: number): AnimeParams {
+	private createParams(pagination: PaginationParams): AnimeParams {
 		return {
-			pageSize: this.pageSize,
-			pageNumber,
+			pagination,
 			sorting: defaultParams.sorting,
 			filters: {
 				type: defaultParams.filters.type,
@@ -83,10 +77,13 @@ export class AnimePageComponent {
 	/**
 	 * Change paginator data.
 	 * @param event Page event.
+	 * @param prev Previous value of pagination.
 	 */
-	protected handlePageEvent(event: PageEvent): void {
-		this.pageNumber$.next(this.pageSize === event.pageSize ? event.pageIndex : 0);
-		this.pageSize = event.pageSize;
+	protected handlePageEvent(event: PageEvent, prev: PaginationParams): void {
+		this.pagination$.next(new PaginationParams({
+			pageNumber: prev.pageSize === event.pageSize ? event.pageIndex : 0,
+			pageSize: event.pageSize,
+		}));
 	}
 
 	/**
