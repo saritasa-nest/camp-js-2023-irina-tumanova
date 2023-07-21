@@ -7,7 +7,7 @@ import { Anime, AnimeType } from '@js-camp/core/models/anime';
 import { AnimeSortingField, AnimeParams, FlatAnimeParams } from '@js-camp/core/models/anime-params';
 import { AnimeStatus } from '@js-camp/core/models/anime-status';
 import { Pagination } from '@js-camp/core/models/pagination';
-import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, shareReplay, combineLatestWith, startWith, merge, skip, first, concat } from 'rxjs';
+import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, shareReplay, combineLatestWith, startWith, merge, first } from 'rxjs';
 import { Sorting } from '@js-camp/core/models/sorting';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -79,6 +79,17 @@ export class AnimePageComponent implements OnInit {
 	private readonly router = inject(Router);
 
 	public constructor() {
+
+		// If you put this subscription in ngOnInit, the filtering will break.
+		// There are no ideas yet how to do it differently
+		const setParamsFromQueryParams$ = this.route.queryParams.pipe(
+			first(),
+			map(params => this.mapQueryParamsToAnimeParams(params)),
+			tap(params => this.setFiltersFromParams(params)),
+			untilDestroyed(this),
+		);
+		setParamsFromQueryParams$.subscribe();
+
 		const params$ = this.createParamsStream();
 
 		this.animeList$ = params$.pipe(
@@ -106,24 +117,11 @@ export class AnimePageComponent implements OnInit {
 
 	/** Create anime list stream. */
 	private createParamsStream(): Observable<AnimeParams> {
-		const paramsFromQueryParams$ = this.route.queryParams.pipe(
-			map(params => this.mapQueryParamsToAnimeParams(params)),
-			tap(params => this.setFiltersFromParams(params)),
-			first(),
-		);
-
-		const params$ = this.filtersForm.valueChanges.pipe(
+		return this.filtersForm.valueChanges.pipe(
 			startWith(this.filtersForm.value),
 			combineLatestWith(this.page$, this.sorting$),
-			tap(console.log),
 			debounceTime(REQUEST_DEBOUNCE_TIME),
 			map(([{ search, type }, page, { direction, field }]) => this.mapOptionsToAnimeParams({ page, direction, field, search, type })),
-		);
-
-		return concat(
-			paramsFromQueryParams$,
-			params$.pipe(skip(1)),
-		).pipe(
 			tap(params => {
 				this.setQueryParamsFromAnimeParams(params);
 			}),
