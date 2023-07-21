@@ -11,7 +11,7 @@ export namespace AnimeMapper {
 	 * @param dto Anime DTO.
 	 */
 	export function fromDto(dto: AnimeDto): Anime {
-		return {
+		return new Anime({
 			id: dto.id,
 			created: new Date(dto.created),
 			modified: new Date(dto.modified),
@@ -23,7 +23,7 @@ export namespace AnimeMapper {
 			status: ANIME_STATUS_FROM_DTO[dto.status],
 			score: dto.score,
 			userScore: dto.user_score,
-		};
+		});
 	}
 
 	/** Anime type transformation object in DTO. */

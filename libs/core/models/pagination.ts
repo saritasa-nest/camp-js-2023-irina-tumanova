@@ -1,15 +1,24 @@
 /** Pagination meta info. */
-export interface Pagination<T> {
+export class Pagination<T> {
 
 	/** Total count of items. */
-	readonly count: number;
+	public readonly count: number;
 
 	/** Next page of items. */
-	readonly next: string;
+	public readonly next: string;
 
 	/** Previous page of items. */
-	readonly previous: string;
+	public readonly previous: string;
 
 	/** Array of items requested. */
-	readonly items: readonly T[];
+	public readonly items: readonly T[];
+
+	public constructor({ count, next, previous, items }: InitPaginationParams<T>) {
+		this.count = count;
+		this.next = next;
+		this.previous = previous;
+		this.items = items;
+	}
 }
+
+type InitPaginationParams<T> = Pagination<T>;

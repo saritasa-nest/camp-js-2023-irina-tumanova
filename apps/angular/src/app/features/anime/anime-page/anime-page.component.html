@@ -51,11 +51,11 @@
       <td mat-cell *matCellDef="let element">{{(element.aired.start !== null) ? (element.aired.start | date) : "" }}</td>
     </ng-container>
 
-    <!-- Type Column -->
-    <ng-container matColumnDef="type">
-      <th mat-header-cell *matHeaderCellDef>Type</th>
-      <td mat-cell *matCellDef="let element">{{element.type}}</td>
-    </ng-container>
+		<!-- Type Column -->
+		<ng-container matColumnDef="type">
+			<th mat-header-cell *matHeaderCellDef>Type</th>
+			<td mat-cell *matCellDef="let element">{{element.type}}</td>
+		</ng-container>
 
     <!-- Status Column -->
     <ng-container matColumnDef="status">
@@ -64,16 +64,15 @@
     </ng-container>
 
     <!-- Paginator column -->
-    <ng-container matColumnDef="paginator">
+    <ng-container matColumnDef="paginator" *ngIf="pagination$ | async as pagination">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-footer-cell *matFooterCellDef colspan="6" >
         <mat-paginator [pageSizeOptions]="pageSizeOptions"
           showFirstLastButtons
-          *ngIf="(pageNumber$ | async) !== null"
-          [pageIndex]="pageNumber$ | async"
-          [pageSize]="pageSize"
+          [pageIndex]="pagination.pageNumber"
+          [pageSize]="pagination.pageSize"
           [length]="animeList.count"
-          (page)="handlePageEvent($event)"
+          (page)="handlePageEvent($event, pagination)"
           aria-label="Select page of periodic elements">
         </mat-paginator>
       </td>

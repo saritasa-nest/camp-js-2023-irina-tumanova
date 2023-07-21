@@ -1,9 +1,16 @@
 /** Date range. */
-export interface DateRange {
+export class DateRange {
 
 	/** Start date. */
-	readonly start: Date | null;
+	public readonly start: Date | null;
 
 	/** End date. */
-	readonly end: Date | null;
+	public readonly end: Date | null;
+
+	public constructor({ start, end }: InitDateRangeParams) {
+		this.start = start;
+		this.end = end;
+	}
 }
+
+type InitDateRangeParams = DateRange;

@@ -4,22 +4,19 @@ import { PageEvent } from '@angular/material/paginator';
 import { Sort, SortDirection } from '@angular/material/sort';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Anime, AnimeType } from '@js-camp/core/models/anime';
-import { AnimeSortingField, AnimeParams, FlatAnimeParams } from '@js-camp/core/models/anime-params';
+import { AnimeSortingField, AnimeParams, FlatAnimeParams, AnimeFilterParams } from '@js-camp/core/models/anime-params';
 import { AnimeStatus } from '@js-camp/core/models/anime-status';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, shareReplay, combineLatestWith, startWith, merge, first } from 'rxjs';
 import { Sorting } from '@js-camp/core/models/sorting';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { PaginationParams } from '@js-camp/core/models/pagination-params';
 
 const defaultParams: AnimeParams = {
-	pageSize: 10,
-	pageNumber: 0,
-	sorting: { field: AnimeSortingField.None, direction: 'asc' },
-	filters: {
-		type: [],
-		search: '',
-	},
+	pagination: new PaginationParams({ pageSize: 10, pageNumber: 0 }),
+	sorting: new Sorting({ field: AnimeSortingField.None, direction: 'asc' }),
+	filters: new AnimeFilterParams({ type: [], search: '' }),
 };
 
 const REQUEST_DEBOUNCE_TIME = 500;
@@ -58,13 +55,10 @@ export class AnimePageComponent implements OnInit {
 	protected readonly isLoading$ = new BehaviorSubject(false);
 
 	/** Current table page. */
-	protected readonly pageNumber$ = new BehaviorSubject(defaultParams.pageNumber);
-
-	/** Current table page. */
 	protected readonly sorting$ = new BehaviorSubject<Sorting<AnimeSortingField>>(defaultParams.sorting);
 
-	/** Number of elements per page. */
-	protected pageSize = defaultParams.pageSize;
+	/** Pagination. */
+	protected readonly pagination$ = new BehaviorSubject(defaultParams.pagination);
 
 	/** Filters form: search and type filter. */
 	protected readonly filtersForm = new FormGroup({
@@ -102,11 +96,12 @@ export class AnimePageComponent implements OnInit {
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
+		// TODO починить pageSize.
 		const resetPaginationSideEffect$ = this.filtersForm.valueChanges.pipe(
-			tap(() => this.pageNumber$.next(0)),
+			tap(() => this.pagination$.next({ pageNumber: 0, pageSize: defaultParams.pagination.pageSize })),
 		);
 
-		const scrollToTopAfterChangePageSideEffect$ = this.pageNumber$.pipe(
+		const scrollToTopAfterChangePageSideEffect$ = this.pagination$.pipe(
 			tap(() => this.scrollToTopPage()),
 		);
 
@@ -119,10 +114,17 @@ export class AnimePageComponent implements OnInit {
 	private createParamsStream(): Observable<AnimeParams> {
 		return this.filtersForm.valueChanges.pipe(
 			startWith(this.filtersForm.value),
-			combineLatestWith(this.pageNumber$, this.sorting$),
+			combineLatestWith(this.pagination$, this.sorting$),
 			debounceTime(REQUEST_DEBOUNCE_TIME),
-			map(([{ search, type }, pageNumber, { direction, field }]) =>
-				this.mapOptionsToAnimeParams({ pageNumber, direction, field, search, type })),
+			map(([{ search, type }, pagination, { direction, field }]) =>
+				this.mapOptionsToAnimeParams({
+					pageNumber: pagination.pageNumber,
+					pageSize: pagination.pageSize,
+					direction,
+					field,
+					search,
+					type,
+				})),
 			tap(params => {
 				this.setQueryParamsFromAnimeParams(params);
 			}),
@@ -131,8 +133,8 @@ export class AnimePageComponent implements OnInit {
 
 	private setQueryParamsFromAnimeParams(params: AnimeParams): void {
 		const queryParams = {
-			pageSize: params.pageSize,
-			pageNumber: params.pageNumber,
+			pageSize: params.pagination.pageSize,
+			pageNumber: params.pagination.pageNumber,
 			field: params.sorting.field,
 			direction: params.sorting.direction,
 			search: params.filters.search,
@@ -144,8 +146,10 @@ export class AnimePageComponent implements OnInit {
 
 	private mapOptionsToAnimeParams({ pageNumber, pageSize, direction, field, search, type }: Partial<FlatAnimeParams>): AnimeParams {
 		return {
-			pageNumber: pageNumber ?? defaultParams.pageNumber,
-			pageSize: pageSize ?? this.pageSize,
+			pagination: new PaginationParams({
+				pageNumber: pageNumber ?? defaultParams.pagination.pageNumber,
+				pageSize: pageSize ?? defaultParams.pagination.pageSize,
+			}),
 			sorting: {
 				direction: direction ?? defaultParams.sorting.direction,
 				field: field ?? defaultParams.sorting.field,
@@ -159,8 +163,10 @@ export class AnimePageComponent implements OnInit {
 
 	private mapQueryParamsToAnimeParams(params: Params): AnimeParams {
 		return {
-			pageSize: +(params['pageSize'] ?? this.pageSize),
-			pageNumber: +(params['pageNumber'] ?? defaultParams.pageNumber),
+			pagination: new PaginationParams({
+				pageSize: +(params['pageSize'] ?? defaultParams.pagination.pageSize),
+				pageNumber: +(params['pageNumber'] ?? defaultParams.pagination.pageNumber),
+			}),
 			sorting: {
 				direction: params['direction'] as SortDirection ?? defaultParams.sorting.direction,
 				field: params['field'] as AnimeSortingField ?? defaultParams.sorting.field,
@@ -181,17 +187,19 @@ export class AnimePageComponent implements OnInit {
 	private setFiltersFromParams(params: AnimeParams): void {
 		this.filtersForm.setValue(params.filters);
 		this.sorting$.next(params.sorting);
-		this.pageSize = params.pageSize;
-		this.pageNumber$.next(params.pageNumber);
+		this.pagination$.next(params.pagination);
 	}
 
 	/**
 	 * Change paginator data.
 	 * @param event Page event.
+	 * @param prev Previous value of pagination.
 	 */
-	protected handlePageEvent(event: PageEvent): void {
-		this.pageNumber$.next(this.pageSize === event.pageSize ? event.pageIndex : 0);
-		this.pageSize = event.pageSize;
+	protected handlePageEvent(event: PageEvent, prev: PaginationParams): void {
+		this.pagination$.next(new PaginationParams({
+			pageNumber: prev.pageSize === event.pageSize ? event.pageIndex : 0,
+			pageSize: event.pageSize,
+		}));
 	}
 
 	/**

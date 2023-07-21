@@ -15,8 +15,8 @@ export namespace ListParamsMapper {
 
 		const sortDirection = model.sorting.direction === 'desc' ? SortDirectionDto.Desc : SortDirectionDto.Asc;
 		return {
-			limit: model.pageSize,
-			offset: model.pageSize * model.pageNumber,
+			limit: model.pagination.pageSize,
+			offset: model.pagination.pageSize * model.pagination.pageNumber,
 			ordering: `${sortDirection}${model.sorting.field}`,
 			...filterMapper(model.filters),
 		};
