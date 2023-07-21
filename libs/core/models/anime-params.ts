@@ -1,8 +1,5 @@
-import { SortDirection } from '@angular/material/sort';
-
 import { AnimeType } from './anime';
 import { ListParams } from './list-params';
-import { PaginationParams } from './pagination-params';
 
 /** Filters parameters for getting anime. */
 export class AnimeFilterParams {
@@ -32,9 +29,3 @@ export enum AnimeSortingField {
 
 /** Request params for getting anime. */
 export type AnimeParams = ListParams<AnimeFilterParams, AnimeSortingField>;
-
-/** Request params from getting anime (flat). */
-export type FlatAnimeParams = PaginationParams & {
-	field: AnimeSortingField;
-	direction: SortDirection;
-} & AnimeFilterParams;
