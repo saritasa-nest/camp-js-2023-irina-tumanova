@@ -1,15 +1,16 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort, SortDirection } from '@angular/material/sort';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Anime, AnimeType } from '@js-camp/core/models/anime';
-import { AnimeSortingField, AnimeParams } from '@js-camp/core/models/anime-params';
+import { AnimeSortingField, AnimeParams, FlatAnimeParams } from '@js-camp/core/models/anime-params';
 import { AnimeStatus } from '@js-camp/core/models/anime-status';
 import { Pagination } from '@js-camp/core/models/pagination';
-import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, shareReplay, combineLatestWith, startWith, merge, Subscription, skip, first } from 'rxjs';
+import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, shareReplay, combineLatestWith, startWith, merge, skip, first } from 'rxjs';
 import { Sorting } from '@js-camp/core/models/sorting';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 const defaultParams: AnimeParams = {
 	limit: 10,
@@ -24,13 +25,14 @@ const defaultParams: AnimeParams = {
 const REQUEST_DEBOUNCE_TIME = 500;
 
 /** Anime list page. */
+@UntilDestroy()
 @Component({
 	selector: 'camp-anime-page',
 	templateUrl: './anime-page.component.html',
 	styleUrls: ['./anime-page.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnimePageComponent implements OnDestroy, OnInit {
+export class AnimePageComponent implements OnInit {
 
 	/** Columns in a table. */
 	protected readonly displayedColumns: readonly string[] = ['image', 'titleEnglish', 'titleJapanese', 'aired.start', 'type', 'status'];
@@ -64,19 +66,17 @@ export class AnimePageComponent implements OnDestroy, OnInit {
 	/** Number of elements per page. */
 	protected limit = defaultParams.limit;
 
-	private sideEffectsSubscription?: Subscription;
+	/** Filters form: search and type filter. */
+	protected readonly filtersForm = new FormGroup({
+		search: new FormControl(defaultParams.filters.search, { nonNullable: true }),
+		type: new FormControl(defaultParams.filters.type, { nonNullable: true }),
+	});
 
 	private readonly animeService = inject(AnimeService);
 
 	private readonly route = inject(ActivatedRoute);
 
 	private readonly router = inject(Router);
-
-	/** Filters form: search and type filter. */
-	protected readonly filtersForm = new FormGroup({
-		search: new FormControl(defaultParams.filters.search),
-		type: new FormControl(defaultParams.filters.type),
-	});
 
 	public constructor() {
 		const params$ = this.createParamsStream();
@@ -91,27 +91,17 @@ export class AnimePageComponent implements OnDestroy, OnInit {
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		this.sideEffectsSubscription = this.createSideEffectsSubscription();
-	}
-
-	/** @inheritdoc */
-	public ngOnDestroy(): void {
-		this.sideEffectsSubscription?.unsubscribe();
-	}
-
-	private createSideEffectsSubscription(): Subscription {
-		const resetPagination$ = this.filtersForm.valueChanges.pipe(
+		const resetPaginationSideEffect$ = this.filtersForm.valueChanges.pipe(
 			tap(() => this.page$.next(0)),
 		);
 
-		const scrollToTopAfterChangePage$ = this.page$.pipe(
+		const scrollToTopAfterChangePageSideEffect$ = this.page$.pipe(
 			tap(() => this.scrollToTopPage()),
 		);
 
-		return merge(
-			resetPagination$,
-			scrollToTopAfterChangePage$,
-		).subscribe();
+		merge(resetPaginationSideEffect$, scrollToTopAfterChangePageSideEffect$)
+			.pipe(untilDestroyed(this))
+			.subscribe();
 	}
 
 	/** Create anime list stream. */
@@ -126,19 +116,7 @@ export class AnimePageComponent implements OnDestroy, OnInit {
 			startWith(this.filtersForm.value),
 			combineLatestWith(this.page$, this.sorting$),
 			debounceTime(REQUEST_DEBOUNCE_TIME),
-			map(([{ search, type }, page, sorting]) => {
-				const params: AnimeParams = {
-					limit: this.limit,
-					page,
-					sorting,
-					filters: {
-						search: search ?? defaultParams.filters.search,
-						type: type ?? defaultParams.filters.type,
-					},
-				};
-
-				return params;
-			}),
+			map(([{ search, type }, page, { direction, field }]) => this.mapOptionsToAnimeParams({ page, direction, field, search, type })),
 		);
 
 		return merge(
@@ -158,25 +136,36 @@ export class AnimePageComponent implements OnDestroy, OnInit {
 			field: params.sorting.field,
 			direction: params.sorting.direction,
 			search: params.filters.search,
-			type: params.filters.type,
+			type: params.filters.type.join(','),
 		};
 
 		this.router.navigate([], { queryParams, queryParamsHandling: 'merge' });
 	}
 
-	private mapQueryParamsToAnimeParams(params: Params): AnimeParams {
+	private mapOptionsToAnimeParams({ page, limit, direction, field, search, type }: Partial<FlatAnimeParams>): AnimeParams {
 		return {
-			limit: +(params['limit'] ?? defaultParams.limit),
-			page: +(params['page'] ?? defaultParams.page),
+			limit: limit ?? this.limit,
+			page: page ?? defaultParams.page,
 			sorting: {
-				field: params['field'] as AnimeSortingField ?? defaultParams.sorting.field,
-				direction: params['direction'] as SortDirection ?? defaultParams.sorting.direction,
+				direction: direction ?? defaultParams.sorting.direction,
+				field: field ?? defaultParams.sorting.field,
 			},
 			filters: {
-				type: params['type'] as AnimeType[] ?? defaultParams.filters.type,
-				search: params['search'] ?? defaultParams.filters.search,
+				search: search ?? defaultParams.filters.search,
+				type: type ?? defaultParams.filters.type,
 			},
 		};
+	}
+
+	private mapQueryParamsToAnimeParams(params: Params): AnimeParams {
+		return this.mapOptionsToAnimeParams({
+			page: +params['page'],
+			limit: +params['limit'],
+			field: params['field'] as AnimeSortingField,
+			direction: params['direction'] as SortDirection,
+			type: params['type'].split(',').filter((type: string) => type.length > 0) as AnimeType[],
+			search: params['search'],
+		});
 	}
 
 	/**
@@ -221,20 +210,16 @@ export class AnimePageComponent implements OnDestroy, OnInit {
 	}
 
 	/**
-	 * Track anime type in for.
+	 * Track anime type.
 	 * @param index Index.
 	 * @param type Anime type.
 	 */
-	protected trackType(index: number, type: AnimeType): AnimeType {
+	protected trackAnimeType(index: number, type: AnimeType): AnimeType {
 		return type;
 	}
 
 	/** Scroll to top. */
 	private scrollToTopPage(): void {
-		window.scroll({
-			top: 0,
-			left: 0,
-			behavior: 'smooth',
-		});
+		window.scroll({ top: 0, left: 0, behavior: 'smooth' });
 	}
 }
