@@ -21,7 +21,7 @@ export class Anime {
 	public readonly titleJapanese: string;
 
 	/** Image. */
-	public readonly image: string;
+	public readonly imageUrl: string;
 
 	/** Release period. */
 	public readonly aired: DateRange;
@@ -39,14 +39,14 @@ export class Anime {
 	public readonly userScore: number | null;
 
 	public constructor(
-		{ id, created, modified, titleEnglish, titleJapanese, image, aired, type, score, status, userScore }: InitAnimeParams,
+		{ id, created, modified, titleEnglish, titleJapanese, imageUrl, aired, type, score, status, userScore }: InitAnimeParams,
 	) {
 		this.id = id;
 		this.created = created;
 		this.modified = modified;
 		this.titleEnglish = titleEnglish;
 		this.titleJapanese = titleJapanese;
-		this.image = image;
+		this.imageUrl = imageUrl;
 		this.aired = aired;
 		this.type = type;
 		this.status = status;

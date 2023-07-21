@@ -17,7 +17,7 @@ export namespace AnimeMapper {
 			modified: new Date(dto.modified),
 			titleEnglish: dto.title_eng,
 			titleJapanese: dto.title_jpn,
-			image: dto.image,
+			imageUrl: dto.image,
 			aired: DateRangeMapper.fromDto(dto.aired),
 			type: ANIME_TYPE_FROM_DTO[dto.type],
 			status: ANIME_STATUS_FROM_DTO[dto.status],
