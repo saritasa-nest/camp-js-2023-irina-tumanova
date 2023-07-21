@@ -30,7 +30,9 @@ export class AnimeService {
 	public getAnime(animeParams: AnimeParams): Observable<Pagination<Anime>> {
 		const url = this.appUrlsConfig.anime.get;
 		const params = new HttpParams({
-			fromObject: ListParamsMapper.toDto(animeParams, AnimeFilterParamsMapper.toDto),
+			fromObject: ListParamsMapper.toDto(animeParams,
+				AnimeFilterParamsMapper.toDto,
+				field => AnimeFilterParamsMapper.ANIME_SORT_FIELD_TO_DTO[field]),
 		});
 
 		return this.http
