@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort, SortDirection } from '@angular/material/sort';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
@@ -7,7 +7,7 @@ import { Anime, AnimeType } from '@js-camp/core/models/anime';
 import { AnimeSortingField, AnimeParams, AnimeFilterParams } from '@js-camp/core/models/anime-params';
 import { AnimeStatus } from '@js-camp/core/models/anime-status';
 import { Pagination } from '@js-camp/core/models/pagination';
-import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, shareReplay, combineLatestWith, startWith, merge, first } from 'rxjs';
+import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, shareReplay, combineLatestWith, startWith, merge } from 'rxjs';
 import { Sorting } from '@js-camp/core/models/sorting';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -20,6 +20,8 @@ const defaultParams: AnimeParams = {
 };
 
 const REQUEST_DEBOUNCE_TIME = 500;
+
+type FiltersForm = FormGroup<{search: FormControl<string>; type: FormControl<AnimeType[]>;}>;
 
 /** Anime list page. */
 @UntilDestroy()
@@ -55,41 +57,34 @@ export class AnimePageComponent implements OnInit {
 	protected readonly isLoading$ = new BehaviorSubject(false);
 
 	/** Current table page. */
-	protected readonly sorting$ = new BehaviorSubject<Sorting<AnimeSortingField>>(defaultParams.sorting);
+	protected readonly sorting$: BehaviorSubject<Sorting<AnimeSortingField>>;
 
 	/** Pagination. */
-	protected readonly pagination$ = new BehaviorSubject(defaultParams.pagination);
+	protected readonly pagination$: BehaviorSubject<PaginationParams>;
 
 	/** Filters form: search and type filter. */
-	protected readonly filtersForm = new FormGroup({
-		search: new FormControl(defaultParams.filters.search, { nonNullable: true }),
-		type: new FormControl(defaultParams.filters.type, { nonNullable: true }),
-	});
-
-	private readonly animeService = inject(AnimeService);
+	protected readonly filtersForm: FiltersForm;
 
 	private readonly route = inject(ActivatedRoute);
 
+	private readonly animeService = inject(AnimeService);
+
 	private readonly router = inject(Router);
 
-	public constructor() {
+	private readonly formBuilder = inject(NonNullableFormBuilder);
 
-		// If you put this subscription in ngOnInit, the filtering will break.
-		// There are no ideas yet how to do it differently
-		const setParamsFromQueryParams$ = this.route.queryParams.pipe(
-			first(),
-			map(params => this.mapQueryParamsToAnimeParams(params)),
-			tap(params => this.setFiltersFromParams(params)),
-			untilDestroyed(this),
-		);
-		setParamsFromQueryParams$.subscribe();
+	public constructor() {
+		const paramsFromQuery = this.mapQueryParamsToAnimeParams(this.route.snapshot.queryParams);
+
+		this.filtersForm = this.createFiltersForm(paramsFromQuery.filters);
+		this.pagination$ = new BehaviorSubject(paramsFromQuery.pagination);
+		this.sorting$ = new BehaviorSubject(paramsFromQuery.sorting);
 
 		this.animeList$ = this.createAnimeListStream();
 	}
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		// TODO починить pageSize.
 		const resetPaginationSideEffect$ = this.filtersForm.valueChanges.pipe(
 			tap(() => this.pagination$.next({ pageNumber: 0, pageSize: defaultParams.pagination.pageSize })),
 		);
@@ -103,6 +98,17 @@ export class AnimePageComponent implements OnInit {
 			.subscribe();
 	}
 
+	/**
+	 * Create filters form.
+	 * @param filters Initial filters.
+	 */
+	private createFiltersForm(filters: AnimeFilterParams): FiltersForm {
+		return this.formBuilder.group({
+			search: this.formBuilder.control(filters.search),
+			type: this.formBuilder.control(filters.type),
+		});
+	}
+
 	/** Create anime list stream. */
 	private createAnimeListStream(): Observable<Pagination<Anime>> {
 		return this.filtersForm.valueChanges.pipe(
@@ -111,7 +117,6 @@ export class AnimePageComponent implements OnInit {
 			debounceTime(REQUEST_DEBOUNCE_TIME),
 			map(([{ search, type }, pagination, sorting]) => this.createParams(pagination, sorting, search, type)),
 			tap(params => this.setQueryParamsFromAnimeParams(params)),
-
 			tap(() => this.isLoading$.next(true)),
 			switchMap(params => this.animeService.getAnime(params)),
 			tap(() => this.isLoading$.next(false)),
@@ -176,16 +181,6 @@ export class AnimePageComponent implements OnInit {
 					defaultParams.filters.type,
 			},
 		};
-	}
-
-	/**
-	 * Set filters from params.
-	 * @param params Params: sorting + type + search.
-	 */
-	private setFiltersFromParams(params: AnimeParams): void {
-		this.filtersForm.setValue(params.filters);
-		this.sorting$.next(params.sorting);
-		this.pagination$.next(params.pagination);
 	}
 
 	/**
