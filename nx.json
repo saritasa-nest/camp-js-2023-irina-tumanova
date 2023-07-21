@@ -63,7 +63,7 @@
   },
   "defaultProject": "angular",
   "cli": {
-    "defaultCollection": "@nrwl/angular"
+    "defaultCollection": "@nx/angular"
   },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
