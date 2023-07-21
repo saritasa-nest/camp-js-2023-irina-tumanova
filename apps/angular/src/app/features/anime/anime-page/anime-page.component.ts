@@ -7,7 +7,7 @@ import { Anime, AnimeType } from '@js-camp/core/models/anime';
 import { AnimeSortingField, AnimeParams, FlatAnimeParams } from '@js-camp/core/models/anime-params';
 import { AnimeStatus } from '@js-camp/core/models/anime-status';
 import { Pagination } from '@js-camp/core/models/pagination';
-import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, shareReplay, combineLatestWith, startWith, merge, skip, first } from 'rxjs';
+import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, shareReplay, combineLatestWith, startWith, merge, skip, first, concat } from 'rxjs';
 import { Sorting } from '@js-camp/core/models/sorting';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -115,11 +115,12 @@ export class AnimePageComponent implements OnInit {
 		const params$ = this.filtersForm.valueChanges.pipe(
 			startWith(this.filtersForm.value),
 			combineLatestWith(this.page$, this.sorting$),
+			tap(console.log),
 			debounceTime(REQUEST_DEBOUNCE_TIME),
 			map(([{ search, type }, page, { direction, field }]) => this.mapOptionsToAnimeParams({ page, direction, field, search, type })),
 		);
 
-		return merge(
+		return concat(
 			paramsFromQueryParams$,
 			params$.pipe(skip(1)),
 		).pipe(
@@ -158,14 +159,20 @@ export class AnimePageComponent implements OnInit {
 	}
 
 	private mapQueryParamsToAnimeParams(params: Params): AnimeParams {
-		return this.mapOptionsToAnimeParams({
-			page: +params['page'],
-			limit: +params['limit'],
-			field: params['field'] as AnimeSortingField,
-			direction: params['direction'] as SortDirection,
-			type: params['type'].split(',').filter((type: string) => type.length > 0) as AnimeType[],
-			search: params['search'],
-		});
+		return {
+			limit: +(params['limit'] ?? this.limit),
+			page: +(params['page'] ?? defaultParams.page),
+			sorting: {
+				direction: params['direction'] as SortDirection ?? defaultParams.sorting.direction,
+				field: params['field'] as AnimeSortingField ?? defaultParams.sorting.field,
+			},
+			filters: {
+				search: params['search'] ?? defaultParams.filters.search,
+				type: params['type'] !== undefined ?
+					params['type'].split(',').filter((type: string) => type.length > 0) as AnimeType[] :
+					defaultParams.filters.type,
+			},
+		};
 	}
 
 	/**
@@ -173,7 +180,7 @@ export class AnimePageComponent implements OnInit {
 	 * @param params Params: sorting + type + search.
 	 */
 	private setFiltersFromParams(params: AnimeParams): void {
-		this.filtersForm.setValue(params.filters, { emitEvent: false });
+		this.filtersForm.setValue(params.filters);
 		this.sorting$.next(params.sorting);
 		this.limit = params.limit;
 		this.page$.next(params.page);
