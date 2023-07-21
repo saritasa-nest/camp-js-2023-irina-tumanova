@@ -2,7 +2,6 @@
   "ignoreFiles": ["**/*"],
   "extends": "stylelint-config-standard",
   "rules": {
-    "selector-class-pattern": null,
-    "indentation": "tab"
+    "selector-class-pattern": null
   }
 }

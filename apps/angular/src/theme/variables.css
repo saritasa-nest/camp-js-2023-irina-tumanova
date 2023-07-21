@@ -1,15 +1,15 @@
 :root {
-  /* Colors */
-  --surface-color: hsl(0deg 0% 26% / 100%);
-  --on-surface-color: hsl(0deg 0% 26% / 50%);
+	/* Colors */
+	--surface-color: hsl(0deg 0% 26% / 100%);
+	--on-surface-color: hsl(0deg 0% 26% / 50%);
 
-  /* Spaces */
-  --space-m: 32px;
+	/* Spaces */
+	--space-m: 32px;
 
-  /* Font size */
-  --font-size-m: 16px;
-  --font-size-l: calc(var(--font-size-m) * 3);
+	/* Font size */
+	--font-size-m: 16px;
+	--font-size-l: calc(var(--font-size-m) * 3);
 
-  /* Other */
-  --table-image-size: 150px;
+	/* Other */
+	--table-image-size: 150px;
 }
