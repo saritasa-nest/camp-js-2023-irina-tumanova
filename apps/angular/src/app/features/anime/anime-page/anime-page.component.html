@@ -13,12 +13,12 @@
 	</form>
 
 	<ng-container *ngIf="sorting$ | async as sorting">
-		<table mat-table 
+		<table *ngIf="animeList$ | async as animeList" 
+			mat-table 
 			matSort 
 			[matSortActive]="sorting.field"
 			[matSortDirection]="sorting.direction"
 			(matSortChange)="handleSortChange($event)"
-			*ngIf="animeList$ | async as animeList" 
 			[dataSource]="animeList.items" 
 			[trackBy]="trackById"
 			class="mat-elevation-z8" 
@@ -58,7 +58,7 @@
 				<td mat-cell *matCellDef="let element">{{getReadableStatus(element.status)}}</td>
 			</ng-container>
 
-			<ng-container matColumnDef="paginator" *ngIf="pagination$ | async as pagination">
+			<ng-container *ngIf="pagination$ | async as pagination" matColumnDef="paginator">
 				<th mat-header-cell *matHeaderCellDef></th>
 				<td mat-footer-cell *matFooterCellDef colspan="6" >
 					<mat-paginator [pageSizeOptions]="pageSizeOptions"
@@ -78,7 +78,7 @@
 		</table>
 	</ng-container>
 
-	<div class="anime-page__shade" *ngIf="isLoading$ | async">
+	<div *ngIf="isLoading$ | async" class="anime-page__shade">
 		<camp-spinner />
 	</div>
 </div>
