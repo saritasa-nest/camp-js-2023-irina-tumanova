@@ -24,7 +24,6 @@
 			class="mat-elevation-z8" 
 			aria-describedby="anime list">
 			
-			<!-- Image Column -->
 			<ng-container matColumnDef="image">
 				<th mat-header-cell *matHeaderCellDef>Image</th>
 				<td mat-cell *matCellDef="let element"> 
@@ -34,37 +33,31 @@
 				</td>
 			</ng-container>
 				
-			<!-- English title Column -->
 			<ng-container matColumnDef="titleEnglish">
-				<th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription>Title (eng.)</th>
+				<th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription>English title</th>
 				<td mat-cell *matCellDef="let element">{{element.titleEnglish}}</td>
 			</ng-container>
 				
-			<!-- Japanese title Column -->
 			<ng-container matColumnDef="titleJapanese">
-				<th mat-header-cell *matHeaderCellDef>Title (jpn.)</th>
+				<th mat-header-cell *matHeaderCellDef>Japanese title</th>
 				<td mat-cell *matCellDef="let element">{{element.titleJapanese}}</td>
 			</ng-container>
 				
-			<!-- Release start date Column -->
 			<ng-container matColumnDef="aired.start">
 				<th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by aired start">Aired start</th>
 				<td mat-cell *matCellDef="let element">{{(element.aired.start !== null) ? (element.aired.start | date) : "" }}</td>
 			</ng-container>
 
-			<!-- Type Column -->
 			<ng-container matColumnDef="type">
 				<th mat-header-cell *matHeaderCellDef>Type</th>
 				<td mat-cell *matCellDef="let element">{{element.type}}</td>
 			</ng-container>
 
-			<!-- Status Column -->
 			<ng-container matColumnDef="status">
 				<th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">Status</th>
 				<td mat-cell *matCellDef="let element">{{getReadableStatus(element.status)}}</td>
 			</ng-container>
 
-			<!-- Paginator column -->
 			<ng-container matColumnDef="paginator" *ngIf="pagination$ | async as pagination">
 				<th mat-header-cell *matHeaderCellDef></th>
 				<td mat-footer-cell *matFooterCellDef colspan="6" >
