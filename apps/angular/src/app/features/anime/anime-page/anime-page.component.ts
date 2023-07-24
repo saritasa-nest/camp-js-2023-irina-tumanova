@@ -55,7 +55,6 @@ export class AnimePageComponent {
 			tap(() => this.isLoading$.next(true)),
 			switchMap(params => this.animeService.getAnime(params)),
 			tap(() => this.isLoading$.next(false)),
-			shareReplay({ refCount: true, bufferSize: 1 }),
 		);
 	}
 
