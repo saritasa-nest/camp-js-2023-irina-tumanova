@@ -7,7 +7,7 @@ import { Anime, AnimeType } from '@js-camp/core/models/anime';
 import { AnimeSortingField, AnimeParams, AnimeFilterParams } from '@js-camp/core/models/anime-params';
 import { AnimeStatus } from '@js-camp/core/models/anime-status';
 import { Pagination } from '@js-camp/core/models/pagination';
-import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, combineLatestWith, startWith, merge } from 'rxjs';
+import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, startWith, merge, combineLatest } from 'rxjs';
 import { Sorting } from '@js-camp/core/models/sorting';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -79,7 +79,7 @@ export class AnimePageComponent implements OnInit {
 	/** @inheritdoc */
 	public ngOnInit(): void {
 		const resetPaginationSideEffect$ = this.filtersForm.valueChanges.pipe(
-			tap(() => this.pagination$.next({ pageNumber: 0, pageSize: defaultParams.pagination.pageSize })),
+			tap(() => this.pagination$.next(defaultParams.pagination)),
 		);
 
 		const scrollToTopAfterChangePageSideEffect$ = this.pagination$.pipe(
@@ -104,16 +104,19 @@ export class AnimePageComponent implements OnInit {
 
 	/** Create anime list stream. */
 	private createAnimeListStream(): Observable<Pagination<Anime>> {
-		return this.filtersForm.valueChanges.pipe(
-			startWith(this.filtersForm.value),
-			combineLatestWith(this.pagination$, this.sorting$),
-			debounceTime(REQUEST_DEBOUNCE_TIME),
-			map(([{ search, type }, pagination, sorting]) => this.createParams(pagination, sorting, search, type)),
-			tap(params => this.setQueryParamsFromAnimeParams(params)),
-			tap(() => this.isLoading$.next(true)),
-			switchMap(params => this.animeService.getAnime(params)),
-			tap(() => this.isLoading$.next(false)),
-		);
+		return combineLatest([
+			this.filtersForm.valueChanges.pipe(startWith(this.filtersForm.value)),
+			this.pagination$,
+			this.sorting$,
+		])
+			.pipe(
+				debounceTime(REQUEST_DEBOUNCE_TIME),
+				map(([{ search, type }, pagination, sorting]) => this.createAnimeParams(pagination, sorting, search, type)),
+				tap(params => this.setQueryParamsFromAnimeParams(params)),
+				tap(() => this.isLoading$.next(true)),
+				switchMap(params => this.animeService.getAnime(params)),
+				tap(() => this.isLoading$.next(false)),
+			);
 	}
 
 	/**
@@ -140,7 +143,7 @@ export class AnimePageComponent implements OnInit {
 	 * @param search Search.
 	 * @param type Anime type.
 	 */
-	private createParams(pagination: PaginationParams, sorting: Sorting<AnimeSortingField>,
+	private createAnimeParams(pagination: PaginationParams, sorting: Sorting<AnimeSortingField>,
 		search?: string, type?: AnimeType[]): AnimeParams {
 		return {
 			pagination,
