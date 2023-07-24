@@ -7,7 +7,7 @@ import { AnimeStatus } from '@js-camp/core/models/anime-status';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { Sorting } from '@js-camp/core/models/sorting';
-import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, shareReplay } from 'rxjs';
+import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap } from 'rxjs';
 
 const defaultParams: AnimeParams = {
 	pagination: new PaginationParams({ pageSize: 10, pageNumber: 0 }),
