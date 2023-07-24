@@ -1,0 +1,25 @@
+.anime-page {
+	position: relative;
+}
+
+.anime-page__shade {
+	position: fixed;
+	inset: 0;
+	background-color: var(--on-surface-color);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.anime-page__image-cell {
+	height: var(--table-image-size);
+	width: var(--table-image-size);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.anime-page__image {
+	max-width: 100%;
+	max-height: 100%;
+}

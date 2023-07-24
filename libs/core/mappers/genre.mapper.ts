@@ -4,8 +4,8 @@ import { Genre } from '../models/genre';
 export namespace GenreMapper {
 
 	/**
-	 * Maps dto to model.
-	 * @param dto Genre dto.
+	 * Maps DTO to model.
+	 * @param dto Genre DTO.
 	 */
 	export function fromDto(dto: GenreDto): Genre {
 		return new Genre({

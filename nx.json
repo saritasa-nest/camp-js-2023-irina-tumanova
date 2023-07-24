@@ -63,7 +63,7 @@
   },
   "defaultProject": "angular",
   "cli": {
-    "defaultCollection": "@nx/vite"
+    "defaultCollection": "@nx/angular"
   },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
