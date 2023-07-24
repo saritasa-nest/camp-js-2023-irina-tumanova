@@ -1,5 +1,6 @@
+import { ListParams } from '../list-params';
+
 import { AnimeType } from './anime';
-import { ListParams } from './list-params';
 
 /** Filters parameters for getting anime. */
 export class AnimeFilterParams {

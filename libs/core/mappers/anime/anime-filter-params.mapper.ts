@@ -1,7 +1,7 @@
-import { AnimeFilterParamsDto, AnimeSortingFieldDto } from '../dtos/anime-filter-params.dto';
-import { AnimeFilterParams, AnimeSortingField } from '../models/anime-params';
-import { AnimeType } from '../models/anime';
-import { AnimeTypeDto } from '../dtos/anime.dto';
+import { AnimeFilterParamsDto, AnimeSortingFieldDto } from '../../dtos/anime/anime-filter-params.dto';
+import { AnimeFilterParams, AnimeSortingField } from '../../models/anime/anime-params';
+import { AnimeType } from '../../models/anime/anime';
+import { AnimeTypeDto } from '../../dtos/anime/anime.dto';
 
 export namespace AnimeFilterParamsMapper {
 

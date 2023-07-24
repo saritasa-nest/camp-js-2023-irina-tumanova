@@ -13,6 +13,12 @@ export class AppUrlsConfig {
 		get: this.toApi('anime/anime/'),
 	};
 
+	/** Auth routes. */
+	public readonly auth = {
+		login: this.toApi('auth/login/'),
+		register: this.toApi('auth/register/'),
+	};
+
 	private toApi(...args: readonly string[]): string {
 		const path = args.join('/');
 		return new URL(path, this.appConfig.apiUrl).toString();

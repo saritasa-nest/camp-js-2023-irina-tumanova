@@ -16,6 +16,11 @@ const routes: Routes = [
 		loadChildren: () => import('./features/anime/anime.module').then(module => module.AnimeModule),
 	},
 	{
+		path: 'auth',
+		title: 'Auth',
+		loadChildren: () => import('./features/auth/auth.module').then(module => module.AuthModule),
+	},
+	{
 		path: '**',
 		component: NotFoundComponent,
 	},
