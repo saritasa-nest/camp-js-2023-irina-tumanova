@@ -81,7 +81,9 @@ export class AnimePageComponent {
 	 */
 	protected handlePageEvent(event: PageEvent, prev: PaginationParams): void {
 		this.pagination$.next(new PaginationParams({
-			pageNumber: prev.pageSize === event.pageSize ? event.pageIndex : 0,
+			pageNumber: prev.pageSize === event.pageSize ?
+				event.pageIndex :
+				defaultParams.pagination.pageNumber,
 			pageSize: event.pageSize,
 		}));
 	}

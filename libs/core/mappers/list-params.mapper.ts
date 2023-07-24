@@ -2,6 +2,8 @@ import { ListParamsDto } from '../dtos/list-params.dto';
 import { SortDirectionDto } from '../dtos/sort-direction.dto';
 import { ListParams } from '../models/list-params';
 
+import { PaginationParamsMapper } from './pagination-params.mapper';
+
 export namespace ListParamsMapper {
 
 	/**
@@ -12,9 +14,8 @@ export namespace ListParamsMapper {
 	export function toDto<TFilters, TSortField, TFiltersDto>(model: ListParams<TFilters, TSortField>,
 		filterMapper: (filters: TFilters) => TFiltersDto): ListParamsDto<TFiltersDto> {
 		return {
-			limit: model.pagination.pageSize,
-			offset: model.pagination.pageSize * model.pagination.pageNumber,
 			ordering: `${model.sorting.direction === 'desc' ? SortDirectionDto.Desc : SortDirectionDto.Asc}${model.sorting.field}`,
+			...PaginationParamsMapper.toDto(model.pagination),
 			...filterMapper(model.filters),
 		};
 	}
