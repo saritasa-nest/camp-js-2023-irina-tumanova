@@ -7,7 +7,7 @@ import { Anime, AnimeType } from '@js-camp/core/models/anime';
 import { AnimeSortingField, AnimeParams, AnimeFilterParams } from '@js-camp/core/models/anime-params';
 import { AnimeStatus } from '@js-camp/core/models/anime-status';
 import { Pagination } from '@js-camp/core/models/pagination';
-import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, shareReplay, combineLatestWith, startWith, merge } from 'rxjs';
+import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, combineLatestWith, startWith, merge } from 'rxjs';
 import { Sorting } from '@js-camp/core/models/sorting';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -120,7 +120,6 @@ export class AnimePageComponent implements OnInit {
 			tap(() => this.isLoading$.next(true)),
 			switchMap(params => this.animeService.getAnime(params)),
 			tap(() => this.isLoading$.next(false)),
-			shareReplay({ refCount: true, bufferSize: 1 }),
 		);
 	}
 
