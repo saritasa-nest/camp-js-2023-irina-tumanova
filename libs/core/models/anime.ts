@@ -38,20 +38,18 @@ export class Anime {
 	/** User score. */
 	public readonly userScore: number | null;
 
-	public constructor(
-		{ id, created, modified, titleEnglish, titleJapanese, imageUrl, aired, type, score, status, userScore }: InitAnimeParams,
-	) {
-		this.id = id;
-		this.created = created;
-		this.modified = modified;
-		this.titleEnglish = titleEnglish;
-		this.titleJapanese = titleJapanese;
-		this.imageUrl = imageUrl;
-		this.aired = aired;
-		this.type = type;
-		this.status = status;
-		this.score = score;
-		this.userScore = userScore;
+	public constructor(data: InitAnimeParams) {
+		this.id = data.id;
+		this.created = data.created;
+		this.modified = data.modified;
+		this.titleEnglish = data.titleEnglish;
+		this.titleJapanese = data.titleJapanese;
+		this.imageUrl = data.imageUrl;
+		this.aired = data.aired;
+		this.type = data.type;
+		this.status = data.status;
+		this.score = data.score;
+		this.userScore = data.userScore;
 	}
 }
 
