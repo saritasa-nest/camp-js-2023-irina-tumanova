@@ -1,4 +1,5 @@
 <div class="anime-page">
+
 	<form [formGroup]="filtersForm" class="anime-page__filters">
 		<mat-form-field>
 			<mat-label>Search</mat-label>
@@ -80,5 +81,5 @@
 
 	<div class="anime-page__shade" *ngIf="isLoading$ | async">
 		<camp-spinner />
-	</div>	
+	</div>
 </div>
