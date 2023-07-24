@@ -12,6 +12,7 @@ import { Sorting } from '@js-camp/core/models/sorting';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
+import { enumToArray } from '@js-camp/core/utils/enum-to-array';
 
 const defaultParams: AnimeParams = {
 	pagination: new PaginationParams({ pageSize: 10, pageNumber: 0 }),
@@ -40,15 +41,7 @@ export class AnimePageComponent implements OnInit {
 	protected readonly pageSizeOptions: readonly number[] = [5, 10, 20];
 
 	/** Anime type options. */
-	protected readonly animeTypes: readonly AnimeType[] = [
-		AnimeType.Movie,
-		AnimeType.Music,
-		AnimeType.ONA,
-		AnimeType.OVA,
-		AnimeType.Special,
-		AnimeType.TV,
-		AnimeType.Unknown,
-	];
+	protected readonly animeTypes = enumToArray(AnimeType);
 
 	/** Anime list. */
 	protected readonly animeList$: Observable<Pagination<Anime>>;
