@@ -1,4 +1,6 @@
 import { ListParams } from '../list-params';
+import { PaginationParams } from '../pagination-params';
+import { Sorting } from '../sorting';
 
 import { AnimeType } from './anime';
 
@@ -30,3 +32,8 @@ export enum AnimeSortingField {
 
 /** Request params for getting anime. */
 export type AnimeParams = ListParams<AnimeFilterParams, AnimeSortingField>;
+
+export type QueryAnimeParams = PaginationParams & Sorting<AnimeSortingField> & {
+	search: string;
+	type: string;
+};

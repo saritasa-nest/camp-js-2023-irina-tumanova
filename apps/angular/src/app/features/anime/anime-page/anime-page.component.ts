@@ -1,18 +1,20 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit, inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort, SortDirection } from '@angular/material/sort';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Anime, AnimeType } from '@js-camp/core/models/anime/anime';
-import { AnimeSortingField, AnimeParams, AnimeFilterParams } from '@js-camp/core/models/anime/anime-params';
+import { AnimeSortingField, AnimeParams, AnimeFilterParams, QueryAnimeParams } from '@js-camp/core/models/anime/anime-params';
 import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
 import { Pagination } from '@js-camp/core/models/pagination';
-import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, startWith, merge, combineLatest } from 'rxjs';
+import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, startWith, merge, combineLatest, finalize, withLatestFrom } from 'rxjs';
 import { Sorting } from '@js-camp/core/models/sorting';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { enumToArray } from '@js-camp/core/utils/enum-to-array';
+import { untilDestroyed } from '@js-camp/angular/shared/pipes/until-destroyed';
+import { QueryParamsOf } from '@js-camp/core/models/query-params-of';
 
 const defaultParams: AnimeParams = {
 	pagination: new PaginationParams({ pageSize: 10, pageNumber: 0 }),
@@ -25,7 +27,6 @@ const REQUEST_DEBOUNCE_TIME = 500;
 type FiltersForm = FormGroup<{search: FormControl<string>; type: FormControl<AnimeType[]>;}>;
 
 /** Anime list page. */
-@UntilDestroy()
 @Component({
 	selector: 'camp-anime-page',
 	templateUrl: './anime-page.component.html',
@@ -49,7 +50,7 @@ export class AnimePageComponent implements OnInit {
 	/** Anime is loading. */
 	protected readonly isLoading$ = new BehaviorSubject(false);
 
-	/** Current table page. */
+	/** Sorting: field and direction. */
 	protected readonly sorting$: BehaviorSubject<Sorting<AnimeSortingField>>;
 
 	/** Pagination. */
@@ -58,6 +59,8 @@ export class AnimePageComponent implements OnInit {
 	/** Filters form: search and type filter. */
 	protected readonly filtersForm: FiltersForm;
 
+	private readonly untilDestroyed = untilDestroyed();
+
 	private readonly route = inject(ActivatedRoute);
 
 	private readonly animeService = inject(AnimeService);
@@ -65,6 +68,8 @@ export class AnimePageComponent implements OnInit {
 	private readonly router = inject(Router);
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
+
+	@Inject(DOCUMENT) private window = inject(DOCUMENT).defaultView;
 
 	public constructor() {
 		const paramsFromQuery = this.mapQueryParamsToAnimeParams(this.route.snapshot.queryParams);
@@ -79,7 +84,8 @@ export class AnimePageComponent implements OnInit {
 	/** @inheritdoc */
 	public ngOnInit(): void {
 		const resetPaginationSideEffect$ = this.filtersForm.valueChanges.pipe(
-			tap(() => this.pagination$.next(defaultParams.pagination)),
+			withLatestFrom(this.pagination$),
+			tap(([_filters, pagination]) => this.pagination$.next({ ...pagination, pageNumber: defaultParams.pagination.pageNumber })),
 		);
 
 		const scrollToTopAfterChangePageSideEffect$ = this.pagination$.pipe(
@@ -87,7 +93,7 @@ export class AnimePageComponent implements OnInit {
 		);
 
 		merge(resetPaginationSideEffect$, scrollToTopAfterChangePageSideEffect$)
-			.pipe(untilDestroyed(this))
+			.pipe(this.untilDestroyed())
 			.subscribe();
 	}
 
@@ -97,8 +103,8 @@ export class AnimePageComponent implements OnInit {
 	 */
 	private createFiltersForm(filters: AnimeFilterParams): FiltersForm {
 		return this.formBuilder.group({
-			search: this.formBuilder.control(filters.search),
-			type: this.formBuilder.control(filters.type),
+			search: filters.search,
+			type: [filters.type],
 		});
 	}
 
@@ -116,6 +122,7 @@ export class AnimePageComponent implements OnInit {
 				tap(() => this.isLoading$.next(true)),
 				switchMap(params => this.animeService.getAnime(params)),
 				tap(() => this.isLoading$.next(false)),
+				finalize(() => this.isLoading$.next(false)),
 			);
 	}
 
@@ -159,20 +166,24 @@ export class AnimePageComponent implements OnInit {
 	 * Map query params to anime params.
 	 * @param params Query params.
 	 */
-	private mapQueryParamsToAnimeParams(params: Params): AnimeParams {
+	private mapQueryParamsToAnimeParams(params: QueryParamsOf<QueryAnimeParams>): AnimeParams {
 		return {
 			pagination: new PaginationParams({
-				pageSize: +(params['pageSize'] ?? defaultParams.pagination.pageSize),
-				pageNumber: +(params['pageNumber'] ?? defaultParams.pagination.pageNumber),
+				pageSize: params.pageSize !== undefined ?
+					Number.parseInt(params.pageSize, 10) :
+					defaultParams.pagination.pageSize,
+				pageNumber: params.pageNumber !== undefined ?
+					Number.parseInt(params.pageNumber, 10) :
+					defaultParams.pagination.pageNumber,
 			}),
 			sorting: {
-				direction: params['direction'] as SortDirection ?? defaultParams.sorting.direction,
-				field: params['field'] as AnimeSortingField ?? defaultParams.sorting.field,
+				direction: params.direction as SortDirection ?? defaultParams.sorting.direction,
+				field: params.field as AnimeSortingField ?? defaultParams.sorting.field,
 			},
 			filters: {
-				search: params['search'] ?? defaultParams.filters.search,
-				type: params['type'] !== undefined ?
-					params['type'].split(',').filter((type: string) => type.length > 0) as AnimeType[] :
+				search: params.search ?? defaultParams.filters.search,
+				type: params.type !== undefined ?
+					params.type.split(',').filter((type: string) => type.length > 0) as AnimeType[] :
 					defaultParams.filters.type,
 			},
 		};
@@ -224,7 +235,9 @@ export class AnimePageComponent implements OnInit {
 
 	/** Scroll to top. */
 	private scrollToTopPage(): void {
-		window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+		if (this.window) {
+			this.window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+		}
 	}
 
 	/**
