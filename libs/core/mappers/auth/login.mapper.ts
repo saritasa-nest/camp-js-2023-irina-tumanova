@@ -9,8 +9,8 @@ export namespace LoginMapper {
 	 */
 	export function toDto(model: Login): LoginDto {
 		return {
-			email: model.email,
-			password: model.password,
+			email: model.email ?? '',
+			password: model.password ?? '',
 		};
 	}
 }

@@ -4,6 +4,7 @@
 	--on-surface-color: hsl(0deg 0% 26% / 50%);
 
 	/* Spaces */
+	--space-s: calc(var(--space-m) / 2);
 	--space-m: 32px;
 
 	/* Font size */

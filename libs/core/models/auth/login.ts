@@ -1,11 +1,11 @@
-/** Login. */
+/** Required data for login. */
 export class Login {
 
 	/** Email. */
-	public readonly email: string;
+	public readonly email: string | null;
 
 	/** Password. */
-	public readonly password: string;
+	public readonly password: string | null;
 
 	public constructor({ email, password }: InitLoginParams) {
 		this.email = email;

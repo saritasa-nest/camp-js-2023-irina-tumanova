@@ -1,4 +1,4 @@
-/** Login dto. */
+/** Required data for login dto. */
 export interface LoginDto {
 
 	/** Email. */

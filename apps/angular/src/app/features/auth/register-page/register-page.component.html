@@ -1,0 +1,47 @@
+<p class="typography-title">Sign up</p>
+<form [formGroup]="registrationForm" (ngSubmit)="handleSubmit()" class="registration-form">
+	<mat-form-field *ngIf="registrationForm.controls.email as email">
+		<mat-label>Email</mat-label>
+		<input matInput placeholder="example@gmail.com" [formControl]="email">
+		<mat-error *ngIf="email.hasError('required')">Please enter email</mat-error>
+		<mat-error *ngIf="email.hasError('email')">Invalid email</mat-error>
+	</mat-form-field>
+
+	<mat-form-field *ngIf="registrationForm.controls.firstName as firstName">
+		<mat-label>First name</mat-label>
+		<input matInput placeholder="John" [formControl]="firstName">
+		<mat-error *ngIf="firstName.hasError('required')">Please enter first name</mat-error>
+	</mat-form-field>
+
+	<mat-form-field *ngIf="registrationForm.controls.lastName as lastName">
+		<mat-label>Last name</mat-label>
+		<input matInput placeholder="Doe" [formControl]="lastName">
+		<mat-error *ngIf="lastName.hasError('required')">Please enter last name</mat-error>
+	</mat-form-field>
+
+	<mat-form-field *ngIf="registrationForm.controls.password as password">
+		<mat-label>Password</mat-label>
+		<input matInput [formControl]="password" [type]="shouldPasswordBeHidden ? 'password' : 'text'">
+		<button mat-icon-button matSuffix 
+			type="button"
+			(click)="changePasswordVisibilitiy()" 
+			[attr.aria-label]="'Hide password'" 
+			[attr.aria-pressed]="shouldPasswordBeHidden">
+			<mat-icon>{{shouldPasswordBeHidden ? 'visibility_off' : 'visibility'}}</mat-icon>
+		</button>
+		<mat-error *ngIf="password.hasError('required')">Please enter password</mat-error>
+		<mat-error *ngIf="password.hasError('minlength')">Min 8 characters</mat-error>
+	</mat-form-field>
+
+	<mat-form-field *ngIf="registrationForm.controls.repeatedPassword as repeatedPassword">
+		<mat-label>Re-type password</mat-label>
+		<input matInput [formControl]="repeatedPassword" type="password">
+		<mat-error *ngIf="repeatedPassword.hasError('required')">Please enter repeated password</mat-error>
+		<mat-error *ngIf="repeatedPassword.hasError('minlength')">Min 8 characters</mat-error>
+		<mat-error *ngIf="repeatedPassword.hasError('passwordDoesNotMatch')">Repeated password doesn't match</mat-error>
+	</mat-form-field>
+	
+	<button type="submit" mat-raised-button color="primary" class="registration-form__submit-button">Sign up</button>
+</form>
+
+<a routerLink="/auth/signin" mat-button>Sign in</a>
