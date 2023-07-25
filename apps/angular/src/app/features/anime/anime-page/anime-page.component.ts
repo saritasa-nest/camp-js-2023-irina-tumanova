@@ -120,9 +120,9 @@ export class AnimePageComponent implements OnInit {
 				map(([{ search, type }, pagination, sorting]) => this.createAnimeParams(pagination, sorting, search, type)),
 				tap(params => this.setQueryParamsFromAnimeParams(params)),
 				tap(() => this.isLoading$.next(true)),
-				switchMap(params => this.animeService.getAnime(params)),
-				tap(() => this.isLoading$.next(false)),
-				finalize(() => this.isLoading$.next(false)),
+				switchMap(params => this.animeService.getAnime(params).pipe(
+					finalize(() => this.isLoading$.next(false)),
+				)),
 			);
 	}
 
