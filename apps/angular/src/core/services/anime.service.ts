@@ -11,7 +11,7 @@ import { AnimeParams } from '@js-camp/core/models/anime/anime-params';
 import { ListParamsMapper } from '@js-camp/core/mappers/list-params.mapper';
 import { AnimeFilterParamsMapper } from '@js-camp/core/mappers/anime/anime-filter-params.mapper';
 
-import { AppUrlsConfig } from './app-urls.config';
+import { ApiUrlsConfig } from './api-urls.config';
 
 /** Anime service. */
 @Injectable({
@@ -21,14 +21,14 @@ export class AnimeService {
 
 	private readonly http = inject(HttpClient);
 
-	private readonly appUrlsConfig = inject(AppUrlsConfig);
+	private readonly apiUrlsConfig = inject(ApiUrlsConfig);
 
 	/**
 	 * Get anime list.
 	 * @param animeParams Params from anime table.
 	 */
 	public getAnime(animeParams: AnimeParams): Observable<Pagination<Anime>> {
-		const url = this.appUrlsConfig.anime.get;
+		const url = this.apiUrlsConfig.anime.get;
 		const params = new HttpParams({
 			fromObject: ListParamsMapper.toDto(
 				animeParams,

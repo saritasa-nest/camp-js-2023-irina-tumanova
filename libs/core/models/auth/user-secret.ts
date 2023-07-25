@@ -1,5 +1,5 @@
-/** Token. */
-export class Token {
+/** User secret. */
+export class UserSecret {
 
 	/** Refresh token. */
 	public readonly refresh: string;
@@ -7,10 +7,10 @@ export class Token {
 	/** Access token. */
 	public readonly access: string;
 
-	public constructor({ refresh, access }: InitTokenParams) {
+	public constructor({ refresh, access }: InitUserSecretParams) {
 		this.refresh = refresh;
 		this.access = access;
 	}
 }
 
-type InitTokenParams = Token;
+type InitUserSecretParams = UserSecret;

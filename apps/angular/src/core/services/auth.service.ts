@@ -1,14 +1,17 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, switchMap } from 'rxjs';
-import { TokenDto } from '@js-camp/core/dtos/auth/token.dto';
-import { TokenMapper } from '@js-camp/core/mappers/auth/token.mapper';
+import { UserSecretDto } from '@js-camp/core/dtos/auth/user-secret.dto';
+import { UserSecretMapper } from '@js-camp/core/mappers/auth/user-secret.mapper';
 import { Register } from '@js-camp/core/models/auth/register';
 import { LoginMapper } from '@js-camp/core/mappers/auth/login.mapper';
 import { RegisterMapper } from '@js-camp/core/mappers/auth/register.mapper';
 import { Login } from '@js-camp/core/models/auth/login';
 
-import { AppUrlsConfig } from './app-urls.config';
+import { UserSecret } from '@js-camp/core/models/auth/user-secret';
+
+import { ApiUrlsConfig } from './api-urls.config';
+import { UserSecretService } from './user-secret.service';
 
 /** Auth service. */
 @Injectable({
@@ -18,19 +21,21 @@ export class AuthService {
 
 	private readonly http = inject(HttpClient);
 
-	private readonly appUrlsConfig = inject(AppUrlsConfig);
+	private readonly apiUrlsConfig = inject(ApiUrlsConfig);
+
+	private readonly userSecretService = inject(UserSecretService);
 
 	/**
 	 * Handle login.
 	 * @param credentials Login credentials.
 	 */
 	public login(credentials: Login): Observable<void> {
-		const url = this.appUrlsConfig.auth.login;
+		const url = this.apiUrlsConfig.auth.login;
 		return this.http
-			.post<TokenDto>(url, LoginMapper.toDto(credentials))
+			.post<UserSecretDto>(url, LoginMapper.toDto(credentials))
 			.pipe(
-				map(tokens => TokenMapper.fromDto(tokens)),
-				switchMap(tokens => console.log(tokens)),
+				map(tokens => UserSecretMapper.fromDto(tokens)),
+				switchMap(tokens => this.userSecretService.saveToken(tokens)),
 			);
 	}
 
@@ -39,12 +44,26 @@ export class AuthService {
 	 * @param credentials Register credentials.
 	 */
 	public register(credentials: Register): Observable<void> {
-		const url = this.appUrlsConfig.auth.register;
+		const url = this.apiUrlsConfig.auth.register;
 		return this.http
-			.post<TokenDto>(url, RegisterMapper.toDto(credentials))
+			.post<UserSecretDto>(url, RegisterMapper.toDto(credentials))
 			.pipe(
-				map(tokens => TokenMapper.fromDto(tokens)),
-				switchMap(tokens => console.log(tokens)),
+				map(tokens => UserSecretMapper.fromDto(tokens)),
+				switchMap(tokens => this.userSecretService.saveToken(tokens)),
 			);
+	}
+
+	/**
+	 * Refresh user's secret.
+	 * @param secret Secret data.
+	 */
+	public refreshSecret(
+		secret: UserSecret,
+	): Observable<UserSecret> {
+		return this.http.post<UserSecretDto>(
+			this.apiUrlsConfig.auth.refreshSecret,
+			UserSecretMapper.toDto(secret),
+		)
+			.pipe(map(secretDto => UserSecretMapper.fromDto(secretDto)));
 	}
 }

@@ -1,5 +1,5 @@
-/** Token dto. */
-export interface TokenDto {
+/** User secret dto. */
+export interface UserSecretDto {
 
 	/** Refresh token. */
 	readonly refresh: string;
