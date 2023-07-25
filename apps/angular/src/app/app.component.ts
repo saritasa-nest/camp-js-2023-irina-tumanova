@@ -32,8 +32,8 @@ export class AppComponent {
 	/** Log out. */
 	protected logout(): void {
 		this.authService.logout().pipe(
-			tap(() => this.router.navigate(['auth/login'])),
-			tap(this.untilDestroyed()),
+			switchMap(() => this.router.navigate(['auth/signin'])),
+			this.untilDestroyed(),
 		)
 			.subscribe();
 	}
