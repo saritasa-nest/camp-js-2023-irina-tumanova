@@ -32,9 +32,9 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 	bootstrap: [AppComponent],
 	providers: [
 		{ provide: HTTP_INTERCEPTORS, useClass: ApiKeyInterceptor, multi: true },
-		{ provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
 		{ provide: HTTP_INTERCEPTORS, useClass: RefreshTokenInterceptor, multi: true },
+		{ provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
 	],
 })
 export class AppModule {}

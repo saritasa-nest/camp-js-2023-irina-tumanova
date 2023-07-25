@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, map, merge, switchMap, tap } from 'rxjs';
 import { UserSecretDto } from '@js-camp/core/dtos/auth/user-secret.dto';
 import { UserSecretMapper } from '@js-camp/core/mappers/auth/user-secret.mapper';
 import { Registration } from '@js-camp/core/models/auth/registration';
@@ -19,11 +19,28 @@ import { UserSecretService } from './user-secret.service';
 })
 export class AuthService {
 
+	/** User is auth. */
+	public readonly isAuth$: Observable<boolean>;
+
+	private readonly isAuthUpdated$ = new BehaviorSubject(false);
+
 	private readonly http = inject(HttpClient);
 
 	private readonly apiUrlsConfig = inject(ApiUrlsConfig);
 
 	private readonly userSecretService = inject(UserSecretService);
+
+	public constructor() {
+		this.isAuth$ = merge(
+			this.userSecretService.getTokens().pipe(
+				map(tokens => tokens !== null),
+				tap(isAuth => {
+					this.isAuthUpdated$.next(isAuth);
+				}),
+			),
+			this.isAuthUpdated$.asObservable(),
+		);
+	}
 
 	/**
 	 * Handle login.
@@ -35,7 +52,9 @@ export class AuthService {
 			.post<UserSecretDto>(url, LoginMapper.toDto(credentials))
 			.pipe(
 				map(tokens => UserSecretMapper.fromDto(tokens)),
-				switchMap(tokens => this.userSecretService.saveToken(tokens)),
+				switchMap(tokens => this.userSecretService.saveToken(tokens).pipe(
+					tap(() => this.isAuthUpdated$.next(true)),
+				)),
 			);
 	}
 
@@ -49,8 +68,17 @@ export class AuthService {
 			.post<UserSecretDto>(url, RegistrationMapper.toDto(credentials))
 			.pipe(
 				map(tokens => UserSecretMapper.fromDto(tokens)),
-				switchMap(tokens => this.userSecretService.saveToken(tokens)),
+				switchMap(tokens => this.userSecretService.saveToken(tokens).pipe(
+					tap(() => this.isAuthUpdated$.next(true)),
+				)),
 			);
+	}
+
+	/** Handle logout. */
+	public logout(): Observable<void> {
+		return this.userSecretService.destroyToken().pipe(
+			tap(() => this.isAuthUpdated$.next(false)),
+		);
 	}
 
 	/**

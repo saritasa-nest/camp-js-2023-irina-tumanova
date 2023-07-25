@@ -1,10 +1,8 @@
 import { HttpRequest, HttpHandler, HttpInterceptor, HttpEvent, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, first, map, switchMap } from 'rxjs';
-
 import { UserSecret } from '@js-camp/core/models/auth/user-secret';
 
-import { AppConfig } from '../services/app.config';
 import { UserSecretService } from '../services/user-secret.service';
 import { ApiUrlsConfig } from '../services/api-urls.config';
 
@@ -14,8 +12,6 @@ const AUTH_SECRET_PREFIX = 'Bearer';
 /** Auth interceptor. */
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-
-	private readonly appConfig = inject(AppConfig);
 
 	private readonly userSecretService = inject(UserSecretService);
 

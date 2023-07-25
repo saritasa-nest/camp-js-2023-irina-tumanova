@@ -1,9 +1,8 @@
 import { HttpRequest, HttpHandler, HttpInterceptor, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, catchError, first, switchMap, throwError } from 'rxjs';
+import { Observable, catchError, first, merge, switchMap, throwError } from 'rxjs';
 import { HttpStatusCode } from 'axios';
 
-import { AppConfig } from '../services/app.config';
 import { UserSecretService } from '../services/user-secret.service';
 import { ApiUrlsConfig } from '../services/api-urls.config';
 import { AuthService } from '../services/auth.service';
@@ -11,8 +10,6 @@ import { AuthService } from '../services/auth.service';
 /** Refresh token interceptor. */
 @Injectable()
 export class RefreshTokenInterceptor implements HttpInterceptor {
-
-	private readonly appConfig = inject(AppConfig);
 
 	private readonly userSecretService = inject(UserSecretService);
 
@@ -42,7 +39,10 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
 						if (tokens !== null) {
 							return this.authService.refreshSecret(tokens);
 						}
-						return throwError(() => error);
+						return merge(
+							this.authService.logout(),
+							throwError(() => error),
+						);
 					}),
 					switchMap(() => next.handle(req)),
 				);
