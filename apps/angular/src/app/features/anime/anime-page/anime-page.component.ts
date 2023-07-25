@@ -116,6 +116,8 @@ export class AnimePageComponent implements OnInit {
 			this.sorting$,
 		])
 			.pipe(
+
+				// Necessary to reduce the number of queries when changing table parameters frequently
 				debounceTime(REQUEST_DEBOUNCE_TIME),
 				map(([{ search, type }, pagination, sorting]) => this.createAnimeParams(pagination, sorting, search, type)),
 				tap(params => this.setQueryParamsFromAnimeParams(params)),
