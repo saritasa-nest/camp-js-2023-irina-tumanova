@@ -69,7 +69,7 @@ export class AnimePageComponent implements OnInit {
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
-	@Inject(DOCUMENT) private window = inject(DOCUMENT).defaultView;
+	@Inject(DOCUMENT) private readonly window = inject(DOCUMENT).defaultView;
 
 	public constructor() {
 		const paramsFromQuery = this.mapQueryParamsToAnimeParams(this.route.snapshot.queryParams);
@@ -171,12 +171,8 @@ export class AnimePageComponent implements OnInit {
 	private mapQueryParamsToAnimeParams(params: QueryParamsOf<QueryAnimeParams>): AnimeParams {
 		return {
 			pagination: new PaginationParams({
-				pageSize: params.pageSize !== undefined ?
-					Number.parseInt(params.pageSize, 10) :
-					defaultParams.pagination.pageSize,
-				pageNumber: params.pageNumber !== undefined ?
-					Number.parseInt(params.pageNumber, 10) :
-					defaultParams.pagination.pageNumber,
+				pageSize: this.mapQueryParamToNumberParam(defaultParams.pagination.pageSize, params.pageSize),
+				pageNumber: this.mapQueryParamToNumberParam(defaultParams.pagination.pageNumber, params.pageNumber),
 			}),
 			sorting: {
 				direction: params.direction as SortDirection ?? defaultParams.sorting.direction,
@@ -189,6 +185,15 @@ export class AnimePageComponent implements OnInit {
 					defaultParams.filters.type,
 			},
 		};
+	}
+
+	/**
+	 * Map query param to number param.
+	 * @param defaultValue Default number value.
+	 * @param param Query param.
+	 */
+	private mapQueryParamToNumberParam(defaultValue: number, param?: string): number {
+		return param !== undefined ? Number.parseInt(param, 10) : defaultValue;
 	}
 
 	/**
