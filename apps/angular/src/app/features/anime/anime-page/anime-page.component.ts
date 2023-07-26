@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Inject, OnInit, inject } from '@ang
 import { DOCUMENT } from '@angular/common';
 import { FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
-import { Sort, SortDirection } from '@angular/material/sort';
+import { Sort } from '@angular/material/sort';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Anime, AnimeType } from '@js-camp/core/models/anime';
 import { AnimeSortingField, AnimeParams, AnimeFilterParams, QueryAnimeParams } from '@js-camp/core/models/anime-params';
@@ -15,6 +15,7 @@ import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { enumToArray } from '@js-camp/core/utils/enum-to-array';
 import { untilDestroyed } from '@js-camp/angular/shared/pipes/until-destroyed';
 import { QueryParamsOf } from '@js-camp/core/models/query-params-of';
+import { QueryParamsOfMapper } from '@js-camp/core/mappers/query-params-off.mapper';
 
 const defaultParams: AnimeParams = {
 	pagination: new PaginationParams({ pageSize: 10, pageNumber: 0 }),
@@ -170,14 +171,8 @@ export class AnimePageComponent implements OnInit {
 	 */
 	private mapQueryParamsToAnimeParams(params: QueryParamsOf<QueryAnimeParams>): AnimeParams {
 		return {
-			pagination: new PaginationParams({
-				pageSize: this.mapQueryParamToNumberParam(defaultParams.pagination.pageSize, params.pageSize),
-				pageNumber: this.mapQueryParamToNumberParam(defaultParams.pagination.pageNumber, params.pageNumber),
-			}),
-			sorting: {
-				direction: params.direction as SortDirection ?? defaultParams.sorting.direction,
-				field: params.field as AnimeSortingField ?? defaultParams.sorting.field,
-			},
+			pagination: QueryParamsOfMapper.toPaginationParams(params, defaultParams.pagination),
+			sorting: QueryParamsOfMapper.toSorting(params, defaultParams.sorting),
 			filters: {
 				search: params.search ?? defaultParams.filters.search,
 				type: params.type !== undefined ?
@@ -185,15 +180,6 @@ export class AnimePageComponent implements OnInit {
 					defaultParams.filters.type,
 			},
 		};
-	}
-
-	/**
-	 * Map query param to number param.
-	 * @param defaultValue Default number value.
-	 * @param param Query param.
-	 */
-	private mapQueryParamToNumberParam(defaultValue: number, param?: string): number {
-		return param !== undefined ? Number.parseInt(param, 10) : defaultValue;
 	}
 
 	/**
