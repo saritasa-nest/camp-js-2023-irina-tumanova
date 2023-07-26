@@ -42,7 +42,7 @@ export class RegistrationPageComponent {
 	private readonly untilDestroyed = untilDestroyed();
 
 	public constructor() {
-		this.form = this.createRegistrationForm();
+		this.form = this.createForm();
 	}
 
 	/** Submit login form. */
@@ -51,7 +51,7 @@ export class RegistrationPageComponent {
 			return;
 		}
 
-		this.authService.register(this.createFormValues(this.form.value))
+		this.authService.register(this.mapFormValuesForSubmit(this.form.value))
 			.pipe(
 				tap(() => this.router.navigate(['anime'])),
 				catchError((error: unknown) => of(this.handleError(error))),
@@ -70,7 +70,8 @@ export class RegistrationPageComponent {
 		this.changeDetectorRef.markForCheck();
 	}
 
-	private createRegistrationForm(): FormGroupOf<RegistrationForm> {
+	/** Create registration form. */
+	private createForm(): FormGroupOf<RegistrationForm> {
 		const registrationForm = this.formBuilder.group({
 			email: [defaultFormValues.email, [Validators.required, Validators.email]],
 			firstName: [defaultFormValues.firstName, [Validators.required]],
@@ -84,7 +85,11 @@ export class RegistrationPageComponent {
 		return registrationForm;
 	}
 
-	private createFormValues(values: Partial<RegistrationForm>): Registration {
+	/**
+	 * Map form value for submit.
+	 * @param values Form values.
+	 */
+	private mapFormValuesForSubmit(values: Partial<RegistrationForm>): Registration {
 		return new Registration({
 			email: values.email ?? defaultFormValues.email,
 			firstName: values.firstName ?? defaultFormValues.firstName,

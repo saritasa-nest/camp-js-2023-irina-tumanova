@@ -33,13 +33,13 @@ export class LoginPageComponent {
 	private readonly untilDestroyed = untilDestroyed();
 
 	public constructor() {
-		this.form = this.createLoginForm();
+		this.form = this.createForm();
 	}
 
 	/** Submit login form. */
 	protected handleSubmit(): void {
 		if (this.form.status === 'VALID') {
-			this.authService.login(this.createFormValues(this.form.value))
+			this.authService.login(this.mapFormValuesForSubmit(this.form.value))
 				.pipe(
 					tap(() => this.router.navigate(['anime'])),
 					this.untilDestroyed(),
@@ -48,14 +48,19 @@ export class LoginPageComponent {
 		}
 	}
 
-	private createLoginForm(): FormGroupOf<Login> {
+	/** Create login form. */
+	private createForm(): FormGroupOf<Login> {
 		return this.formBuilder.group({
 			email: [defaultFormValues.email, [Validators.required, Validators.email]],
 			password: [defaultFormValues.password, [Validators.required, Validators.minLength(8)]],
 		});
 	}
 
-	private createFormValues(values: Partial<Login>): Login {
+	/**
+	 * Map form value for submit.
+	 * @param values Form values.
+	 */
+	private mapFormValuesForSubmit(values: Partial<Login>): Login {
 		return new Login({
 			email: values.email ?? defaultFormValues.email,
 			password: values.password ?? defaultFormValues.password,

@@ -6,7 +6,7 @@ import { StorageService } from './storage.service';
 
 const SECRET_KEY = 'SECRET';
 
-/** Auth service. */
+/** User secret service. */
 @Injectable({
 	providedIn: 'root',
 })

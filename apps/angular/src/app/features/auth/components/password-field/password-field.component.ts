@@ -6,6 +6,8 @@ import { FormControl } from '@angular/forms';
 	selector: 'camp-password-field',
 	templateUrl: './password-field.component.html',
 	styleUrls: ['./password-field.component.css'],
+
+	// This is necessary to redraw the field when receiving errors from the server.
 	changeDetection: ChangeDetectionStrategy.Default,
 })
 export class PasswordFieldComponent {
