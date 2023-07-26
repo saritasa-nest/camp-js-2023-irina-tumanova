@@ -75,6 +75,7 @@ export class AnimePageComponent implements OnInit {
 		const paramsFromQuery = this.mapQueryParamsToAnimeParams(this.route.snapshot.queryParams);
 
 		this.filtersForm = this.createFiltersForm(paramsFromQuery.filters);
+		console.log(paramsFromQuery.filters);
 		this.pagination$ = new BehaviorSubject(paramsFromQuery.pagination);
 		this.sorting$ = new BehaviorSubject(paramsFromQuery.sorting);
 
@@ -116,8 +117,6 @@ export class AnimePageComponent implements OnInit {
 			this.sorting$,
 		])
 			.pipe(
-
-				tap(console.log),
 
 				// Necessary to reduce the number of queries when changing table parameters frequently
 				debounceTime(REQUEST_DEBOUNCE_TIME),
