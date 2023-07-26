@@ -11,10 +11,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { AuthRoutingModule } from './auth-routing.module';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { RegisterPageComponent } from './register-page/register-page.component';
+import { PasswordFieldComponent } from './components/password-field/password-field.component';
 
 /** Anime module. */
 @NgModule({
-	declarations: [LoginPageComponent, RegisterPageComponent],
+	declarations: [LoginPageComponent, RegisterPageComponent, PasswordFieldComponent],
 	imports: [
 		CommonModule,
 		SharedModule,

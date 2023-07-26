@@ -24,9 +24,6 @@ const defaultFormValues: RegistrationForm = {
 })
 export class RegisterPageComponent {
 
-	/** Is the password hidden. */
-	protected shouldPasswordBeHidden = true;
-
 	/** Registration form. */
 	protected readonly registrationForm: FormGroupOf<RegistrationForm>;
 
@@ -38,6 +35,17 @@ export class RegisterPageComponent {
 
 	public constructor() {
 		this.registrationForm = this.createRegistrationForm();
+	}
+
+	/** Submit login form. */
+	protected handleSubmit(): void {
+		if (this.registrationForm.status !== 'VALID') {
+			return;
+		}
+
+		this.authService.register(this.createFormValues(this.registrationForm.value))
+			.pipe(tap(() => this.router.navigate(['anime'])))
+			.subscribe();
 	}
 
 	private createRegistrationForm(): FormGroupOf<RegistrationForm> {
@@ -52,24 +60,6 @@ export class RegisterPageComponent {
 		registrationForm.setValidators(AppValidators.passwordRepetition());
 
 		return registrationForm;
-	}
-
-	/** Submit login form. */
-	protected handleSubmit(): void {
-		if (this.registrationForm.status !== 'VALID') {
-			return;
-		}
-
-		this.authService.register(this.createFormValues(this.registrationForm.value))
-			.pipe(
-				tap(() => this.router.navigate(['anime'])),
-			)
-			.subscribe();
-	}
-
-	/** Change password visibility. */
-	protected changePasswordVisibilitiy(): void {
-		this.shouldPasswordBeHidden = !this.shouldPasswordBeHidden;
 	}
 
 	private createFormValues(values: Partial<RegistrationForm>): Registration {

@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-
-import { Observable, map, switchMap, tap } from 'rxjs';
-
+import { Observable, switchMap } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../core/services/auth.service';

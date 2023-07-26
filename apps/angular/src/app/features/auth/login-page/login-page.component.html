@@ -7,19 +7,7 @@
 		<mat-error *ngIf="email.hasError('email')">Invalid email</mat-error>
 	</mat-form-field>
 
-	<mat-form-field *ngIf="loginForm.controls.password as password">
-		<mat-label>Password</mat-label>
-		<input matInput [formControl]="password" [type]="shouldPasswordBeHidden ? 'password' : 'text'">
-		<button mat-icon-button matSuffix 
-			type="button"
-			(click)="changePasswordVisibilitiy()" 
-			[attr.aria-label]="'Hide password'" 
-			[attr.aria-pressed]="shouldPasswordBeHidden">
-			<mat-icon>{{shouldPasswordBeHidden ? 'visibility_off' : 'visibility'}}</mat-icon>
-		</button>
-		<mat-error *ngIf="password.hasError('required')">Please enter password</mat-error>
-		<mat-error *ngIf="password.hasError('minlength')">Min 8 characters</mat-error>
-	</mat-form-field>
+	<camp-password-field [control]="loginForm.controls.password" />
 
 	<button type="submit" mat-raised-button color="primary" class="login-form__submit-button">Sign in</button>
 </form>

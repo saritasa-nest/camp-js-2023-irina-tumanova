@@ -5,11 +5,13 @@
 	align-items: center;
 	justify-content: center;
 	gap: var(--space-m);
+	padding: var(--space-m);
 }
 
 .login-form {
 	display: flex;
-	min-width: 500px;
+	max-width: var(--auth-form-max-width);
+	width: 100%;
 	flex-direction: column;
 	gap: var(--space-s);
 	justify-content: center;

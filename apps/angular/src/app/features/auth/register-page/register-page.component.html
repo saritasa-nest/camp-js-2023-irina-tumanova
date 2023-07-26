@@ -19,19 +19,7 @@
 		<mat-error *ngIf="lastName.hasError('required')">Please enter last name</mat-error>
 	</mat-form-field>
 
-	<mat-form-field *ngIf="registrationForm.controls.password as password">
-		<mat-label>Password</mat-label>
-		<input matInput [formControl]="password" [type]="shouldPasswordBeHidden ? 'password' : 'text'">
-		<button mat-icon-button matSuffix 
-			type="button"
-			(click)="changePasswordVisibilitiy()" 
-			[attr.aria-label]="'Hide password'" 
-			[attr.aria-pressed]="shouldPasswordBeHidden">
-			<mat-icon>{{shouldPasswordBeHidden ? 'visibility_off' : 'visibility'}}</mat-icon>
-		</button>
-		<mat-error *ngIf="password.hasError('required')">Please enter password</mat-error>
-		<mat-error *ngIf="password.hasError('minlength')">Min 8 characters</mat-error>
-	</mat-form-field>
+	<camp-password-field [control]="registrationForm.controls.password" />
 
 	<mat-form-field *ngIf="registrationForm.controls.repeatedPassword as repeatedPassword">
 		<mat-label>Re-type password</mat-label>

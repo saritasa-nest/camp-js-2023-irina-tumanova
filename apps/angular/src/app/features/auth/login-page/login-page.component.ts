@@ -20,9 +20,6 @@ const defaultFormValues: Login = {
 })
 export class LoginPageComponent {
 
-	/** Is the password hidden. */
-	protected shouldPasswordBeHidden = true;
-
 	/** Login form. */
 	protected readonly loginForm: FormGroupOf<Login>;
 
@@ -33,30 +30,23 @@ export class LoginPageComponent {
 	private readonly router = inject(Router);
 
 	public constructor() {
-		this.loginForm = this.createRegistrationForm();
-	}
-
-	private createRegistrationForm(): FormGroupOf<Login> {
-		return this.formBuilder.group({
-			email: [defaultFormValues.email, [Validators.required, Validators.email]],
-			password: [defaultFormValues.password, [Validators.required, Validators.minLength(8)]],
-		});
+		this.loginForm = this.createLoginForm();
 	}
 
 	/** Submit login form. */
 	protected handleSubmit(): void {
 		if (this.loginForm.status === 'VALID') {
 			this.authService.login(this.createFormValues(this.loginForm.value))
-				.pipe(
-					tap(() => this.router.navigate(['anime'])),
-				)
+				.pipe(tap(() => this.router.navigate(['anime'])))
 				.subscribe();
 		}
 	}
 
-	/** Change password visibility. */
-	protected changePasswordVisibilitiy(): void {
-		this.shouldPasswordBeHidden = !this.shouldPasswordBeHidden;
+	private createLoginForm(): FormGroupOf<Login> {
+		return this.formBuilder.group({
+			email: [defaultFormValues.email, [Validators.required, Validators.email]],
+			password: [defaultFormValues.password, [Validators.required, Validators.minLength(8)]],
+		});
 	}
 
 	private createFormValues(values: Partial<Login>): Login {
