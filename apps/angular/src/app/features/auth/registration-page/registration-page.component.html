@@ -5,7 +5,7 @@
 		<input matInput placeholder="example@gmail.com" [formControl]="email">
 		<mat-error *ngIf="email.hasError('required')">Please enter email</mat-error>
 		<mat-error *ngIf="email.hasError('email')">Invalid email</mat-error>
-		<mat-error *ngIf="email.hasError('unique')">User with this Email address already exists.</mat-error>
+		<mat-error *ngIf="email.getError('unique') as emailUniqueError">{{emailUniqueError}}</mat-error>
 	</mat-form-field>
 
 	<mat-form-field *ngIf="form.controls.firstName as firstName">

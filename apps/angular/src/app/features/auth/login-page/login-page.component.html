@@ -1,5 +1,11 @@
 <p class="typography-title">Sign in</p>
 <form [formGroup]="form" (ngSubmit)="handleSubmit()" class="auth-form">
+	<ng-container *ngIf="loginErrors$ | async as errors">
+		<p *ngFor="let error of errors; trackBy: trackErrorByCode" class="auth-form__error">
+			{{error.detail}}
+		</p>
+	</ng-container>
+
 	<mat-form-field *ngIf="form.controls.email as email">
 		<mat-label>Email</mat-label>
 		<input matInput placeholder="example@gmail.com" [formControl]="email">

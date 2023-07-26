@@ -17,6 +17,11 @@
 	justify-content: center;
 }
 
+.auth-form__error {
+	color: var(--primary-color);
+	align-self: center;
+}
+
 .auth-form__submit-button {
 	align-self: center;
 }
