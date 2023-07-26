@@ -8,13 +8,13 @@ import { AnimeType } from './anime';
 export class AnimeFilterParams {
 
 	/** Anime types. */
-	public readonly type: AnimeType[];
+	public readonly types: AnimeType[];
 
 	/** Search. */
 	public readonly search: string;
 
-	public constructor({ type, search }: InitAnimeFilterParams) {
-		this.type = type;
+	public constructor({ types, search }: InitAnimeFilterParams) {
+		this.types = types;
 		this.search = search;
 	}
 }

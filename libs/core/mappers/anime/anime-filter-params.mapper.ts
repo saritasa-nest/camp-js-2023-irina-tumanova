@@ -11,7 +11,7 @@ export namespace AnimeFilterParamsMapper {
 	 */
 	export function toDto(model: AnimeFilterParams): AnimeFilterParamsDto {
 		return {
-			type: model.type.map(typeDto => ANIME_TYPE_TO_DTO[typeDto]),
+			type__in: model.types.map(type => ANIME_TYPE_TO_DTO[type]).join(','),
 			search: model.search,
 		};
 	}
