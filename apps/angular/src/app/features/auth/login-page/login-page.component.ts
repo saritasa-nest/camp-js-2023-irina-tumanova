@@ -8,6 +8,7 @@ import { BehaviorSubject, catchError, finalize, of, tap } from 'rxjs';
 import { untilDestroyed } from '@js-camp/angular/shared/pipes/until-destroyed';
 import { ErrorService } from '@js-camp/angular/core/services/error.service';
 import { HttpError } from '@js-camp/core/models/http-error';
+import { AppValidators } from '@js-camp/angular/core/utils/validators';
 
 const defaultFormValues: Login = {
 	email: '',
@@ -71,7 +72,7 @@ export class LoginPageComponent implements OnInit {
 	private createForm(): FormGroupOf<Login> {
 		return this.formBuilder.group({
 			email: [defaultFormValues.email, [Validators.required, Validators.email]],
-			password: [defaultFormValues.password, [Validators.required, Validators.minLength(8)]],
+			password: [defaultFormValues.password, [Validators.required, Validators.minLength(AppValidators.MIN_PASSWORD_LENGTH)]],
 		});
 	}
 
