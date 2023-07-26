@@ -5,6 +5,7 @@ import { Login } from '@js-camp/core/models/auth/login';
 import { FormGroupOf } from '@js-camp/core/models/form-type-of';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
+import { untilDestroyed } from '@js-camp/angular/shared/pipes/until-destroyed';
 
 const defaultFormValues: Login = {
 	email: '',
@@ -29,6 +30,8 @@ export class LoginPageComponent {
 
 	private readonly router = inject(Router);
 
+	private readonly untilDestroyed = untilDestroyed();
+
 	public constructor() {
 		this.loginForm = this.createLoginForm();
 	}
@@ -37,7 +40,10 @@ export class LoginPageComponent {
 	protected handleSubmit(): void {
 		if (this.loginForm.status === 'VALID') {
 			this.authService.login(this.createFormValues(this.loginForm.value))
-				.pipe(tap(() => this.router.navigate(['anime'])))
+				.pipe(
+					tap(() => this.router.navigate(['anime'])),
+					this.untilDestroyed(),
+				)
 				.subscribe();
 		}
 	}

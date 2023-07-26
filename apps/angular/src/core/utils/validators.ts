@@ -7,10 +7,15 @@ export namespace AppValidators{
 		return (group: AbstractControl): ValidationErrors | null => {
 			if (group instanceof FormGroup) {
 				const { password, repeatedPassword } = group.controls;
-				if (password.value !== repeatedPassword.value && repeatedPassword.value.length > 0) {
-					repeatedPassword.setErrors({ ...repeatedPassword.errors, passwordDoesNotMatch: true });
-				} else if (repeatedPassword.errors !== null) {
-					repeatedPassword.setErrors({ ...repeatedPassword.errors, passwordDoesNotMatch: false });
+
+				if (repeatedPassword.value.length < 8) {
+					return null;
+				}
+
+				if (password.value !== repeatedPassword.value) {
+					repeatedPassword.setErrors({ passwordDoesNotMatch: true });
+				} else {
+					repeatedPassword.setErrors(null);
 				}
 			}
 
