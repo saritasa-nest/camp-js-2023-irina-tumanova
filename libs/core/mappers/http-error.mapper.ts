@@ -5,13 +5,13 @@ export namespace HttpErrorMapper {
 
 	/**
 	 * Maps DTO to model.
-	 * @param dto Date range DTO.
+	 * @param dto Http error DTO.
 	 */
-	export function fromDto(dto: HttpErrorDto): HttpError[] {
-		return dto.errors.map(errorDto => new HttpError({
-			attr: errorDto.attr,
-			code: errorDto.code,
-			detail: errorDto.detail,
-		}));
+	export function fromDto(dto: HttpErrorDto): HttpError {
+		return new HttpError({
+			attr: dto.attr,
+			code: dto.code,
+			detail: dto.detail,
+		});
 	}
 }

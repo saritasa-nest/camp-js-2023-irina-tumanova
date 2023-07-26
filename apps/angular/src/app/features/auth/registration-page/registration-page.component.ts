@@ -81,8 +81,11 @@ export class RegistrationPageComponent {
 			email: [defaultFormValues.email, [Validators.required, Validators.email]],
 			firstName: [defaultFormValues.firstName, [Validators.required]],
 			lastName: [defaultFormValues.lastName, [Validators.required]],
-			password: [defaultFormValues.password, [Validators.required, Validators.minLength(8)]],
-			repeatedPassword: [defaultFormValues.repeatedPassword, [Validators.required, Validators.minLength(8)]],
+			password: [defaultFormValues.password, [Validators.required, Validators.minLength(AppValidators.MIN_PASSWORD_LENGTH)]],
+			repeatedPassword: [
+				defaultFormValues.repeatedPassword,
+				[Validators.required, Validators.minLength(AppValidators.MIN_PASSWORD_LENGTH)],
+			],
 		});
 
 		registrationForm.setValidators(AppValidators.passwordRepetition());

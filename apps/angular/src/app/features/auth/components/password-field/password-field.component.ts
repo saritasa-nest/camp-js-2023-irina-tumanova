@@ -16,7 +16,7 @@ export class PasswordFieldComponent {
 	protected shouldPasswordBeHidden = true;
 
 	/** Password control. */
-	@Input() public control = new FormControl();
+	@Input() public control = new FormControl('');
 
 	/** Change password visibility. */
 	protected changePasswordVisibility(): void {

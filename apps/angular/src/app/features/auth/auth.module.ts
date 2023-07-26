@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatInputModule } from '@angular/material/input';
 import { SharedModule } from '@js-camp/angular/shared/shared.module';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
@@ -20,7 +19,6 @@ import { PasswordFieldComponent } from './components/password-field/password-fie
 		CommonModule,
 		SharedModule,
 		AuthRoutingModule,
-		MatProgressSpinnerModule,
 		FormsModule,
 		ReactiveFormsModule,
 		MatFormFieldModule,

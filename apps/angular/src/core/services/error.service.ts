@@ -3,6 +3,7 @@ import { HttpError } from '@js-camp/core/models/http-error';
 import { HttpErrorMapper } from '@js-camp/core/mappers/http-error.mapper';
 import { FormGroup } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorDto } from '@js-camp/core/dtos/http-error.dto';
 
 /** Anime service. */
 @Injectable({
@@ -15,8 +16,8 @@ export class ErrorService {
 	 * @param error Http error.
 	 */
 	public getErrors(error: unknown): HttpError[] {
-		if (error instanceof HttpErrorResponse) {
-			return HttpErrorMapper.fromDto(error.error);
+		if (error instanceof HttpErrorResponse && error.error.errors instanceof Array) {
+			return error.error.errors.map((errorDto: unknown) => HttpErrorMapper.fromDto(errorDto as HttpErrorDto));
 		}
 		return [];
 	}
