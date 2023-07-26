@@ -75,7 +75,6 @@ export class AnimePageComponent implements OnInit {
 		const paramsFromQuery = this.mapQueryParamsToAnimeParams(this.route.snapshot.queryParams);
 
 		this.filtersForm = this.createFiltersForm(paramsFromQuery.filters);
-		console.log(paramsFromQuery.filters);
 		this.pagination$ = new BehaviorSubject(paramsFromQuery.pagination);
 		this.sorting$ = new BehaviorSubject(paramsFromQuery.sorting);
 
@@ -151,16 +150,16 @@ export class AnimePageComponent implements OnInit {
 	 * @param pagination Pagination: pageNumber and pageSize.
 	 * @param sorting Sorting: field and direction.
 	 * @param search Search.
-	 * @param type Anime type.
+	 * @param types Anime type.
 	 */
 	private createAnimeParams(pagination: PaginationParams, sorting: Sorting<AnimeSortingField>,
-		search?: string, type?: AnimeType[]): AnimeParams {
+		search?: string, types?: AnimeType[]): AnimeParams {
 		return {
 			pagination,
 			sorting,
 			filters: {
 				search: search ?? defaultParams.filters.search,
-				types: type ?? defaultParams.filters.types,
+				types: types ?? defaultParams.filters.types,
 			},
 		};
 	}
@@ -175,8 +174,8 @@ export class AnimePageComponent implements OnInit {
 			sorting: QueryParamsOfMapper.toSorting(params, defaultParams.sorting),
 			filters: {
 				search: params.search ?? defaultParams.filters.search,
-				types: params.type !== undefined ?
-					params.type.split(',').filter((type: string) => type.length > 0) as AnimeType[] :
+				types: params.types !== undefined ?
+					params.types.split(',').filter((type: string) => type.length > 0) as AnimeType[] :
 					defaultParams.filters.types,
 			},
 		};

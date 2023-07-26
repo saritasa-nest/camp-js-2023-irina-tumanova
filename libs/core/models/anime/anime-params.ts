@@ -35,5 +35,5 @@ export type AnimeParams = ListParams<AnimeFilterParams, AnimeSortingField>;
 
 export type QueryAnimeParams = PaginationParams & Sorting<AnimeSortingField> & {
 	search: string;
-	type: string;
+	types: string;
 };
