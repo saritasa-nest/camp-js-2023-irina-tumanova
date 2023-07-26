@@ -1,6 +1,6 @@
 import { HttpRequest, HttpHandler, HttpInterceptor, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, catchError, first, merge, switchMap, throwError } from 'rxjs';
+import { Observable, catchError, merge, switchMap, throwError } from 'rxjs';
 import { HttpStatusCode } from 'axios';
 
 import { UserSecretService } from '../services/user-secret.service';
@@ -34,7 +34,6 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
 				}
 
 				return this.userSecretService.getTokens().pipe(
-					first(),
 					switchMap(tokens => {
 						if (tokens !== null) {
 							return this.authService.refreshSecret(tokens);

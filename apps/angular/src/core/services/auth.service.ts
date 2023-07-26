@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, map, merge, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, merge, switchMap, tap, throwError } from 'rxjs';
 import { UserSecretDto } from '@js-camp/core/dtos/auth/user-secret.dto';
 import { UserSecretMapper } from '@js-camp/core/mappers/auth/user-secret.mapper';
 import { Registration } from '@js-camp/core/models/auth/registration';
@@ -87,11 +87,17 @@ export class AuthService {
 	 */
 	public refreshSecret(
 		secret: UserSecret,
-	): Observable<UserSecret> {
+	): Observable<UserSecret | void> {
 		return this.http.post<UserSecretDto>(
 			this.apiUrlsConfig.auth.refreshSecret,
 			UserSecretMapper.toDto(secret),
 		)
-			.pipe(map(secretDto => UserSecretMapper.fromDto(secretDto)));
+			.pipe(
+				map(secretDto => UserSecretMapper.fromDto(secretDto)),
+				catchError((error: unknown) => merge(
+					this.logout(),
+					throwError(() => error),
+				)),
+			);
 	}
 }
