@@ -1,5 +1,7 @@
-.anime-page {
-	position: relative;
+.anime-page__filters {
+	padding: var(--space-m) var(--space-m) 0 var(--space-m);
+	display: flex;
+	gap: var(--space-m);
 }
 
 .anime-page__shade {

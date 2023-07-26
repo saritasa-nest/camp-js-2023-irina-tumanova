@@ -10,11 +10,15 @@ export namespace ListParamsMapper {
 	 * Maps model to DTO.
 	 * @param model Params.
 	 * @param filterMapper Mapper for filters in params.
+	 * @param sortingFieldMapper Mapper for sort field.
 	 */
-	export function toDto<TFilters, TSortField, TFiltersDto>(model: ListParams<TFilters, TSortField>,
-		filterMapper: (filters: TFilters) => TFiltersDto): ListParamsDto<TFiltersDto> {
+	export function toDto<TFilters, TSortField, TFiltersDto, TSortFieldDto>(model: ListParams<TFilters, TSortField>,
+		filterMapper: (filters: TFilters) => TFiltersDto,
+		sortingFieldMapper: (field: TSortField) => TSortFieldDto): ListParamsDto<TFiltersDto> {
+
+		const sortDirection = model.sorting.direction === 'desc' ? SortDirectionDto.Desc : SortDirectionDto.Asc;
 		return {
-			ordering: `${model.sorting.direction === 'desc' ? SortDirectionDto.Desc : SortDirectionDto.Asc}${model.sorting.field}`,
+			ordering: `${sortDirection}${sortingFieldMapper(model.sorting.field)}`,
 			...PaginationParamsMapper.toDto(model.pagination),
 			...filterMapper(model.filters),
 		};

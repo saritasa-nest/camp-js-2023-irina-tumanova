@@ -1,17 +1,19 @@
 import { AnimeType } from './anime';
 import { ListParams } from './list-params';
+import { PaginationParams } from './pagination-params';
+import { Sorting } from './sorting';
 
 /** Filters parameters for getting anime. */
 export class AnimeFilterParams {
 
 	/** Anime types. */
-	public readonly type: AnimeType[];
+	public readonly types: AnimeType[];
 
 	/** Search. */
 	public readonly search: string;
 
-	public constructor({ type, search }: InitAnimeFilterParams) {
-		this.type = type;
+	public constructor({ types, search }: InitAnimeFilterParams) {
+		this.types = types;
 		this.search = search;
 	}
 }
@@ -19,13 +21,18 @@ export class AnimeFilterParams {
 type InitAnimeFilterParams = AnimeFilterParams;
 
 /** Field to sort by. */
-export enum AnimeSortField {
-	TitleEng = 'title_eng',
-	TitleJpn = 'title_jpn',
-	AiredStart = 'aired__startswith',
+export enum AnimeSortingField {
+	TitleEnglish = 'titleEnglish',
+	TitleJapanese = 'titleJapanese',
+	AiredStart = 'aired.start',
 	Status = 'status',
 	None = '',
 }
 
-/** Request parameters for getting anime. */
-export type AnimeParams = ListParams<AnimeFilterParams, AnimeSortField>;
+/** Request params for getting anime. */
+export type AnimeParams = ListParams<AnimeFilterParams, AnimeSortingField>;
+
+export type QueryAnimeParams = PaginationParams & Sorting<AnimeSortingField> & {
+	search: string;
+	type: string;
+};

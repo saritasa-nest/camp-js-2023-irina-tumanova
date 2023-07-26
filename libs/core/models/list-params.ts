@@ -2,18 +2,18 @@ import { PaginationParams } from './pagination-params';
 import { Sorting } from './sorting';
 
 /** Params for query with list. */
-export class ListParams<TFilters, TSortField> {
+export class ListParams<TFilters, TSortingField> {
 
 	/** Pagination. */
 	public readonly pagination: PaginationParams;
 
 	/** Sorting: sort field and direction. */
-	public readonly sorting: Sorting<TSortField>;
+	public readonly sorting: Sorting<TSortingField>;
 
 	/** List filters. */
 	public readonly filters: TFilters;
 
-	public constructor({ sorting, filters, pagination }: InitListParams<TFilters, TSortField>) {
+	public constructor({ sorting, filters, pagination }: InitListParams<TFilters, TSortingField>) {
 		this.pagination = pagination;
 		this.sorting = sorting;
 		this.filters = filters;
