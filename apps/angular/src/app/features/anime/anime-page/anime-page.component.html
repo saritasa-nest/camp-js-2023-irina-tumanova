@@ -92,8 +92,6 @@
 		<ng-template #emptyPlaceholder>&mdash;</ng-template>
 	</ng-container>
 
-	<div *ngIf="isLoading$ | async" class="anime-page__shade">
-		<camp-spinner />
-	</div>
+	<camp-shadow-spinner *ngIf="isLoading$ | async" />
 </div>
 

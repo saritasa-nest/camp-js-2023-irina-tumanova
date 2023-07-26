@@ -19,3 +19,5 @@
 </form>
 
 <a routerLink="/auth/signup" mat-button>Sign up</a>
+
+<camp-shadow-spinner *ngIf="isSubmitting$ | async" />

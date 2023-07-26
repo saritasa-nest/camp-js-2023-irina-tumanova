@@ -4,7 +4,7 @@ import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { Login } from '@js-camp/core/models/auth/login';
 import { FormGroupOf } from '@js-camp/core/models/form-type-of';
 import { Router } from '@angular/router';
-import { BehaviorSubject, catchError, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, finalize, of, tap } from 'rxjs';
 import { untilDestroyed } from '@js-camp/angular/shared/pipes/until-destroyed';
 import { ErrorService } from '@js-camp/angular/core/services/error.service';
 import { HttpError } from '@js-camp/core/models/http-error';
@@ -25,6 +25,9 @@ export class LoginPageComponent implements OnInit {
 
 	/** Login form. */
 	protected readonly form: FormGroupOf<Login>;
+
+	/** Login is submitting. */
+	protected readonly isSubmitting$ = new BehaviorSubject(false);
 
 	/** Login errors. */
 	protected readonly loginErrors$ = new BehaviorSubject<HttpError[]>([]);
@@ -53,12 +56,13 @@ export class LoginPageComponent implements OnInit {
 	/** Submit login form. */
 	protected handleSubmit(): void {
 		if (this.form.status === 'VALID') {
-			this.authService.login(this.mapFormValuesForSubmit(this.form.value))
-				.pipe(
-					tap(() => this.router.navigate(['anime'])),
-					catchError((error: unknown) => of(this.handleError(error))),
-					this.untilDestroyed(),
-				)
+			this.isSubmitting$.next(true);
+			this.authService.login(this.mapFormValuesForSubmit(this.form.value)).pipe(
+				tap(() => this.router.navigate(['anime'])),
+				catchError((error: unknown) => of(this.handleError(error))),
+				finalize(() => this.isSubmitting$.next(false)),
+				this.untilDestroyed(),
+			)
 				.subscribe();
 		}
 	}

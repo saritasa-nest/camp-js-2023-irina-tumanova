@@ -34,3 +34,5 @@
 </form>
 
 <a routerLink="/auth/signin" mat-button>Sign in</a>
+
+<camp-shadow-spinner *ngIf="isSubmitting$ | async" />
