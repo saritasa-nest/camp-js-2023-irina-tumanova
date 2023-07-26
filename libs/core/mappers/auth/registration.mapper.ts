@@ -9,10 +9,10 @@ export namespace RegistrationMapper {
 	 */
 	export function toDto(model: Registration): RegistrationDto {
 		return {
-			email: model.email ?? '',
-			password: model.password ?? '',
-			first_name: model.firstName ?? '',
-			last_name: model.lastName ?? '',
-		} as RegistrationDto;
+			email: model.email,
+			password: model.password,
+			first_name: model.firstName,
+			last_name: model.lastName,
+		};
 	}
 }

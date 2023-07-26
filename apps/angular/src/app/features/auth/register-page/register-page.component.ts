@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { Registration, RegistrationForm } from '@js-camp/core/models/auth/registration';
 import { FormGroupOf } from '@js-camp/core/models/form-type-of';
@@ -30,7 +30,7 @@ export class RegisterPageComponent {
 	/** Registration form. */
 	protected readonly registrationForm: FormGroupOf<RegistrationForm>;
 
-	private readonly formBuilder = inject(FormBuilder);
+	private readonly formBuilder = inject(NonNullableFormBuilder);
 
 	private readonly authService = inject(AuthService);
 

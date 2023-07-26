@@ -2,16 +2,16 @@
 export class Registration {
 
 	/** Email. */
-	public readonly email: string | null;
+	public readonly email: string;
 
 	/** First name. */
-	public readonly firstName: string | null;
+	public readonly firstName: string;
 
 	/** Last name. */
-	public readonly lastName: string | null;
+	public readonly lastName: string;
 
 	/** Password. */
-	public readonly password: string | null;
+	public readonly password: string;
 
 	public constructor(data: InitRegistrationParams) {
 		this.email = data.email;
@@ -25,5 +25,5 @@ type InitRegistrationParams = Registration;
 
 /** Registration data inside the registration form. */
 export type RegistrationForm = Registration & {
-	repeatedPassword: string | null;
+	repeatedPassword: string;
 };

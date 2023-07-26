@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
+import { NonNullableFormBuilder } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
@@ -16,6 +16,7 @@ import { enumToArray } from '@js-camp/core/utils/enum-to-array';
 import { untilDestroyed } from '@js-camp/angular/shared/pipes/until-destroyed';
 import { QueryParamsOf } from '@js-camp/core/models/query-params-of';
 import { QueryParamsOfMapper } from '@js-camp/core/mappers/query-params-off.mapper';
+import { FormGroupOf } from '@js-camp/core/models/form-type-of';
 
 const defaultParams: AnimeParams = {
 	pagination: new PaginationParams({ pageSize: 10, pageNumber: 0 }),
@@ -24,8 +25,6 @@ const defaultParams: AnimeParams = {
 };
 
 const REQUEST_DEBOUNCE_TIME = 500;
-
-type FiltersForm = FormGroup<{search: FormControl<string>; type: FormControl<AnimeType[]>;}>;
 
 /** Anime list page. */
 @Component({
@@ -58,7 +57,7 @@ export class AnimePageComponent implements OnInit {
 	protected readonly pagination$: BehaviorSubject<PaginationParams>;
 
 	/** Filters form: search and type filter. */
-	protected readonly filtersForm: FiltersForm;
+	protected readonly filtersForm: FormGroupOf<AnimeFilterParams>;
 
 	private readonly untilDestroyed = untilDestroyed();
 
@@ -102,7 +101,7 @@ export class AnimePageComponent implements OnInit {
 	 * Create filters form.
 	 * @param filters Initial filters.
 	 */
-	private createFiltersForm(filters: AnimeFilterParams): FiltersForm {
+	private createFiltersForm(filters: AnimeFilterParams): FormGroupOf<AnimeFilterParams> {
 		return this.formBuilder.group({
 			search: filters.search,
 			type: [filters.type],
