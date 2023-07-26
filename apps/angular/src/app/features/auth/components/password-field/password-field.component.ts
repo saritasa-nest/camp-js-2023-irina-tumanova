@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-/** Spiner component. */
+/** Password field component. */
 @Component({
 	selector: 'camp-password-field',
 	templateUrl: './password-field.component.html',

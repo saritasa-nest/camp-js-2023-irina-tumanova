@@ -17,17 +17,17 @@ const defaultFormValues: RegistrationForm = {
 	repeatedPassword: '',
 };
 
-/** Sign up page. */
+/** Registration page. */
 @Component({
 	selector: 'camp-register-page',
-	templateUrl: './register-page.component.html',
-	styleUrls: ['./register-page.component.css'],
+	templateUrl: './registration-page.component.html',
+	styleUrls: ['../auth-form.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RegisterPageComponent {
+export class RegistrationPageComponent {
 
 	/** Registration form. */
-	protected readonly registrationForm: FormGroupOf<RegistrationForm>;
+	protected readonly form: FormGroupOf<RegistrationForm>;
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
@@ -42,16 +42,16 @@ export class RegisterPageComponent {
 	private readonly untilDestroyed = untilDestroyed();
 
 	public constructor() {
-		this.registrationForm = this.createRegistrationForm();
+		this.form = this.createRegistrationForm();
 	}
 
 	/** Submit login form. */
 	protected handleSubmit(): void {
-		if (this.registrationForm.status !== 'VALID') {
+		if (this.form.status !== 'VALID') {
 			return;
 		}
 
-		this.authService.register(this.createFormValues(this.registrationForm.value))
+		this.authService.register(this.createFormValues(this.form.value))
 			.pipe(
 				tap(() => this.router.navigate(['anime'])),
 				catchError((error: unknown) => of(this.handleError(error))),
@@ -66,7 +66,7 @@ export class RegisterPageComponent {
 	 */
 	private handleError(error: unknown): void {
 		const errorData = this.errorService.getErrors(error);
-		this.errorService.showErrorsToForm(errorData, this.registrationForm);
+		this.errorService.showErrorsToForm(errorData, this.form);
 		this.changeDetectorRef.markForCheck();
 	}
 

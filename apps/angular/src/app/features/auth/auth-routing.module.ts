@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NoAuthGuard } from '@js-camp/angular/core/guards/no-auth.guard';
 
 import { LoginPageComponent } from './login-page/login-page.component';
-import { RegisterPageComponent } from './register-page/register-page.component';
+import { RegistrationPageComponent } from './registration-page/registration-page.component';
 
 const routes: Routes = [
 	{
@@ -20,7 +20,7 @@ const routes: Routes = [
 	{
 		path: 'signup',
 		title: 'Sign Up',
-		component: RegisterPageComponent,
+		component: RegistrationPageComponent,
 		canActivate: [NoAuthGuard],
 	},
 ];

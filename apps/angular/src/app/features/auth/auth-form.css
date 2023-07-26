@@ -8,7 +8,7 @@
 	padding: var(--space-m);
 }
 
-.login-form {
+.auth-form {
 	display: flex;
 	max-width: var(--auth-form-max-width);
 	width: 100%;
@@ -17,6 +17,6 @@
 	justify-content: center;
 }
 
-.login-form__submit-button {
+.auth-form__submit-button {
 	align-self: center;
 }

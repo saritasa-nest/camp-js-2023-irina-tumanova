@@ -12,17 +12,17 @@ const defaultFormValues: Login = {
 	password: '',
 };
 
-/** Sign up page. */
+/** Login page. */
 @Component({
 	selector: 'camp-login-page',
 	templateUrl: './login-page.component.html',
-	styleUrls: ['./login-page.component.css'],
+	styleUrls: ['../auth-form.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginPageComponent {
 
 	/** Login form. */
-	protected readonly loginForm: FormGroupOf<Login>;
+	protected readonly form: FormGroupOf<Login>;
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
@@ -33,13 +33,13 @@ export class LoginPageComponent {
 	private readonly untilDestroyed = untilDestroyed();
 
 	public constructor() {
-		this.loginForm = this.createLoginForm();
+		this.form = this.createLoginForm();
 	}
 
 	/** Submit login form. */
 	protected handleSubmit(): void {
-		if (this.loginForm.status === 'VALID') {
-			this.authService.login(this.createFormValues(this.loginForm.value))
+		if (this.form.status === 'VALID') {
+			this.authService.login(this.createFormValues(this.form.value))
 				.pipe(
 					tap(() => this.router.navigate(['anime'])),
 					this.untilDestroyed(),
