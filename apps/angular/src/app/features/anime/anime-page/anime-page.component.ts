@@ -20,12 +20,12 @@ import { QueryParamsOfMapper } from '@js-camp/core/mappers/query-params-off.mapp
 const defaultParams: AnimeParams = {
 	pagination: new PaginationParams({ pageSize: 10, pageNumber: 0 }),
 	sorting: new Sorting({ field: AnimeSortingField.None, direction: 'asc' }),
-	filters: new AnimeFilterParams({ type: [], search: '' }),
+	filters: new AnimeFilterParams({ types: [], search: '' }),
 };
 
 const REQUEST_DEBOUNCE_TIME = 500;
 
-type FiltersForm = FormGroup<{search: FormControl<string>; type: FormControl<AnimeType[]>;}>;
+type FiltersForm = FormGroup<{search: FormControl<string>; types: FormControl<AnimeType[]>;}>;
 
 /** Anime list page. */
 @Component({
@@ -105,7 +105,7 @@ export class AnimePageComponent implements OnInit {
 	private createFiltersForm(filters: AnimeFilterParams): FiltersForm {
 		return this.formBuilder.group({
 			search: filters.search,
-			type: [filters.type],
+			types: [filters.types],
 		});
 	}
 
@@ -120,7 +120,7 @@ export class AnimePageComponent implements OnInit {
 
 				// Necessary to reduce the number of queries when changing table parameters frequently
 				debounceTime(REQUEST_DEBOUNCE_TIME),
-				map(([{ search, type }, pagination, sorting]) => this.createAnimeParams(pagination, sorting, search, type)),
+				map(([{ search, types }, pagination, sorting]) => this.createAnimeParams(pagination, sorting, search, types)),
 				tap(params => this.setQueryParamsFromAnimeParams(params)),
 				tap(() => this.isLoading$.next(true)),
 				switchMap(params => this.animeService.getAnime(params).pipe(
@@ -140,7 +140,7 @@ export class AnimePageComponent implements OnInit {
 			field: params.sorting.field,
 			direction: params.sorting.direction,
 			search: params.filters.search,
-			type: params.filters.type.join(','),
+			types: params.filters.types.join(','),
 		};
 
 		this.router.navigate([], { queryParams, queryParamsHandling: 'merge' });
@@ -160,7 +160,7 @@ export class AnimePageComponent implements OnInit {
 			sorting,
 			filters: {
 				search: search ?? defaultParams.filters.search,
-				type: type ?? defaultParams.filters.type,
+				types: type ?? defaultParams.filters.types,
 			},
 		};
 	}
@@ -175,9 +175,9 @@ export class AnimePageComponent implements OnInit {
 			sorting: QueryParamsOfMapper.toSorting(params, defaultParams.sorting),
 			filters: {
 				search: params.search ?? defaultParams.filters.search,
-				type: params.type !== undefined ?
+				types: params.type !== undefined ?
 					params.type.split(',').filter((type: string) => type.length > 0) as AnimeType[] :
-					defaultParams.filters.type,
+					defaultParams.filters.types,
 			},
 		};
 	}

@@ -6,7 +6,7 @@
 		</mat-form-field>
 		<mat-form-field>
 			<mat-label>Anime type</mat-label>
-			<mat-select [formControl]="filtersForm.controls.type" multiple>
+			<mat-select [formControl]="filtersForm.controls.types" multiple>
 				<mat-option *ngFor="let type of animeTypes; trackBy: trackAnimeType" [value]="type">{{type}}</mat-option>
 			</mat-select>
 		</mat-form-field>
