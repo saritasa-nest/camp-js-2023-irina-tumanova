@@ -3,7 +3,7 @@ import { Observable, switchMap } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../core/services/auth.service';
-import { untilDestroyed } from '../shared/pipes/until-destroyed';
+import { untilDestroyed } from '../core/rxjs/until-destroyed';
 
 /** App component. */
 @Component({

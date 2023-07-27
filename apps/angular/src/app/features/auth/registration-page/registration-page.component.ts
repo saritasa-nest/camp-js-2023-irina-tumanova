@@ -4,9 +4,11 @@ import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { RegistrationForm } from '@js-camp/core/models/auth/registration';
 import { FormGroupOf } from '@js-camp/core/models/form-type-of';
 import { Router } from '@angular/router';
-import { BehaviorSubject, catchError, finalize, first, of, tap } from 'rxjs';
+import { BehaviorSubject, finalize, first, map, tap } from 'rxjs';
 import { AppValidators } from '@js-camp/angular/core/utils/validators';
-import { ErrorService } from '@js-camp/angular/core/services/error.service';
+import { catchHttpErrorResponse } from '@js-camp/angular/core/rxjs/catchHttpErrorResponse';
+import { catchFormError } from '@js-camp/angular/core/rxjs/catchFormError';
+import { APP_ERRORS_DEFAULT } from '@js-camp/core/models/app-error';
 
 const defaultFormValues: RegistrationForm = {
 	email: '',
@@ -35,8 +37,6 @@ export class RegistrationPageComponent {
 
 	private readonly authService = inject(AuthService);
 
-	private readonly errorService = inject(ErrorService);
-
 	private readonly router = inject(Router);
 
 	private readonly changeDetectorRef = inject(ChangeDetectorRef);
@@ -56,20 +56,14 @@ export class RegistrationPageComponent {
 			.pipe(
 				first(),
 				tap(() => this.router.navigate(['anime'])),
-				catchError((error: unknown) => of(this.handleError(error))),
+				catchHttpErrorResponse(),
+				map(errors => errors ?? APP_ERRORS_DEFAULT),
+				catchFormError(this.form),
+
+				tap(() => this.changeDetectorRef.markForCheck()),
 				finalize(() => this.isSubmitting$.next(false)),
 			)
 			.subscribe();
-	}
-
-	/**
-	 * Handle error from server.
-	 * @param error Error from server.
-	 */
-	private handleError(error: unknown): void {
-		const errorData = this.errorService.getErrors(error);
-		this.errorService.showErrorsToForm(errorData, this.form);
-		this.changeDetectorRef.markForCheck();
 	}
 
 	/** Create registration form. */

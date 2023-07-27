@@ -13,7 +13,7 @@ import { Sorting } from '@js-camp/core/models/sorting';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { enumToArray } from '@js-camp/core/utils/enum-to-array';
-import { untilDestroyed } from '@js-camp/angular/shared/pipes/until-destroyed';
+import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
 import { QueryParamsOf } from '@js-camp/core/models/query-params-of';
 import { QueryParamsOfMapper } from '@js-camp/core/mappers/query-params-off.mapper';
 import { FormGroupOf } from '@js-camp/core/models/form-type-of';

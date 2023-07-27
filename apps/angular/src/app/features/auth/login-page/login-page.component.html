@@ -1,7 +1,7 @@
 <p class="typography-title">Sign in</p>
 <form [formGroup]="form" (ngSubmit)="handleSubmit()" class="auth-form">
 	<ng-container *ngIf="loginErrors$ | async as errors">
-		<p *ngFor="let error of errors; trackBy: trackErrorByCode" class="auth-form__error">
+		<p *ngFor="let error of errors.common; trackBy: trackErrorByCode" class="auth-form__error">
 			{{error.detail}}
 		</p>
 	</ng-container>
