@@ -5,7 +5,7 @@ import { first, map } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 /** Auth guard. */
-export const AuthGuard: CanActivateFn = () => {
+export const authGuard: CanActivateFn = () => {
 	const authService = inject(AuthService);
 	const router = inject(Router);
 	return authService.isAuth$.pipe(
