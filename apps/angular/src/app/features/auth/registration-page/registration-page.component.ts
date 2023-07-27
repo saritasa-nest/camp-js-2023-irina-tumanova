@@ -59,6 +59,8 @@ export class RegistrationPageComponent {
 				catchHttpErrorResponse(),
 				map(errors => errors ?? APP_ERRORS_DEFAULT),
 				catchFormError(this.form),
+
+				// This is necessary to re-render the child component PasswordFieldComponent.
 				tap(() => this.changeDetectorRef.markForCheck()),
 				finalize(() => this.isSubmitting$.next(false)),
 			)

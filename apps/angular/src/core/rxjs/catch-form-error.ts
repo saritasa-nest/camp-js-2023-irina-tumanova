@@ -1,7 +1,7 @@
 import { Observable, tap } from 'rxjs';
 import { AppErrors } from '@js-camp/core/models/app-error';
 import { FormGroupOf, FormGroupValuesBase } from '@js-camp/core/models/form-type-of';
-import { ValidationErrors } from '@angular/forms';
+import { AppErrorConfig } from '@js-camp/core/models/app-error-config';
 
 /**
  * Catch form error.
@@ -15,12 +15,8 @@ export function catchFormError<TForm extends FormGroupValuesBase>(form: FormGrou
 			tap(errors => {
 				Object.keys(errors).map(key => {
 					if (form.controls[key] !== undefined) {
-						const formErrors: ValidationErrors = {};
-						errors[key].forEach(error => {
-							formErrors[error.code] = error.detail;
-						});
-
-						form.controls[key].setErrors(formErrors);
+						const serverErrors = errors[key].map(error => error.detail);
+						form.controls[key].setErrors({ [AppErrorConfig.AppErrorCode.ServerError]: serverErrors.join(', ') });
 					}
 				});
 			}),

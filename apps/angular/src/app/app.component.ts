@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, first, switchMap } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../core/services/auth.service';
-import { untilDestroyed } from '../core/rxjs/until-destroyed';
 
 /** App component. */
 @Component({
@@ -21,8 +20,6 @@ export class AppComponent {
 
 	private readonly router = inject(Router);
 
-	private readonly untilDestroyed = untilDestroyed();
-
 	public constructor() {
 		this.isAuth$ = this.authService.isAuth$;
 	}
@@ -30,8 +27,8 @@ export class AppComponent {
 	/** Log out. */
 	protected logout(): void {
 		this.authService.logout().pipe(
+			first(),
 			switchMap(() => this.router.navigate(['auth/signin'])),
-			this.untilDestroyed(),
 		)
 			.subscribe();
 	}
