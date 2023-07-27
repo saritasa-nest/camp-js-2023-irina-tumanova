@@ -25,5 +25,5 @@ type InitRegistrationParams = Registration;
 
 /** Registration data inside the registration form. */
 export type RegistrationForm = Registration & {
-	repeatedPassword: string;
+	readonly repeatedPassword: string;
 };

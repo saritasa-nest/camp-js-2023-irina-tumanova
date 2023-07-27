@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject, defer, merge, tap } from 'rxjs';
+import { Observable, Subject, merge, tap } from 'rxjs';
 import { UserSecret } from '@js-camp/core/models/auth/user-secret';
 
 import { StorageService } from './storage.service';
@@ -17,7 +17,7 @@ export class UserSecretService {
 	private readonly userSecretUpdated$ = new Subject<UserSecret | null>();
 
 	public constructor(private readonly storageService: StorageService) {
-		const tokenFromStorage$ = defer(() => this.storageService.get<UserSecret>(SECRET_KEY));
+		const tokenFromStorage$ = this.storageService.get<UserSecret>(SECRET_KEY);
 		this.userSecret$ = merge(tokenFromStorage$, this.userSecretUpdated$);
 	}
 
@@ -31,11 +31,11 @@ export class UserSecretService {
 	 * @param token Token received from server.
 	 */
 	public saveToken(token: UserSecret): Observable<void> {
-		return defer(() => this.storageService.set(SECRET_KEY, token)).pipe(tap(() => this.userSecretUpdated$.next(token)));
+		return this.storageService.set(SECRET_KEY, token).pipe(tap(() => this.userSecretUpdated$.next(token)));
 	}
 
 	/** Destroy user secret from local storage. */
 	public destroyToken(): Observable<void> {
-		return defer(() => this.storageService.remove(SECRET_KEY)).pipe(tap(() => this.userSecretUpdated$.next(null)));
+		return this.storageService.remove(SECRET_KEY).pipe(tap(() => this.userSecretUpdated$.next(null)));
 	}
 }
