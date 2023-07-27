@@ -4,10 +4,9 @@ import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { RegistrationForm } from '@js-camp/core/models/auth/registration';
 import { FormGroupOf } from '@js-camp/core/models/form-type-of';
 import { Router } from '@angular/router';
-import { BehaviorSubject, catchError, finalize, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, finalize, first, of, tap } from 'rxjs';
 import { AppValidators } from '@js-camp/angular/core/utils/validators';
 import { ErrorService } from '@js-camp/angular/core/services/error.service';
-import { untilDestroyed } from '@js-camp/angular/shared/pipes/until-destroyed';
 
 const defaultFormValues: RegistrationForm = {
 	email: '',
@@ -42,8 +41,6 @@ export class RegistrationPageComponent {
 
 	private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
-	private readonly untilDestroyed = untilDestroyed();
-
 	public constructor() {
 		this.form = this.createForm();
 	}
@@ -57,10 +54,10 @@ export class RegistrationPageComponent {
 		this.isSubmitting$.next(true);
 		this.authService.register(this.form.getRawValue())
 			.pipe(
+				first(),
 				tap(() => this.router.navigate(['anime'])),
 				catchError((error: unknown) => of(this.handleError(error))),
 				finalize(() => this.isSubmitting$.next(false)),
-				this.untilDestroyed(),
 			)
 			.subscribe();
 	}

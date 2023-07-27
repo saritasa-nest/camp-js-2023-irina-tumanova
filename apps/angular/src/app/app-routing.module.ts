@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
-import { NoAuthGuard } from '../core/guards/no-auth.guard';
+import { noAuthGuard } from '../core/guards/no-auth.guard';
 
 import { NotFoundComponent } from './components/not-found/not-found.component';
 
@@ -19,7 +19,7 @@ const routes: Routes = [
 	},
 	{
 		path: 'auth',
-		canActivateChild: [NoAuthGuard],
+		canActivateChild: [noAuthGuard],
 		loadChildren: () => import('./features/auth/auth.module').then(module => module.AuthModule),
 	},
 	{
