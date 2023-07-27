@@ -16,7 +16,12 @@ export class PasswordFieldComponent {
 	protected shouldPasswordBeHidden = true;
 
 	/** Password control. */
-	@Input() public control = new FormControl('');
+	@Input({ required: true })
+	public control: FormControl<string> | null = null;
+
+	/** Field name. */
+	@Input({ required: true })
+	public fieldName: string | null = null;
 
 	/** Change password visibility. */
 	protected changePasswordVisibility(): void {

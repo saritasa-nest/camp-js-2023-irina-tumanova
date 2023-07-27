@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, inject, ChangeDetectorRef } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
-import { Registration, RegistrationForm } from '@js-camp/core/models/auth/registration';
+import { RegistrationForm } from '@js-camp/core/models/auth/registration';
 import { FormGroupOf } from '@js-camp/core/models/form-type-of';
 import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, finalize, of, tap } from 'rxjs';
@@ -55,7 +55,7 @@ export class RegistrationPageComponent {
 		}
 
 		this.isSubmitting$.next(true);
-		this.authService.register(this.mapFormValuesForSubmit(this.form.value))
+		this.authService.register(this.form.getRawValue())
 			.pipe(
 				tap(() => this.router.navigate(['anime'])),
 				catchError((error: unknown) => of(this.handleError(error))),
@@ -86,23 +86,8 @@ export class RegistrationPageComponent {
 				defaultFormValues.repeatedPassword,
 				[Validators.required, Validators.minLength(AppValidators.MIN_PASSWORD_LENGTH)],
 			],
-		});
-
-		registrationForm.setValidators(AppValidators.passwordRepetition());
+		}, { validators: [AppValidators.passwordRepetition()] });
 
 		return registrationForm;
-	}
-
-	/**
-	 * Map form value for submit.
-	 * @param values Form values.
-	 */
-	private mapFormValuesForSubmit(values: Partial<RegistrationForm>): Registration {
-		return new Registration({
-			email: values.email ?? defaultFormValues.email,
-			firstName: values.firstName ?? defaultFormValues.firstName,
-			lastName: values.lastName ?? defaultFormValues.lastName,
-			password: values.password ?? defaultFormValues.password,
-		});
 	}
 }

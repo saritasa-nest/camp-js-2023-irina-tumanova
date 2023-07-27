@@ -1,16 +1,16 @@
 <header class="header">
 	<mat-toolbar class="header__toolbar">
 		<a mat-button routerLink="/anime">Anime</a>
-		<a *ngIf="(isAuth$ | async) === false; else Logout" mat-button routerLink="/auth">
-			Login
-			<mat-icon aria-hidden="false" aria-label="Sign in" fontIcon="login" /> 
-		</a>
-		
-		<ng-template #Logout>
-			<button mat-button type="button" (click)="logout()">
-				Logout
-				<mat-icon aria-hidden="false" aria-label="Log out" fontIcon="logout" /> 
-			</button>
+		<button *ngIf="isAuth$ | async; else Login"  mat-button type="button" (click)="logout()">
+			Logout
+			<mat-icon aria-hidden="false" aria-label="Log out" fontIcon="logout" /> 
+		</button>
+
+		<ng-template #Login>
+			<a mat-button routerLink="/auth">
+				Login
+				<mat-icon aria-hidden="false" aria-label="Sign in" fontIcon="login" /> 
+			</a>
 		</ng-template>
 	</mat-toolbar>
 </header>

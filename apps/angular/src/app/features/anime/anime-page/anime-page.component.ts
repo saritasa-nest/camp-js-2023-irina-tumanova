@@ -218,10 +218,10 @@ export class AnimePageComponent implements OnInit {
 
 	/**
 	 * Track anime type.
-	 * @param index Index.
+	 * @param _index Index.
 	 * @param type Anime type.
 	 */
-	protected trackAnimeType(index: number, type: AnimeType): AnimeType {
+	protected trackAnimeType(_index: number, type: AnimeType): AnimeType {
 		return type;
 	}
 

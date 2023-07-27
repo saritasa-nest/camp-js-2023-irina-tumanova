@@ -58,7 +58,7 @@ export class LoginPageComponent implements OnInit {
 	protected handleSubmit(): void {
 		if (this.form.status === 'VALID') {
 			this.isSubmitting$.next(true);
-			this.authService.login(this.mapFormValuesForSubmit(this.form.value)).pipe(
+			this.authService.login(this.form.getRawValue()).pipe(
 				tap(() => this.router.navigate(['anime'])),
 				catchError((error: unknown) => of(this.handleError(error))),
 				finalize(() => this.isSubmitting$.next(false)),
@@ -82,17 +82,6 @@ export class LoginPageComponent implements OnInit {
 	 */
 	private handleError(error: unknown): void {
 		this.loginErrors$.next(this.errorService.getErrors(error));
-	}
-
-	/**
-	 * Map form value for submit.
-	 * @param values Form values.
-	 */
-	private mapFormValuesForSubmit(values: Partial<Login>): Login {
-		return new Login({
-			email: values.email ?? defaultFormValues.email,
-			password: values.password ?? defaultFormValues.password,
-		});
 	}
 
 	/**
