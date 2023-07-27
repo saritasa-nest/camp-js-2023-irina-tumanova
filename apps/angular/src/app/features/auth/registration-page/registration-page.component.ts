@@ -6,8 +6,8 @@ import { FormGroupOf } from '@js-camp/core/models/form-type-of';
 import { Router } from '@angular/router';
 import { BehaviorSubject, finalize, first, map, tap } from 'rxjs';
 import { AppValidators } from '@js-camp/angular/core/utils/validators';
-import { catchHttpErrorResponse } from '@js-camp/angular/core/rxjs/catchHttpErrorResponse';
-import { catchFormError } from '@js-camp/angular/core/rxjs/catchFormError';
+import { catchHttpErrorResponse } from '@js-camp/angular/core/rxjs/catch-http-error-response';
+import { catchFormError } from '@js-camp/angular/core/rxjs/catch-form-error';
 import { APP_ERRORS_DEFAULT } from '@js-camp/core/models/app-error';
 
 const defaultFormValues: RegistrationForm = {
@@ -59,7 +59,6 @@ export class RegistrationPageComponent {
 				catchHttpErrorResponse(),
 				map(errors => errors ?? APP_ERRORS_DEFAULT),
 				catchFormError(this.form),
-
 				tap(() => this.changeDetectorRef.markForCheck()),
 				finalize(() => this.isSubmitting$.next(false)),
 			)
