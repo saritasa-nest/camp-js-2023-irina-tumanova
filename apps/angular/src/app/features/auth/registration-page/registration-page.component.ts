@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, finalize, first, map, tap } from 'rxjs';
 import { AppValidators } from '@js-camp/angular/core/utils/validators';
 import { catchHttpErrorResponse } from '@js-camp/angular/core/rxjs/catch-http-error-response';
-import { catchFormError } from '@js-camp/angular/core/rxjs/catch-form-error';
+import { catchFormErrors } from '@js-camp/angular/core/rxjs/catch-form-errors';
 import { APP_ERRORS_DEFAULT } from '@js-camp/core/models/app-error';
 
 const defaultFormValues: RegistrationForm = {
@@ -58,7 +58,7 @@ export class RegistrationPageComponent {
 				tap(() => this.router.navigate(['anime'])),
 				catchHttpErrorResponse(),
 				map(errors => errors ?? APP_ERRORS_DEFAULT),
-				catchFormError(this.form),
+				catchFormErrors(this.form),
 
 				// This is necessary to re-render the child component PasswordFieldComponent.
 				tap(() => this.changeDetectorRef.markForCheck()),

@@ -8,12 +8,12 @@ import { AppErrorConfig } from '@js-camp/core/models/app-error-config';
  * @description Inserts form errors in form.
  * @param form Form group.
  */
-export function catchFormError<TForm extends FormGroupValuesBase>(form: FormGroupOf<TForm>):
+export function catchFormErrors<TForm extends FormGroupValuesBase>(form: FormGroupOf<TForm>):
 (source$: Observable<AppErrors>) => Observable<AppErrors> {
 	return function(source$) {
 		return source$.pipe(
 			tap(errors => {
-				Object.keys(errors).map(key => {
+				Object.keys(errors).forEach(key => {
 					if (form.controls[key] !== undefined) {
 						const serverErrors = errors[key].map(error => error.detail);
 						form.controls[key].setErrors({ [AppErrorConfig.AppErrorCode.ServerError]: serverErrors.join(', ') });
