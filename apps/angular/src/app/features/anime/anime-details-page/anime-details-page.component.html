@@ -1,0 +1,39 @@
+<div class="anime-details" *ngIf="details$ | async as details">
+	<h1 class="typography-title">{{details.titleEnglish ?? 'unknown'}}</h1>
+	<h3 class="typography-subtitle">{{details.titleJapanese ?? 'unknown'}}</h3>
+
+	<div class="anime-main">
+		<div class="anime-main__cover">
+			<img [src]="details.imageUrl" [alt]="details.titleEnglish + ' cover'" class="anime-main__cover-image">
+		</div>
+
+		<div class="anime-main__info">
+			<div class="anime-main__info-item anime-info">
+				<p class="anime-info__param">Status:</p>
+				<p class="anime-info__badge">{{getReadableStatus(details.status)}}</p>
+			</div>
+			<div class="anime-info__item">
+				<p class="anime-info__param">Airing:</p>
+				{{}}
+			</div>
+			<div class="anime-main__info-item">
+				<p class="anime-info__param">Type:</p>
+				{{details.type}}
+			</div>
+			<div class="anime-main__info-item">
+				<p class="anime-info__param">Genres:</p>
+				<p *ngFor="let genre of details.genres">{{genre}}</p>
+			</div>
+			<div class="anime-main__info-item">
+				<p class="anime-info__param">Studios:</p>
+				<p *ngFor="let studio of details.studios">{{studio}}</p>
+			</div>
+		</div>
+	</div>
+	<div class="anime-details__description">
+		{{details.description}}
+	</div>
+	<div class="anime-details__trailer">
+		{{details.trailerYoutudeId}}
+	</div>
+</div>
