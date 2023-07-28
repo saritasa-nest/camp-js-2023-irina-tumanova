@@ -5,5 +5,4 @@ import { FormControl, FormGroup } from '@angular/forms';
 export type FormGroupValuesBase = Record<string, any>;
 
 /** Common type for Form Group. */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type FormGroupOf<T extends FormGroupValuesBase> = FormGroup<{ [key in keyof T]: FormControl<T[key]> }>;
