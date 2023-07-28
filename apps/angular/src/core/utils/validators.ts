@@ -1,4 +1,5 @@
 import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AppErrorConfig } from '@js-camp/core/models/app-error-config';
 
 export namespace AppValidators{
 
@@ -9,16 +10,19 @@ export namespace AppValidators{
 		return (group: AbstractControl): ValidationErrors | null => {
 			if (group instanceof FormGroup) {
 				const { password, repeatedPassword } = group.controls;
-
-				if (repeatedPassword.value.length < MIN_PASSWORD_LENGTH) {
-					return null;
-				}
+				let repeatedPasswordErrors = repeatedPassword.errors;
 
 				if (password.value !== repeatedPassword.value) {
-					repeatedPassword.setErrors({ passwordDoesNotMatch: true });
-				} else {
-					repeatedPassword.setErrors(null);
+					repeatedPasswordErrors = { ...repeatedPasswordErrors, [AppErrorConfig.AppErrorCode.PasswordRepetition]: true };
+				} else if (repeatedPasswordErrors !== null) {
+					delete repeatedPasswordErrors[AppErrorConfig.AppErrorCode.PasswordRepetition];
+
+					if (Object.keys(repeatedPasswordErrors).length === 0) {
+						repeatedPasswordErrors = null;
+					}
 				}
+
+				repeatedPassword.setErrors(repeatedPasswordErrors);
 			}
 
 			return null;
