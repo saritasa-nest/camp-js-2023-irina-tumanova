@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, catchError, first, map, merge, switchMap, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, distinctUntilChanged, first, map, merge, switchMap, tap, throwError } from 'rxjs';
 import { UserSecretDto } from '@js-camp/core/dtos/auth/user-secret.dto';
 import { UserSecretMapper } from '@js-camp/core/mappers/auth/user-secret.mapper';
 import { Registration } from '@js-camp/core/models/auth/registration';
@@ -36,7 +36,7 @@ export class AuthService {
 		)
 			.subscribe();
 
-		this.isAuth$ = this.isAuthUpdated$.asObservable();
+		this.isAuth$ = this.isAuthUpdated$.asObservable().pipe(distinctUntilChanged());
 	}
 
 	/**
