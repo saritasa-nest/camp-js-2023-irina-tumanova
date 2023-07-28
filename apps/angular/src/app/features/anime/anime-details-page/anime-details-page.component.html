@@ -1,6 +1,8 @@
-<div class="anime-details" *ngIf="details$ | async as details">
-	<h1 class="typography-title">{{details.titleEnglish ?? 'unknown'}}</h1>
-	<h3 class="typography-subtitle">{{details.titleJapanese ?? 'unknown'}}</h3>
+<ng-container *ngIf="details$ | async as details">
+	<div class="anime-titles">
+		<h1 class="typography-title anime-title" *ngIf="details.titleEnglish.length > 0; else EmptyEnglishTitle">{{details.titleEnglish}}</h1>
+		<h3 class="typography-subtitle" *ngIf="details.titleJapanese.length > 0; else EmptyJapaneseTitle">{{details.titleJapanese}}</h3>
+	</div>
 
 	<div class="anime-main">
 		<div class="anime-main__cover">
@@ -12,28 +14,57 @@
 				<p class="anime-info__param">Status:</p>
 				<p class="anime-info__badge">{{getReadableStatus(details.status)}}</p>
 			</div>
-			<div class="anime-info__item">
+			<div class="anime-info">
 				<p class="anime-info__param">Airing:</p>
-				{{}}
+				<p class="anime-info__badge">{{getReadableAiring(details.airing)}}</p>
+				<div class="anime-info__aired" *ngIf="details.aired.start as startDate; else EmptyStartDate" >
+					<time class="typography-body"
+						[dateTime]="startDate">
+						{{ startDate | date }}
+					</time>
+					-
+					<time *ngIf="details.aired.end as endDate; else EmptyEndDate" 
+						class="typography-body"
+						[dateTime]="endDate">
+						{{ endDate | date }}
+					</time>
+				</div>
 			</div>
-			<div class="anime-main__info-item">
+			<div class="anime-info">
 				<p class="anime-info__param">Type:</p>
-				{{details.type}}
+				<p class="typography-body">{{details.type}}</p>
 			</div>
-			<div class="anime-main__info-item">
+			<div class="anime-info" *ngIf="details.genresData.length > 0">
 				<p class="anime-info__param">Genres:</p>
-				<p *ngFor="let genre of details.genres">{{genre}}</p>
+				<p class="typography-body">{{details.genresData | objectsListView: 'name'}}</p> 
 			</div>
-			<div class="anime-main__info-item">
+			<div class="anime-info" *ngIf="details.studiosData.length > 0">
 				<p class="anime-info__param">Studios:</p>
-				<p *ngFor="let studio of details.studios">{{studio}}</p>
+				<p class="typography-body">{{details.studiosData | objectsListView: 'name'}}</p>
 			</div>
 		</div>
 	</div>
-	<div class="anime-details__description">
-		{{details.description}}
+	<div class="anime-description" *ngIf="details.description.length > 0">
+		<p class="typography-body">{{details.description}}</p>
 	</div>
-	<div class="anime-details__trailer">
-		{{details.trailerYoutudeId}}
+	<div class="anime-trailer" *ngIf="safeTrailerUrl$ | async as safeTrailerUrl">
+		<iframe [src]="safeTrailerUrl" [height]="trailerComponentHeight$ | async" class="anime-trailer__iframe"></iframe>
 	</div>
-</div>
+
+
+	<ng-template #EmptyEnglishTitle>
+		<h1 class="typography-title anime-title">unknown</h1>
+	</ng-template>
+
+	<ng-template #EmptyJapaneseTitle>
+		<h3 class="typography-subtitle">unknown</h3>
+	</ng-template>
+
+	<ng-template #EmptyEndDate>
+		<p class="typography-body">&mdash;</p> 
+	</ng-template>
+
+	<ng-template #EmptyStartDate>
+		<p class="typography-body">No aired</p>
+	</ng-template>
+</ng-container>

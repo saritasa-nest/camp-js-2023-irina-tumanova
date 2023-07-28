@@ -20,7 +20,7 @@ export namespace AnimeDetailsMapper {
 			studiosData: dto.studios_data.map(StudioMapper.fromDto),
 			genres: dto.genres,
 			genresData: dto.genres_data.map(GenreMapper.fromDto),
-			trailerYoutubeId: dto.trailer_youtube_id,
+			trailerYoutubeUrl: `https://www.youtube.com/embed/${dto.trailer_youtube_id}`,
 		});
 	}
 }

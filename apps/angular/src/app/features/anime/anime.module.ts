@@ -11,10 +11,11 @@ import { MatSortModule } from '@angular/material/sort';
 
 import { AnimeRoutingModule } from './anime-routing.module';
 import { AnimePageComponent } from './anime-page/anime-page.component';
+import { AnimeDetailsPageComponent } from './anime-details-page/anime-details-page.component';
 
 /** Anime module. */
 @NgModule({
-	declarations: [AnimePageComponent],
+	declarations: [AnimePageComponent, AnimeDetailsPageComponent],
 	imports: [
 		CommonModule,
 		SharedModule,

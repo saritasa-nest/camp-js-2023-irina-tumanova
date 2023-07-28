@@ -13,7 +13,7 @@ export class ApiUrlsConfig {
 	/** Anime routes. */
 	public readonly anime = {
 		get: this.toApi('anime/anime/'),
-		getDetail: (id: number | string) => this.toApi(`anime/anime/${id}`),
+		getDetail: (id: number | string) => this.toApi(`anime/anime/${id}/`),
 	};
 
 	/** Auth routes. */

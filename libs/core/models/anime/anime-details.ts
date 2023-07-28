@@ -24,7 +24,7 @@ export class AnimeDetails extends Anime {
 	public readonly genresData: readonly Genre[];
 
 	/** Trailer video id on youtube. */
-	public readonly trailerYoutubeId: string;
+	public readonly trailerYoutubeUrl: string | null;
 
 	public constructor(data: InitAnimeDetailsParams) {
 		super(data);
@@ -35,7 +35,7 @@ export class AnimeDetails extends Anime {
 		this.studiosData = data.studiosData;
 		this.genres = data.genres;
 		this.genresData = data.genresData;
-		this.trailerYoutubeId = data.trailerYoutubeId;
+		this.trailerYoutubeUrl = data.trailerYoutubeUrl;
 	}
 }
 

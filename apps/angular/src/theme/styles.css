@@ -14,3 +14,7 @@ body {
 		sans-serif;
 	background-color: var(--surface-color);
 }
+
+* {
+	color: var(--primary-contrast-color);
+}

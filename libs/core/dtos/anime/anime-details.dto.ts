@@ -24,5 +24,5 @@ export type AnimeDetailsDto = AnimeDto & {
 	readonly genres_data: readonly GenreDto[];
 
 	/** Trailer video id on youtube. */
-	readonly trailer_youtube_id: string;
+	readonly trailer_youtube_id: string | null;
 };

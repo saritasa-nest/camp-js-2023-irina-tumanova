@@ -98,6 +98,74 @@ export class AnimePageComponent implements OnInit {
 	}
 
 	/**
+	 * Change paginator data.
+	 * @param event Page event.
+	 * @param prev Previous value of pagination.
+	 */
+	protected handlePageEvent(event: PageEvent, prev: PaginationParams): void {
+		this.pagination$.next(new PaginationParams({
+			pageNumber: prev.pageSize === event.pageSize ?
+				event.pageIndex :
+				defaultParams.pagination.pageNumber,
+			pageSize: event.pageSize,
+		}));
+	}
+
+	/**
+	 * Change sorting.
+	 * @param sorting Sorting: direction and field.
+	 */
+	protected handleSortChange(sorting: Sort): void {
+		this.sorting$.next({
+			direction: sorting.direction,
+			field: sorting.direction !== '' ?
+				sorting.active as AnimeSortingField :
+				AnimeSortingField.None,
+		});
+	}
+
+	/**
+	 * Get readable status.
+	 * @param status Anime status.
+	 */
+	protected getReadableStatus(status: AnimeStatus): string {
+		return AnimeStatus.toReadable(status);
+	}
+
+	/**
+	 * Track anime type.
+	 * @param _index Index.
+	 * @param type Anime type.
+	 */
+	protected trackAnimeType(_index: number, type: AnimeType): AnimeType {
+		return type;
+	}
+
+	/**
+	 * Track anime by id in table.
+	 * @param index Index.
+	 * @param anime Anime.
+	 */
+	protected trackById(index: number, anime: Anime): number {
+		return anime.id;
+	}
+
+	/**
+	 * Go to anime details.
+	 * @param id Anime id.
+	 */
+	protected goToAnimeDetails(id: Anime['id']): void {
+		this.router.navigate([`/anime/${id}`]);
+	}
+
+	/** Scroll to top. */
+	private scrollToTopPage(): void {
+		if (this.window) {
+			this.window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+		}
+	}
+
+	/**
 	 * Create filters form.
 	 * @param filters Initial filters.
 	 */
@@ -179,65 +247,5 @@ export class AnimePageComponent implements OnInit {
 					defaultParams.filters.types,
 			},
 		};
-	}
-
-	/**
-	 * Change paginator data.
-	 * @param event Page event.
-	 * @param prev Previous value of pagination.
-	 */
-	protected handlePageEvent(event: PageEvent, prev: PaginationParams): void {
-		this.pagination$.next(new PaginationParams({
-			pageNumber: prev.pageSize === event.pageSize ?
-				event.pageIndex :
-				defaultParams.pagination.pageNumber,
-			pageSize: event.pageSize,
-		}));
-	}
-
-	/**
-	 * Change sorting.
-	 * @param sorting Sorting: direction and field.
-	 */
-	protected handleSortChange(sorting: Sort): void {
-		this.sorting$.next({
-			direction: sorting.direction,
-			field: sorting.direction !== '' ?
-				sorting.active as AnimeSortingField :
-				AnimeSortingField.None,
-		});
-	}
-
-	/**
-	 * Get readable status.
-	 * @param status Anime status.
-	 */
-	protected getReadableStatus(status: AnimeStatus): string {
-		return AnimeStatus.toReadable(status);
-	}
-
-	/**
-	 * Track anime type.
-	 * @param _index Index.
-	 * @param type Anime type.
-	 */
-	protected trackAnimeType(_index: number, type: AnimeType): AnimeType {
-		return type;
-	}
-
-	/** Scroll to top. */
-	private scrollToTopPage(): void {
-		if (this.window) {
-			this.window.scroll({ top: 0, left: 0, behavior: 'smooth' });
-		}
-	}
-
-	/**
-	 * Track anime by id in table.
-	 * @param index Index.
-	 * @param anime Anime.
-	 */
-	protected trackById(index: number, anime: Anime): number {
-		return anime.id;
 	}
 }

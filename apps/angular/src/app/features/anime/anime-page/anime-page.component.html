@@ -85,7 +85,7 @@
 			</ng-container>
 					
 			<tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-			<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+			<tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="goToAnimeDetails(row.id)"></tr>
 			<tr mat-footer-row *matFooterRowDef="['paginator']; sticky: true"></tr>
 		</table>
 
