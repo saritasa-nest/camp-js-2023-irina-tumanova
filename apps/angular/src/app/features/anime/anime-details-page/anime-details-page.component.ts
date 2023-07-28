@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
@@ -7,6 +8,8 @@ import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { AnimeDetails } from '@js-camp/core/models/anime/anime-details';
 import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
 import { BehaviorSubject, Observable, fromEvent, map, tap } from 'rxjs';
+
+import { ImageModalComponent } from '../components/image-modal/image-modal.component';
 
 const TRAILER_COMPONENT_ASPECT_RATION = 9 / 16;
 
@@ -35,6 +38,8 @@ export class AnimeDetailsPageComponent implements OnInit {
 	private readonly sanitizer = inject(DomSanitizer);
 
 	private readonly window = inject(DOCUMENT).defaultView;
+
+	private readonly imageModal = inject(MatDialog);
 
 	private readonly untilDestroyed = untilDestroyed();
 
@@ -65,8 +70,17 @@ export class AnimeDetailsPageComponent implements OnInit {
 			.subscribe();
 	}
 
+	/**
+	 * Open image modal.
+	 * @param imageUrl Anime image url.
+	 * @param title Anime english title.
+	 */
+	protected openImageModal(imageUrl: string, title: string): void {
+		this.imageModal.open(ImageModalComponent, { data: { title, imageUrl } });
+	}
+
 	/** Handle page resize. */
-	public changeTrailerComponentHeight(): void {
+	protected changeTrailerComponentHeight(): void {
 		if (this.window === null) {
 			return;
 		}

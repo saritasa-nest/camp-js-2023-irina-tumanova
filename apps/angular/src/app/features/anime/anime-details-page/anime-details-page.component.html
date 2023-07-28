@@ -6,7 +6,10 @@
 
 	<div class="anime-main">
 		<div class="anime-main__cover">
-			<img [src]="details.imageUrl" [alt]="details.titleEnglish + ' cover'" class="anime-main__cover-image">
+			<img [src]="details.imageUrl" 
+			(click)="openImageModal(details.imageUrl, details.titleEnglish)"
+			[alt]="details.titleEnglish + ' cover'" 
+			class="anime-main__cover-image">
 		</div>
 
 		<div class="anime-main__info">
