@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 /** Modal data for display. */
@@ -14,7 +14,8 @@ interface ModalData {
 /** Image modal component. */
 @Component({
 	selector: 'camp-image-modal',
-	templateUrl: 'image-modal.component.html',
+	templateUrl: './image-modal.component.html',
+	styleUrls: ['./image-modal.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageModalComponent {
