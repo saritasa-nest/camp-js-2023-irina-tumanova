@@ -7,7 +7,6 @@ import { Registration } from '@js-camp/core/models/auth/registration';
 import { LoginMapper } from '@js-camp/core/mappers/auth/login.mapper';
 import { RegistrationMapper } from '@js-camp/core/mappers/auth/registration.mapper';
 import { Login } from '@js-camp/core/models/auth/login';
-
 import { UserSecret } from '@js-camp/core/models/auth/user-secret';
 
 import { ApiUrlsConfig } from './api-urls.config';
@@ -31,16 +30,13 @@ export class AuthService {
 	private readonly userSecretService = inject(UserSecretService);
 
 	public constructor() {
-		this.isAuth$ = merge(
-			this.userSecretService.getTokens().pipe(
-				first(),
-				map(tokens => tokens !== null),
-				tap(isAuth => {
-					this.isAuthUpdated$.next(isAuth);
-				}),
-			),
-			this.isAuthUpdated$.asObservable(),
-		);
+		this.userSecretService.getTokens().pipe(
+			first(),
+			tap(tokens => this.isAuthUpdated$.next(tokens !== null)),
+		)
+			.subscribe();
+
+		this.isAuth$ = this.isAuthUpdated$.asObservable();
 	}
 
 	/**
