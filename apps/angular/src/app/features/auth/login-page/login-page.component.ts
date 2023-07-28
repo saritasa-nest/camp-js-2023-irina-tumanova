@@ -54,17 +54,18 @@ export class LoginPageComponent implements OnInit {
 
 	/** Submit login form. */
 	protected handleSubmit(): void {
-		if (this.form.status === 'VALID') {
-			this.isSubmitting$.next(true);
-			this.authService.login(this.form.getRawValue()).pipe(
-				first(),
-				tap(() => this.router.navigate(['anime'])),
-				catchHttpErrorResponse(),
-				tap(errors => this.loginErrors$.next(errors ?? null)),
-				finalize(() => this.isSubmitting$.next(false)),
-			)
-				.subscribe();
+		if (this.form.invalid) {
+			return;
 		}
+		this.isSubmitting$.next(true);
+		this.authService.login(this.form.getRawValue()).pipe(
+			first(),
+			tap(() => this.router.navigate(['anime'])),
+			catchHttpErrorResponse(),
+			tap(errors => this.loginErrors$.next(errors ?? null)),
+			finalize(() => this.isSubmitting$.next(false)),
+		)
+			.subscribe();
 	}
 
 	/** Create login form. */

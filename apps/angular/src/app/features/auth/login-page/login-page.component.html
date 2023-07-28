@@ -13,7 +13,7 @@
 		<mat-error *ngIf="email.hasError('email')">{{'email' | fieldErrorText}}</mat-error>
 	</mat-form-field>
 
-	<camp-password-field [control]="form.controls.password" fieldName="password" />
+	<camp-password-field [control]="form.controls.password" fieldName="password" autocompleteValue="current-password" />
 
 	<button type="submit" mat-raised-button color="primary" class="auth-form__submit-button">Sign in</button>
 </form>

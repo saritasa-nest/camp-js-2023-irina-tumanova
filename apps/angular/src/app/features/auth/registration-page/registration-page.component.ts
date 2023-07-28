@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { RegistrationForm } from '@js-camp/core/models/auth/registration';
@@ -39,15 +39,13 @@ export class RegistrationPageComponent {
 
 	private readonly router = inject(Router);
 
-	private readonly changeDetectorRef = inject(ChangeDetectorRef);
-
 	public constructor() {
 		this.form = this.createForm();
 	}
 
 	/** Submit login form. */
 	protected handleSubmit(): void {
-		if (this.form.status !== 'VALID') {
+		if (this.form.invalid) {
 			return;
 		}
 
@@ -59,9 +57,6 @@ export class RegistrationPageComponent {
 				catchHttpErrorResponse(),
 				map(errors => errors ?? APP_ERRORS_DEFAULT),
 				catchFormErrors(this.form),
-
-				// This is necessary to re-render the child component PasswordFieldComponent.
-				tap(() => this.changeDetectorRef.markForCheck()),
 				finalize(() => this.isSubmitting$.next(false)),
 			)
 			.subscribe();
