@@ -6,7 +6,7 @@ import { FormGroupOf } from '@js-camp/core/models/form-type-of';
 import { Router } from '@angular/router';
 import { BehaviorSubject, finalize, first, map, tap } from 'rxjs';
 import { AppValidators } from '@js-camp/angular/core/utils/validators';
-import { catchHttpErrorResponse } from '@js-camp/angular/core/rxjs/catch-http-error-response';
+
 import { catchFormErrors } from '@js-camp/angular/core/rxjs/catch-form-errors';
 import { APP_ERRORS_DEFAULT } from '@js-camp/core/models/app-error';
 
@@ -54,7 +54,6 @@ export class RegistrationPageComponent {
 			.pipe(
 				first(),
 				tap(() => this.router.navigate(['anime'])),
-				catchHttpErrorResponse(),
 				map(errors => errors ?? APP_ERRORS_DEFAULT),
 				catchFormErrors(this.form),
 				finalize(() => this.isSubmitting$.next(false)),

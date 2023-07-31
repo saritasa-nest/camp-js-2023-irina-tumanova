@@ -220,15 +220,16 @@ export class AnimePageComponent implements OnInit {
 	 * @param search Search.
 	 * @param types Anime type.
 	 */
-	private createAnimeParams(pagination: PaginationParams, sorting: Sorting<AnimeSortingField>,
-		search?: string, types?: AnimeType[]): AnimeParams {
+	private createAnimeParams(
+		pagination: PaginationParams,
+		sorting: Sorting<AnimeSortingField>,
+		search: string = defaultParams.filters.search,
+		types: AnimeType[] = defaultParams.filters.types,
+	): AnimeParams {
 		return {
 			pagination,
 			sorting,
-			filters: {
-				search: search ?? defaultParams.filters.search,
-				types: types ?? defaultParams.filters.types,
-			},
+			filters: new AnimeFilterParams({ search, types }),
 		};
 	}
 

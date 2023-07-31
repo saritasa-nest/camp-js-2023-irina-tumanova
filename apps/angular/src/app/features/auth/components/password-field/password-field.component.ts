@@ -12,7 +12,7 @@ import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
 export class PasswordFieldComponent implements OnInit {
 
 	/** Is the password hidden. */
-	protected shouldPasswordBeHidden = true;
+	protected isPasswordHidden = true;
 
 	/** Password control. */
 	@Input({ required: true })
@@ -43,6 +43,6 @@ export class PasswordFieldComponent implements OnInit {
 
 	/** Change password visibility. */
 	protected changePasswordVisibility(): void {
-		this.shouldPasswordBeHidden = !this.shouldPasswordBeHidden;
+		this.isPasswordHidden = !this.isPasswordHidden;
 	}
 }
