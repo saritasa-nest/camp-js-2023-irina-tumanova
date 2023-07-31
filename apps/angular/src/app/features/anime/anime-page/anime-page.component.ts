@@ -152,15 +152,16 @@ export class AnimePageComponent implements OnInit {
 	 * @param search Search.
 	 * @param types Anime type.
 	 */
-	private createAnimeParams(pagination: PaginationParams, sorting: Sorting<AnimeSortingField>,
-		search?: string, types?: AnimeType[]): AnimeParams {
+	private createAnimeParams(
+		pagination: PaginationParams,
+		sorting: Sorting<AnimeSortingField>,
+		search: string = defaultParams.filters.search,
+		types: AnimeType[] = defaultParams.filters.types,
+	): AnimeParams {
 		return {
 			pagination,
 			sorting,
-			filters: {
-				search: search ?? defaultParams.filters.search,
-				types: types ?? defaultParams.filters.types,
-			},
+			filters: new AnimeFilterParams({ search, types }),
 		};
 	}
 
@@ -234,10 +235,10 @@ export class AnimePageComponent implements OnInit {
 
 	/**
 	 * Track anime by id in table.
-	 * @param index Index.
+	 * @param _index Index.
 	 * @param anime Anime.
 	 */
-	protected trackById(index: number, anime: Anime): number {
+	protected trackById(_index: number, anime: Anime): number {
 		return anime.id;
 	}
 }

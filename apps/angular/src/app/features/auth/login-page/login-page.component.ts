@@ -8,7 +8,6 @@ import { BehaviorSubject, finalize, first, tap } from 'rxjs';
 import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
 import { AppError, AppErrors } from '@js-camp/core/models/app-error';
 import { AppValidators } from '@js-camp/angular/core/utils/validators';
-import { catchHttpErrorResponse } from '@js-camp/angular/core/rxjs/catch-http-error-response';
 
 const defaultFormValues: Login = {
 	email: '',
@@ -61,7 +60,6 @@ export class LoginPageComponent implements OnInit {
 		this.authService.login(this.form.getRawValue()).pipe(
 			first(),
 			tap(() => this.router.navigate(['anime'])),
-			catchHttpErrorResponse(),
 			tap(errors => this.loginErrors$.next(errors ?? null)),
 			finalize(() => this.isSubmitting$.next(false)),
 		)

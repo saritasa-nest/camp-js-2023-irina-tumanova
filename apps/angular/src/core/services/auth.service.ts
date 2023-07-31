@@ -8,6 +8,9 @@ import { LoginMapper } from '@js-camp/core/mappers/auth/login.mapper';
 import { RegistrationMapper } from '@js-camp/core/mappers/auth/registration.mapper';
 import { Login } from '@js-camp/core/models/auth/login';
 import { UserSecret } from '@js-camp/core/models/auth/user-secret';
+import { AppErrors } from '@js-camp/core/models/app-error';
+
+import { catchHttpErrorResponse } from '../rxjs/catch-http-error-response';
 
 import { ApiUrlsConfig } from './api-urls.config';
 import { UserSecretService } from './user-secret.service';
@@ -43,7 +46,7 @@ export class AuthService {
 	 * Handle login.
 	 * @param credentials Login credentials.
 	 */
-	public login(credentials: Login): Observable<void> {
+	public login(credentials: Login): Observable<void | AppErrors> {
 		const url = this.apiUrlsConfig.auth.login;
 		return this.http
 			.post<UserSecretDto>(url, LoginMapper.toDto(credentials))
@@ -52,6 +55,7 @@ export class AuthService {
 				switchMap(tokens => this.userSecretService.saveToken(tokens).pipe(
 					tap(() => this.isAuthUpdated$.next(true)),
 				)),
+				catchHttpErrorResponse(),
 			);
 	}
 
@@ -59,7 +63,7 @@ export class AuthService {
 	 * Handle register.
 	 * @param credentials Register credentials.
 	 */
-	public register(credentials: Registration): Observable<void> {
+	public register(credentials: Registration): Observable<void | AppErrors> {
 		const url = this.apiUrlsConfig.auth.register;
 		return this.http
 			.post<UserSecretDto>(url, RegistrationMapper.toDto(credentials))
@@ -68,6 +72,7 @@ export class AuthService {
 				switchMap(tokens => this.userSecretService.saveToken(tokens).pipe(
 					tap(() => this.isAuthUpdated$.next(true)),
 				)),
+				catchHttpErrorResponse(),
 			);
 	}
 
