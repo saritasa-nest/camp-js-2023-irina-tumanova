@@ -13,7 +13,14 @@
 		<mat-error *ngIf="email.hasError('email')">{{'email' | fieldErrorText}}</mat-error>
 	</mat-form-field>
 
-	<camp-password-field [control]="form.controls.password" fieldName="password" autocompleteValue="current-password" />
+	<mat-form-field class="password-field" *ngIf="form.controls.password as password">
+		<mat-label>Password</mat-label>
+		<camp-password-field [formControl]="password" autocomplete="current-password"/>
+		<mat-error *ngIf="password.hasError('required')">{{'required' | fieldErrorText:'password'}}</mat-error>
+		<mat-error *ngIf="password.hasError('minlength')">{{'minlength' | fieldErrorText}} 8</mat-error>
+		<mat-error *ngIf="password.hasError('passwordRepetition')">{{'passwordRepetition' | fieldErrorText: 'password'}}</mat-error>
+		<mat-error *ngIf="password.getError('serverError') as serverError">{{serverError}}</mat-error>
+	</mat-form-field>
 
 	<button type="submit" mat-raised-button color="primary" class="auth-form__submit-button">Sign in</button>
 </form>
