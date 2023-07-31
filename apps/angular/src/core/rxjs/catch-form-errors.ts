@@ -1,5 +1,5 @@
 import { Observable, tap } from 'rxjs';
-import { AppErrors } from '@js-camp/core/models/app-error';
+import { AppError } from '@js-camp/core/models/app-error';
 import { FormGroupOf, FormGroupValuesBase } from '@js-camp/core/models/form-type-of';
 import { AppErrorConfig } from '@js-camp/core/models/app-error-config';
 
@@ -9,13 +9,13 @@ import { AppErrorConfig } from '@js-camp/core/models/app-error-config';
  * @param form Form group.
  */
 export function catchFormErrors<TForm extends FormGroupValuesBase>(form: FormGroupOf<TForm>):
-(source$: Observable<AppErrors>) => Observable<AppErrors> {
+(source$: Observable<AppError>) => Observable<AppError> {
 	return function(source$) {
 		return source$.pipe(
-			tap(errors => {
-				Object.keys(errors).forEach(key => {
+			tap(error => {
+				Object.keys(error.errors).forEach(key => {
 					if (form.controls[key] !== undefined) {
-						const serverErrors = errors[key].map(error => error.detail);
+						const serverErrors = error.errors[key].map(errorItem => errorItem.message);
 						form.controls[key].setErrors({ [AppErrorConfig.AppErrorCode.ServerError]: serverErrors.join(', ') });
 					}
 				});

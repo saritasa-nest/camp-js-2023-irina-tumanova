@@ -1,30 +1,46 @@
 /** Key form common app errors. */
 export const APP_COMMON_ERRORS_KEY = 'common';
 
-export const APP_ERRORS_DEFAULT = { [APP_COMMON_ERRORS_KEY]: [] };
-
 /** App errors. */
-export interface AppErrors {
+export class AppError extends Error {
 
-	/** Common errors. */
-	[APP_COMMON_ERRORS_KEY]: readonly AppError[];
+	/** Global name. */
+	public override readonly name: string;
 
-	[key: string]: readonly AppError[];
-}
+	/** App errors. */
+	public readonly errors: {
 
-/** App errors item. */
-export class AppError {
+		/** Common errors. */
+		[APP_COMMON_ERRORS_KEY]: readonly AppErrorItem[];
 
-	/** Code. */
-	public readonly code: string;
+		[key: string]: readonly AppErrorItem[];
+	};
 
-	/** Detail. */
-	public readonly detail: string;
-
-	public constructor({ code, detail }: InitAppErrorParams) {
-		this.code = code;
-		this.detail = detail;
+	public constructor({ message, name, errors }: InitAppErrorParams) {
+		super(message);
+		this.name = name;
+		this.errors = errors;
 	}
 }
 
 type InitAppErrorParams = AppError;
+
+/** App errors item. */
+export class AppErrorItem extends Error {
+
+	/** Code. */
+	public override name: string;
+
+	public constructor({ name, message }: InitAppErrorItemParams) {
+		super(message);
+		this.name = name;
+	}
+}
+
+type InitAppErrorItemParams = AppErrorItem;
+
+export const APP_ERRORS_DEFAULT = new AppError({
+	name: 'app-error',
+	message: 'app-error',
+	errors: { [APP_COMMON_ERRORS_KEY]: [] },
+});

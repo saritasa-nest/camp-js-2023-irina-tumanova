@@ -1,5 +1,5 @@
 import { HttpErrorDto } from '../dtos/http-error.dto';
-import { APP_COMMON_ERRORS_KEY, AppError, AppErrors } from '../models/app-error';
+import { APP_COMMON_ERRORS_KEY, AppError, AppErrorItem } from '../models/app-error';
 
 export namespace AppErrorsMapper {
 
@@ -7,16 +7,16 @@ export namespace AppErrorsMapper {
 	 * Maps DTO to model.
 	 * @param dto Http error DTO.
 	 */
-	export function fromDto(dto: HttpErrorDto[]): AppErrors {
-		const appErrors: AppErrors = { common: [] };
+	export function fromDto(dto: HttpErrorDto[]): AppError {
+		const appError: AppError = new AppError({ name: 'app-error', message: 'app-error', errors: { common: [] } });
 
 		dto.forEach(httpError => {
-			const appError = new AppError({ code: httpError.code, detail: httpError.detail });
+			const appErrorItem = new AppErrorItem({ name: httpError.code, message: httpError.detail });
 			const appErrorKey = httpError.attr === null ? APP_COMMON_ERRORS_KEY : httpError.attr;
 
-			appErrors[appErrorKey] = [...appErrors[APP_COMMON_ERRORS_KEY], appError];
+			appError.errors[appErrorKey] = [...appError.errors[APP_COMMON_ERRORS_KEY], appErrorItem];
 		});
 
-		return appErrors;
+		return appError;
 	}
 }
