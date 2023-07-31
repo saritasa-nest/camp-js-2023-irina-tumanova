@@ -91,6 +91,7 @@ export class AuthService {
 		)
 			.pipe(
 				map(secretDto => UserSecretMapper.fromDto(secretDto)),
+				switchMap(updatedSecret => this.userSecretService.saveToken(updatedSecret)),
 				catchError((error: unknown) => merge(
 					this.logout(),
 					throwError(() => error),
