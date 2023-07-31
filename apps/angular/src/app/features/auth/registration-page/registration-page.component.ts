@@ -72,7 +72,7 @@ export class RegistrationPageComponent {
 				defaultFormValues.repeatedPassword,
 				[Validators.required, Validators.minLength(AppValidators.MIN_PASSWORD_LENGTH)],
 			],
-		}, { validators: [AppValidators.passwordRepetition()] });
+		}, { validators: [AppValidators.passwordRepetition('password', 'repeatedPassword')] });
 
 		return registrationForm;
 	}
