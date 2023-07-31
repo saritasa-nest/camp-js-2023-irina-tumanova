@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, Subject, merge, tap } from 'rxjs';
 import { UserSecret } from '@js-camp/core/models/auth/user-secret';
 
@@ -16,7 +16,9 @@ export class UserSecretService {
 
 	private readonly userSecretUpdated$ = new Subject<UserSecret | null>();
 
-	public constructor(private readonly storageService: StorageService) {
+	private readonly storageService = inject(StorageService);
+
+	public constructor() {
 		const tokenFromStorage$ = this.storageService.get<UserSecret>(SECRET_KEY);
 		this.userSecret$ = merge(tokenFromStorage$, this.userSecretUpdated$);
 	}
