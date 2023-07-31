@@ -3,11 +3,11 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { Login } from '@js-camp/core/models/auth/login';
 import { FormGroupOf } from '@js-camp/core/models/form-type-of';
-import { Router } from '@angular/router';
-import { BehaviorSubject, finalize, first, tap } from 'rxjs';
+import { BehaviorSubject, catchError, finalize, first, of, tap, throwError } from 'rxjs';
 import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
-import { AppError, AppErrors } from '@js-camp/core/models/app-error';
+import { AppError, AppErrorItem } from '@js-camp/core/models/app-error';
 import { AppValidators } from '@js-camp/angular/core/utils/validators';
+import { Router } from '@angular/router';
 
 const defaultFormValues: Login = {
 	email: '',
@@ -30,15 +30,15 @@ export class LoginPageComponent implements OnInit {
 	protected readonly isSubmitting$ = new BehaviorSubject(false);
 
 	/** Login errors. */
-	protected readonly loginErrors$ = new BehaviorSubject<AppErrors | null>(null);
+	protected readonly loginErrors$ = new BehaviorSubject<AppError | null>(null);
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
 	private readonly authService = inject(AuthService);
 
-	private readonly router = inject(Router);
-
 	private readonly untilDestroyed = untilDestroyed();
+
+	private readonly router = inject(Router);
 
 	public constructor() {
 		this.form = this.createForm();
@@ -60,6 +60,12 @@ export class LoginPageComponent implements OnInit {
 		this.authService.login(this.form.getRawValue()).pipe(
 			first(),
 			tap(() => this.router.navigate(['anime'])),
+			catchError((error: unknown) => {
+				if (error instanceof AppError) {
+					return of(error);
+				}
+				return throwError(() => error);
+			}),
 			tap(errors => this.loginErrors$.next(errors ?? null)),
 			finalize(() => this.isSubmitting$.next(false)),
 		)
@@ -79,7 +85,7 @@ export class LoginPageComponent implements OnInit {
 	 * @param _index Index.
 	 * @param error Http error.
 	 */
-	protected trackErrorByCode(_index: number, error: AppError): AppError['code'] {
-		return error.code;
+	protected trackErrorByCode(_index: number, error: AppErrorItem): AppErrorItem['message'] {
+		return error.message;
 	}
 }
