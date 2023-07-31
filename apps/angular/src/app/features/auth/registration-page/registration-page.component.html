@@ -20,9 +20,21 @@
 		<mat-error *ngIf="lastName.hasError('required')">{{'required' | fieldErrorText:'last name'}}</mat-error>
 	</mat-form-field>
 
-	<camp-password-field [control]="form.controls.password" fieldName="password" autocompleteValue="new-password" />
-	
-	<camp-password-field [control]="form.controls.repeatedPassword" fieldName="repeated password" autocompleteValue="new-password" />
+	<mat-form-field class="password-field" *ngIf="form.controls.password as password">
+		<mat-label>Password</mat-label>
+		<camp-password-field [formControl]="password" autocomplete="new-password"/>
+		<mat-error *ngIf="password.hasError('required')">{{'required' | fieldErrorText:'password'}}</mat-error>
+		<mat-error *ngIf="password.hasError('minlength')">{{'minlength' | fieldErrorText}} 8</mat-error>
+		<mat-error *ngIf="password.getError('serverError') as serverError">{{serverError}}</mat-error>
+	</mat-form-field>
+
+	<mat-form-field class="password-field" *ngIf="form.controls.repeatedPassword as repeatedPassword">
+		<mat-label>Re-type password</mat-label>
+		<camp-password-field [formControl]="repeatedPassword" autocomplete="new-password"/>
+		<mat-error *ngIf="repeatedPassword.hasError('required')">{{'required' | fieldErrorText:'repeated password'}}</mat-error>
+		<mat-error *ngIf="repeatedPassword.hasError('minlength')">{{'minlength' | fieldErrorText}} 8</mat-error>
+		<mat-error *ngIf="repeatedPassword.hasError('passwordRepetition')">{{'passwordRepetition' | fieldErrorText: 'repeated password'}}</mat-error>
+	</mat-form-field>
 	
 	<button type="submit" mat-raised-button color="primary" class="auth-form__submit-button">Sign up</button>
 </form>
