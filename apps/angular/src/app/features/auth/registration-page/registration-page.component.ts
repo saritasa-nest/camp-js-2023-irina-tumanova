@@ -4,11 +4,9 @@ import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { RegistrationForm } from '@js-camp/core/models/auth/registration';
 import { FormGroupOf } from '@js-camp/core/models/form-type-of';
 import { Router } from '@angular/router';
-import { BehaviorSubject, catchError, finalize, first, map, of, tap, throwError } from 'rxjs';
+import { BehaviorSubject, finalize, first, tap } from 'rxjs';
 import { AppValidators } from '@js-camp/angular/core/utils/validators';
-
 import { catchFormErrors } from '@js-camp/angular/core/rxjs/catch-form-errors';
-import { APP_ERRORS_DEFAULT, AppError } from '@js-camp/core/models/app-error';
 
 const defaultFormValues: RegistrationForm = {
 	email: '',
@@ -54,13 +52,6 @@ export class RegistrationPageComponent {
 			.pipe(
 				first(),
 				tap(() => this.router.navigate(['anime'])),
-				catchError((error: unknown) => {
-					if (error instanceof AppError) {
-						return of(error);
-					}
-					return throwError(() => error);
-				}),
-				map(errors => errors ?? APP_ERRORS_DEFAULT),
 				catchFormErrors(this.form),
 				finalize(() => this.isSubmitting$.next(false)),
 			)

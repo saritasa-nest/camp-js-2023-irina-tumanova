@@ -38,9 +38,3 @@ export class AppErrorItem extends Error {
 }
 
 type InitAppErrorItemParams = AppErrorItem;
-
-export const APP_ERRORS_DEFAULT = new AppError({
-	name: 'app-error',
-	message: 'app-error',
-	errors: { [APP_COMMON_ERRORS_KEY]: [] },
-});

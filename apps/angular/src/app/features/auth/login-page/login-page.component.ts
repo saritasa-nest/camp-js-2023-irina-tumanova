@@ -3,7 +3,7 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { Login } from '@js-camp/core/models/auth/login';
 import { FormGroupOf } from '@js-camp/core/models/form-type-of';
-import { BehaviorSubject, catchError, finalize, first, of, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, finalize, first, tap, throwError } from 'rxjs';
 import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
 import { AppError, AppErrorItem } from '@js-camp/core/models/app-error';
 import { AppValidators } from '@js-camp/angular/core/utils/validators';
@@ -62,11 +62,10 @@ export class LoginPageComponent implements OnInit {
 			tap(() => this.router.navigate(['anime'])),
 			catchError((error: unknown) => {
 				if (error instanceof AppError) {
-					return of(error);
+					this.loginErrors$.next(error ?? null);
 				}
 				return throwError(() => error);
 			}),
-			tap(errors => this.loginErrors$.next(errors ?? null)),
 			finalize(() => this.isSubmitting$.next(false)),
 		)
 			.subscribe();
