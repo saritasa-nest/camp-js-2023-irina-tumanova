@@ -5,15 +5,15 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ShadowSpinnerComponent } from './components/shadow-spinner/shadow-spinner.component';
 import { SenternseCasePipe } from './pipes/sentensecase';
 import { FieldErrorTextPipe } from './pipes/field-error-text';
-import { ObjectsListViewPipe } from './pipes/objects-list-view';
+import { ReadableTextFromArrayPipe } from './pipes/readable-text-from-array';
 
 /** Shared module. */
 @NgModule({
-	declarations: [ShadowSpinnerComponent, SenternseCasePipe, FieldErrorTextPipe, ObjectsListViewPipe],
+	declarations: [ShadowSpinnerComponent, SenternseCasePipe, FieldErrorTextPipe, ReadableTextFromArrayPipe],
 	imports: [
 		CommonModule,
 		MatProgressSpinnerModule,
 	],
-	exports: [ShadowSpinnerComponent, SenternseCasePipe, FieldErrorTextPipe, ObjectsListViewPipe],
+	exports: [ShadowSpinnerComponent, SenternseCasePipe, FieldErrorTextPipe, ReadableTextFromArrayPipe],
 })
 export class SharedModule {}

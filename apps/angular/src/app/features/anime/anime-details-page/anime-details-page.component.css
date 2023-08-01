@@ -63,6 +63,11 @@
 	color: var(--primary-contrast-color);
 }
 
+.anime-info__text-data,
+.anime-description__data {
+	margin: 0;
+}
+
 .anime-description {
 	padding: var(--space-m) 0;
 	border-top: 1px solid var(--accent-surface-color);

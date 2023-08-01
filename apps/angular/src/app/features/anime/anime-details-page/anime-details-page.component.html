@@ -19,12 +19,12 @@
 				<p class="anime-info__param">Airing:</p>
 				<p class="anime-info__badge">{{getReadableAiring(details.airing)}}</p>
 				<div class="anime-info__aired" *ngIf="details.aired.start as startDate; else EmptyStartDate" >
-					<time class="typography-body"
+					<time class="typography-body anime-info__text-data"
 						[dateTime]="startDate">
 						{{ startDate | date }}
 					</time>
 					-
-					<time *ngIf="details.aired.end as endDate; else EmptyEndDate" 
+					<time *ngIf="details.aired.end as endDate; else EmptyEndDate anime-info__text-data" 
 						class="typography-body"
 						[dateTime]="endDate">
 						{{ endDate | date }}
@@ -33,21 +33,21 @@
 			</div>
 			<div class="anime-info">
 				<p class="anime-info__param">Type:</p>
-				<p class="typography-body">{{details.type}}</p>
+				<p class="typography-body anime-info__text-data">{{details.type}}</p>
 			</div>
 			<div class="anime-info" *ngIf="details.genresData.length > 0">
 				<p class="anime-info__param">Genres:</p>
-				<p class="typography-body">{{details.genresData | objectsListView: 'name'}}</p> 
+				<p class="typography-body anime-info__text-data">{{details.genresData | readableTextFromArray: 'name'}}</p> 
 			</div>
 			<div class="anime-info" *ngIf="details.studiosData.length > 0">
 				<p class="anime-info__param">Studios:</p>
-				<p class="typography-body">{{details.studiosData | objectsListView: 'name'}}</p>
+				<p class="typography-body anime-info__text-data">{{details.studiosData | readableTextFromArray: 'name'}}</p>
 			</div>
 		</div>
 	</div>
 
 	<div class="anime-description" *ngIf="details.description.length > 0">
-		<p class="typography-body">{{details.description}}</p>
+		<p class="typography-body anime-description__data">{{details.description}}</p>
 	</div>
 	
 	<div class="anime-trailer" *ngIf="safeTrailerUrl$ | async as safeTrailerUrl">
@@ -67,10 +67,10 @@
 	</ng-template>
 
 	<ng-template #EmptyEndDate>
-		<p class="typography-body">&mdash;</p> 
+		<p class="typography-body anime-info__text-data">&mdash;</p> 
 	</ng-template>
 
 	<ng-template #EmptyStartDate>
-		<p class="typography-body">No aired</p>
+		<p class="typography-body anime-info__text-data">No aired</p>
 	</ng-template>
 </ng-container>
