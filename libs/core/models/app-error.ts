@@ -4,9 +4,6 @@ export const APP_COMMON_ERRORS_KEY = 'common';
 /** App errors. */
 export class AppError<T extends Error> extends Error {
 
-	/** Global name. */
-	public override readonly name: string;
-
 	/** App errors. */
 	public readonly errors: {
 
@@ -16,11 +13,13 @@ export class AppError<T extends Error> extends Error {
 		[key: string]: readonly T[];
 	};
 
-	public constructor({ message, name, errors }: InitAppErrorParams<T>) {
+	public constructor({ message = 'App error', name = 'app-error', errors = defaultAppErrorItems }: InitAppErrorParams<T>) {
 		super(message);
 		this.name = name;
 		this.errors = errors;
 	}
 }
 
-type InitAppErrorParams<T extends Error> = AppError<T>;
+type InitAppErrorParams<T extends Error> = Partial<AppError<T>>;
+
+const defaultAppErrorItems = { common: [] };
