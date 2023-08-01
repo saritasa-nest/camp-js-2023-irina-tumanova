@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable, distinctUntilChanged, first, tap } from 'rxjs';
+import { Observable, ReplaySubject, distinctUntilChanged, first, tap } from 'rxjs';
 import { UserSecret } from '@js-camp/core/models/auth/user-secret';
 
 import { StorageService } from './storage.service';
@@ -14,7 +14,7 @@ export class UserSecretService {
 
 	private readonly userSecret$: Observable<UserSecret | null>;
 
-	private readonly userSecretUpdated$ = new BehaviorSubject<UserSecret | null>(null);
+	private readonly userSecretUpdated$ = new ReplaySubject<UserSecret | null>(1);
 
 	private readonly storageService = inject(StorageService);
 
