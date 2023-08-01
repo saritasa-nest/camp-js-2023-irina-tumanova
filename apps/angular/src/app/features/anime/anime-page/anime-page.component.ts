@@ -1,21 +1,22 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { FormControl, FormGroup, NonNullableFormBuilder } from '@angular/forms';
+import { NonNullableFormBuilder } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
-import { Anime, AnimeType } from '@js-camp/core/models/anime';
-import { AnimeSortingField, AnimeParams, AnimeFilterParams, QueryAnimeParams } from '@js-camp/core/models/anime-params';
-import { AnimeStatus } from '@js-camp/core/models/anime-status';
+import { Anime, AnimeType } from '@js-camp/core/models/anime/anime';
+import { AnimeSortingField, AnimeParams, AnimeFilterParams, QueryAnimeParams } from '@js-camp/core/models/anime/anime-params';
+import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, startWith, merge, combineLatest, finalize, withLatestFrom } from 'rxjs';
 import { Sorting } from '@js-camp/core/models/sorting';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { enumToArray } from '@js-camp/core/utils/enum-to-array';
-import { untilDestroyed } from '@js-camp/angular/shared/pipes/until-destroyed';
+import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
 import { QueryParamsOf } from '@js-camp/core/models/query-params-of';
 import { QueryParamsOfMapper } from '@js-camp/core/mappers/query-params-off.mapper';
+import { FormGroupOf } from '@js-camp/core/models/form-type-of';
 
 const defaultParams: AnimeParams = {
 	pagination: new PaginationParams({ pageSize: 10, pageNumber: 0 }),
@@ -24,8 +25,6 @@ const defaultParams: AnimeParams = {
 };
 
 const REQUEST_DEBOUNCE_TIME = 500;
-
-type FiltersForm = FormGroup<{search: FormControl<string>; types: FormControl<AnimeType[]>;}>;
 
 /** Anime list page. */
 @Component({
@@ -58,7 +57,7 @@ export class AnimePageComponent implements OnInit {
 	protected readonly pagination$: BehaviorSubject<PaginationParams>;
 
 	/** Filters form: search and type filter. */
-	protected readonly filtersForm: FiltersForm;
+	protected readonly filtersForm: FormGroupOf<AnimeFilterParams>;
 
 	private readonly untilDestroyed = untilDestroyed();
 
@@ -102,7 +101,7 @@ export class AnimePageComponent implements OnInit {
 	 * Create filters form.
 	 * @param filters Initial filters.
 	 */
-	private createFiltersForm(filters: AnimeFilterParams): FiltersForm {
+	private createFiltersForm(filters: AnimeFilterParams): FormGroupOf<AnimeFilterParams> {
 		return this.formBuilder.group({
 			search: filters.search,
 			types: [filters.types],
@@ -151,17 +150,18 @@ export class AnimePageComponent implements OnInit {
 	 * @param pagination Pagination: pageNumber and pageSize.
 	 * @param sorting Sorting: field and direction.
 	 * @param search Search.
-	 * @param type Anime type.
+	 * @param types Anime type.
 	 */
-	private createAnimeParams(pagination: PaginationParams, sorting: Sorting<AnimeSortingField>,
-		search?: string, type?: AnimeType[]): AnimeParams {
+	private createAnimeParams(
+		pagination: PaginationParams,
+		sorting: Sorting<AnimeSortingField>,
+		search: string = defaultParams.filters.search,
+		types: AnimeType[] = defaultParams.filters.types,
+	): AnimeParams {
 		return {
 			pagination,
 			sorting,
-			filters: {
-				search: search ?? defaultParams.filters.search,
-				types: type ?? defaultParams.filters.types,
-			},
+			filters: new AnimeFilterParams({ search, types }),
 		};
 	}
 
@@ -175,8 +175,8 @@ export class AnimePageComponent implements OnInit {
 			sorting: QueryParamsOfMapper.toSorting(params, defaultParams.sorting),
 			filters: {
 				search: params.search ?? defaultParams.filters.search,
-				types: params.type !== undefined ?
-					params.type.split(',').filter((type: string) => type.length > 0) as AnimeType[] :
+				types: params.types !== undefined ?
+					params.types.split(',').filter((type: string) => type.length > 0) as AnimeType[] :
 					defaultParams.filters.types,
 			},
 		};
@@ -219,10 +219,10 @@ export class AnimePageComponent implements OnInit {
 
 	/**
 	 * Track anime type.
-	 * @param index Index.
+	 * @param _index Index.
 	 * @param type Anime type.
 	 */
-	protected trackAnimeType(index: number, type: AnimeType): AnimeType {
+	protected trackAnimeType(_index: number, type: AnimeType): AnimeType {
 		return type;
 	}
 
@@ -235,10 +235,10 @@ export class AnimePageComponent implements OnInit {
 
 	/**
 	 * Track anime by id in table.
-	 * @param index Index.
+	 * @param _index Index.
 	 * @param anime Anime.
 	 */
-	protected trackById(index: number, anime: Anime): number {
+	protected trackById(_index: number, anime: Anime): number {
 		return anime.id;
 	}
 }

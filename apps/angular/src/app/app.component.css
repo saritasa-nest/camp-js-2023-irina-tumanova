@@ -1,5 +1,7 @@
 :host {
-	display: block;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
 }
 
 .header {
@@ -7,4 +9,9 @@
 
 	/* Header over loader's shade when table is loaded */
 	z-index: 1;
+}
+
+.header__toolbar {
+	display: flex;
+	justify-content: space-between;
 }

@@ -1,17 +1,17 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Anime } from '@js-camp/core/models/anime';
+import { Anime } from '@js-camp/core/models/anime/anime';
 import { Observable, map } from 'rxjs';
-import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
+import { AnimeDto } from '@js-camp/core/dtos/anime/anime.dto';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
-import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
-import { AnimeParams } from '@js-camp/core/models/anime-params';
+import { AnimeMapper } from '@js-camp/core/mappers/anime/anime.mapper';
+import { AnimeParams } from '@js-camp/core/models/anime/anime-params';
 import { ListParamsMapper } from '@js-camp/core/mappers/list-params.mapper';
-import { AnimeFilterParamsMapper } from '@js-camp/core/mappers/anime-filter-params.mapper';
+import { AnimeFilterParamsMapper } from '@js-camp/core/mappers/anime/anime-filter-params.mapper';
 
-import { AppUrlsConfig } from './app-urls.config';
+import { ApiUrlsConfig } from './api-urls.config';
 
 /** Anime service. */
 @Injectable({
@@ -21,14 +21,14 @@ export class AnimeService {
 
 	private readonly http = inject(HttpClient);
 
-	private readonly appUrlsConfig = inject(AppUrlsConfig);
+	private readonly apiUrlsConfig = inject(ApiUrlsConfig);
 
 	/**
 	 * Get anime list.
 	 * @param animeParams Params from anime table.
 	 */
 	public getAnime(animeParams: AnimeParams): Observable<Pagination<Anime>> {
-		const url = this.appUrlsConfig.anime.get;
+		const url = this.apiUrlsConfig.anime.get;
 		const params = new HttpParams({
 			fromObject: ListParamsMapper.toDto(
 				animeParams,

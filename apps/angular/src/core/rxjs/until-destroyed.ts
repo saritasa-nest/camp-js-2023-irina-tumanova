@@ -1,7 +1,7 @@
 import { MonoTypeOperatorFunction, Subject, takeUntil } from 'rxjs';
 import { DestroyRef, inject } from '@angular/core';
 
-/** Pipe untilDstroyed for unsubscribe. */
+/** Pipe untilDestroyed for unsubscribe. */
 export function untilDestroyed(): <T>() => MonoTypeOperatorFunction<T> {
 	const subject$ = new Subject();
 

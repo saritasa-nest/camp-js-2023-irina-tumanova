@@ -1,33 +1,31 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { SharedModule } from '@js-camp/angular/shared/shared.module';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatSortModule } from '@angular/material/sort';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
-import { AnimeRoutingModule } from './anime-routing.module';
-import { AnimePageComponent } from './anime-page/anime-page.component';
+import { AuthRoutingModule } from './auth-routing.module';
+import { LoginPageComponent } from './login-page/login-page.component';
+import { RegistrationPageComponent } from './registration-page/registration-page.component';
+import { PasswordFieldComponent } from './components/password-field/password-field.component';
 
 /** Anime module. */
 @NgModule({
-	declarations: [AnimePageComponent],
+	declarations: [LoginPageComponent, RegistrationPageComponent, PasswordFieldComponent],
 	imports: [
 		CommonModule,
 		SharedModule,
-		AnimeRoutingModule,
-		MatTableModule,
-		MatSortModule,
-		MatPaginatorModule,
+		AuthRoutingModule,
 		FormsModule,
 		ReactiveFormsModule,
-		MatSelectModule,
 		MatFormFieldModule,
 		MatInputModule,
+		MatButtonModule,
+		MatIconModule,
 	],
 	providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } }],
 })
-export class AnimeModule {}
+export class AuthModule {}

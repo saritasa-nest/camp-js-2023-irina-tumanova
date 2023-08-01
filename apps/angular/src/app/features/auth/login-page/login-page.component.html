@@ -1,0 +1,30 @@
+<p class="typography-title">Sign in</p>
+<form [formGroup]="form" (ngSubmit)="handleSubmit()" class="auth-form">
+	<ng-container *ngIf="loginErrors$ | async as errors">
+		<p *ngFor="let error of errors.common; trackBy: trackErrorByCode" class="auth-form__error">
+			{{error.detail}}
+		</p>
+	</ng-container>
+
+	<mat-form-field *ngIf="form.controls.email as email">
+		<mat-label>Email</mat-label>
+		<input matInput placeholder="example@gmail.com" [formControl]="email" autocomplete="email">
+		<mat-error *ngIf="email.hasError('required')">{{'required' | fieldErrorText:'email'}}</mat-error>
+		<mat-error *ngIf="email.hasError('email')">{{'email' | fieldErrorText}}</mat-error>
+	</mat-form-field>
+
+	<mat-form-field class="password-field" *ngIf="form.controls.password as password">
+		<mat-label>Password</mat-label>
+		<camp-password-field [formControl]="password" autocomplete="current-password"/>
+		<mat-error *ngIf="password.hasError('required')">{{'required' | fieldErrorText:'password'}}</mat-error>
+		<mat-error *ngIf="password.hasError('minlength')">{{'minlength' | fieldErrorText}} 8</mat-error>
+		<mat-error *ngIf="password.hasError('passwordRepetition')">{{'passwordRepetition' | fieldErrorText: 'password'}}</mat-error>
+		<mat-error *ngIf="password.getError('serverError') as serverError">{{serverError}}</mat-error>
+	</mat-form-field>
+
+	<button type="submit" mat-raised-button color="primary" class="auth-form__submit-button">Sign in</button>
+</form>
+
+<a routerLink="/auth/signup" mat-button>Sign up</a>
+
+<camp-shadow-spinner *ngIf="isSubmitting$ | async" />

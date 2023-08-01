@@ -1,6 +1,6 @@
-import { AnimeStatus } from './anime-status';
+import { DateRange } from '../date-range';
 
-import { DateRange } from './date-range';
+import { AnimeStatus } from './anime-status';
 
 /** Anime. */
 export class Anime {

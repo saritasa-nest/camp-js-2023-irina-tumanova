@@ -1,4 +1,4 @@
-import { DateRangeDto } from './date-range.dto';
+import { DateRangeDto } from '../date-range.dto';
 
 /** Anime DTO. */
 export interface AnimeDto {
