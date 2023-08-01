@@ -5,12 +5,10 @@
 	</div>
 
 	<div class="anime-main">
-		<div class="anime-main__cover">
-			<img [src]="details.imageUrl" 
+		<img [src]="details.imageUrl" 
 			(click)="openImageModal(details.imageUrl, details.titleEnglish)"
 			[alt]="details.titleEnglish + ' cover'" 
-			class="anime-main__cover-image">
-		</div>
+			class="anime-main__cover" />
 
 		<div class="anime-main__info">
 			<div class="anime-main__info-item anime-info">
@@ -47,16 +45,18 @@
 			</div>
 		</div>
 	</div>
+
 	<div class="anime-description" *ngIf="details.description.length > 0">
 		<p class="typography-body">{{details.description}}</p>
 	</div>
+	
 	<div class="anime-trailer" *ngIf="safeTrailerUrl$ | async as safeTrailerUrl">
 		<iframe [src]="safeTrailerUrl" 
-		[height]="trailerComponentHeight$ | async" 
-		class="anime-trailer__iframe" 
-		[title]="details.titleEnglish + ' trailer'"></iframe>
+			[height]="trailerComponentHeight$ | async" 
+			class="anime-trailer__iframe" 
+			[title]="details.titleEnglish + ' trailer'">
+		</iframe>
 	</div>
-
 
 	<ng-template #EmptyEnglishTitle>
 		<h1 class="typography-title anime-title">unknown</h1>

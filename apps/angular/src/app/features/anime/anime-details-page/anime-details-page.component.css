@@ -18,24 +18,13 @@
 }
 
 .anime-main__cover {
-	width: var(--cover-size);
-	height: var(--cover-size);
-	overflow: hidden;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: var(--border-radius-m);
-}
-
-.anime-main__cover-image {
-	width: 100%;
-	height: 100%;
-	object-fit: contain;
+	max-width: var(--cover-size);
+	max-height: var(--cover-size);
+	justify-self: center;
+	align-self: center;
 }
 
 .anime-info {
-	--param-title-width: 100px;
-
 	display: flex;
 	gap: var(--space-s);
 	align-items: center;
@@ -55,6 +44,8 @@
 }
 
 .anime-info__param {
+	--param-title-width: 100px;
+
 	max-width: var(--param-title-width);
 	width: 100%;
 	font-size: var(--font-size-m);

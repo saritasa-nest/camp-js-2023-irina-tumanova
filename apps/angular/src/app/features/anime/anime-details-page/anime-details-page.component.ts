@@ -64,8 +64,6 @@ export class AnimeDetailsPageComponent implements OnInit {
 			.pipe(
 				tap(() => this.changeTrailerComponentHeight()),
 				this.untilDestroyed(),
-
-				// debounceTime(200),
 			)
 			.subscribe();
 	}
