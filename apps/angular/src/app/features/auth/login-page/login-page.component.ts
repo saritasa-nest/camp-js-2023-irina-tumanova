@@ -5,7 +5,7 @@ import { Login } from '@js-camp/core/models/auth/login';
 import { FormGroupOf } from '@js-camp/core/models/form-type-of';
 import { BehaviorSubject, catchError, finalize, first, tap, throwError } from 'rxjs';
 import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
-import { AppError, AppErrorItem } from '@js-camp/core/models/app-error';
+import { AppError } from '@js-camp/core/models/app-error';
 import { AppValidators } from '@js-camp/angular/core/utils/validators';
 import { Router } from '@angular/router';
 
@@ -30,7 +30,7 @@ export class LoginPageComponent implements OnInit {
 	protected readonly isSubmitting$ = new BehaviorSubject(false);
 
 	/** Login errors. */
-	protected readonly loginErrors$ = new BehaviorSubject<AppError | null>(null);
+	protected readonly loginErrors$ = new BehaviorSubject<AppError<Error> | null>(null);
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
@@ -84,7 +84,7 @@ export class LoginPageComponent implements OnInit {
 	 * @param _index Index.
 	 * @param error Http error.
 	 */
-	protected trackErrorByCode(_index: number, error: AppErrorItem): AppErrorItem['message'] {
+	protected trackErrorByCode(_index: number, error: Error): Error['message'] {
 		return error.message;
 	}
 }
