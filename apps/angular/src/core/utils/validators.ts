@@ -7,14 +7,14 @@ export namespace AppValidators{
 
 	/**
 	 * Check if the entered passwords match.
-	 * @param originalPasswordName Control name of original password.
-	 *  @param repeatedPasswordName Control name of repeated password.
+	 * @param originalPasswordControlName Control name of original password.
+	 * @param repeatedPasswordControlName Control name of repeated password.
 	 */
-	export function passwordRepetition(originalPasswordName: string, repeatedPasswordName: string): ValidatorFn {
+	export function passwordRepetition(originalPasswordControlName: string, repeatedPasswordControlName: string): ValidatorFn {
 		return (group: AbstractControl): ValidationErrors | null => {
 			if (group instanceof FormGroup) {
-				const password = group.controls[originalPasswordName];
-				const repeatedPassword = group.controls[repeatedPasswordName];
+				const password = group.controls[originalPasswordControlName];
+				const repeatedPassword = group.controls[repeatedPasswordControlName];
 
 				if (password === undefined || repeatedPassword === undefined) {
 					return null;
