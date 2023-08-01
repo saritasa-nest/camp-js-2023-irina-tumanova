@@ -47,12 +47,9 @@ export class AnimeDetailsPageComponent implements OnInit {
 		const animeId = this.route.snapshot.params['id'] as string;
 		this.details$ = this.animeService.getAnimeDetails(animeId).pipe(shareReplay({ refCount: true, bufferSize: 1 }));
 		this.safeTrailerUrl$ = this.details$.pipe(
-			map(details => {
-				if (details.trailerYoutubeUrl === null) {
-					return null;
-				}
-				return this.sanitizer.bypassSecurityTrustResourceUrl(details.trailerYoutubeUrl);
-			}),
+			map(details => details.trailerYoutubeUrl !== null ?
+				this.sanitizer.bypassSecurityTrustResourceUrl(details.trailerYoutubeUrl) :
+				null),
 		);
 
 		this.changeTrailerComponentHeight();
