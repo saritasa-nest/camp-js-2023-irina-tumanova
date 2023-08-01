@@ -88,7 +88,7 @@ export class AuthService {
 	 */
 	public refreshSecret(
 		secret: UserSecret,
-	): Observable<UserSecret | void> {
+	): Observable<void> {
 		return this.http.post<UserSecretDto>(
 			this.apiUrlsConfig.auth.refreshSecret,
 			UserSecretMapper.toDto(secret),

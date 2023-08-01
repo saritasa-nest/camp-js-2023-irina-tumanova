@@ -1,6 +1,6 @@
 import { HttpRequest, HttpHandler, HttpInterceptor, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, catchError, merge, switchMap, throwError } from 'rxjs';
+import { Observable, catchError, first, shareReplay, switchMap, tap, throwError } from 'rxjs';
 import { HttpStatusCode } from 'axios';
 
 import { UserSecretService } from '../services/user-secret.service';
@@ -10,6 +10,9 @@ import { AuthService } from '../services/auth.service';
 /** Refresh token interceptor. */
 @Injectable()
 export class RefreshTokenInterceptor implements HttpInterceptor {
+
+	/** Active request for token refresh. */
+	private refreshSecretRequest$: Observable<void> | null = null;
 
 	private readonly userSecretService = inject(UserSecretService);
 
@@ -33,15 +36,20 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
 					return throwError(() => error);
 				}
 
-				return this.userSecretService.getTokens().pipe(
+				this.refreshSecretRequest$ ??= this.userSecretService.getTokens().pipe(
+					shareReplay({ refCount: true, bufferSize: 1 }),
+					first(),
 					switchMap(tokens => {
 						if (tokens !== null) {
 							return this.authService.refreshSecret(tokens);
 						}
-						return merge(
-							this.authService.logout(),
-							throwError(() => error),
-						);
+						return throwError(() => new Error('Unauthorized'));
+					}),
+				);
+
+				return this.refreshSecretRequest$.pipe(
+					tap(() => {
+						this.refreshSecretRequest$ = null;
 					}),
 					switchMap(() => next.handle(req)),
 				);
