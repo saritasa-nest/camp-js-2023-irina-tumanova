@@ -3,7 +3,7 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { Login } from '@js-camp/core/models/auth/login';
 import { FormGroupOf } from '@js-camp/core/models/form-type-of';
-import { BehaviorSubject, catchError, finalize, first, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, finalize, first, tap, throwError } from 'rxjs';
 import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
 import { AppError } from '@js-camp/core/models/app-error';
 import { AppValidators } from '@js-camp/angular/core/utils/validators';
@@ -51,26 +51,6 @@ export class LoginPageComponent implements OnInit {
 			.subscribe(() => this.loginErrors$.next(null));
 	}
 
-	/** Submit login form. */
-	protected handleSubmit(): void {
-		if (this.form.invalid) {
-			return;
-		}
-		this.isSubmitting$.next(true);
-		this.authService.login(this.form.getRawValue()).pipe(
-			first(),
-			tap(() => this.router.navigate(['anime'])),
-			catchError((error: unknown) => {
-				if (error instanceof AppError) {
-					this.loginErrors$.next(error ?? null);
-				}
-				return throwError(() => error);
-			}),
-			finalize(() => this.isSubmitting$.next(false)),
-		)
-			.subscribe();
-	}
-
 	/** Create login form. */
 	private createForm(): FormGroupOf<Login> {
 		return this.formBuilder.group({
@@ -79,12 +59,29 @@ export class LoginPageComponent implements OnInit {
 		});
 	}
 
+	/** Submit login form. */
+	protected handleSubmit(): void {
+		if (this.form.invalid) {
+			return;
+		}
+		this.isSubmitting$.next(true);
+		this.authService.login(this.form.getRawValue()).pipe(
+			first(),
+			tap(() => this.router.navigate([''])),
+			catchError((error: unknown) => this.handleError(error)),
+			finalize(() => this.isSubmitting$.next(false)),
+		)
+			.subscribe();
+	}
+
 	/**
-	 * Track error by code.
-	 * @param _index Index.
-	 * @param error Http error.
+	 * Handle login error.
+	 * @param error Login error.
 	 */
-	protected trackErrorByCode(_index: number, error: Error): Error['message'] {
-		return error.message;
+	private handleError(error: unknown): Observable<never> {
+		if (error instanceof AppError) {
+			this.loginErrors$.next(error ?? null);
+		}
+		return throwError(() => error);
 	}
 }

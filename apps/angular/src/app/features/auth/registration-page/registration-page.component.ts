@@ -41,23 +41,6 @@ export class RegistrationPageComponent {
 		this.form = this.createForm();
 	}
 
-	/** Submit login form. */
-	protected handleSubmit(): void {
-		if (this.form.invalid) {
-			return;
-		}
-
-		this.isSubmitting$.next(true);
-		this.authService.register(this.form.getRawValue())
-			.pipe(
-				first(),
-				tap(() => this.router.navigate(['anime'])),
-				catchFormErrors(this.form),
-				finalize(() => this.isSubmitting$.next(false)),
-			)
-			.subscribe();
-	}
-
 	/** Create registration form. */
 	private createForm(): FormGroupOf<RegistrationForm> {
 		const registrationForm = this.formBuilder.group({
@@ -72,5 +55,22 @@ export class RegistrationPageComponent {
 		}, { validators: [AppValidators.passwordRepetition('password', 'repeatedPassword')] });
 
 		return registrationForm;
+	}
+
+	/** Submit login form. */
+	protected handleSubmit(): void {
+		if (this.form.invalid) {
+			return;
+		}
+
+		this.isSubmitting$.next(true);
+		this.authService.register(this.form.getRawValue())
+			.pipe(
+				first(),
+				tap(() => this.router.navigate([''])),
+				catchFormErrors(this.form),
+				finalize(() => this.isSubmitting$.next(false)),
+			)
+			.subscribe();
 	}
 }
