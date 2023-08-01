@@ -84,4 +84,13 @@ export class LoginPageComponent implements OnInit {
 		}
 		return throwError(() => error);
 	}
+
+	/**
+	 * Track error by mesasge.
+	 * @param _index Index.
+	 * @param error Form error.
+	 */
+	protected trackErrorByMessage(_index: number, error: Error): Error['message'] {
+		return error.message;
+	}
 }
