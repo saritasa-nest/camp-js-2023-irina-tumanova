@@ -51,7 +51,10 @@
 		<p class="typography-body">{{details.description}}</p>
 	</div>
 	<div class="anime-trailer" *ngIf="safeTrailerUrl$ | async as safeTrailerUrl">
-		<iframe [src]="safeTrailerUrl" [height]="trailerComponentHeight$ | async" class="anime-trailer__iframe"></iframe>
+		<iframe [src]="safeTrailerUrl" 
+		[height]="trailerComponentHeight$ | async" 
+		class="anime-trailer__iframe" 
+		[alt]="details.titleEnglish + ' trailer'"></iframe>
 	</div>
 
 
