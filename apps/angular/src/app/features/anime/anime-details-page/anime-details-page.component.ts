@@ -7,7 +7,7 @@ import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { AnimeDetails } from '@js-camp/core/models/anime/anime-details';
 import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
-import { BehaviorSubject, Observable, fromEvent, map, tap } from 'rxjs';
+import { BehaviorSubject, Observable, fromEvent, map, shareReplay, tap } from 'rxjs';
 
 import { ImageModalComponent } from '../components/image-modal/image-modal.component';
 
@@ -45,7 +45,7 @@ export class AnimeDetailsPageComponent implements OnInit {
 
 	public constructor() {
 		const animeId = this.route.snapshot.params['id'] as string;
-		this.details$ = this.animeService.getAnimeDetails(animeId);
+		this.details$ = this.animeService.getAnimeDetails(animeId).pipe(shareReplay({ refCount: true, bufferSize: 1 }));
 		this.safeTrailerUrl$ = this.details$.pipe(
 			map(details => {
 				if (details.trailerYoutubeUrl === null) {
