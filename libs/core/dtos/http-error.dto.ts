@@ -1,5 +1,5 @@
 /** Http error item DTO. */
-export interface HttpErrorDto {
+export interface HttpErrorItemDto {
 
 	/** Field attr. */
 	readonly attr: string | null;
@@ -9,4 +9,10 @@ export interface HttpErrorDto {
 
 	/** Detail. */
 	readonly detail: string;
+}
+
+export interface HttpErrorDto extends Error {
+	readonly error?: {
+		readonly errors?: readonly HttpErrorItemDto[];
+	};
 }
