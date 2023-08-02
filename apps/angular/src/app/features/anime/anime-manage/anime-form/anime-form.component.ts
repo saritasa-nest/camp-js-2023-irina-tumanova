@@ -3,6 +3,8 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
+import { GenreService } from '@js-camp/angular/core/services/genre.service';
+import { StudioService } from '@js-camp/angular/core/services/studio.service';
 import { AnimeType } from '@js-camp/core/models/anime/anime';
 import { AnimeDetails } from '@js-camp/core/models/anime/anime-details';
 import { AnimeFormData } from '@js-camp/core/models/anime/anime-form-data';
@@ -11,7 +13,6 @@ import { Genre } from '@js-camp/core/models/anime/genre';
 import { Studio } from '@js-camp/core/models/anime/studio';
 import { DateRange } from '@js-camp/core/models/date-range';
 import { FormGroupOf } from '@js-camp/core/models/form-type-of';
-import { Pagination } from '@js-camp/core/models/pagination';
 import { enumToArray } from '@js-camp/core/utils/enum-to-array';
 import { BehaviorSubject, Observable, finalize, first, map, tap } from 'rxjs';
 
@@ -70,6 +71,10 @@ export class AnimeFormComponent implements OnInit {
 
 	private readonly animeService = inject(AnimeService);
 
+	private readonly genreService = inject(GenreService);
+
+	private readonly studioService = inject(StudioService);
+
 	private readonly id = inject(ActivatedRoute).snapshot.params['id'];
 
 	private readonly router = inject(Router);
@@ -78,8 +83,8 @@ export class AnimeFormComponent implements OnInit {
 
 	public constructor() {
 		this.form = this.createForm();
-		this.genres$ = this.animeService.getGenres().pipe(map(pagination => pagination.items));
-		this.studios$ = this.animeService.getStudios().pipe(map(pagination => pagination.items));
+		this.genres$ = this.genreService.getGenres().pipe(map(pagination => pagination.items));
+		this.studios$ = this.studioService.getStudios().pipe(map(pagination => pagination.items));
 	}
 
 	/** @inheritdoc */

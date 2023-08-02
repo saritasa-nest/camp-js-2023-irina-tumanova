@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Anime } from '@js-camp/core/models/anime/anime';
-import { Observable, map, switchMap } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { AnimeDto } from '@js-camp/core/dtos/anime/anime.dto';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
@@ -14,12 +14,6 @@ import { AnimeDetails } from '@js-camp/core/models/anime/anime-details';
 import { AnimeDetailsDto } from '@js-camp/core/dtos/anime/anime-details.dto';
 import { AnimeDetailsMapper } from '@js-camp/core/mappers/anime/anime-details.mapper';
 import { AnimeFormData } from '@js-camp/core/models/anime/anime-form-data';
-import { Genre } from '@js-camp/core/models/anime/genre';
-import { GenreDto } from '@js-camp/core/dtos/anime/genre.dto';
-import { GenreMapper } from '@js-camp/core/mappers/anime/genre.mapper';
-import { Studio } from '@js-camp/core/models/anime/studio';
-import { StudioDto } from '@js-camp/core/dtos/anime/studio.dto';
-import { StudioMapper } from '@js-camp/core/mappers/anime/studio.mapper';
 
 import { AnimeFormDataMapper } from '@js-camp/core/mappers/anime/anime-form-data.mapper';
 
@@ -101,35 +95,5 @@ export class AnimeService {
 		const url = this.apiUrlsConfig.anime.delete(id);
 
 		return this.http.delete(url).pipe(map(() => undefined));
-	}
-
-	/** Get genres.*/
-	public getGenres(): Observable<Pagination<Genre>> {
-		const url = this.apiUrlsConfig.genre.get;
-
-		return this.http
-			.get<PaginationDto<GenreDto>>(url)
-			.pipe(
-				switchMap(genres => {
-					const params = new HttpParams().set('limit', genres.count);
-					return this.http.get<PaginationDto<GenreDto>>(url, { params });
-				}),
-				map(pagination => PaginationMapper.fromDto(pagination, GenreMapper.fromDto)),
-			);
-	}
-
-	/** Get studios.*/
-	public getStudios(): Observable<Pagination<Studio>> {
-		const url = this.apiUrlsConfig.studio.get;
-
-		return this.http
-			.get<PaginationDto<StudioDto>>(url)
-			.pipe(
-				switchMap(studios => {
-					const params = new HttpParams().set('limit', studios.count);
-					return this.http.get<PaginationDto<StudioDto>>(url, { params });
-				}),
-				map(pagination => PaginationMapper.fromDto(pagination, StudioMapper.fromDto)),
-			);
 	}
 }
