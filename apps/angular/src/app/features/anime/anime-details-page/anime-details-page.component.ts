@@ -8,6 +8,8 @@ import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { AnimeDetails } from '@js-camp/core/models/anime/anime-details';
 import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
 import { BehaviorSubject, Observable, fromEvent, map, shareReplay, tap } from 'rxjs';
+import { AnimeSource } from '@js-camp/core/models/anime/anime-source';
+import { AnimeSeason } from '@js-camp/core/models/anime/anime-season';
 
 import { ImageModalComponent } from '../components/image-modal/image-modal.component';
 
@@ -96,5 +98,21 @@ export class AnimeDetailsPageComponent implements OnInit {
 	 */
 	protected getReadableAiring(airing: boolean): string {
 		return airing ? 'Yes' : 'No';
+	}
+
+	/**
+	 * Get readable source.
+	 * @param source Anime source.
+	 */
+	protected getReadableSource(source: AnimeSource): string {
+		return AnimeSource.toReadable(source);
+	}
+
+	/**
+	 * Get readable season.
+	 * @param season Anime season.
+	 */
+	protected getReadableSeason(season: AnimeSeason): string {
+		return AnimeSeason.toReadable(season);
 	}
 }
