@@ -1,4 +1,5 @@
 import { Anime } from './anime';
+import { AnimeSeason } from './anime-season';
 import { AnimeSource } from './anime-source';
 import { Genre } from './genre';
 import { Studio } from './studio';
@@ -34,7 +35,7 @@ export class AnimeDetails extends Anime {
 	public readonly source: AnimeSource;
 
 	/** Season. */
-	public readonly season: string;
+	public readonly season: AnimeSeason;
 
 	public constructor(data: InitAnimeDetailsParams) {
 		super(data);
