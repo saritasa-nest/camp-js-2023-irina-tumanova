@@ -6,8 +6,10 @@ import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { GenreService } from '@js-camp/angular/core/services/genre.service';
 import { StudioService } from '@js-camp/angular/core/services/studio.service';
 import { AnimeType } from '@js-camp/core/models/anime/anime';
-import { AnimeDetails } from '@js-camp/core/models/anime/anime-details';
+import { AnimeDetails, AnimeRating } from '@js-camp/core/models/anime/anime-details';
 import { AnimeFormData } from '@js-camp/core/models/anime/anime-form-data';
+import { AnimeSeason } from '@js-camp/core/models/anime/anime-season';
+import { AnimeSource } from '@js-camp/core/models/anime/anime-source';
 import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
 import { Genre } from '@js-camp/core/models/anime/genre';
 import { Studio } from '@js-camp/core/models/anime/studio';
@@ -30,6 +32,9 @@ const DEFAULT_FORM_VALUES: AnimeFormData = {
 	description: '',
 	studios: [],
 	genres: [],
+	rating: null,
+	season: null,
+	source: null,
 };
 
 /** Anime manage form. */
@@ -66,6 +71,15 @@ export class AnimeFormComponent implements OnInit {
 
 	/** Anime status options. */
 	protected readonly statuses = enumToArray(AnimeStatus);
+
+	/** Anime rating options. */
+	protected readonly ratings = enumToArray(AnimeRating);
+
+	/** Anime source options. */
+	protected readonly sources = enumToArray(AnimeSource);
+
+	/** Anime season options. */
+	protected readonly seasons = enumToArray(AnimeSeason);
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
@@ -111,6 +125,9 @@ export class AnimeFormComponent implements OnInit {
 			description: [DEFAULT_FORM_VALUES.description, [Validators.required]],
 			studios: [DEFAULT_FORM_VALUES.studios, [Validators.required]],
 			genres: [DEFAULT_FORM_VALUES.genres, [Validators.required]],
+			rating: [DEFAULT_FORM_VALUES.rating, [Validators.required]],
+			season: [DEFAULT_FORM_VALUES.season, [Validators.required]],
+			source: [DEFAULT_FORM_VALUES.source, [Validators.required]],
 		});
 	}
 
@@ -127,6 +144,7 @@ export class AnimeFormComponent implements OnInit {
 		if (this.form.invalid || this.type === null) {
 			return;
 		}
+
 		this.isSubmitting$.next(true);
 
 		const submitObservable$ = this.type === 'edit' ?

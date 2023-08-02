@@ -1,5 +1,7 @@
 import { DateRangeDto } from '../date-range.dto';
 
+import { AnimeRatingDto, AnimeSeasonDto, AnimeSourceDto } from './anime-details.dto';
+
 import { AnimeStatusDto, AnimeTypeDto } from './anime.dto';
 
 /** Anime form data (edit, create) DTO. */
@@ -37,4 +39,13 @@ export interface AnimeFormDataDto {
 
 	/** Genres ids. */
 	readonly genres: readonly number[];
+
+	/** Age rating. */
+	readonly rating: AnimeRatingDto | null;
+
+	/** Source. */
+	readonly source: AnimeSourceDto | null;
+
+	/** Season. */
+	readonly season: AnimeSeasonDto | null;
 }

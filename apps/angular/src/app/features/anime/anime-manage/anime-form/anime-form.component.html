@@ -42,7 +42,7 @@
 				<mat-option *ngFor="let type of types" [value]="type">{{type}}</mat-option>
 			</mat-select>
 			<mat-error *ngIf="type.hasError('required')">{{'required' | fieldErrorText:'type'}}</mat-error>
-		 </mat-form-field>
+		</mat-form-field>
 
 		 <mat-form-field *ngIf="form.controls.status as status">
 			<mat-label>Status</mat-label>
@@ -50,7 +50,7 @@
 				<mat-option *ngFor="let status of statuses" [value]="status">{{getReadableStatus(status)}}</mat-option>
 			</mat-select>
 			<mat-error *ngIf="status.hasError('required')">{{'required' | fieldErrorText:'status'}}</mat-error>
-		 </mat-form-field>
+		</mat-form-field>
 
 		 <mat-form-field *ngIf="genres$ | async as genres">
 			<mat-label>Genres</mat-label>
@@ -58,20 +58,44 @@
 				<mat-option *ngFor="let genre of genres" [value]="genre.id">{{genre.name}}</mat-option>
 			</mat-select>
 			<mat-error *ngIf="form.controls.genres.hasError('required')">{{'required' | fieldErrorText:'genres'}}</mat-error>
-		 </mat-form-field>
+		</mat-form-field>
 
-		 <mat-form-field *ngIf="studios$ | async as studios">
+		<mat-form-field *ngIf="studios$ | async as studios">
 			<mat-label>Studios</mat-label>
 			<mat-select multiple [formControl]="form.controls.studios">
 				<mat-option *ngFor="let studio of studios" [value]="studio.id">{{studio.name}}</mat-option>
 			</mat-select>
 			<mat-error *ngIf="form.controls.studios.hasError('required')">{{'required' | fieldErrorText:'studios'}}</mat-error>
-		 </mat-form-field>
+		</mat-form-field>
 
-		 <mat-form-field class="anime-form__trailer-id">
+		<mat-form-field *ngIf="form.controls.rating as rating">
+			<mat-label>Rating</mat-label>
+			<mat-select [formControl]="rating">
+				<mat-option *ngFor="let rating of ratings" [value]="rating">{{rating}}</mat-option>
+			</mat-select>
+			<mat-error *ngIf="rating.hasError('required')">{{'required' | fieldErrorText:'rating'}}</mat-error>
+		</mat-form-field>
+
+		<mat-form-field *ngIf="form.controls.source as source">
+			<mat-label>Source</mat-label>
+			<mat-select [formControl]="source">
+				<mat-option *ngFor="let source of sources" [value]="source">{{source}}</mat-option>
+			</mat-select>
+			<mat-error *ngIf="source.hasError('required')">{{'required' | fieldErrorText:'source'}}</mat-error>
+		</mat-form-field>
+
+		<mat-form-field *ngIf="form.controls.season as season">
+			<mat-label>Season</mat-label>
+			<mat-select [formControl]="season">
+				<mat-option *ngFor="let season of seasons" [value]="season">{{season}}</mat-option>
+			</mat-select>
+			<mat-error *ngIf="season.hasError('required')">{{'required' | fieldErrorText:'season'}}</mat-error>
+		</mat-form-field>
+
+		<mat-form-field class="anime-form__trailer-id">
 			<mat-label>Youtube trailer id</mat-label>
 			<input matInput placeholder="Id" [formControl]="form.controls.trailerYoutubeId">
-		 </mat-form-field>
+		</mat-form-field>
 	</div>
 
 	<div class="anime-form__airing anime-airing" *ngIf="form.controls.aired as aired">

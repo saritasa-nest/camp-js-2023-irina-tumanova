@@ -1,7 +1,9 @@
 import { DateRange } from '../date-range';
 
 import { AnimeType } from './anime';
-import { AnimeDetails } from './anime-details';
+import { AnimeDetails, AnimeRating } from './anime-details';
+import { AnimeSeason } from './anime-season';
+import { AnimeSource } from './anime-source';
 import { AnimeStatus } from './anime-status';
 
 /** Anime form data (edit, create). */
@@ -40,6 +42,15 @@ export class AnimeFormData {
 	/** Genres ids. */
 	public readonly genres: readonly number[];
 
+	/** Age rating. */
+	public readonly rating: AnimeRating | null;
+
+	/** Source. */
+	public readonly source: AnimeSource | null;
+
+	/** Season. */
+	public readonly season: AnimeSeason | null;
+
 	public constructor(data: InitAnimeFormDataParams) {
 		const trailerUrlPath = data instanceof AnimeDetails ?
 			(data.trailerYoutubeUrl ?? '').split('/') :
@@ -56,6 +67,9 @@ export class AnimeFormData {
 		this.description = data.description;
 		this.studios = data.studios;
 		this.genres = data.genres;
+		this.rating = data.rating;
+		this.source = data.source;
+		this.season = data.season;
 	}
 }
 
