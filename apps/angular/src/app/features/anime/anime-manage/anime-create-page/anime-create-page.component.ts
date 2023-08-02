@@ -6,5 +6,4 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 	templateUrl: './anime-create-page.component.html',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnimeCreatePageComponent {
-}
+export class AnimeCreatePageComponent {}

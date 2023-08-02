@@ -21,6 +21,7 @@ import { ImageModalComponent } from './components/image-modal/image-modal.compon
 import { AnimeCreatePageComponent } from './anime-manage/anime-create-page/anime-create-page.component';
 import { AnimeEditPageComponent } from './anime-manage/anime-edit-page/anime-edit-page.component';
 import { AnimeFormComponent } from './anime-manage/anime-form/anime-form.component';
+import { DeleteModalComponent } from './components/delete-modal/delete-modal.component';
 
 /** Anime module. */
 @NgModule({
@@ -30,6 +31,7 @@ import { AnimeFormComponent } from './anime-manage/anime-form/anime-form.compone
 		AnimeEditPageComponent,
 		AnimeDetailsPageComponent,
 		ImageModalComponent,
+		DeleteModalComponent,
 		AnimeFormComponent,
 	],
 	imports: [

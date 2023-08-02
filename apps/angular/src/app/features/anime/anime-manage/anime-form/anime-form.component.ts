@@ -36,7 +36,7 @@ const DEFAULT_FORM_VALUES: AnimeFormData = {
 export class AnimeFormComponent implements OnInit {
 
 	/** Initial anime info. */
-	@Input({ required: true })
+	@Input()
 	public anime$: Observable<AnimeDetails> | null = null;
 
 	/** Form type. */

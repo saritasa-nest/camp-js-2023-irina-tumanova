@@ -22,14 +22,14 @@ const routes: Routes = [
 				component: AnimeDetailsPageComponent,
 			},
 			{
-				path: 'create',
-				component: AnimeCreatePageComponent,
-			},
-			{
 				path: 'edit',
 				component: AnimeEditPageComponent,
 			},
 		],
+	},
+	{
+		path: 'create',
+		component: AnimeCreatePageComponent,
 	},
 ];
 

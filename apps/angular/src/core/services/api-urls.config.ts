@@ -14,6 +14,7 @@ export class ApiUrlsConfig {
 	public readonly anime = {
 		get: this.toApi('anime/anime/'),
 		getDetail: (id: number | string) => this.toApi(`anime/anime/${id}/`),
+		delete: (id: number | string) => this.toApi(`anime/anime/${id}`),
 	};
 
 	/** Auth routes. */
