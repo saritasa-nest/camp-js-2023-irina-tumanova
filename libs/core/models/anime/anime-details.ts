@@ -1,4 +1,5 @@
 import { Anime } from './anime';
+import { AnimeSource } from './anime-source';
 import { Genre } from './genre';
 import { Studio } from './studio';
 
@@ -26,6 +27,15 @@ export class AnimeDetails extends Anime {
 	/** Trailer video id on youtube. */
 	public readonly trailerYoutubeUrl: string | null;
 
+	/** Age rating. */
+	public readonly rating: AnimeRating;
+
+	/** Source. */
+	public readonly source: AnimeSource;
+
+	/** Season. */
+	public readonly season: string;
+
 	public constructor(data: InitAnimeDetailsParams) {
 		super(data);
 
@@ -36,7 +46,21 @@ export class AnimeDetails extends Anime {
 		this.genres = data.genres;
 		this.genresData = data.genresData;
 		this.trailerYoutubeUrl = data.trailerYoutubeUrl;
+		this.source = data.source;
+		this.rating = data.rating;
+		this.season = data.season;
 	}
+}
+
+/** Anime rating. */
+export enum AnimeRating {
+	G = 'G',
+	PG = 'PG',
+	PG13 = 'PG-13',
+	R17 = 'R-17',
+	RPlus = 'R-PLUS',
+	PX = 'R-X',
+	Unknown = 'Unknown',
 }
 
 type InitAnimeDetailsParams = AnimeDetails;
