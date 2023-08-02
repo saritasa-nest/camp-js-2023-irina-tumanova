@@ -2,6 +2,7 @@ import { DateRangeDto } from '../date-range.dto';
 
 import { AnimeStatusDto, AnimeTypeDto } from './anime.dto';
 
+/** Anime form data (edit, create) DTO. */
 export interface AnimeFormDataDto {
 
 	/** Image. */

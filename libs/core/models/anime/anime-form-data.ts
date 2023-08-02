@@ -4,7 +4,7 @@ import { AnimeType } from './anime';
 import { AnimeDetails } from './anime-details';
 import { AnimeStatus } from './anime-status';
 
-/** Anime details. */
+/** Anime form data (edit, create). */
 export class AnimeFormData {
 
 	/** Image. */

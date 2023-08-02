@@ -14,7 +14,19 @@ export class ApiUrlsConfig {
 	public readonly anime = {
 		get: this.toApi('anime/anime/'),
 		getDetail: (id: number | string) => this.toApi(`anime/anime/${id}/`),
-		delete: (id: number | string) => this.toApi(`anime/anime/${id}`),
+		delete: (id: number | string) => this.toApi(`anime/anime/${id}/`),
+		edit: (id: number | string) => this.toApi(`anime/anime/${id}/`),
+		create: this.toApi('anime/anime/'),
+	};
+
+	/** Genre routes. */
+	public readonly genre = {
+		get: this.toApi('anime/genres/'),
+	};
+
+	/** Studio routes. */
+	public readonly studio = {
+		get: this.toApi('anime/studios/'),
 	};
 
 	/** Auth routes. */

@@ -52,19 +52,21 @@
 			<mat-error *ngIf="status.hasError('required')">{{'required' | fieldErrorText:'status'}}</mat-error>
 		 </mat-form-field>
 
-		 <!--<mat-form-field>
+		 <mat-form-field *ngIf="genres$ | async as genres">
 			<mat-label>Genres</mat-label>
-				<mat-select multiple [formControl]="form.controls.genres">
-					<mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
-				</mat-select>
+			<mat-select  multiple [formControl]="form.controls.genres">
+				<mat-option *ngFor="let genre of genres" [value]="genre.id">{{genre.name}}</mat-option>
+			</mat-select>
+			<mat-error *ngIf="form.controls.genres.hasError('required')">{{'required' | fieldErrorText:'genres'}}</mat-error>
 		 </mat-form-field>
 
-		 <mat-form-field>
+		 <mat-form-field *ngIf="studios$ | async as studios">
 			<mat-label>Studios</mat-label>
-				<mat-select multiple [formControl]="form.controls.studios">
-					<mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
-				</mat-select>
-		 </mat-form-field>-->
+			<mat-select multiple [formControl]="form.controls.studios">
+				<mat-option *ngFor="let studio of studios" [value]="studio.id">{{studio.name}}</mat-option>
+			</mat-select>
+			<mat-error *ngIf="form.controls.studios.hasError('required')">{{'required' | fieldErrorText:'studios'}}</mat-error>
+		 </mat-form-field>
 
 		 <mat-form-field class="anime-form__trailer-id">
 			<mat-label>Youtube trailer id</mat-label>
@@ -95,5 +97,7 @@
 		</mat-form-field>
 	</div>
 
-	<button type="submit" mat-raised-button color="primary" class="anime-form__submit">Сохранить</button>
+	<button type="submit" mat-raised-button color="primary" class="anime-form__submit" (click)="handleSubmit()">Save</button>
 </form>
+
+<camp-shadow-spinner *ngIf="isSubmitting$ | async" />
