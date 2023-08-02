@@ -44,4 +44,23 @@ export namespace AnimeMapper {
 		[AnimeStatusDto.NotYetAired]: AnimeStatus.NotYetAired,
 		[AnimeStatusDto.Unknown]: AnimeStatus.Unknown,
 	};
+
+	/** Anime type transformation object in DTO. */
+	export const ANIME_TYPE_TO_DTO = {
+		[AnimeType.TV]: AnimeTypeDto.TV,
+		[AnimeType.OVA]: AnimeTypeDto.OVA,
+		[AnimeType.Movie]: AnimeTypeDto.Movie,
+		[AnimeType.Special]: AnimeTypeDto.Special,
+		[AnimeType.ONA]: AnimeTypeDto.ONA,
+		[AnimeType.Music]: AnimeTypeDto.Music,
+		[AnimeType.Unknown]: AnimeTypeDto.Unknown,
+	};
+
+	/** Anime type transformation object in DTO. */
+	export const ANIME_STATUS_TO_DTO = {
+		[AnimeStatus.Airing]: AnimeStatusDto.Airing,
+		[AnimeStatus.Finished]: AnimeStatusDto.Finished,
+		[AnimeStatus.NotYetAired]: AnimeStatusDto.NotYetAired,
+		[AnimeStatus.Unknown]: AnimeStatusDto.Unknown,
+	};
 }
