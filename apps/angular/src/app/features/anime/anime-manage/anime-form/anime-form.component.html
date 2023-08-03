@@ -53,21 +53,29 @@
 		</mat-form-field>
 
 		<ng-container *ngIf="genres$ | async as genres">
-			<camp-select-with-input [selectControl]="form.controls.genres" 
-				valueKey="id" 
-				nameKey="name" 
-				label="Genres"
-				(createItemEvent)="addGenre($event)"
-				[items]="genres" />
+			<mat-form-field class="select-with-input">
+				<mat-label>Genres</mat-label>
+				<camp-select-with-input [formControl]="form.controls.genres" 
+					valueKey="id" 
+					nameKey="name" 
+					(createItemEvent)="addGenre($event)"
+					[items]="genres" />
+				<mat-error *ngIf="form.controls.genres.hasError('required')">{{'required' | fieldErrorText:'genres'}}</mat-error>
+			</mat-form-field>
+		</ng-container>
+
+		<ng-container *ngIf="studios$ | async as studios">
+			<mat-form-field class="select-with-input">
+				<mat-label>Studios</mat-label>
+				<camp-select-with-input [formControl]="form.controls.studios" 
+					valueKey="id" 
+					nameKey="name" 
+					(createItemEvent)="addStudio($event)"
+					[items]="studios" />
+				<mat-error *ngIf="form.controls.studios.hasError('required')">{{'required' | fieldErrorText:'studios'}}</mat-error>
+			</mat-form-field>
 		</ng-container>
 		
-
-		<!--<camp-select-with-input [selectControl]="form.controls.studios" 
-			valueKey="id" 
-			nameKey="name" 
-			label="Studios"
-			[createItemCallback]="addStudio"
-			[items]="studios" />-->
 
 		<mat-form-field *ngIf="form.controls.rating as rating">
 			<mat-label>Rating</mat-label>

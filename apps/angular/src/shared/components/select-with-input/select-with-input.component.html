@@ -1,28 +1,21 @@
-<ng-container *ngIf="filteredItems$ !== null">
-	<ng-container *ngIf="filteredItems$ | async as filteredItems">
-		<mat-form-field *ngIf="selectControl !== null && valueKey !== null && nameKey !== null" class="select-with-input">
-			<mat-label>{{label}}</mat-label>
-			<mat-select [formControl]="selectControl" 
-				#itemsSelect 
-				multiple
-				(openedChange)="handleSelectOpenedChange(!$event)">
-
-				<div class="select-add-item">
-					<input [formControl]="inputControl" placeholder="Add..." class="select-add-item__input">
-					<button type="button" 
-						mat-mini-fab 
-						matTooltip="Create"  
-						color="primary" 
-						aria-label="Create new item" 
-						(click)="createItem()">
-						<mat-icon>add</mat-icon>
-					</button>
-				</div>
-
-				<mat-option *ngFor="let item of filteredItems" [value]="item[valueKey]">{{item[nameKey]}}</mat-option>
-			</mat-select>
-
-			<mat-error *ngIf="selectControl.hasError('required')">{{'required' | fieldErrorText:label}}</mat-error>
-		</mat-form-field>
+<mat-select
+	[(ngModel)]="value"
+	#itemsSelect 
+	multiple
+	(openedChange)="handleSelectOpenedChange(!$event)">
+	<ng-container *ngIf="filteredItems$ !== null && valueKey !== null && nameKey !== null">
+		<div class="select-add-item">
+			<input [formControl]="inputControl" placeholder="Add..." class="select-add-item__input">
+			<button type="button" 
+				mat-mini-fab 
+				matTooltip="Create"  
+				color="primary" 
+				aria-label="Create new item" 
+				(click)="createItem()">
+				<mat-icon>add</mat-icon>
+			</button>
+		</div>
+	
+		<mat-option *ngFor="let item of filteredItems$ | async" [value]="item[valueKey]">{{item[nameKey]}}</mat-option>
 	</ng-container>
-</ng-container>
+</mat-select>

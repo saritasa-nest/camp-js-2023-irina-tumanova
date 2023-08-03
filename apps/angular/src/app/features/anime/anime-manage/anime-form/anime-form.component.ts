@@ -201,7 +201,7 @@ export class AnimeFormComponent implements OnInit {
 	 * @param studioName Studio's name.
 	 */
 	protected addStudio(studioName: string): void {
-		this.genreService.createGenre(studioName).pipe(
+		this.studioService.createStudio(studioName).pipe(
 			first(),
 			tap(studio => {
 				this.form.controls.studios.setValue([...this.form.controls.studios.value, studio.id]);
