@@ -52,19 +52,22 @@
 			<mat-error *ngIf="status.hasError('required')">{{'required' | fieldErrorText:'status'}}</mat-error>
 		</mat-form-field>
 
-		<camp-select-with-input [selectControl]="form.controls.genres" 
-			valueKey="id" 
-			nameKey="name" 
-			label="Genres"
-			(addItemEvent)="addGenre($event)"
-			[items$]="genres$" />
+		<ng-container *ngIf="genres$ | async as genres">
+			<camp-select-with-input [selectControl]="form.controls.genres" 
+				valueKey="id" 
+				nameKey="name" 
+				label="Genres"
+				(createItemEvent)="addGenre($event)"
+				[items]="genres" />
+		</ng-container>
+		
 
-		<camp-select-with-input [selectControl]="form.controls.studios" 
+		<!--<camp-select-with-input [selectControl]="form.controls.studios" 
 			valueKey="id" 
 			nameKey="name" 
 			label="Studios"
-			(addItemEvent)="addStudio($event)"
-			[items$]="studios$" />
+			[createItemCallback]="addStudio"
+			[items]="studios" />-->
 
 		<mat-form-field *ngIf="form.controls.rating as rating">
 			<mat-label>Rating</mat-label>

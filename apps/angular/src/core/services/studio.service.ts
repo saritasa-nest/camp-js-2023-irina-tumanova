@@ -34,4 +34,16 @@ export class StudioService {
 				map(pagination => PaginationMapper.fromDto(pagination, StudioMapper.fromDto)),
 			);
 	}
+
+	/**
+	 * Create studio.
+	 * @param studioName Studio's name.
+	 */
+	public createGenre(studioName: string): Observable<Studio> {
+		const url = this.apiUrlsConfig.genre.create;
+
+		return this.http
+			.post<StudioDto>(url, { name: studioName })
+			.pipe(map(studioDto => StudioMapper.fromDto(studioDto)));
+	}
 }

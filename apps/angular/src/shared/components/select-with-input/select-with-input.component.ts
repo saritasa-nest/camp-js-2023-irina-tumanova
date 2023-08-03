@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Output, inject, EventEmitter } from '@angular/core';
 import { FormControl, NonNullableFormBuilder } from '@angular/forms';
-import { Observable, combineLatest, map, startWith } from 'rxjs';
+import { Observable, ReplaySubject, combineLatest, map, startWith } from 'rxjs';
 
 /** Select with input component. */
 @Component({
@@ -9,15 +9,13 @@ import { Observable, combineLatest, map, startWith } from 'rxjs';
 	styleUrls: ['./select-with-input.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SelectWithInputComponent<TItem, TValue> implements OnInit {
+export class SelectWithInputComponent<TItem, TValue> {
+
+	private readonly formBuider = inject(NonNullableFormBuilder);
 
 	/** Select control. */
 	@Input({ required: true })
-	public selectControl: FormControl<readonly TValue[]> | null = null;
-
-	/** All items. */
-	@Input({ required: true })
-	public items$: Observable<readonly TItem[]> | null = null;
+	public selectControl: FormControl<readonly TValue[]> = this.formBuider.control([]);
 
 	/** Item key for get item value. */
 	@Input({ required: true })
@@ -31,9 +29,17 @@ export class SelectWithInputComponent<TItem, TValue> implements OnInit {
 	@Input({ required: true })
 	public label = 'Items';
 
+	/** Select items. */
+	@Input({ required: true })
+	public set items(value: readonly TItem[]) {
+		this.items$.next(value);
+	}
+
+	private readonly items$ = new ReplaySubject<readonly TItem[]>(1);
+
 	/** Item key for get item name. */
 	@Output()
-	public addItemEvent = new EventEmitter<string>();
+	public createItemEvent = new EventEmitter<string>();
 
 	/** Filtered items. */
 	protected filteredItems$: Observable<readonly TItem[]> | null = null;
@@ -41,26 +47,20 @@ export class SelectWithInputComponent<TItem, TValue> implements OnInit {
 	/** Select's input controller. */
 	protected readonly inputControl: FormControl<string>;
 
-	private readonly formBuider = inject(NonNullableFormBuilder);
-
 	public constructor() {
 		this.inputControl = this.formBuider.control('');
-	}
-
-	/** @inheritdoc */
-	public ngOnInit(): void {
 		this.filteredItems$ = this.createFilteredItemsStream();
 	}
 
 	private createFilteredItemsStream(): Observable<readonly TItem[]> | null {
-		if (this.selectControl === null || this.items$ === null) {
+		if (this.selectControl === null || this.items === null) {
 			return null;
 		}
 
 		return combineLatest([
 			this.items$,
 			this.inputControl.valueChanges.pipe(startWith('')),
-			this.selectControl.valueChanges,
+			this.selectControl.valueChanges.pipe(startWith(this.selectControl.getRawValue())),
 		]).pipe(
 			map(([items, search, selectedItems]) => this.filterItems(items, search, selectedItems)),
 		);
@@ -103,13 +103,14 @@ export class SelectWithInputComponent<TItem, TValue> implements OnInit {
 		this.inputControl.setValue('');
 	}
 
-	/** Add item. */
-	protected addItem(): void {
+	/** Create item. */
+	protected createItem(): void {
 		const itemName = this.inputControl.getRawValue().trim();
 
 		if (itemName.length === 0) {
 			return;
 		}
-		this.addItemEvent.emit(itemName);
+
+		this.createItemEvent.emit(itemName);
 	}
 }

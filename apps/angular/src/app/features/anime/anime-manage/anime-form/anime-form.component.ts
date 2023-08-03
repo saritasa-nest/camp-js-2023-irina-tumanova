@@ -15,8 +15,9 @@ import { Genre } from '@js-camp/core/models/anime/genre';
 import { Studio } from '@js-camp/core/models/anime/studio';
 import { DateRange } from '@js-camp/core/models/date-range';
 import { FormGroupOf } from '@js-camp/core/models/form-type-of';
+import { Pagination } from '@js-camp/core/models/pagination';
 import { enumToArray } from '@js-camp/core/utils/enum-to-array';
-import { BehaviorSubject, Observable, finalize, first, map, tap } from 'rxjs';
+import { BehaviorSubject, Observable, finalize, first, map, switchMap, tap } from 'rxjs';
 
 type FormType = 'create' | 'edit' | null;
 
@@ -50,8 +51,12 @@ export class AnimeFormComponent implements OnInit {
 	@Input()
 	public anime$: Observable<AnimeDetails> | null = null;
 
+	private readonly genresUpdateTrigger$ = new BehaviorSubject<void>(undefined);
+
 	/** Anime genres. */
 	protected readonly genres$: Observable<readonly Genre[]>;
+
+	private readonly studiosUpdateTrigger$ = new BehaviorSubject<void>(undefined);
 
 	/** Anime studios. */
 	protected readonly studios$: Observable<readonly Studio[]>;
@@ -97,8 +102,9 @@ export class AnimeFormComponent implements OnInit {
 
 	public constructor() {
 		this.form = this.createForm();
-		this.genres$ = this.genreService.getGenres().pipe(map(pagination => pagination.items));
-		this.studios$ = this.studioService.getStudios().pipe(map(pagination => pagination.items));
+
+		this.genres$ = this.createGenresStream();
+		this.studios$ = this.createStudiosStream();
 	}
 
 	/** @inheritdoc */
@@ -110,6 +116,22 @@ export class AnimeFormComponent implements OnInit {
 			)
 				.subscribe();
 		}
+	}
+
+	private createGenresStream(): Observable<readonly Genre[]> {
+		return this.genresUpdateTrigger$.pipe(
+			switchMap(() => this.mapPaginationStreamToItemsStream(this.genreService.getGenres())),
+		);
+	}
+
+	private createStudiosStream(): Observable<readonly Studio[]> {
+		return this.studiosUpdateTrigger$.pipe(
+			switchMap(() => this.mapPaginationStreamToItemsStream(this.studioService.getStudios())),
+		);
+	}
+
+	private mapPaginationStreamToItemsStream<T>(paginationStream$: Observable<Pagination<T>>): Observable<readonly T[]> {
+		return paginationStream$.pipe(map(pagination => pagination.items));
 	}
 
 	private createForm(): FormGroupOf<AnimeFormData, 'aired'> {
@@ -164,7 +186,14 @@ export class AnimeFormComponent implements OnInit {
 	 * @param genreName Genre's name.
 	 */
 	protected addGenre(genreName: string): void {
-		console.log(genreName);
+		this.genreService.createGenre(genreName).pipe(
+			first(),
+			tap(genre => {
+				this.form.controls.genres.setValue([...this.form.controls.genres.value, genre.id]);
+				this.genresUpdateTrigger$.next();
+			}),
+		)
+			.subscribe();
 	}
 
 	/**
@@ -172,6 +201,13 @@ export class AnimeFormComponent implements OnInit {
 	 * @param studioName Studio's name.
 	 */
 	protected addStudio(studioName: string): void {
-		console.log(studioName);
+		this.genreService.createGenre(studioName).pipe(
+			first(),
+			tap(studio => {
+				this.form.controls.studios.setValue([...this.form.controls.studios.value, studio.id]);
+				this.studiosUpdateTrigger$.next();
+			}),
+		)
+			.subscribe();
 	}
 }
