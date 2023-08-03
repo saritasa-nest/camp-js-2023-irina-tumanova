@@ -52,21 +52,19 @@
 			<mat-error *ngIf="status.hasError('required')">{{'required' | fieldErrorText:'status'}}</mat-error>
 		</mat-form-field>
 
-		 <mat-form-field *ngIf="genres$ | async as genres">
-			<mat-label>Genres</mat-label>
-			<mat-select  multiple [formControl]="form.controls.genres">
-				<mat-option *ngFor="let genre of genres" [value]="genre.id">{{genre.name}}</mat-option>
-			</mat-select>
-			<mat-error *ngIf="form.controls.genres.hasError('required')">{{'required' | fieldErrorText:'genres'}}</mat-error>
-		</mat-form-field>
+		<camp-select-with-input [selectControl]="form.controls.genres" 
+			valueKey="id" 
+			nameKey="name" 
+			label="Genres"
+			(addItemEvent)="addGenre($event)"
+			[items$]="genres$" />
 
-		<mat-form-field *ngIf="studios$ | async as studios">
-			<mat-label>Studios</mat-label>
-			<mat-select multiple [formControl]="form.controls.studios">
-				<mat-option *ngFor="let studio of studios" [value]="studio.id">{{studio.name}}</mat-option>
-			</mat-select>
-			<mat-error *ngIf="form.controls.studios.hasError('required')">{{'required' | fieldErrorText:'studios'}}</mat-error>
-		</mat-form-field>
+		<camp-select-with-input [selectControl]="form.controls.studios" 
+			valueKey="id" 
+			nameKey="name" 
+			label="Studios"
+			(addItemEvent)="addStudio($event)"
+			[items$]="studios$" />
 
 		<mat-form-field *ngIf="form.controls.rating as rating">
 			<mat-label>Rating</mat-label>

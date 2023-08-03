@@ -158,4 +158,20 @@ export class AnimeFormComponent implements OnInit {
 		)
 			.subscribe();
 	}
+
+	/**
+	 * Add genre.
+	 * @param genreName Genre's name.
+	 */
+	protected addGenre(genreName: string): void {
+		console.log(genreName);
+	}
+
+	/**
+	 * Add studio.
+	 * @param studioName Studio's name.
+	 */
+	protected addStudio(studioName: string): void {
+		console.log(studioName);
+	}
 }

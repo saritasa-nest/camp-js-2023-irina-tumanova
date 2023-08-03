@@ -14,6 +14,10 @@ const routes: Routes = [
 		component: AnimePageComponent,
 	},
 	{
+		path: 'create',
+		component: AnimeCreatePageComponent,
+	},
+	{
 		path: ':id',
 		canActivate: [authGuard],
 		children: [
@@ -26,10 +30,6 @@ const routes: Routes = [
 				component: AnimeEditPageComponent,
 			},
 		],
-	},
-	{
-		path: 'create',
-		component: AnimeCreatePageComponent,
 	},
 ];
 
