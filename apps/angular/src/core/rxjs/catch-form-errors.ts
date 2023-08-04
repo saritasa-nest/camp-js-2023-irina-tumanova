@@ -1,4 +1,4 @@
-import { Observable, catchError, throwError } from 'rxjs';
+import { OperatorFunction, catchError, throwError } from 'rxjs';
 import { AppError } from '@js-camp/core/models/app-error';
 import { FormGroupOf, FormGroupValuesBase } from '@js-camp/core/models/form-type-of';
 import { AppErrorConfig } from '@js-camp/core/models/app-error-config';
@@ -8,8 +8,7 @@ import { AppErrorConfig } from '@js-camp/core/models/app-error-config';
  * @description Inserts form errors in form.
  * @param form Form group.
  */
-export function catchFormErrors<TForm extends FormGroupValuesBase>(form: FormGroupOf<TForm>):
-(source$: Observable<unknown>) => Observable<unknown> {
+export function catchFormErrors<TForm extends FormGroupValuesBase>(form: FormGroupOf<TForm>): OperatorFunction<unknown, unknown> {
 	return function(source$) {
 		return source$.pipe(
 			catchError((error: unknown) => {

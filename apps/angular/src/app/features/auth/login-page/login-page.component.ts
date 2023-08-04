@@ -7,7 +7,8 @@ import { BehaviorSubject, Observable, catchError, finalize, first, tap, throwErr
 import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
 import { AppError } from '@js-camp/core/models/app-error';
 import { AppValidators } from '@js-camp/angular/core/utils/validators';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { QueryParamsOf } from '@js-camp/core/models/query-params-of';
 
 const defaultFormValues: Login = {
 	email: '',
@@ -40,6 +41,8 @@ export class LoginPageComponent implements OnInit {
 
 	private readonly router = inject(Router);
 
+	private readonly route = inject(ActivatedRoute);
+
 	public constructor() {
 		this.form = this.createForm();
 	}
@@ -67,11 +70,19 @@ export class LoginPageComponent implements OnInit {
 		this.isSubmitting$.next(true);
 		this.authService.login(this.form.getRawValue()).pipe(
 			first(),
-			tap(() => this.router.navigate([''])),
+			tap(() => this.navigateToNextUrl()),
 			catchError((error: unknown) => this.handleError(error)),
 			finalize(() => this.isSubmitting$.next(false)),
 		)
 			.subscribe();
+	}
+
+	private navigateToNextUrl(): void {
+		this.router.navigateByUrl(this.mapQueryParamsToNextUrl(this.route.snapshot.queryParams));
+	}
+
+	private mapQueryParamsToNextUrl(params: QueryParamsOf<{next?: string;}>): string {
+		return decodeURIComponent(params.next ?? '') ;
 	}
 
 	/**

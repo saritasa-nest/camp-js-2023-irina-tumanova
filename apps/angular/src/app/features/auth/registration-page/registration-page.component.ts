@@ -3,10 +3,11 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { RegistrationForm } from '@js-camp/core/models/auth/registration';
 import { FormGroupOf } from '@js-camp/core/models/form-type-of';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, finalize, first, tap } from 'rxjs';
 import { AppValidators } from '@js-camp/angular/core/utils/validators';
 import { catchFormErrors } from '@js-camp/angular/core/rxjs/catch-form-errors';
+import { QueryParamsOf } from '@js-camp/core/models/query-params-of';
 
 const defaultFormValues: RegistrationForm = {
 	email: '',
@@ -36,6 +37,8 @@ export class RegistrationPageComponent {
 	private readonly authService = inject(AuthService);
 
 	private readonly router = inject(Router);
+
+	private readonly route = inject(ActivatedRoute);
 
 	public constructor() {
 		this.form = this.createForm();
@@ -67,10 +70,18 @@ export class RegistrationPageComponent {
 		this.authService.register(this.form.getRawValue())
 			.pipe(
 				first(),
-				tap(() => this.router.navigate([''])),
+				tap(() => this.navigateToNextUrl()),
 				catchFormErrors(this.form),
 				finalize(() => this.isSubmitting$.next(false)),
 			)
 			.subscribe();
+	}
+
+	private navigateToNextUrl(): void {
+		this.router.navigateByUrl(this.mapQueryParamsToNextUrl(this.route.snapshot.queryParams));
+	}
+
+	private mapQueryParamsToNextUrl(params: QueryParamsOf<{next?: string;}>): string {
+		return decodeURIComponent(params.next ?? '');
 	}
 }
