@@ -1,5 +1,5 @@
-/** S3 upload DTO. */
-export interface S3UploadDto{
+/** S3 upload request DTO. */
+export interface S3UploadRequestDto{
 
 	/** Policy. */
 	readonly 'policy': string;
