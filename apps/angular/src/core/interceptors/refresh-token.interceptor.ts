@@ -2,7 +2,6 @@ import { HttpRequest, HttpHandler, HttpInterceptor, HttpEvent, HttpErrorResponse
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, first, shareReplay, switchMap, tap, throwError } from 'rxjs';
 import { HttpStatusCode } from 'axios';
-import { AppError } from '@js-camp/core/models/app-error';
 
 import { UserSecretService } from '../services/user-secret.service';
 import { ApiUrlsConfig } from '../services/api-urls.config';
@@ -44,7 +43,7 @@ export class RefreshTokenInterceptor implements HttpInterceptor {
 						if (tokens !== null) {
 							return this.authService.refreshSecret(tokens);
 						}
-						return throwError(() => new AppError({ message: 'Unauthorized' }));
+						return throwError(() => new Error('Unauthorized'));
 					}),
 				);
 

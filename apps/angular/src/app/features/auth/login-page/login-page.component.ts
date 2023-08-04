@@ -5,7 +5,7 @@ import { Login } from '@js-camp/core/models/auth/login';
 import { FormGroupOf } from '@js-camp/core/models/form-type-of';
 import { BehaviorSubject, Observable, catchError, finalize, first, tap, throwError } from 'rxjs';
 import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
-import { AppError } from '@js-camp/core/models/app-error';
+import { AppErrorDictionary } from '@js-camp/core/models/app-error-dictionary';
 import { AppValidators } from '@js-camp/angular/core/utils/validators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QueryParamsOf } from '@js-camp/core/models/query-params-of';
@@ -31,7 +31,7 @@ export class LoginPageComponent implements OnInit {
 	protected readonly isSubmitting$ = new BehaviorSubject(false);
 
 	/** Login errors. */
-	protected readonly loginErrors$ = new BehaviorSubject<AppError<Error> | null>(null);
+	protected readonly loginErrors$ = new BehaviorSubject<AppErrorDictionary | null>(null);
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
@@ -90,7 +90,7 @@ export class LoginPageComponent implements OnInit {
 	 * @param error Login error.
 	 */
 	private handleError(error: unknown): Observable<never> {
-		if (error instanceof AppError) {
+		if (error instanceof AppErrorDictionary) {
 			this.loginErrors$.next(error ?? null);
 		}
 		return throwError(() => error);
@@ -98,10 +98,9 @@ export class LoginPageComponent implements OnInit {
 
 	/**
 	 * Track error by mesasge.
-	 * @param _index Index.
-	 * @param error Form error.
+	 * @param index Index.
 	 */
-	protected trackErrorByMessage(_index: number, error: Error): Error['message'] {
-		return error.message;
+	protected trackErrorByIndex(index: number): number {
+		return index;
 	}
 }

@@ -1,5 +1,5 @@
 import { Observable, catchError, throwError } from 'rxjs';
-import { AppErrorsMapper } from '@js-camp/core/mappers/app-errors.mapper';
+import { AppErrorDictionaryMapper } from '@js-camp/core/mappers/app-error-dictionary.mapper';
 import { HttpErrorResponse } from '@angular/common/http';
 
 /** Catch http error response. */
@@ -8,11 +8,10 @@ export function catchHttpErrorResponse(): <T>(source$: Observable<T>) => Observa
 		return source$.pipe(
 			catchError((error: unknown) => {
 				if (error instanceof HttpErrorResponse && error.error?.errors instanceof Array) {
-					return throwError(() => AppErrorsMapper.fromDto(error));
+					return throwError(() => AppErrorDictionaryMapper.fromDto(error));
 				}
 				return throwError(() => error);
 			}),
 		);
 	};
-
 }
