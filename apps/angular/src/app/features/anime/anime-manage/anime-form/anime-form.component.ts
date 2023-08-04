@@ -17,7 +17,7 @@ import { DateRange } from '@js-camp/core/models/date-range';
 import { FormGroupOf } from '@js-camp/core/models/form-type-of';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { enumToArray } from '@js-camp/core/utils/enum-to-array';
-import { BehaviorSubject, Observable, finalize, first, map, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, finalize, first, map, shareReplay, switchMap, tap } from 'rxjs';
 
 type FormType = 'create' | 'edit' | null;
 
@@ -86,6 +86,9 @@ export class AnimeFormComponent implements OnInit {
 	/** Anime season options. */
 	protected readonly seasons = enumToArray(AnimeSeason);
 
+	/** Page is loading. */
+	protected readonly isLoading$ = new BehaviorSubject(true);
+
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
 	private readonly animeService = inject(AnimeService);
@@ -116,17 +119,25 @@ export class AnimeFormComponent implements OnInit {
 			)
 				.subscribe();
 		}
+
+		combineLatest([this.genres$, this.studios$]).pipe(
+			first(),
+			tap(() => this.isLoading$.next(false)),
+		)
+			.subscribe();
 	}
 
 	private createGenresStream(): Observable<readonly Genre[]> {
 		return this.genresUpdateTrigger$.pipe(
 			switchMap(() => this.mapPaginationStreamToItemsStream(this.genreService.getGenres())),
+			shareReplay({ refCount: true, bufferSize: 1 }),
 		);
 	}
 
 	private createStudiosStream(): Observable<readonly Studio[]> {
 		return this.studiosUpdateTrigger$.pipe(
 			switchMap(() => this.mapPaginationStreamToItemsStream(this.studioService.getStudios())),
+			shareReplay({ refCount: true, bufferSize: 1 }),
 		);
 	}
 

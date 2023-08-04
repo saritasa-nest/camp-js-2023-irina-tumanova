@@ -153,16 +153,13 @@ export class AnimeDetailsPageComponent implements OnInit {
 	/** Handle confirm button click. */
 	protected deleteAnime(): void {
 		this.animeService.deleteAnime(this.id).pipe(
-			tap(() => {
-				console.log('router');
-				this.router.navigate([]);
-			}),
+			tap(() => this.navigateToMainPage()),
 			this.untilDestroyed(),
 		)
 			.subscribe();
 	}
 
-	private navigateToMainPage() {
+	private navigateToMainPage(): void {
 		this.router.navigate(['']);
 	}
 }
