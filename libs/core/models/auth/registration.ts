@@ -1,3 +1,5 @@
+import { EntityValidationErrors } from '../app-error';
+
 /** Required data for registration. */
 export class Registration {
 
@@ -27,3 +29,5 @@ type InitRegistrationParams = Registration;
 export type RegistrationForm = Registration & {
 	readonly repeatedPassword: string;
 };
+
+export type RegistrationValidationErrors = EntityValidationErrors<{[K in keyof Registration]?: string}>;
