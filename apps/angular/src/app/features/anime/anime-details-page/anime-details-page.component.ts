@@ -7,9 +7,10 @@ import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { AnimeDetails } from '@js-camp/core/models/anime/anime-details';
 import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
-import { BehaviorSubject, Observable, fromEvent, map, shareReplay, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, fromEvent, map, of, shareReplay, tap } from 'rxjs';
 import { AnimeSource } from '@js-camp/core/models/anime/anime-source';
 import { AnimeSeason } from '@js-camp/core/models/anime/anime-season';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { ImageModalComponent } from '../components/image-modal/image-modal.component';
 import { DeleteModalComponent } from '../components/delete-modal/delete-modal.component';
@@ -75,6 +76,16 @@ export class AnimeDetailsPageComponent implements OnInit {
 				this.untilDestroyed(),
 			)
 			.subscribe();
+
+		this.details$.pipe(
+			catchError((error: unknown) => {
+				if (error instanceof HttpErrorResponse && error.status === 404) {
+					this.navigateToMainPage();
+				}
+				return of(error);
+			}),
+			this.untilDestroyed(),
+		).subscribe();
 	}
 
 	/**
@@ -111,28 +122,6 @@ export class AnimeDetailsPageComponent implements OnInit {
 	}
 
 	/**
-	 * Go to anime editing.
-	 * @param id Anime id.
-	 */
-	protected goToAnimeEditing(): void {
-		this.router.navigate([`/anime/${this.id}/edit`]);
-	}
-
-	/** Handle delete button click. */
-	protected openDeleteModal(): void {
-		this.deleteModal.open(DeleteModalComponent, { data: { delete: this.deleteAnime, name: 'anime' } });
-	}
-
-	/** Handle confirm button click. */
-	protected deleteAnime(): void {
-		this.animeService.deleteAnime(this.id).pipe(
-			tap(() => this.router.navigate([])),
-			this.untilDestroyed(),
-		)
-			.subscribe();
-	}
-
-	/**
 	 * Get readable source.
 	 * @param source Anime source.
 	 */
@@ -146,5 +135,34 @@ export class AnimeDetailsPageComponent implements OnInit {
 	 */
 	protected getReadableSeason(season: AnimeSeason): string {
 		return AnimeSeason.toReadable(season);
+	}
+
+	/**
+	 * Go to anime editing.
+	 * @param id Anime id.
+	 */
+	protected navigateToAnimeEditing(): void {
+		this.router.navigate([`/anime/${this.id}/edit`]);
+	}
+
+	/** Handle delete button click. */
+	protected openDeleteModal(): void {
+		this.deleteModal.open(DeleteModalComponent, { data: { delete: () => this.deleteAnime(), name: 'anime' } });
+	}
+
+	/** Handle confirm button click. */
+	protected deleteAnime(): void {
+		this.animeService.deleteAnime(this.id).pipe(
+			tap(() => {
+				console.log('router');
+				this.router.navigate([]);
+			}),
+			this.untilDestroyed(),
+		)
+			.subscribe();
+	}
+
+	private navigateToMainPage() {
+		this.router.navigate(['']);
 	}
 }

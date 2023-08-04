@@ -40,7 +40,7 @@ export class StudioService {
 	 * @param studioName Studio's name.
 	 */
 	public createStudio(studioName: string): Observable<Studio> {
-		const url = this.apiUrlsConfig.genre.create;
+		const url = this.apiUrlsConfig.studio.create;
 
 		return this.http
 			.post<StudioDto>(url, { name: studioName })
