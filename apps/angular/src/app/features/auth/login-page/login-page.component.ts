@@ -1,11 +1,11 @@
 import { Component, ChangeDetectionStrategy, inject, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
-import { Login } from '@js-camp/core/models/auth/login';
+import { Login, LoginValidationErrors } from '@js-camp/core/models/auth/login';
 import { FormGroupOf } from '@js-camp/core/models/form-type-of';
 import { BehaviorSubject, Observable, catchError, finalize, first, tap, throwError } from 'rxjs';
 import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
-import { AppErrorDictionary } from '@js-camp/core/models/app-error-dictionary';
+import { AppValidationError } from '@js-camp/core/models/app-error';
 import { AppValidators } from '@js-camp/angular/core/utils/validators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QueryParamsOf } from '@js-camp/core/models/query-params-of';
@@ -31,7 +31,7 @@ export class LoginPageComponent implements OnInit {
 	protected readonly isSubmitting$ = new BehaviorSubject(false);
 
 	/** Login errors. */
-	protected readonly loginErrors$ = new BehaviorSubject<AppErrorDictionary | null>(null);
+	protected readonly loginErrors$ = new BehaviorSubject<AppValidationError<LoginValidationErrors> | null>(null);
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
@@ -90,7 +90,7 @@ export class LoginPageComponent implements OnInit {
 	 * @param error Login error.
 	 */
 	private handleError(error: unknown): Observable<never> {
-		if (error instanceof AppErrorDictionary) {
+		if (error instanceof AppValidationError) {
 			this.loginErrors$.next(error ?? null);
 		}
 		return throwError(() => error);

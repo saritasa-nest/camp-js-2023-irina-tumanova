@@ -54,7 +54,7 @@ export class AuthService {
 				switchMap(tokens => this.userSecretService.saveToken(tokens).pipe(
 					tap(() => this.isAuthUpdated$.next(true)),
 				)),
-				catchHttpErrorResponse(),
+				catchHttpErrorResponse(LoginMapper.validateErrorFromDto),
 			);
 	}
 
@@ -71,7 +71,7 @@ export class AuthService {
 				switchMap(tokens => this.userSecretService.saveToken(tokens).pipe(
 					tap(() => this.isAuthUpdated$.next(true)),
 				)),
-				catchHttpErrorResponse(),
+				catchHttpErrorResponse(RegistrationMapper.validateErrorFromDto),
 			);
 	}
 

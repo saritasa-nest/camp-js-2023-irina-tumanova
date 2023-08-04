@@ -1,5 +1,5 @@
 import { OperatorFunction, catchError, throwError } from 'rxjs';
-import { AppErrorDictionary } from '@js-camp/core/models/app-error-dictionary';
+import { AppValidationError } from '@js-camp/core/models/app-error';
 import { FormGroupOf, FormGroupValuesBase } from '@js-camp/core/models/form-type-of';
 import { AppErrorConfig } from '@js-camp/core/models/app-error-config';
 
@@ -12,10 +12,10 @@ export function catchFormErrors<TForm extends FormGroupValuesBase>(form: FormGro
 	return function(source$) {
 		return source$.pipe(
 			catchError((error: unknown) => {
-				if (error instanceof AppErrorDictionary) {
-					Object.keys(error.errors).forEach(key => {
-						if (form.controls[key] !== undefined) {
-							form.controls[key].setErrors({ [AppErrorConfig.AppErrorCode.ServerError]: error.errors[key].join(', ') });
+				if (error instanceof AppValidationError) {
+					Object.keys(form.controls).forEach(controlName => {
+						if (error.errors[controlName] !== undefined) {
+							form.controls[controlName].setErrors({ [AppErrorConfig.AppErrorCode.ServerError]: error.errors[controlName] });
 						}
 					});
 				}
