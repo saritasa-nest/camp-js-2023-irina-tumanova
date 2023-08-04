@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, Subject, catchError, concat, distinctUntilChanged, first, map, merge, switchMap, tap, throwError } from 'rxjs';
+import { Observable, Subject, catchError, concat, distinctUntilChanged, first, map, merge, switchMap, tap, throwError } from 'rxjs';
 import { UserSecretDto } from '@js-camp/core/dtos/auth/user-secret.dto';
 import { UserSecretMapper } from '@js-camp/core/mappers/auth/user-secret.mapper';
 import { Registration } from '@js-camp/core/models/auth/registration';
