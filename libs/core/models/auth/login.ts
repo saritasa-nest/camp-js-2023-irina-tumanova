@@ -1,3 +1,5 @@
+import { EntityValidationErrors } from '../app-error';
+
 /** Required data for login. */
 export class Login {
 
@@ -14,3 +16,5 @@ export class Login {
 }
 
 type InitLoginParams = Login;
+
+export type LoginValidationErrors = EntityValidationErrors<{[K in keyof Login]?: string}>;
