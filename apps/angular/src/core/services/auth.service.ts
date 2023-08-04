@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, catchError, distinctUntilChanged, first, map, merge, switchMap, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, catchError, concat, distinctUntilChanged, first, map, merge, switchMap, tap, throwError } from 'rxjs';
 import { UserSecretDto } from '@js-camp/core/dtos/auth/user-secret.dto';
 import { UserSecretMapper } from '@js-camp/core/mappers/auth/user-secret.mapper';
 import { Registration } from '@js-camp/core/models/auth/registration';
@@ -23,7 +23,7 @@ export class AuthService {
 	/** User is auth. */
 	public readonly isAuth$: Observable<boolean>;
 
-	private readonly isAuthUpdated$ = new BehaviorSubject(false);
+	private readonly isAuthUpdated$ = new Subject<boolean>();
 
 	private readonly http = inject(HttpClient);
 
@@ -32,13 +32,13 @@ export class AuthService {
 	private readonly userSecretService = inject(UserSecretService);
 
 	public constructor() {
-		this.userSecretService.getTokens().pipe(
-			first(),
-			tap(tokens => this.isAuthUpdated$.next(tokens !== null)),
-		)
-			.subscribe();
-
-		this.isAuth$ = this.isAuthUpdated$.asObservable().pipe(distinctUntilChanged());
+		this.isAuth$ = concat(
+			this.userSecretService.getTokens().pipe(
+				first(),
+				map(tokens => tokens !== null),
+			),
+			this.isAuthUpdated$,
+		).pipe(distinctUntilChanged());
 	}
 
 	/**
