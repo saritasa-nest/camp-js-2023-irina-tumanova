@@ -10,7 +10,7 @@ import { AnimeStatus } from './anime-status';
 export class AnimeFormData {
 
 	/** Image. */
-	public readonly imageUrl: string | null;
+	public readonly image: string | null | File;
 
 	/** Trailer video id on youtube. */
 	public readonly trailerYoutubeId: string;
@@ -56,7 +56,7 @@ export class AnimeFormData {
 			(data.trailerYoutubeUrl ?? '').split('/') :
 			[data.trailerYoutubeId];
 
-		this.imageUrl = data.imageUrl;
+		this.image = data instanceof AnimeDetails ? data.imageUrl : data.image;
 		this.trailerYoutubeId = trailerUrlPath[trailerUrlPath.length - 1];
 		this.titleEnglish = data.titleEnglish;
 		this.titleJapanese = data.titleJapanese;

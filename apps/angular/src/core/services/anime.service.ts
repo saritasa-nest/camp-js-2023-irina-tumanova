@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Anime } from '@js-camp/core/models/anime/anime';
-import { Observable, map } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { AnimeDto } from '@js-camp/core/dtos/anime/anime.dto';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
@@ -18,6 +18,7 @@ import { AnimeFormData } from '@js-camp/core/models/anime/anime-form-data';
 import { AnimeFormDataMapper } from '@js-camp/core/mappers/anime/anime-form-data.mapper';
 
 import { ApiUrlsConfig } from './api-urls.config';
+import { S3Service } from './s3-bucket.service';
 
 /** Anime service. */
 @Injectable({
@@ -28,6 +29,8 @@ export class AnimeService {
 	private readonly http = inject(HttpClient);
 
 	private readonly apiUrlsConfig = inject(ApiUrlsConfig);
+
+	private readonly s3Service = inject(S3Service);
 
 	/**
 	 * Get anime list.
@@ -95,5 +98,16 @@ export class AnimeService {
 		const url = this.apiUrlsConfig.anime.delete(id);
 
 		return this.http.delete(url).pipe(map(() => undefined));
+	}
+
+	/**
+	 * Save anime image to s3 bucket.
+	 * @param imageFile Anime cover file.
+	 */
+	public saveAnimeImage(imageFile: File | null | string): Observable<string | null> {
+		if (imageFile instanceof File) {
+			return this.s3Service.saveImage(imageFile, imageFile.name, 'anime_images');
+		}
+		return of(imageFile);
 	}
 }

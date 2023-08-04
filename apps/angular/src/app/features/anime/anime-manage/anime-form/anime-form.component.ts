@@ -22,7 +22,7 @@ import { BehaviorSubject, Observable, finalize, first, map, switchMap, tap } fro
 type FormType = 'create' | 'edit' | null;
 
 const DEFAULT_FORM_VALUES: AnimeFormData = {
-	imageUrl: null,
+	image: null,
 	trailerYoutubeId: '',
 	titleEnglish: '',
 	titleJapanese: '',
@@ -136,7 +136,7 @@ export class AnimeFormComponent implements OnInit {
 
 	private createForm(): FormGroupOf<AnimeFormData, 'aired'> {
 		return this.formBuilder.group({
-			imageUrl: [DEFAULT_FORM_VALUES.imageUrl],
+			image: [DEFAULT_FORM_VALUES.image],
 			trailerYoutubeId: DEFAULT_FORM_VALUES.trailerYoutubeId,
 			titleEnglish: [DEFAULT_FORM_VALUES.titleEnglish, [Validators.required]],
 			titleJapanese: [DEFAULT_FORM_VALUES.titleJapanese, [Validators.required]],
@@ -169,12 +169,16 @@ export class AnimeFormComponent implements OnInit {
 
 		this.isSubmitting$.next(true);
 
-		const submitObservable$ = this.type === 'edit' ?
-			this.animeService.editAnime(this.id, this.form.getRawValue()) :
-			this.animeService.createAnime(this.form.getRawValue());
+		const formData = this.form.getRawValue();
 
-		submitObservable$.pipe(
+		this.animeService.saveAnimeImage(formData.image).pipe(
 			first(),
+			switchMap(imageUrl => {
+				if (this.type === 'create') {
+					return this.animeService.createAnime({ ...formData, image: imageUrl });
+				}
+				return this.animeService.editAnime(this.id, { ...formData, image: imageUrl });
+			}),
 			tap(anime => this.router.navigate([`/anime/${anime.id}`])),
 			finalize(() => this.isSubmitting$.next(false)),
 		)

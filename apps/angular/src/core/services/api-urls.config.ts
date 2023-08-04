@@ -31,6 +31,11 @@ export class ApiUrlsConfig {
 		create: this.toApi('anime/studios/'),
 	};
 
+	/** S3 routes. */
+	public readonly s3 = {
+		getParams: this.toApi('s3direct/get_params/'),
+	};
+
 	/** Auth routes. */
 	public readonly auth = {
 		login: this.toApi(`${AUTH_URL_PATH}/login/`),

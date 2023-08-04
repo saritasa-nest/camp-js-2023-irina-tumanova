@@ -13,10 +13,18 @@ import { SenternseCasePipe } from './pipes/sentensecase';
 import { FieldErrorTextPipe } from './pipes/field-error-text';
 import { ReadableTextFromArrayPipe } from './pipes/readable-text-from-array';
 import { SelectWithInputComponent } from './components/select-with-input/select-with-input.component';
+import { UploadImageComponent } from './components/upload-image/upload-image.component';
 
 /** Shared module. */
 @NgModule({
-	declarations: [ShadowSpinnerComponent, SenternseCasePipe, FieldErrorTextPipe, ReadableTextFromArrayPipe, SelectWithInputComponent],
+	declarations: [
+		ShadowSpinnerComponent,
+		SenternseCasePipe,
+		FieldErrorTextPipe,
+		ReadableTextFromArrayPipe,
+		SelectWithInputComponent,
+		UploadImageComponent,
+	],
 	imports: [
 		CommonModule,
 		MatProgressSpinnerModule,
@@ -28,6 +36,13 @@ import { SelectWithInputComponent } from './components/select-with-input/select-
 		ReactiveFormsModule,
 		FormsModule,
 	],
-	exports: [ShadowSpinnerComponent, SenternseCasePipe, FieldErrorTextPipe, ReadableTextFromArrayPipe, SelectWithInputComponent],
+	exports: [
+		ShadowSpinnerComponent,
+		SenternseCasePipe,
+		FieldErrorTextPipe,
+		ReadableTextFromArrayPipe,
+		SelectWithInputComponent,
+		UploadImageComponent,
+	],
 })
 export class SharedModule {}

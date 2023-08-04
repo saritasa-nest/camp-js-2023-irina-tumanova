@@ -92,8 +92,8 @@ export class SelectWithInputComponent<TItem, TValue> implements MatFormFieldCont
 	private _value: TValue[] = [];
 
 	/**
-	 * Change password.
-	 * @param _value Password.
+	 * Change value.
+	 * @param _value Value.
 	 */
 	// eslint-disable-next-line no-empty-function
 	public onChange(_value: TValue[]): void {}
@@ -241,6 +241,7 @@ export class SelectWithInputComponent<TItem, TValue> implements MatFormFieldCont
 			if (input) {
 				input.focus();
 			}
+			this.onTouched();
 		}
 	}
 

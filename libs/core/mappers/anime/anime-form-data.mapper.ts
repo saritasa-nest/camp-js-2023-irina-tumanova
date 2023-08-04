@@ -17,7 +17,7 @@ export namespace AnimeFormDataMapper {
 	export function toDto(model: AnimeFormData): AnimeFormDataDto {
 
 		return {
-			image: model.imageUrl,
+			image: model.image as string,
 			trailer_youtube_id: model.trailerYoutubeId.length > 0 ? model.trailerYoutubeId : null,
 			title_eng: model.titleEnglish,
 			title_jpn: model.titleJapanese,
