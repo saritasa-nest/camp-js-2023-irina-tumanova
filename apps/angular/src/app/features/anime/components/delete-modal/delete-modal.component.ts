@@ -3,8 +3,11 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 interface ModalData {
 
-	/** Delete function. */
+	/** Delete. */
 	readonly delete: () => void;
+
+	/** Cancel. */
+	readonly cancel: () => void;
 
 	/** Deleted element name. */
 	readonly name: string;

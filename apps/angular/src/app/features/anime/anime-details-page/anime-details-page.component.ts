@@ -147,12 +147,19 @@ export class AnimeDetailsPageComponent implements OnInit {
 
 	/** Handle delete button click. */
 	protected openDeleteModal(): void {
-		this.deleteModal.open(DeleteModalComponent, { data: { delete: () => this.deleteAnime(), name: 'anime' } });
+		this.deleteModal.open(DeleteModalComponent, {
+			data: {
+				delete: () => this.deleteAnime(),
+				name: 'anime',
+				cancel: () => this.deleteModal.closeAll(),
+			},
+		});
 	}
 
 	/** Handle confirm button click. */
 	protected deleteAnime(): void {
 		this.animeService.deleteAnime(this.id).pipe(
+			tap(() => this.deleteModal.closeAll()),
 			tap(() => this.navigateToMainPage()),
 			this.untilDestroyed(),
 		)
