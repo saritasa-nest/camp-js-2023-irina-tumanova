@@ -1,6 +1,6 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, Optional, Self, inject } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, DoCheck, ElementRef, Input, OnDestroy, Optional, Self, inject } from '@angular/core';
+import { ControlValueAccessor, FormControl, FormGroupDirective, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { BehaviorSubject, Subject } from 'rxjs';
 
@@ -16,7 +16,7 @@ const ACCEPT_IMAGE_TYPE = ['image/jpeg', 'image/png', 'image/webp'];
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	providers: [{ provide: MatFormFieldControl, useExisting: UploadImageComponent }],
 })
-export class UploadImageComponent implements MatFormFieldControl<string | File | null>, OnDestroy, ControlValueAccessor {
+export class UploadImageComponent implements MatFormFieldControl<string | File | null>, OnDestroy, ControlValueAccessor, DoCheck {
 
 	/** Image url. */
 	protected readonly imageUrl$ = new BehaviorSubject<string | null>(null);
@@ -25,11 +25,23 @@ export class UploadImageComponent implements MatFormFieldControl<string | File |
 	@Input()
 	public maxSize = 8 * 1024 * 1024 * 3;
 
-	/** Ng control. */
-	@Optional() @Self()
-	public readonly ngControl = inject(NgControl);
-
 	private readonly _elementRef = inject(ElementRef<HTMLElement>);
+
+	/** Form control. */
+	@Input({ required: true })
+	public set formControl(control: FormControl) {
+		this._formControl = control;
+	}
+
+	/** Form control. */
+	public get formControl(): FormControl {
+		return this._formControl ?? new FormControl('');
+	}
+
+	private _formControl: FormControl | null = null;
+
+	@Optional()
+	private readonly formGroup = inject(FormGroupDirective);
 
 	// #region Implementing Interface Variables
 
@@ -45,8 +57,14 @@ export class UploadImageComponent implements MatFormFieldControl<string | File |
 
 	/** @inheritdoc */
 	public get errorState(): boolean {
-		return this.ngControl.errors !== null && !!this.ngControl.touched;
+		return this._errorState;
 	}
+
+	private set errorState(value: boolean) {
+		this._errorState = value;
+	}
+
+	private _errorState = false;
 
 	/** @inheritdoc */
 	public controlType = 'upload-image';
@@ -87,7 +105,7 @@ export class UploadImageComponent implements MatFormFieldControl<string | File |
 
 	/** @inheritdoc */
 	public get empty(): boolean {
-		return this.value === null;
+		return this.formControl.value === null;
 	}
 
 	/** @inheritdoc */
@@ -139,9 +157,30 @@ export class UploadImageComponent implements MatFormFieldControl<string | File |
 
 	// #endregion
 
-	public constructor() {
+	/**
+	 * @param ngControl Ng control.
+	 */
+	public constructor(
+		@Optional() @Self() public readonly ngControl: NgControl,
+	) {
 		if (this.ngControl != null) {
 			this.ngControl.valueAccessor = this;
+		}
+	}
+
+	/** @inheritdoc */
+	public ngDoCheck(): void {
+		this.updateErrorState();
+	}
+
+	/** Update error state. */
+	private updateErrorState(): void {
+		const oldState = this.errorState;
+		const newState = this.formControl.errors !== null && (this.formControl.touched || this.formGroup.submitted);
+
+		if (oldState !== newState) {
+			this._errorState = newState;
+			this.stateChanges.next();
 		}
 	}
 
@@ -174,11 +213,11 @@ export class UploadImageComponent implements MatFormFieldControl<string | File |
 		const file = files[0];
 
 		if (!ACCEPT_IMAGE_TYPE.includes(file.type)) {
-			this.ngControl.control?.setErrors({ acceptType: true });
+			this.formControl.setErrors({ acceptType: true });
 			return;
 		}
 		if (file.size > this.maxSize) {
-			this.ngControl.control?.setErrors({ maxSize: true });
+			this.formControl.setErrors({ maxSize: true });
 			return;
 		}
 

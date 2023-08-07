@@ -50,13 +50,13 @@ export class PasswordFieldComponent implements MatFormFieldControl<string>, OnDe
 
 	/** Get form control. */
 	@Input({ required: true })
-	public set formControl(control: FormControl<string>) {
+	public set formControl(control: FormControl) {
 		this._formControl = control;
 	}
 
 	/** Set form control. */
 	public get formControl(): FormControl {
-		return this._formControl ?? new FormControl<string>('');
+		return this._formControl ?? new FormControl('');
 	}
 
 	private _formControl: FormControl | null = null;

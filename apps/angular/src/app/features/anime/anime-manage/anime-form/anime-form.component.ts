@@ -148,7 +148,7 @@ export class AnimeFormComponent implements OnInit {
 
 	private createForm(): FormGroupOf<AnimeFormData, 'aired'> {
 		return this.formBuilder.group({
-			image: [DEFAULT_FORM_VALUES.image],
+			image: [DEFAULT_FORM_VALUES.image, [Validators.required]],
 			trailerYoutubeId: DEFAULT_FORM_VALUES.trailerYoutubeId,
 			titleEnglish: [DEFAULT_FORM_VALUES.titleEnglish, [Validators.required]],
 			titleJapanese: [DEFAULT_FORM_VALUES.titleJapanese, [Validators.required]],
