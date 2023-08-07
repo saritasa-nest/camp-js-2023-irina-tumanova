@@ -13,17 +13,11 @@ export class AnimeDetails extends Anime {
 	/** Is this ongoing. */
 	public readonly airing: boolean;
 
-	/** Studios ids. */
-	public readonly studios: readonly number[];
+	/** Studios. */
+	public readonly studios: readonly Studio[];
 
-	/** Studios data. */
-	public readonly studiosData: readonly Studio[];
-
-	/** Genres ids. */
-	public readonly genres: readonly number[];
-
-	/** Genres data. */
-	public readonly genresData: readonly Genre[];
+	/** Genres. */
+	public readonly genres: readonly Genre[];
 
 	/** Trailer video id on youtube. */
 	public readonly trailerYoutubeUrl: string | null;
@@ -43,9 +37,8 @@ export class AnimeDetails extends Anime {
 		this.description = data.description;
 		this.airing = data.airing;
 		this.studios = data.studios;
-		this.studiosData = data.studiosData;
+		this.studios = data.studios;
 		this.genres = data.genres;
-		this.genresData = data.genresData;
 		this.trailerYoutubeUrl = data.trailerYoutubeUrl;
 		this.source = data.source;
 		this.rating = data.rating;

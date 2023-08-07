@@ -19,10 +19,8 @@ export namespace AnimeDetailsMapper {
 			...AnimeMapper.fromDto(dto),
 			description: dto.synopsis,
 			airing: dto.airing,
-			studios: dto.studios,
-			studiosData: dto.studios_data.map(StudioMapper.fromDto),
-			genres: dto.genres,
-			genresData: dto.genres_data.map(GenreMapper.fromDto),
+			studios: dto.studios_data.map(StudioMapper.fromDto),
+			genres: dto.genres_data.map(GenreMapper.fromDto),
 			trailerYoutubeUrl: dto.trailer_youtube_id !== null ?
 				`${youtubeSrc}${dto.trailer_youtube_id}` :
 				null,
