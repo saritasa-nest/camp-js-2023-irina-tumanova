@@ -8,7 +8,7 @@ import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
 import { AppValidationError } from '@js-camp/core/models/app-error';
 import { AppValidators } from '@js-camp/angular/core/utils/validators';
 import { ActivatedRoute, Router } from '@angular/router';
-import { QueryParamsOf } from '@js-camp/core/models/query-params-of';
+import { QueryParamsService } from '@js-camp/angular/core/services/query-params.service';
 
 const defaultFormValues: Login = {
 	email: '',
@@ -42,6 +42,8 @@ export class LoginPageComponent implements OnInit {
 	private readonly router = inject(Router);
 
 	private readonly route = inject(ActivatedRoute);
+
+	private readonly queryParamsService = inject(QueryParamsService);
 
 	public constructor() {
 		this.form = this.createForm();
@@ -78,11 +80,7 @@ export class LoginPageComponent implements OnInit {
 	}
 
 	private navigateToNextUrl(): void {
-		this.router.navigateByUrl(this.mapQueryParamsToNextUrl(this.route.snapshot.queryParams));
-	}
-
-	private mapQueryParamsToNextUrl(params: QueryParamsOf<{next?: string;}>): string {
-		return decodeURIComponent(params.next ?? '') ;
+		this.router.navigateByUrl(this.queryParamsService.mapQueryParamsToUrl(this.route.snapshot.queryParams, 'next'));
 	}
 
 	/**

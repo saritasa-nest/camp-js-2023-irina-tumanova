@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, finalize, first, tap } from 'rxjs';
 import { AppValidators } from '@js-camp/angular/core/utils/validators';
 import { catchFormErrors } from '@js-camp/angular/core/rxjs/catch-form-errors';
-import { QueryParamsOf } from '@js-camp/core/models/query-params-of';
+import { QueryParamsService } from '@js-camp/angular/core/services/query-params.service';
 
 const defaultFormValues: RegistrationForm = {
 	email: '',
@@ -39,6 +39,8 @@ export class RegistrationPageComponent {
 	private readonly router = inject(Router);
 
 	private readonly route = inject(ActivatedRoute);
+
+	private readonly queryParamsService = inject(QueryParamsService);
 
 	public constructor() {
 		this.form = this.createForm();
@@ -78,10 +80,6 @@ export class RegistrationPageComponent {
 	}
 
 	private navigateToNextUrl(): void {
-		this.router.navigateByUrl(this.mapQueryParamsToNextUrl(this.route.snapshot.queryParams));
-	}
-
-	private mapQueryParamsToNextUrl(params: QueryParamsOf<{next?: string;}>): string {
-		return decodeURIComponent(params.next ?? '');
+		this.router.navigateByUrl(this.queryParamsService.mapQueryParamsToUrl(this.route.snapshot.queryParams, 'next'));
 	}
 }
