@@ -1,7 +1,7 @@
 <ng-container *ngIf="details$ | async as details">
 	<div class="anime-titles">
 		<h1 class="typography-title anime-title" *ngIf="details.titleEnglish.length > 0; else EmptyEnglishTitle">{{details.titleEnglish}}</h1>
-		<h3 class="typography-subtitle" *ngIf="details.titleJapanese.length > 0; else EmptyJapaneseTitle">{{details.titleJapanese}}</h3>
+		<h3 class="typography-subtitle anime-subtitle" *ngIf="details.titleJapanese.length > 0; else EmptyJapaneseTitle">{{details.titleJapanese}}</h3>
 	</div>
 
 	<div class="anime-main">

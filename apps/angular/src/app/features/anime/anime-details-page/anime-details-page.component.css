@@ -9,6 +9,10 @@
 	margin-bottom: 0;
 }
 
+.anime-subtitle {
+	font-weight: 100;
+}
+
 .anime-main {
 	--cover-size: 250px;
 

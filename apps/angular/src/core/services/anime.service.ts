@@ -13,7 +13,8 @@ import { AnimeFilterParamsMapper } from '@js-camp/core/mappers/anime/anime-filte
 import { AnimeDetails } from '@js-camp/core/models/anime/anime-details';
 import { AnimeDetailsDto } from '@js-camp/core/dtos/anime/anime-details.dto';
 import { AnimeDetailsMapper } from '@js-camp/core/mappers/anime/anime-details.mapper';
-import { environment } from '@js-camp/angular/environments/environment';
+
+import { YOUTUBE_EMBED_URL } from '../const/const';
 
 import { ApiUrlsConfig } from './api-urls.config';
 
@@ -32,7 +33,7 @@ export class AnimeService {
 	 * @param animeParams Params from anime table.
 	 */
 	public getAnime(animeParams: AnimeParams): Observable<Pagination<Anime>> {
-		const url = this.apiUrlsConfig.anime.get;
+		const url = this.apiUrlsConfig.anime.getList;
 		const params = new HttpParams({
 			fromObject: ListParamsMapper.toDto(
 				animeParams,
@@ -59,6 +60,6 @@ export class AnimeService {
 
 		return this.http
 			.get<AnimeDetailsDto>(url)
-			.pipe(map(detailsDto => AnimeDetailsMapper.fromDto(detailsDto, environment.youtubeSrc)));
+			.pipe(map(detailsDto => AnimeDetailsMapper.fromDto(detailsDto, YOUTUBE_EMBED_URL)));
 	}
 }
