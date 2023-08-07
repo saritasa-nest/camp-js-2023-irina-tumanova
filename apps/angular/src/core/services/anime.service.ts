@@ -59,7 +59,7 @@ export class AnimeService {
 	 * Get anime details.
 	 * @param id Anime ID.
 	 */
-	public getAnimeDetails(id: number | string): Observable<AnimeDetails> {
+	public getAnimeDetails(id: Anime['id']): Observable<AnimeDetails> {
 		const url = this.apiUrlsConfig.anime.getDetail(id);
 
 		return this.http

@@ -1,4 +1,5 @@
 import { Injectable, inject } from '@angular/core';
+import { Anime } from '@js-camp/core/models/anime/anime';
 
 import { AppConfig } from './app.config';
 
@@ -13,9 +14,9 @@ export class ApiUrlsConfig {
 	/** Anime routes. */
 	public readonly anime = {
 		get: this.toApi('anime/anime/'),
-		getDetail: (id: number | string) => this.toApi(`anime/anime/${id}/`),
-		delete: (id: number | string) => this.toApi(`anime/anime/${id}/`),
-		edit: (id: number | string) => this.toApi(`anime/anime/${id}/`),
+		getDetail: (id: Anime['id']) => this.toApi(`anime/anime/${id}/`),
+		delete: (id: Anime['id']) => this.toApi(`anime/anime/${id}/`),
+		edit: (id: Anime['id']) => this.toApi(`anime/anime/${id}/`),
 		create: this.toApi('anime/anime/'),
 	};
 

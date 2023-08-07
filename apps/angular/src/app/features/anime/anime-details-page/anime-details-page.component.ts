@@ -12,6 +12,8 @@ import { AnimeSource } from '@js-camp/core/models/anime/anime-source';
 import { AnimeSeason } from '@js-camp/core/models/anime/anime-season';
 import { HttpErrorResponse } from '@angular/common/http';
 
+import { Anime } from '@js-camp/core/models/anime/anime';
+
 import { ImageModalComponent } from '../components/image-modal/image-modal.component';
 import { DeleteModalComponent } from '../components/delete-modal/delete-modal.component';
 
@@ -38,7 +40,7 @@ export class AnimeDetailsPageComponent implements OnInit {
 	/** Anime trailer component height. */
 	protected readonly trailerComponentHeight$ = new BehaviorSubject<number | null>(null);
 
-	private readonly id: string;
+	private readonly id: Anime['id'];
 
 	private readonly animeService = inject(AnimeService);
 
@@ -57,7 +59,7 @@ export class AnimeDetailsPageComponent implements OnInit {
 	private readonly untilDestroyed = untilDestroyed();
 
 	public constructor() {
-		this.id = this.route.snapshot.params['id'] as string;
+		this.id = Number(this.route.snapshot.params['id']);
 		this.details$ = this.animeService.getAnimeDetails(this.id).pipe(shareReplay({ refCount: true, bufferSize: 1 }));
 		this.safeTrailerUrl$ = this.details$.pipe(
 			map(details => details.trailerYoutubeUrl !== null ?
