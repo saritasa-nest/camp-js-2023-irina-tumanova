@@ -36,7 +36,7 @@ export class AnimeService {
 	 * @param animeParams Params from anime table.
 	 */
 	public getAnime(animeParams: AnimeParams): Observable<Pagination<Anime>> {
-		const url = this.apiUrlsConfig.anime.get;
+		const url = this.apiUrlsConfig.anime.getList;
 		const params = new HttpParams({
 			fromObject: ListParamsMapper.toDto(
 				animeParams,
