@@ -8,7 +8,7 @@ type ChangeFunction<TValue> = (data: TValue) => void;
 
 const ACCEPT_IMAGE_TYPE = ['image/jpeg', 'image/png', 'image/webp'];
 
-/** Spiner component. */
+/** Upload image component. */
 @Component({
 	selector: 'camp-upload-image',
 	templateUrl: './upload-image.component.html',

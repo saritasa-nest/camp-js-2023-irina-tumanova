@@ -12,7 +12,7 @@ import { ShadowSpinnerComponent } from './components/shadow-spinner/shadow-spinn
 import { SenternseCasePipe } from './pipes/sentensecase';
 import { FieldErrorTextPipe } from './pipes/field-error-text';
 import { ReadableTextFromArrayPipe } from './pipes/readable-text-from-array';
-import { SelectWithInputComponent } from './components/select-with-input/select-with-input.component';
+import { SelectWithCreateComponent } from './components/select-with-create/select-with-create.component';
 import { UploadImageComponent } from './components/upload-image/upload-image.component';
 
 /** Shared module. */
@@ -22,7 +22,7 @@ import { UploadImageComponent } from './components/upload-image/upload-image.com
 		SenternseCasePipe,
 		FieldErrorTextPipe,
 		ReadableTextFromArrayPipe,
-		SelectWithInputComponent,
+		SelectWithCreateComponent,
 		UploadImageComponent,
 	],
 	imports: [
@@ -40,7 +40,7 @@ import { UploadImageComponent } from './components/upload-image/upload-image.com
 		SenternseCasePipe,
 		FieldErrorTextPipe,
 		ReadableTextFromArrayPipe,
-		SelectWithInputComponent,
+		SelectWithCreateComponent,
 		UploadImageComponent,
 	],
 })

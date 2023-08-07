@@ -51,42 +51,42 @@ export class AnimeFormComponent implements OnInit {
 	@Input()
 	public anime$: Observable<AnimeDetails> | null = null;
 
-	private readonly genresUpdateTrigger$ = new BehaviorSubject<void>(undefined);
-
 	/** Anime genres. */
 	protected readonly genres$: Observable<readonly Genre[]>;
 
-	private readonly studiosUpdateTrigger$ = new BehaviorSubject<void>(undefined);
+	private readonly genresUpdateTrigger$ = new BehaviorSubject<void>(undefined);
 
 	/** Anime studios. */
 	protected readonly studios$: Observable<readonly Studio[]>;
+
+	private readonly studiosUpdateTrigger$ = new BehaviorSubject<void>(undefined);
 
 	/** Form type. */
 	@Input({ required: true })
 	public type: FormType = null;
 
-	/** Login is submitting. */
+	/** Form is submitting. */
 	protected readonly isSubmitting$ = new BehaviorSubject(false);
 
-	/** Anime form. */
+	/** Form. */
 	protected readonly form: FormGroupOf<AnimeFormData, 'aired'>;
 
-	/** Anime type options. */
+	/** Types. */
 	protected readonly types = enumToArray(AnimeType);
 
-	/** Anime status options. */
+	/** Statuses. */
 	protected readonly statuses = enumToArray(AnimeStatus);
 
-	/** Anime rating options. */
+	/** Ratings. */
 	protected readonly ratings = enumToArray(AnimeRating);
 
-	/** Anime source options. */
+	/** Sourses. */
 	protected readonly sources = enumToArray(AnimeSource);
 
-	/** Anime season options. */
+	/** Seasons. */
 	protected readonly seasons = enumToArray(AnimeSeason);
 
-	/** Page is loading. */
+	/** Form is loading. */
 	protected readonly isLoading$ = new BehaviorSubject(true);
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
@@ -128,24 +128,6 @@ export class AnimeFormComponent implements OnInit {
 			.subscribe();
 	}
 
-	private createGenresStream(): Observable<readonly Genre[]> {
-		return this.genresUpdateTrigger$.pipe(
-			switchMap(() => this.mapPaginationStreamToItemsStream(this.genreService.getGenres())),
-			shareReplay({ refCount: true, bufferSize: 1 }),
-		);
-	}
-
-	private createStudiosStream(): Observable<readonly Studio[]> {
-		return this.studiosUpdateTrigger$.pipe(
-			switchMap(() => this.mapPaginationStreamToItemsStream(this.studioService.getStudios())),
-			shareReplay({ refCount: true, bufferSize: 1 }),
-		);
-	}
-
-	private mapPaginationStreamToItemsStream<T>(paginationStream$: Observable<Pagination<T>>): Observable<readonly T[]> {
-		return paginationStream$.pipe(map(pagination => pagination.items));
-	}
-
 	private createForm(): FormGroupOf<AnimeFormData, 'aired'> {
 		return this.formBuilder.group({
 			image: [DEFAULT_FORM_VALUES.image, [Validators.required]],
@@ -163,6 +145,25 @@ export class AnimeFormComponent implements OnInit {
 			season: [DEFAULT_FORM_VALUES.season, [Validators.required]],
 			source: [DEFAULT_FORM_VALUES.source, [Validators.required]],
 		});
+	}
+
+	private createGenresStream(): Observable<readonly Genre[]> {
+		return this.genresUpdateTrigger$.pipe(
+			switchMap(() => this.mapPaginationStreamToItemsStreamWithShareReplay(this.genreService.getGenres())),
+		);
+	}
+
+	private createStudiosStream(): Observable<readonly Studio[]> {
+		return this.studiosUpdateTrigger$.pipe(
+			switchMap(() => this.mapPaginationStreamToItemsStreamWithShareReplay(this.studioService.getStudios())),
+		);
+	}
+
+	private mapPaginationStreamToItemsStreamWithShareReplay<T>(paginationStream$: Observable<Pagination<T>>): Observable<readonly T[]> {
+		return paginationStream$.pipe(
+			map(pagination => pagination.items),
+			shareReplay({ refCount: true, bufferSize: 1 }),
+		);
 	}
 
 	/**
@@ -184,17 +185,19 @@ export class AnimeFormComponent implements OnInit {
 		const formData = this.form.getRawValue();
 
 		this.animeService.saveAnimeImage(formData.image).pipe(
-			switchMap(imageUrl => {
-				if (this.type === 'create') {
-					return this.animeService.createAnime({ ...formData, image: imageUrl });
-				}
-				return this.animeService.editAnime(this.id, { ...formData, image: imageUrl });
-			}),
+			switchMap(imageUrl => this.submitAnime(formData, imageUrl)),
 			tap(anime => this.router.navigate([`/anime/${anime.id}`])),
 			finalize(() => this.isSubmitting$.next(false)),
 			this.untilDestroyed(),
 		)
 			.subscribe();
+	}
+
+	private submitAnime(formData: AnimeFormData, imageUrl: string | null): Observable<AnimeDetails> {
+		if (this.type === 'create') {
+			return this.animeService.createAnime({ ...formData, image: imageUrl });
+		}
+		return this.animeService.editAnime(this.id, { ...formData, image: imageUrl });
 	}
 
 	/**
@@ -224,5 +227,13 @@ export class AnimeFormComponent implements OnInit {
 			}), this.untilDestroyed(),
 		)
 			.subscribe();
+	}
+
+	/**
+	 * Track by index.
+	 * @param index Item index.
+	 */
+	protected trackByIndex(index: number): number {
+		return index;
 	}
 }

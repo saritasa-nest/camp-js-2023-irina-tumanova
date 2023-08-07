@@ -41,7 +41,7 @@
 		<mat-form-field *ngIf="form.controls.type as type">
 			<mat-label>Type</mat-label>
 			<mat-select [formControl]="type">
-				<mat-option *ngFor="let type of types" [value]="type">{{type}}</mat-option>
+				<mat-option *ngFor="let type of types; trackBy trackByIndex" [value]="type">{{type}}</mat-option>
 			</mat-select>
 			<mat-error *ngIf="type.hasError('required')">{{'required' | fieldErrorText:'type'}}</mat-error>
 		</mat-form-field>
@@ -49,14 +49,14 @@
 		 <mat-form-field *ngIf="form.controls.status as status">
 			<mat-label>Status</mat-label>
 			<mat-select [formControl]="status">
-				<mat-option *ngFor="let status of statuses" [value]="status">{{getReadableStatus(status)}}</mat-option>
+				<mat-option *ngFor="let status of statuses; trackBy trackByIndex" [value]="status">{{getReadableStatus(status)}}</mat-option>
 			</mat-select>
 			<mat-error *ngIf="status.hasError('required')">{{'required' | fieldErrorText:'status'}}</mat-error>
 		</mat-form-field>
 
 		<mat-form-field class="select-with-input"  *ngIf="genres$ | async as genres">
 			<mat-label>Genres</mat-label>
-			<camp-select-with-input [formControl]="form.controls.genres" 
+			<camp-select-with-create [formControl]="form.controls.genres" 
 				valueKey="id" 
 				nameKey="name" 
 				(createItemEvent)="addGenre($event)"
@@ -66,7 +66,7 @@
 
 		<mat-form-field class="select-with-input" *ngIf="studios$ | async as studios">
 			<mat-label>Studios</mat-label>
-			<camp-select-with-input [formControl]="form.controls.studios" 
+			<camp-select-with-create [formControl]="form.controls.studios" 
 				valueKey="id" 
 				nameKey="name" 
 				(createItemEvent)="addStudio($event)"
@@ -77,7 +77,7 @@
 		<mat-form-field *ngIf="form.controls.rating as rating">
 			<mat-label>Rating</mat-label>
 			<mat-select [formControl]="rating">
-				<mat-option *ngFor="let rating of ratings" [value]="rating">{{rating}}</mat-option>
+				<mat-option *ngFor="let rating of ratings; trackBy trackByIndex" [value]="rating">{{rating}}</mat-option>
 			</mat-select>
 			<mat-error *ngIf="rating.hasError('required')">{{'required' | fieldErrorText:'rating'}}</mat-error>
 		</mat-form-field>
@@ -85,7 +85,7 @@
 		<mat-form-field *ngIf="form.controls.source as source">
 			<mat-label>Source</mat-label>
 			<mat-select [formControl]="source">
-				<mat-option *ngFor="let source of sources" [value]="source">{{source}}</mat-option>
+				<mat-option *ngFor="let source of sources; trackBy trackByIndex" [value]="source">{{source}}</mat-option>
 			</mat-select>
 			<mat-error *ngIf="source.hasError('required')">{{'required' | fieldErrorText:'source'}}</mat-error>
 		</mat-form-field>
@@ -93,7 +93,7 @@
 		<mat-form-field *ngIf="form.controls.season as season">
 			<mat-label>Season</mat-label>
 			<mat-select [formControl]="season">
-				<mat-option *ngFor="let season of seasons" [value]="season">{{season}}</mat-option>
+				<mat-option *ngFor="let season of seasons; trackBy trackByIndex" [value]="season">{{season}}</mat-option>
 			</mat-select>
 			<mat-error *ngIf="season.hasError('required')">{{'required' | fieldErrorText:'season'}}</mat-error>
 		</mat-form-field>

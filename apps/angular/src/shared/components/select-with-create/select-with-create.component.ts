@@ -8,13 +8,13 @@ type ChangeFunction<TValue> = (data: TValue[]) => void;
 
 /** Select with input component. */
 @Component({
-	selector: 'camp-select-with-input',
-	templateUrl: './select-with-input.component.html',
-	styleUrls: ['./select-with-input.component.css'],
+	selector: 'camp-select-with-create',
+	templateUrl: './select-with-create.component.html',
+	styleUrls: ['./select-with-create.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	providers: [{ provide: MatFormFieldControl, useExisting: SelectWithInputComponent }],
+	providers: [{ provide: MatFormFieldControl, useExisting: SelectWithCreateComponent }],
 })
-export class SelectWithInputComponent<TItem, TValue> implements MatFormFieldControl<TValue[]>, OnDestroy, ControlValueAccessor, DoCheck {
+export class SelectWithCreateComponent<TItem, TValue> implements MatFormFieldControl<TValue[]>, OnDestroy, ControlValueAccessor, DoCheck {
 
 	/** Item key for get item value. */
 	@Input({ required: true })
@@ -89,7 +89,7 @@ export class SelectWithInputComponent<TItem, TValue> implements MatFormFieldCont
 	public controlType = 'select-with-input';
 
 	/** @inheritdoc */
-	public id = `select-with-input-${SelectWithInputComponent.nextId++}`;
+	public id = `select-with-input-${SelectWithCreateComponent.nextId++}`;
 
 	/** @inheritdoc */
 	public describedBy = '';
