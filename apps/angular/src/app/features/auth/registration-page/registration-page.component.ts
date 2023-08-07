@@ -3,12 +3,11 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { RegistrationForm } from '@js-camp/core/models/auth/registration';
 import { FormGroupOf } from '@js-camp/core/models/form-type-of';
-import { Router } from '@angular/router';
-import { BehaviorSubject, finalize, first, map, tap } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject, finalize, first, tap } from 'rxjs';
 import { AppValidators } from '@js-camp/angular/core/utils/validators';
-
 import { catchFormErrors } from '@js-camp/angular/core/rxjs/catch-form-errors';
-import { APP_ERRORS_DEFAULT } from '@js-camp/core/models/app-error';
+import { QueryParamsService } from '@js-camp/angular/core/services/query-params.service';
 
 const defaultFormValues: RegistrationForm = {
 	email: '',
@@ -39,26 +38,12 @@ export class RegistrationPageComponent {
 
 	private readonly router = inject(Router);
 
+	private readonly route = inject(ActivatedRoute);
+
+	private readonly queryParamsService = inject(QueryParamsService);
+
 	public constructor() {
 		this.form = this.createForm();
-	}
-
-	/** Submit login form. */
-	protected handleSubmit(): void {
-		if (this.form.invalid) {
-			return;
-		}
-
-		this.isSubmitting$.next(true);
-		this.authService.register(this.form.getRawValue())
-			.pipe(
-				first(),
-				tap(() => this.router.navigate(['anime'])),
-				map(errors => errors ?? APP_ERRORS_DEFAULT),
-				catchFormErrors(this.form),
-				finalize(() => this.isSubmitting$.next(false)),
-			)
-			.subscribe();
 	}
 
 	/** Create registration form. */
@@ -75,5 +60,26 @@ export class RegistrationPageComponent {
 		}, { validators: [AppValidators.passwordRepetition('password', 'repeatedPassword')] });
 
 		return registrationForm;
+	}
+
+	/** Submit login form. */
+	protected handleSubmit(): void {
+		if (this.form.invalid) {
+			return;
+		}
+
+		this.isSubmitting$.next(true);
+		this.authService.register(this.form.getRawValue())
+			.pipe(
+				first(),
+				tap(() => this.navigateToNextUrl()),
+				catchFormErrors(this.form),
+				finalize(() => this.isSubmitting$.next(false)),
+			)
+			.subscribe();
+	}
+
+	private navigateToNextUrl(): void {
+		this.router.navigateByUrl(this.queryParamsService.mapQueryParamsToUrl(this.route.snapshot.queryParams, 'next'));
 	}
 }

@@ -1,30 +1,24 @@
-/** Key form common app errors. */
+import { HttpErrorItemDto } from '../dtos/http-error.dto';
+
+/** Key for common errors. */
 export const APP_COMMON_ERRORS_KEY = 'common';
 
-export const APP_ERRORS_DEFAULT = { [APP_COMMON_ERRORS_KEY]: [] };
+/** App error dictionary. */
+export class AppValidationError<TErrors extends object> extends Error {
 
-/** App errors. */
-export interface AppErrors {
+	/** Errors. */
+	public readonly errors: EntityValidationErrors<TErrors>;
 
-	/** Common errors. */
-	[APP_COMMON_ERRORS_KEY]: readonly AppError[];
-
-	[key: string]: readonly AppError[];
-}
-
-/** App errors item. */
-export class AppError {
-
-	/** Code. */
-	public readonly code: string;
-
-	/** Detail. */
-	public readonly detail: string;
-
-	public constructor({ code, detail }: InitAppErrorParams) {
-		this.code = code;
-		this.detail = detail;
+	public constructor(data: InitAppValidationErrorParams<TErrors>) {
+		super();
+		this.errors = data.errors;
 	}
 }
 
-type InitAppErrorParams = AppError;
+export type EntityValidationErrors<T> = {
+	[K in keyof T]?: string;
+} & {common?: string;};
+
+type InitAppValidationErrorParams<TErrors extends object> = Omit<AppValidationError<TErrors>, 'name' | 'message'>;
+
+export type ValidationMapper<TErrors> = (errors: readonly HttpErrorItemDto[]) => TErrors;

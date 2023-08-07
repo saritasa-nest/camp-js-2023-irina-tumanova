@@ -1,5 +1,5 @@
-import { Observable, tap } from 'rxjs';
-import { AppErrors } from '@js-camp/core/models/app-error';
+import { OperatorFunction, catchError, throwError } from 'rxjs';
+import { AppValidationError } from '@js-camp/core/models/app-error';
 import { FormGroupOf, FormGroupValuesBase } from '@js-camp/core/models/form-type-of';
 import { AppErrorConfig } from '@js-camp/core/models/app-error-config';
 
@@ -8,17 +8,18 @@ import { AppErrorConfig } from '@js-camp/core/models/app-error-config';
  * @description Inserts form errors in form.
  * @param form Form group.
  */
-export function catchFormErrors<TForm extends FormGroupValuesBase>(form: FormGroupOf<TForm>):
-(source$: Observable<AppErrors>) => Observable<AppErrors> {
+export function catchFormErrors<TForm extends FormGroupValuesBase>(form: FormGroupOf<TForm>): OperatorFunction<unknown, unknown> {
 	return function(source$) {
 		return source$.pipe(
-			tap(errors => {
-				Object.keys(errors).forEach(key => {
-					if (form.controls[key] !== undefined) {
-						const serverErrors = errors[key].map(error => error.detail);
-						form.controls[key].setErrors({ [AppErrorConfig.AppErrorCode.ServerError]: serverErrors.join(', ') });
-					}
-				});
+			catchError((error: unknown) => {
+				if (error instanceof AppValidationError) {
+					Object.keys(form.controls).forEach(controlName => {
+						if (error.errors[controlName] !== undefined) {
+							form.controls[controlName].setErrors({ [AppErrorConfig.AppErrorCode.ServerError]: error.errors[controlName] });
+						}
+					});
+				}
+				return throwError(() => error);
 			}),
 		);
 	};
