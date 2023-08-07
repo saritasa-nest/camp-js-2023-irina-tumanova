@@ -197,7 +197,7 @@ export class AnimeFormComponent implements OnInit {
 		const formData = this.form.getRawValue();
 
 		this.animeService.saveAnimeImage(formData.imageFile).pipe(
-			switchMap(imageUrl => this.submitAnime(formData, imageUrl)),
+			switchMap(imageUrl => this.submitAnime(formData, imageUrl ?? formData.imageUrl)),
 			tap(anime => this.router.navigate([`/anime/${anime.id}`])),
 			finalize(() => this.isSubmitting$.next(false)),
 			this.untilDestroyed(),

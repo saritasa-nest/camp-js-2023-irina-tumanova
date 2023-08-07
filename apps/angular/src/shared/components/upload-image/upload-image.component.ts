@@ -25,11 +25,19 @@ export class UploadImageComponent implements MatFormFieldControl<string | File |
 	@Input()
 	public maxSize = 8 * 1024 * 1024 * 3;
 
-	/** Default url. */
+	/** Default image url. */
 	@Input()
 	public set defaultImageUrl(value: string | null) {
 		this.imageUrl$.next(value);
+		this._defaultImageUrl = value;
 	}
+
+	/** Default image url. */
+	public get defaultImageUrl(): string | null {
+		return this._defaultImageUrl;
+	}
+
+	private _defaultImageUrl: string | null = null;
 
 	private readonly _elementRef = inject(ElementRef<HTMLElement>);
 
