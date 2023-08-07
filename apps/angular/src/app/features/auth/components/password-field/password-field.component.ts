@@ -1,7 +1,7 @@
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, Optional, Self } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, DoCheck, ElementRef, Input, OnDestroy, Optional, Self, inject } from '@angular/core';
+import { ControlValueAccessor, FormControl, FormGroupDirective, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
 
@@ -13,7 +13,7 @@ import { Subject } from 'rxjs';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	providers: [{ provide: MatFormFieldControl, useExisting: PasswordFieldComponent }],
 })
-export class PasswordFieldComponent implements MatFormFieldControl<string>, OnDestroy, ControlValueAccessor {
+export class PasswordFieldComponent implements MatFormFieldControl<string>, OnDestroy, ControlValueAccessor, DoCheck {
 
 	/** Next id for input id.*/
 	public static nextId = 0;
@@ -27,8 +27,14 @@ export class PasswordFieldComponent implements MatFormFieldControl<string>, OnDe
 
 	/** @inheritdoc */
 	public get errorState(): boolean {
-		return this.ngControl.errors !== null && !!this.ngControl.touched;
+		return this._errorState;
 	}
+
+	private set errorState(value: boolean) {
+		this._errorState = value;
+	}
+
+	private _errorState = false;
 
 	/** @inheritdoc */
 	public controlType = 'password-input';
@@ -42,18 +48,30 @@ export class PasswordFieldComponent implements MatFormFieldControl<string>, OnDe
 	/** Is password hidden. */
 	public isPasswordHidden = true;
 
+	/** Get form control. */
+	@Input({ required: true })
+	public set formControl(control: FormControl<string>) {
+		this._formControl = control;
+	}
+
+	/** Set form control. */
+	public get formControl(): FormControl {
+		return this._formControl ?? new FormControl<string>('');
+	}
+
+	private _formControl: FormControl | null = null;
+
 	/** Autocomplete value. */
 	@Input({ required: true })
 	public autocomplete = '';
 
 	/** @inheritdoc */
-	@Input()
 	public get value(): string {
 		return this._value;
 	}
 
 	/** @inheritdoc */
-	public set value(value: string) {
+	private set value(value: string) {
 		this._value = value;
 		this.onChange(value);
 		this.stateChanges.next();
@@ -66,15 +84,15 @@ export class PasswordFieldComponent implements MatFormFieldControl<string>, OnDe
 	 * @param _value Password.
 	 */
 	// eslint-disable-next-line no-empty-function
-	public onChange(_value: string): void {}
+	public onChange(_value: string): void { }
 
 	/** Touch field.*/
 	// eslint-disable-next-line no-empty-function
-	public onTouched(): void {}
+	public onTouched(): void { }
 
 	/** @inheritdoc */
 	public get empty(): boolean {
-		return this.value.trim().length === 0;
+		return this.formControl.value.trim().length === 0;
 	}
 
 	/** @inheritdoc */
@@ -124,6 +142,9 @@ export class PasswordFieldComponent implements MatFormFieldControl<string>, OnDe
 
 	private _disabled = false;
 
+	@Optional()
+	private readonly formGroup = inject(FormGroupDirective);
+
 	public constructor(
 		private _focusMonitor: FocusMonitor,
 		private _elementRef: ElementRef<HTMLElement>,
@@ -139,6 +160,22 @@ export class PasswordFieldComponent implements MatFormFieldControl<string>, OnDe
 
 		if (this.ngControl != null) {
 			this.ngControl.valueAccessor = this;
+		}
+	}
+
+	/** @inheritdoc */
+	public ngDoCheck(): void {
+		this.updateErrorState();
+	}
+
+	/** Update error state. */
+	private updateErrorState(): void {
+		const oldState = this.errorState;
+		const newState = this.formControl.errors !== null && (this.formControl.touched || this.formGroup.submitted);
+
+		if (oldState !== newState) {
+			this._errorState = newState;
+			this.stateChanges.next();
 		}
 	}
 

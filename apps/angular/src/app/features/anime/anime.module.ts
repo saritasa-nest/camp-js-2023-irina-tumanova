@@ -6,7 +6,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { SharedModule } from '@js-camp/angular/shared/shared.module';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -41,7 +41,6 @@ import { DeleteModalComponent } from './components/delete-modal/delete-modal.com
 		MatTableModule,
 		MatSortModule,
 		MatPaginatorModule,
-		FormsModule,
 		ReactiveFormsModule,
 		MatSelectModule,
 		MatFormFieldModule,

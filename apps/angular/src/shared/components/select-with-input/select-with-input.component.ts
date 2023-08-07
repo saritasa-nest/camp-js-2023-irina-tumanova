@@ -1,6 +1,6 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { ChangeDetectionStrategy, Component, Input, Output, inject, EventEmitter, Optional, Self, ElementRef, OnDestroy } from '@angular/core';
-import { ControlValueAccessor, FormControl, NgControl, NonNullableFormBuilder } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, Input, Output, inject, EventEmitter, Optional, Self, ElementRef, OnDestroy, DoCheck } from '@angular/core';
+import { ControlValueAccessor, FormControl, FormGroupDirective, NgControl, NonNullableFormBuilder } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Observable, ReplaySubject, Subject, combineLatest, map, startWith } from 'rxjs';
 
@@ -14,7 +14,7 @@ type ChangeFunction<TValue> = (data: TValue[]) => void;
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	providers: [{ provide: MatFormFieldControl, useExisting: SelectWithInputComponent }],
 })
-export class SelectWithInputComponent<TItem, TValue> implements MatFormFieldControl<TValue[]>, OnDestroy, ControlValueAccessor {
+export class SelectWithInputComponent<TItem, TValue> implements MatFormFieldControl<TValue[]>, OnDestroy, ControlValueAccessor, DoCheck {
 
 	/** Item key for get item value. */
 	@Input({ required: true })
@@ -46,9 +46,21 @@ export class SelectWithInputComponent<TItem, TValue> implements MatFormFieldCont
 
 	private readonly formBuider = inject(NonNullableFormBuilder);
 
-	/** Ng control. */
-	@Optional() @Self()
-	public readonly ngControl = inject(NgControl);
+	/** Form control. */
+	@Input({ required: true })
+	public set formControl(control: FormControl<readonly TValue[]>) {
+		this._formControl = control;
+	}
+
+	/** Form control. */
+	public get formControl(): FormControl<readonly TValue[]> {
+		return this._formControl ?? this.formBuider.control<TValue[]>([]);
+	}
+
+	private _formControl: FormControl<readonly TValue[]> | null = null;
+
+	@Optional()
+	private readonly formGroup = inject(FormGroupDirective);
 
 	// #region Implementing Interface Variables
 
@@ -64,8 +76,14 @@ export class SelectWithInputComponent<TItem, TValue> implements MatFormFieldCont
 
 	/** @inheritdoc */
 	public get errorState(): boolean {
-		return this.ngControl.errors !== null && !!this.ngControl.touched;
+		return this._errorState;
 	}
+
+	private set errorState(value: boolean) {
+		this._errorState = value;
+	}
+
+	private _errorState = false;
 
 	/** @inheritdoc */
 	public controlType = 'select-with-input';
@@ -83,7 +101,7 @@ export class SelectWithInputComponent<TItem, TValue> implements MatFormFieldCont
 	}
 
 	/** @inheritdoc */
-	public set value(value: TValue[]) {
+	private set value(value: TValue[]) {
 		this._value = value;
 		this.onChange(value);
 		this.stateChanges.next();
@@ -104,7 +122,7 @@ export class SelectWithInputComponent<TItem, TValue> implements MatFormFieldCont
 
 	/** @inheritdoc */
 	public get empty(): boolean {
-		return this.value.length === 0;
+		return this.formControl.value.length === 0;
 	}
 
 	/** @inheritdoc */
@@ -156,13 +174,34 @@ export class SelectWithInputComponent<TItem, TValue> implements MatFormFieldCont
 
 	// #endregion
 
-	public constructor() {
+	/**
+	 * @param ngControl Ng control.
+	 */
+	public constructor(
+		@Optional() @Self() public readonly ngControl: NgControl,
+	) {
 		if (this.ngControl != null) {
 			this.ngControl.valueAccessor = this;
 		}
 
 		this.inputControl = this.formBuider.control('');
 		this.filteredItems$ = this.createFilteredItemsStream();
+	}
+
+	/** @inheritdoc */
+	public ngDoCheck(): void {
+		this.updateErrorState();
+	}
+
+	/** Update error state. */
+	private updateErrorState(): void {
+		const oldState = this.errorState;
+		const newState = this.formControl.errors !== null && (this.formControl.touched || this.formGroup.submitted);
+
+		if (oldState !== newState) {
+			this._errorState = newState;
+			this.stateChanges.next();
+		}
 	}
 
 	/** @inheritdoc */
