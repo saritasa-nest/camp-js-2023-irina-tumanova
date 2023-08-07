@@ -43,13 +43,13 @@
 				<p class="anime-info__param">Type:</p>
 				<p class="typography-body anime-info__text-data">{{details.type}}</p>
 			</div>
-			<div class="anime-info" *ngIf="details.genresData.length > 0">
+			<div class="anime-info" *ngIf="details.genres.length > 0">
 				<p class="anime-info__param">Genres:</p>
-				<p class="typography-body anime-info__text-data">{{details.genresData | readableTextFromArray: 'name'}}</p> 
+				<p class="typography-body anime-info__text-data">{{details.genres | readableTextFromArray: 'name'}}</p> 
 			</div>
-			<div class="anime-info" *ngIf="details.studiosData.length > 0">
+			<div class="anime-info" *ngIf="details.studios.length > 0">
 				<p class="anime-info__param">Studios:</p>
-				<p class="typography-body anime-info__text-data">{{details.studiosData | readableTextFromArray: 'name'}}</p>
+				<p class="typography-body anime-info__text-data">{{details.studios | readableTextFromArray: 'name'}}</p>
 			</div>
 			<div class="anime-main__info-item anime-info">
 				<p class="anime-info__param">Rating:</p>
