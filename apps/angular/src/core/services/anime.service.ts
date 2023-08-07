@@ -10,10 +10,10 @@ import { AnimeMapper } from '@js-camp/core/mappers/anime/anime.mapper';
 import { AnimeParams } from '@js-camp/core/models/anime/anime-params';
 import { ListParamsMapper } from '@js-camp/core/mappers/list-params.mapper';
 import { AnimeFilterParamsMapper } from '@js-camp/core/mappers/anime/anime-filter-params.mapper';
-
 import { AnimeDetails } from '@js-camp/core/models/anime/anime-details';
 import { AnimeDetailsDto } from '@js-camp/core/dtos/anime/anime-details.dto';
 import { AnimeDetailsMapper } from '@js-camp/core/mappers/anime/anime-details.mapper';
+import { environment } from '@js-camp/angular/environments/environment';
 
 import { ApiUrlsConfig } from './api-urls.config';
 
@@ -59,6 +59,6 @@ export class AnimeService {
 
 		return this.http
 			.get<AnimeDetailsDto>(url)
-			.pipe(map(detailsDto => AnimeDetailsMapper.fromDto(detailsDto)));
+			.pipe(map(detailsDto => AnimeDetailsMapper.fromDto(detailsDto, environment.youtubeSrc)));
 	}
 }
