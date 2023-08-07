@@ -3,7 +3,7 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { Login, LoginValidationErrors } from '@js-camp/core/models/auth/login';
 import { FormGroupOf } from '@js-camp/core/models/form-type-of';
-import { BehaviorSubject, Observable, catchError, finalize, first, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, finalize, tap, throwError } from 'rxjs';
 import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
 import { AppValidationError } from '@js-camp/core/models/app-error';
 import { AppValidators } from '@js-camp/angular/core/utils/validators';
@@ -71,10 +71,10 @@ export class LoginPageComponent implements OnInit {
 		}
 		this.isSubmitting$.next(true);
 		this.authService.login(this.form.getRawValue()).pipe(
-			first(),
 			tap(() => this.navigateToNextUrl()),
 			catchError((error: unknown) => this.handleError(error)),
 			finalize(() => this.isSubmitting$.next(false)),
+			this.untilDestroyed(),
 		)
 			.subscribe();
 	}
