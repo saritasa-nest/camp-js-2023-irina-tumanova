@@ -12,7 +12,7 @@ import { AnimeSource } from '@js-camp/core/models/anime/anime-source';
 import { AnimeSeason } from '@js-camp/core/models/anime/anime-season';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Anime } from '@js-camp/core/models/anime/anime';
-import { environment } from '@js-camp/angular/environments/environment';
+import { YOUTUBE_EMBED_URL } from '@js-camp/angular/core/const/const';
 
 import { ImageModalComponent } from '../components/image-modal/image-modal.component';
 import { DeleteModalComponent } from '../components/delete-modal/delete-modal.component';
@@ -88,7 +88,7 @@ export class AnimeDetailsPageComponent implements OnInit {
 
 	private createSafeYoutubeUrl(trailerYoutubeId: string | null): SafeResourceUrl | null {
 		return trailerYoutubeId !== null ?
-			this.sanitizer.bypassSecurityTrustResourceUrl(`${environment.youtubeSrc}${trailerYoutubeId}`) :
+			this.sanitizer.bypassSecurityTrustResourceUrl(`${YOUTUBE_EMBED_URL}${trailerYoutubeId}`) :
 			null;
 	}
 
