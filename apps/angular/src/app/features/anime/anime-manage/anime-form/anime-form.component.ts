@@ -123,6 +123,7 @@ export class AnimeFormComponent implements OnInit {
 		combineLatest([this.genres$, this.studios$]).pipe(
 			first(),
 			tap(() => this.isLoading$.next(false)),
+			this.untilDestroyed(),
 		)
 			.subscribe();
 	}
@@ -183,7 +184,6 @@ export class AnimeFormComponent implements OnInit {
 		const formData = this.form.getRawValue();
 
 		this.animeService.saveAnimeImage(formData.image).pipe(
-			first(),
 			switchMap(imageUrl => {
 				if (this.type === 'create') {
 					return this.animeService.createAnime({ ...formData, image: imageUrl });
@@ -192,6 +192,7 @@ export class AnimeFormComponent implements OnInit {
 			}),
 			tap(anime => this.router.navigate([`/anime/${anime.id}`])),
 			finalize(() => this.isSubmitting$.next(false)),
+			this.untilDestroyed(),
 		)
 			.subscribe();
 	}
@@ -202,11 +203,11 @@ export class AnimeFormComponent implements OnInit {
 	 */
 	protected addGenre(genreName: string): void {
 		this.genreService.createGenre(genreName).pipe(
-			first(),
 			tap(genre => {
 				this.form.controls.genres.setValue([...this.form.controls.genres.value, genre.id]);
 				this.genresUpdateTrigger$.next();
 			}),
+			this.untilDestroyed(),
 		)
 			.subscribe();
 	}
@@ -217,11 +218,10 @@ export class AnimeFormComponent implements OnInit {
 	 */
 	protected addStudio(studioName: string): void {
 		this.studioService.createStudio(studioName).pipe(
-			first(),
 			tap(studio => {
 				this.form.controls.studios.setValue([...this.form.controls.studios.value, studio.id]);
 				this.studiosUpdateTrigger$.next();
-			}),
+			}), this.untilDestroyed(),
 		)
 			.subscribe();
 	}
