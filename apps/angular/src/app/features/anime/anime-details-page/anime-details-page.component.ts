@@ -46,7 +46,7 @@ export class AnimeDetailsPageComponent implements OnInit {
 	private readonly untilDestroyed = untilDestroyed();
 
 	public constructor() {
-		const animeId = this.route.snapshot.params['id'] as string;
+		const animeId = Number(this.route.snapshot.params['id']);
 		this.details$ = this.animeService.getAnimeDetails(animeId).pipe(shareReplay({ refCount: true, bufferSize: 1 }));
 		this.safeTrailerUrl$ = this.details$.pipe(
 			map(details => details.trailerYoutubeUrl !== null ?
