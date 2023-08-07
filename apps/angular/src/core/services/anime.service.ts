@@ -14,8 +14,8 @@ import { AnimeDetails } from '@js-camp/core/models/anime/anime-details';
 import { AnimeDetailsDto } from '@js-camp/core/dtos/anime/anime-details.dto';
 import { AnimeDetailsMapper } from '@js-camp/core/mappers/anime/anime-details.mapper';
 import { AnimeFormData } from '@js-camp/core/models/anime/anime-form-data';
-
 import { AnimeFormDataMapper } from '@js-camp/core/mappers/anime/anime-form-data.mapper';
+import { environment } from '@js-camp/angular/environments/environment';
 
 import { ApiUrlsConfig } from './api-urls.config';
 import { S3Service } from './s3-bucket.service';
@@ -64,7 +64,7 @@ export class AnimeService {
 
 		return this.http
 			.get<AnimeDetailsDto>(url)
-			.pipe(map(detailsDto => AnimeDetailsMapper.fromDto(detailsDto)));
+			.pipe(map(detailsDto => AnimeDetailsMapper.fromDto(detailsDto, environment.youtubeSrc)));
 	}
 
 	/**
@@ -76,7 +76,7 @@ export class AnimeService {
 		const url = this.apiUrlsConfig.anime.edit(id);
 
 		return this.http.put<AnimeDetailsDto>(url, AnimeFormDataMapper.toDto(anime))
-			.pipe(map(animeDto => AnimeDetailsMapper.fromDto(animeDto)));
+			.pipe(map(animeDto => AnimeDetailsMapper.fromDto(animeDto, environment.youtubeSrc)));
 	}
 
 	/**
@@ -87,7 +87,7 @@ export class AnimeService {
 		const url = this.apiUrlsConfig.anime.create;
 
 		return this.http.post<AnimeDetailsDto>(url, AnimeFormDataMapper.toDto(anime))
-			.pipe(map(animeDto => AnimeDetailsMapper.fromDto(animeDto)));
+			.pipe(map(animeDto => AnimeDetailsMapper.fromDto(animeDto, environment.youtubeSrc)));
 	}
 
 	/**
