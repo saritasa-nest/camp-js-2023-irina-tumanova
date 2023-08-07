@@ -48,6 +48,7 @@ export namespace AnimeDetailsMapper {
 		[AnimeSourceDto.VisualNovel]: AnimeSource.VisualNovel,
 		[AnimeSourceDto.WebManga]: AnimeSource.WebManga,
 		[AnimeSourceDto.WebNovel]: AnimeSource.WebNovel,
+		[AnimeSourceDto.Game]: AnimeSource.Game,
 	};
 
 	const ANIME_RATING_FROM_FTO = {
