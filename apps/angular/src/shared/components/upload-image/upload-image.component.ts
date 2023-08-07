@@ -25,6 +25,12 @@ export class UploadImageComponent implements MatFormFieldControl<string | File |
 	@Input()
 	public maxSize = 8 * 1024 * 1024 * 3;
 
+	/** Default url. */
+	@Input()
+	public set defaultImageUrl(value: string | null) {
+		this.imageUrl$.next(value);
+	}
+
 	private readonly _elementRef = inject(ElementRef<HTMLElement>);
 
 	/** Form control. */
@@ -82,7 +88,7 @@ export class UploadImageComponent implements MatFormFieldControl<string | File |
 	}
 
 	/** @inheritdoc */
-	public set value(value: string | File | null) {
+	private set value(value: string | File | null) {
 		this.setImageUrl(value);
 
 		this._value = value;
@@ -105,7 +111,7 @@ export class UploadImageComponent implements MatFormFieldControl<string | File |
 
 	/** @inheritdoc */
 	public get empty(): boolean {
-		return this.formControl.value === null;
+		return this.formControl.value === null && this.defaultImageUrl === null;
 	}
 
 	/** @inheritdoc */
@@ -175,9 +181,9 @@ export class UploadImageComponent implements MatFormFieldControl<string | File |
 
 	/** Update error state. */
 	private updateErrorState(): void {
+
 		const oldState = this.errorState;
 		const newState = this.formControl.errors !== null && (this.formControl.touched || this.formGroup.submitted);
-
 		if (oldState !== newState) {
 			this._errorState = newState;
 			this.stateChanges.next();

@@ -14,16 +14,14 @@ export namespace AnimeDetailsMapper {
 	 * @param dto Studio DTO.
 	 * @param youtubeSrc Yotube src.
 	 */
-	export function fromDto(dto: AnimeDetailsDto, youtubeSrc: string): AnimeDetails {
+	export function fromDto(dto: AnimeDetailsDto): AnimeDetails {
 		return new AnimeDetails({
 			...AnimeMapper.fromDto(dto),
 			description: dto.synopsis,
 			airing: dto.airing,
 			studios: dto.studios_data.map(StudioMapper.fromDto),
 			genres: dto.genres_data.map(GenreMapper.fromDto),
-			trailerYoutubeUrl: dto.trailer_youtube_id !== null ?
-				`${youtubeSrc}${dto.trailer_youtube_id}` :
-				null,
+			trailerYoutubeId: dto.trailer_youtube_id,
 			source: ANIME_SOURCE_FROM_DTO[dto.source],
 			rating: ANIME_RATING_FROM_FTO[dto.rating],
 			season: ANIME_SEASON_FROM_DTO[dto.season],

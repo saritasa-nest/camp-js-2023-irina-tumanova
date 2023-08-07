@@ -1,4 +1,4 @@
-import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { AppErrorConfig } from '@js-camp/core/models/app-error-config';
 
 export namespace AppValidators{
@@ -33,6 +33,23 @@ export namespace AppValidators{
 				}
 
 				repeatedPassword.setErrors(repeatedPasswordErrors);
+			}
+
+			return null;
+		};
+	}
+
+	/**
+	 * Check if image is selected.
+	 * @param urlControl Control with image url (if there).
+	 */
+	export function requiredImageUrl(urlControl?: FormControl<string | null>): ValidatorFn {
+		return (control: AbstractControl): ValidationErrors | null => {
+			if (control instanceof FormControl) {
+				if (urlControl?.value !== null || control.value !== null) {
+					return null;
+				}
+				return { [AppErrorConfig.AppErrorCode.RequiredImage]: true };
 			}
 
 			return null;

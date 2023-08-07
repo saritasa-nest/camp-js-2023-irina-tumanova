@@ -17,8 +17,8 @@ export namespace AnimeFormDataMapper {
 	export function toDto(model: AnimeFormData): AnimeFormDataDto {
 
 		return {
-			image: model.image as string,
-			trailer_youtube_id: model.trailerYoutubeId.length > 0 ? model.trailerYoutubeId : null,
+			image: model.imageUrl as string,
+			trailer_youtube_id: model.trailerYoutubeId !== null ? model.trailerYoutubeId : null,
 			title_eng: model.titleEnglish,
 			title_jpn: model.titleJapanese,
 			type: model.type !== null ? AnimeMapper.ANIME_TYPE_TO_DTO[model.type] : null,
@@ -26,8 +26,8 @@ export namespace AnimeFormDataMapper {
 			airing: model.airing,
 			aired: DateRangeMapper.toDto(model.aired),
 			synopsis: model.description,
-			studios: model.studios,
-			genres: model.genres,
+			studios: model.studiosIds,
+			genres: model.genresIds,
 			rating: model.rating !== null ? ANIME_RATING_TO_FTO[model.rating] : null,
 			season: model.season !== null ? ANIME_SEASON_TO_DTO[model.season] : null,
 			source: model.source !== null ? ANIME_SOURCE_TO_DTO[model.source] : null,

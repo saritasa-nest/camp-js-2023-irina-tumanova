@@ -15,7 +15,6 @@ import { AnimeDetailsDto } from '@js-camp/core/dtos/anime/anime-details.dto';
 import { AnimeDetailsMapper } from '@js-camp/core/mappers/anime/anime-details.mapper';
 import { AnimeFormData } from '@js-camp/core/models/anime/anime-form-data';
 import { AnimeFormDataMapper } from '@js-camp/core/mappers/anime/anime-form-data.mapper';
-import { environment } from '@js-camp/angular/environments/environment';
 
 import { ApiUrlsConfig } from './api-urls.config';
 import { S3Service } from './s3-bucket.service';
@@ -64,7 +63,7 @@ export class AnimeService {
 
 		return this.http
 			.get<AnimeDetailsDto>(url)
-			.pipe(map(detailsDto => AnimeDetailsMapper.fromDto(detailsDto, environment.youtubeSrc)));
+			.pipe(map(detailsDto => AnimeDetailsMapper.fromDto(detailsDto)));
 	}
 
 	/**
@@ -72,11 +71,11 @@ export class AnimeService {
 	 * @param id Anime ID.
 	 * @param anime Anime.
 	 */
-	public editAnime(id: number | string, anime: AnimeFormData): Observable<AnimeDetails> {
+	public editAnime(id: Anime['id'], anime: AnimeFormData): Observable<AnimeDetails> {
 		const url = this.apiUrlsConfig.anime.edit(id);
 
 		return this.http.put<AnimeDetailsDto>(url, AnimeFormDataMapper.toDto(anime))
-			.pipe(map(animeDto => AnimeDetailsMapper.fromDto(animeDto, environment.youtubeSrc)));
+			.pipe(map(animeDto => AnimeDetailsMapper.fromDto(animeDto)));
 	}
 
 	/**
@@ -87,14 +86,14 @@ export class AnimeService {
 		const url = this.apiUrlsConfig.anime.create;
 
 		return this.http.post<AnimeDetailsDto>(url, AnimeFormDataMapper.toDto(anime))
-			.pipe(map(animeDto => AnimeDetailsMapper.fromDto(animeDto, environment.youtubeSrc)));
+			.pipe(map(animeDto => AnimeDetailsMapper.fromDto(animeDto)));
 	}
 
 	/**
 	 * Delete anime.
 	 * @param id Anime ID.
 	 */
-	public deleteAnime(id: number | string): Observable<void> {
+	public deleteAnime(id: Anime['id']): Observable<void> {
 		const url = this.apiUrlsConfig.anime.delete(id);
 
 		return this.http.delete(url).pipe(map(() => undefined));

@@ -1,7 +1,7 @@
 import { DateRange } from '../date-range';
 
 import { AnimeType } from './anime';
-import { AnimeDetails, AnimeRating } from './anime-details';
+import { AnimeRating } from './anime-details';
 import { AnimeSeason } from './anime-season';
 import { AnimeSource } from './anime-source';
 import { AnimeStatus } from './anime-status';
@@ -9,11 +9,14 @@ import { AnimeStatus } from './anime-status';
 /** Anime form data (edit, create). */
 export class AnimeFormData {
 
-	/** Image. */
-	public readonly image: string | null | File;
+	/** Image url. */
+	public readonly imageUrl: string | null;
+
+	/** Image file. */
+	public readonly imageFile: File | null;
 
 	/** Trailer video id on youtube. */
-	public readonly trailerYoutubeId: string;
+	public readonly trailerYoutubeId: string | null;
 
 	/** English title. */
 	public readonly titleEnglish: string;
@@ -37,10 +40,10 @@ export class AnimeFormData {
 	public readonly description: string;
 
 	/** Studios ids. */
-	public readonly studios: readonly number[];
+	public readonly studiosIds: readonly number[];
 
 	/** Genres ids. */
-	public readonly genres: readonly number[];
+	public readonly genresIds: readonly number[];
 
 	/** Age rating. */
 	public readonly rating: AnimeRating | null;
@@ -52,12 +55,9 @@ export class AnimeFormData {
 	public readonly season: AnimeSeason | null;
 
 	public constructor(data: InitAnimeFormDataParams) {
-		const trailerUrlPath = data instanceof AnimeDetails ?
-			(data.trailerYoutubeUrl ?? '').split('/') :
-			[data.trailerYoutubeId];
-
-		this.image = data instanceof AnimeDetails ? data.imageUrl : data.image;
-		this.trailerYoutubeId = trailerUrlPath[trailerUrlPath.length - 1];
+		this.imageUrl = data.imageUrl;
+		this.imageFile = data.imageFile;
+		this.trailerYoutubeId = data.trailerYoutubeId;
 		this.titleEnglish = data.titleEnglish;
 		this.titleJapanese = data.titleJapanese;
 		this.type = data.type;
@@ -65,12 +65,12 @@ export class AnimeFormData {
 		this.airing = data.airing;
 		this.aired = data.aired;
 		this.description = data.description;
-		this.studios = data.studios;
-		this.genres = data.genres;
+		this.studiosIds = data.studiosIds;
+		this.genresIds = data.genresIds;
 		this.rating = data.rating;
 		this.source = data.source;
 		this.season = data.season;
 	}
 }
 
-type InitAnimeFormDataParams = AnimeFormData | AnimeDetails;
+type InitAnimeFormDataParams = AnimeFormData;

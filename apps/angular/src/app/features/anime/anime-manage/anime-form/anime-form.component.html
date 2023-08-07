@@ -8,10 +8,10 @@
 	</ng-template>
 
 	<div class="anime-form__common">
-		<mat-form-field *ngIf="form.controls.image as image" class="anime-form__cover">
+		<mat-form-field *ngIf="form.controls.imageFile as imageFile" class="anime-form__cover">
 			<mat-label>Image</mat-label>
-			<camp-upload-image [formControl]="image" />
-			<mat-error *ngIf="image.hasError('required')">{{'required' | fieldErrorText:'image'}}</mat-error>
+			<camp-upload-image [formControl]="imageFile" [defaultImageUrl]="form.controls.imageUrl.value"/>
+			<mat-error *ngIf="imageFile.hasError('requiredImage')">{{'requiredImage' | fieldErrorText}}</mat-error>
 		</mat-form-field>
 
 		<mat-form-field *ngIf="form.controls.titleEnglish as titleEnglish">
@@ -56,22 +56,22 @@
 
 		<mat-form-field class="select-with-input"  *ngIf="genres$ | async as genres">
 			<mat-label>Genres</mat-label>
-			<camp-select-with-create [formControl]="form.controls.genres" 
+			<camp-select-with-create [formControl]="form.controls.genresIds" 
 				valueKey="id" 
 				nameKey="name" 
 				(createItemEvent)="addGenre($event)"
 				[items]="genres" />
-			<mat-error *ngIf="form.controls.genres.hasError('required')">{{'required' | fieldErrorText:'genres'}}</mat-error>
+			<mat-error *ngIf="form.controls.genresIds.hasError('required')">{{'required' | fieldErrorText:'genres'}}</mat-error>
 		</mat-form-field>
 
 		<mat-form-field class="select-with-input" *ngIf="studios$ | async as studios">
 			<mat-label>Studios</mat-label>
-			<camp-select-with-create [formControl]="form.controls.studios" 
+			<camp-select-with-create [formControl]="form.controls.studiosIds" 
 				valueKey="id" 
 				nameKey="name" 
 				(createItemEvent)="addStudio($event)"
 				[items]="studios" />
-			<mat-error *ngIf="form.controls.studios.hasError('required')">{{'required' | fieldErrorText:'studios'}}</mat-error>
+			<mat-error *ngIf="form.controls.studiosIds.hasError('required')">{{'required' | fieldErrorText:'studios'}}</mat-error>
 		</mat-form-field>
 
 		<mat-form-field *ngIf="form.controls.rating as rating">

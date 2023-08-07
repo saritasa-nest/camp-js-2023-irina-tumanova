@@ -11,8 +11,8 @@ import { BehaviorSubject, Observable, catchError, fromEvent, map, of, shareRepla
 import { AnimeSource } from '@js-camp/core/models/anime/anime-source';
 import { AnimeSeason } from '@js-camp/core/models/anime/anime-season';
 import { HttpErrorResponse } from '@angular/common/http';
-
 import { Anime } from '@js-camp/core/models/anime/anime';
+import { environment } from '@js-camp/angular/environments/environment';
 
 import { ImageModalComponent } from '../components/image-modal/image-modal.component';
 import { DeleteModalComponent } from '../components/delete-modal/delete-modal.component';
@@ -61,11 +61,7 @@ export class AnimeDetailsPageComponent implements OnInit {
 	public constructor() {
 		this.id = Number(this.route.snapshot.params['id']);
 		this.details$ = this.animeService.getAnimeDetails(this.id).pipe(shareReplay({ refCount: true, bufferSize: 1 }));
-		this.safeTrailerUrl$ = this.details$.pipe(
-			map(details => details.trailerYoutubeUrl !== null ?
-				this.sanitizer.bypassSecurityTrustResourceUrl(details.trailerYoutubeUrl) :
-				null),
-		);
+		this.safeTrailerUrl$ = this.details$.pipe(map(details => this.createSafeYoutubeUrl(details.trailerYoutubeId)));
 
 		this.changeTrailerComponentHeight();
 	}
@@ -88,6 +84,12 @@ export class AnimeDetailsPageComponent implements OnInit {
 			}),
 			this.untilDestroyed(),
 		).subscribe();
+	}
+
+	private createSafeYoutubeUrl(trailerYoutubeId: string | null): SafeResourceUrl | null {
+		return trailerYoutubeId !== null ?
+			this.sanitizer.bypassSecurityTrustResourceUrl(`${environment.youtubeSrc}${trailerYoutubeId}`) :
+			null;
 	}
 
 	/**
