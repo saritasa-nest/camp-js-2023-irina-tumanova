@@ -114,5 +114,6 @@ export class AnimeDetailsPageComponent implements OnInit {
 	 */
 	protected getReadableSeason(season: AnimeSeason): string {
 		return AnimeSeason.toReadable(season);
+		console.log('for commit');
 	}
 }
