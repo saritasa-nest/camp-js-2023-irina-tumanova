@@ -11,7 +11,11 @@ import { AuthService } from '../services/auth.service';
 @Injectable()
 export class RefreshTokenInterceptor implements HttpInterceptor {
 
-	/** Active request for token refresh. */
+	/**
+	 * Active request for token refresh.
+	 * @description This is necessary to avoid multiple requests with each refresh.
+	 * When a refresh request passes, this is reset so that a new request will work after.
+	 */
 	private refreshSecretRequest$: Observable<void> | null = null;
 
 	private readonly userSecretService = inject(UserSecretService);
