@@ -2,6 +2,7 @@ import { AnimeSource } from '../../models/anime/anime-source';
 import { AnimeSeason } from '../../models/anime/anime-season';
 import { AnimeDetailsDto, AnimeRatingDto, AnimeSeasonDto, AnimeSourceDto } from '../../dtos/anime/anime-details.dto';
 import { AnimeDetails, AnimeRating } from '../../models/anime/anime-details';
+import { YOUTUBE_EMBED_URL } from '../../const/const';
 
 import { AnimeMapper } from './anime.mapper';
 import { GenreMapper } from './genre.mapper';
@@ -12,9 +13,8 @@ export namespace AnimeDetailsMapper {
 	/**
 	 * Maps DTO to model.
 	 * @param dto Studio DTO.
-	 * @param youtubeSrc Yotube src.
 	 */
-	export function fromDto(dto: AnimeDetailsDto, youtubeSrc: string): AnimeDetails {
+	export function fromDto(dto: AnimeDetailsDto): AnimeDetails {
 		return new AnimeDetails({
 			...AnimeMapper.fromDto(dto),
 			description: dto.synopsis,
@@ -22,7 +22,7 @@ export namespace AnimeDetailsMapper {
 			studios: dto.studios_data.map(StudioMapper.fromDto),
 			genres: dto.genres_data.map(GenreMapper.fromDto),
 			trailerYoutubeUrl: dto.trailer_youtube_id !== null ?
-				`${youtubeSrc}${dto.trailer_youtube_id}` :
+				`${YOUTUBE_EMBED_URL}${dto.trailer_youtube_id}` :
 				null,
 			source: ANIME_SOURCE_FROM_DTO[dto.source],
 			rating: ANIME_RATING_FROM_FTO[dto.rating],

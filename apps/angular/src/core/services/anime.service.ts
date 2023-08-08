@@ -14,8 +14,6 @@ import { AnimeDetails } from '@js-camp/core/models/anime/anime-details';
 import { AnimeDetailsDto } from '@js-camp/core/dtos/anime/anime-details.dto';
 import { AnimeDetailsMapper } from '@js-camp/core/mappers/anime/anime-details.mapper';
 
-import { YOUTUBE_EMBED_URL } from '../const/const';
-
 import { ApiUrlsConfig } from './api-urls.config';
 
 /** Anime service. */
@@ -60,6 +58,6 @@ export class AnimeService {
 
 		return this.http
 			.get<AnimeDetailsDto>(url)
-			.pipe(map(detailsDto => AnimeDetailsMapper.fromDto(detailsDto, YOUTUBE_EMBED_URL)));
+			.pipe(map(detailsDto => AnimeDetailsMapper.fromDto(detailsDto)));
 	}
 }
