@@ -7,12 +7,12 @@ import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { AnimeDetails } from '@js-camp/core/models/anime/anime-details';
 import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
-import { BehaviorSubject, Observable, catchError, fromEvent, map, of, shareReplay, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, fromEvent, map, of, shareReplay, tap, switchMap } from 'rxjs';
 import { AnimeSource } from '@js-camp/core/models/anime/anime-source';
 import { AnimeSeason } from '@js-camp/core/models/anime/anime-season';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Anime } from '@js-camp/core/models/anime/anime';
 import { YOUTUBE_EMBED_URL } from '@js-camp/core/const/const';
+import { Anime } from '@js-camp/core/models/anime/anime';
 
 import { ImageModalComponent } from '../components/image-modal/image-modal.component';
 import { DeleteModalComponent } from '../components/delete-modal/delete-modal.component';
@@ -40,7 +40,9 @@ export class AnimeDetailsPageComponent implements OnInit {
 	/** Anime trailer component height. */
 	protected readonly trailerComponentHeight$ = new BehaviorSubject<number | null>(null);
 
-	private readonly id: Anime['id'];
+	private readonly id$: Observable<Anime['id']>;
+
+	private id: Anime['id'] | null = null;
 
 	private readonly animeService = inject(AnimeService);
 
@@ -59,11 +61,33 @@ export class AnimeDetailsPageComponent implements OnInit {
 	private readonly untilDestroyed = untilDestroyed();
 
 	public constructor() {
-		this.id = Number(this.route.snapshot.params['id']);
-		this.details$ = this.animeService.getAnimeDetails(this.id).pipe(shareReplay({ refCount: true, bufferSize: 1 }));
-		this.safeTrailerUrl$ = this.details$.pipe(map(details => this.createSafeYoutubeUrl(details.trailerYoutubeId)));
+		this.id$ = this.createAnimeIdStream();
+		this.details$ = this.createDetailsStream();
+		this.safeTrailerUrl$ = this.createSafeTrailerUrlStream();
 
 		this.changeTrailerComponentHeight();
+	}
+
+	private createAnimeIdStream(): Observable<number> {
+		return this.route.params.pipe(
+			map(({ id }) => Number(id)),
+			tap(id => {
+				this.id = id;
+			}),
+		);
+	}
+
+	private createDetailsStream(): Observable<AnimeDetails> {
+		return this.id$.pipe(
+			switchMap(id => this.animeService.getAnimeDetails(id)),
+			shareReplay({ refCount: true, bufferSize: 1 }),
+		);
+	}
+
+	private createSafeTrailerUrlStream(): Observable<SafeResourceUrl | null> {
+		return this.details$.pipe(
+			map(details => this.createSafeYoutubeUrl(details.trailerYoutubeId)),
+		);
 	}
 
 	/** @inheritdoc */
@@ -141,11 +165,12 @@ export class AnimeDetailsPageComponent implements OnInit {
 		return AnimeSeason.toReadable(season);
 	}
 
-	/**
-	 * Go to anime editing.
-	 * @param id Anime id.
-	 */
+	/** Go to anime editing. */
 	protected navigateToAnimeEditing(): void {
+		if (this.id === null) {
+			return;
+		}
+
 		this.router.navigate([`/anime/${this.id}/edit`]);
 	}
 
@@ -162,6 +187,9 @@ export class AnimeDetailsPageComponent implements OnInit {
 
 	/** Handle confirm button click. */
 	protected deleteAnime(): void {
+		if (this.id === null) {
+			return;
+		}
 		this.animeService.deleteAnime(this.id).pipe(
 			tap(() => this.deleteModal.closeAll()),
 			tap(() => this.navigateToMainPage()),
