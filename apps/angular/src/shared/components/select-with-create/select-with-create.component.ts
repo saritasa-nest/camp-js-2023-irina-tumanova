@@ -95,19 +95,7 @@ export class SelectWithCreateComponent<TItem, TValue> implements MatFormFieldCon
 	public describedBy = '';
 
 	/** @inheritdoc */
-	@Input()
-	public get value(): TValue[] {
-		return this._value;
-	}
-
-	/** @inheritdoc */
-	private set value(value: TValue[]) {
-		this._value = value;
-		this.onChange(value);
-		this.stateChanges.next();
-	}
-
-	private _value: TValue[] = [];
+	public value: TValue[] = [];
 
 	/**
 	 * Change value.
@@ -188,6 +176,15 @@ export class SelectWithCreateComponent<TItem, TValue> implements MatFormFieldCon
 		this.filteredItems$ = this.createFilteredItemsStream();
 	}
 
+	private createFilteredItemsStream(): Observable<readonly TItem[]> {
+		return combineLatest([
+			this.items$,
+			this.inputControl.valueChanges.pipe(startWith('')),
+		]).pipe(
+			map(([items, search]) => this.filterItems(items, search, this.value)),
+		);
+	}
+
 	/** @inheritdoc */
 	public ngDoCheck(): void {
 		this.updateErrorState();
@@ -207,15 +204,6 @@ export class SelectWithCreateComponent<TItem, TValue> implements MatFormFieldCon
 	/** @inheritdoc */
 	public ngOnDestroy(): void {
 		this.stateChanges.complete();
-	}
-
-	private createFilteredItemsStream(): Observable<readonly TItem[]> {
-		return combineLatest([
-			this.items$,
-			this.inputControl.valueChanges.pipe(startWith('')),
-		]).pipe(
-			map(([items, search]) => this.filterItems(items, search, this.value)),
-		);
 	}
 
 	private filterItems(items: readonly TItem[], search: string, selectedItemsValue: readonly TValue[]): TItem[] {

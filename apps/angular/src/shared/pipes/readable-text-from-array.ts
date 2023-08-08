@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 /**
  * Transform array of objects to string.
- * @example [{a:1, b:2}] | readableTextFromArray:a -> '1'.
+ * @example [{a:1, b:2},{a:2, b:3}] | readableTextFromArray:'a' -> '1, 2'.
  */
 @Pipe({
 	name: 'readableTextFromArray',

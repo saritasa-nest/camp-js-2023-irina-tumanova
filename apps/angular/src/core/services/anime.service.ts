@@ -103,7 +103,7 @@ export class AnimeService {
 	 * Save anime image to s3 bucket.
 	 * @param imageFile Anime cover file.
 	 */
-	public saveAnimeImage(imageFile: File | null | string): Observable<string | null> {
+	public saveAnimeImage(imageFile: File | null): Observable<string | null> {
 		if (imageFile instanceof File) {
 			return this.s3Service.saveImage(imageFile, imageFile.name, 'anime_images');
 		}

@@ -2,7 +2,7 @@
 	<mat-toolbar class="header__toolbar">
 		<a mat-button routerLink="/anime">Anime</a>
 
-		<a mat-button routerLink="/anime/create">Create anime</a>
+		<a *ngIf="isAuth$ | async" mat-button routerLink="/anime/create">Create anime</a>
 
 		<button *ngIf="isAuth$ | async; else Login"  mat-button type="button" (click)="logout()">
 			Logout

@@ -53,25 +53,28 @@ export class AnimeFormComponent implements OnInit {
 	@Input()
 	public anime$: Observable<AnimeDetails> | null = null;
 
-	/** Anime genres. */
-	protected readonly genres$: Observable<readonly Genre[]>;
-
-	private readonly genresUpdateTrigger$ = new BehaviorSubject<void>(undefined);
-
-	/** Anime studios. */
-	protected readonly studios$: Observable<readonly Studio[]>;
-
-	private readonly studiosUpdateTrigger$ = new BehaviorSubject<void>(undefined);
-
 	/** Form type. */
 	@Input({ required: true })
 	public type: FormType = null;
 
+	/** Form. */
+	protected readonly form: FormGroupOf<AnimeFormData, 'aired'>;
+
+	/** Form is loading. */
+	protected readonly isLoading$ = new BehaviorSubject(true);
+
 	/** Form is submitting. */
 	protected readonly isSubmitting$ = new BehaviorSubject(false);
 
-	/** Form. */
-	protected readonly form: FormGroupOf<AnimeFormData, 'aired'>;
+	/** Genres. */
+	protected readonly genres$: Observable<readonly Genre[]>;
+
+	private readonly genresUpdateTrigger$ = new BehaviorSubject<void>(undefined);
+
+	/** Studios. */
+	protected readonly studios$: Observable<readonly Studio[]>;
+
+	private readonly studiosUpdateTrigger$ = new BehaviorSubject<void>(undefined);
 
 	/** Types. */
 	protected readonly types = enumToArray(AnimeType);
@@ -88,8 +91,7 @@ export class AnimeFormComponent implements OnInit {
 	/** Seasons. */
 	protected readonly seasons = enumToArray(AnimeSeason);
 
-	/** Form is loading. */
-	protected readonly isLoading$ = new BehaviorSubject(true);
+	private readonly id = inject(ActivatedRoute).snapshot.params['id'];
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
@@ -98,8 +100,6 @@ export class AnimeFormComponent implements OnInit {
 	private readonly genreService = inject(GenreService);
 
 	private readonly studioService = inject(StudioService);
-
-	private readonly id = inject(ActivatedRoute).snapshot.params['id'];
 
 	private readonly router = inject(Router);
 
@@ -110,30 +110,6 @@ export class AnimeFormComponent implements OnInit {
 
 		this.genres$ = this.createGenresStream();
 		this.studios$ = this.createStudiosStream();
-	}
-
-	/** @inheritdoc */
-	public ngOnInit(): void {
-		if (this.anime$ !== null) {
-			this.anime$.pipe(
-				tap(anime => this.form.patchValue(new AnimeFormData({
-					...anime,
-					genresIds: anime.genres.map(genre => genre.id),
-					studiosIds: anime.studios.map(genre => genre.id),
-					imageUrl: anime.imageUrl,
-					imageFile: null,
-				}))),
-				this.untilDestroyed(),
-			)
-				.subscribe();
-		}
-
-		combineLatest([this.genres$, this.studios$]).pipe(
-			first(),
-			tap(() => this.isLoading$.next(false)),
-			this.untilDestroyed(),
-		)
-			.subscribe();
 	}
 
 	private createForm(): FormGroupOf<AnimeFormData, 'aired'> {
@@ -176,6 +152,34 @@ export class AnimeFormComponent implements OnInit {
 			map(pagination => pagination.items),
 			shareReplay({ refCount: true, bufferSize: 1 }),
 		);
+	}
+
+	/** @inheritdoc */
+	public ngOnInit(): void {
+		if (this.anime$ !== null) {
+			this.anime$.pipe(
+				tap(anime => this.setFormValueFromInputAnime(anime)),
+				this.untilDestroyed(),
+			)
+				.subscribe();
+		}
+
+		combineLatest([this.genres$, this.studios$]).pipe(
+			first(),
+			tap(() => this.isLoading$.next(false)),
+			this.untilDestroyed(),
+		)
+			.subscribe();
+	}
+
+	private setFormValueFromInputAnime(anime: AnimeDetails): void {
+		this.form.patchValue(new AnimeFormData({
+			...anime,
+			genresIds: anime.genres.map(genre => genre.id),
+			studiosIds: anime.studios.map(genre => genre.id),
+			imageUrl: anime.imageUrl,
+			imageFile: null,
+		}));
 	}
 
 	/**

@@ -16,6 +16,7 @@ const routes: Routes = [
 	{
 		path: 'create',
 		component: AnimeCreatePageComponent,
+		canActivate: [authGuard],
 	},
 	{
 		path: ':id',

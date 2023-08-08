@@ -48,13 +48,13 @@ export class PasswordFieldComponent implements MatFormFieldControl<string>, OnDe
 	/** Is password hidden. */
 	public isPasswordHidden = true;
 
-	/** Get form control. */
+	/** Form control. */
 	@Input({ required: true })
 	public set formControl(control: FormControl) {
 		this._formControl = control;
 	}
 
-	/** Set form control. */
+	/** Form control. */
 	public get formControl(): FormControl {
 		return this._formControl ?? new FormControl('');
 	}
@@ -66,18 +66,7 @@ export class PasswordFieldComponent implements MatFormFieldControl<string>, OnDe
 	public autocomplete = '';
 
 	/** @inheritdoc */
-	public get value(): string {
-		return this._value;
-	}
-
-	/** @inheritdoc */
-	private set value(value: string) {
-		this._value = value;
-		this.onChange(value);
-		this.stateChanges.next();
-	}
-
-	private _value = '';
+	public value = '';
 
 	/**
 	 * Change password.

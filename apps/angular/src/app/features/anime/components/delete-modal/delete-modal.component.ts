@@ -13,7 +13,7 @@ interface ModalData {
 	readonly name: string;
 }
 
-/** Image modal component. */
+/** Delete modal component. */
 @Component({
 	selector: 'camp-delete-modal',
 	templateUrl: './delete-modal.component.html',
