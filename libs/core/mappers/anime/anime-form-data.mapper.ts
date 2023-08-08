@@ -1,3 +1,6 @@
+import { AnimeStatusDto, AnimeTypeDto } from '../../dtos/anime/anime.dto';
+import { AnimeStatus } from '../../models/anime/anime-status';
+import { AnimeType } from '../../models/anime/anime';
 import { AnimeRatingDto, AnimeSeasonDto, AnimeSourceDto } from '../../dtos/anime/anime-details.dto';
 import { AnimeSource } from '../../models/anime/anime-source';
 import { AnimeRating } from '../../models/anime/anime-details';
@@ -5,8 +8,6 @@ import { AnimeSeason } from '../../models/anime/anime-season';
 import { AnimeFormDataDto } from '../../dtos/anime/anime-form-data.dto';
 import { AnimeFormData } from '../../models/anime/anime-form-data';
 import { DateRangeMapper } from '../date-range.mapper';
-
-import { AnimeMapper } from './anime.mapper';
 
 export namespace AnimeFormDataMapper {
 
@@ -21,8 +22,8 @@ export namespace AnimeFormDataMapper {
 			trailer_youtube_id: model.trailerYoutubeId,
 			title_eng: model.titleEnglish,
 			title_jpn: model.titleJapanese,
-			type: model.type !== null ? AnimeMapper.ANIME_TYPE_TO_DTO[model.type] : null,
-			status: model.status !== null ? AnimeMapper.ANIME_STATUS_TO_DTO[model.status] : null,
+			type: model.type !== null ? ANIME_TYPE_TO_DTO[model.type] : null,
+			status: model.status !== null ? ANIME_STATUS_TO_DTO[model.status] : null,
 			airing: model.airing,
 			aired: DateRangeMapper.toDto(model.aired),
 			synopsis: model.description,
@@ -70,5 +71,24 @@ export namespace AnimeFormDataMapper {
 		[AnimeSeason.NonSeasonal]: AnimeSeasonDto.NonSeasonal,
 		[AnimeSeason.Spring]: AnimeSeasonDto.Spring,
 		[AnimeSeason.Winter]: AnimeSeasonDto.Winter,
+	};
+
+	/** Anime type transformation object to DTO. */
+	export const ANIME_TYPE_TO_DTO = {
+		[AnimeType.TV]: AnimeTypeDto.TV,
+		[AnimeType.OVA]: AnimeTypeDto.OVA,
+		[AnimeType.Movie]: AnimeTypeDto.Movie,
+		[AnimeType.Special]: AnimeTypeDto.Special,
+		[AnimeType.ONA]: AnimeTypeDto.ONA,
+		[AnimeType.Music]: AnimeTypeDto.Music,
+		[AnimeType.Unknown]: AnimeTypeDto.Unknown,
+	};
+
+	/** Anime status transformation object to DTO. */
+	const ANIME_STATUS_TO_DTO = {
+		[AnimeStatus.Airing]: AnimeStatusDto.Airing,
+		[AnimeStatus.Finished]: AnimeStatusDto.Finished,
+		[AnimeStatus.NotYetAired]: AnimeStatusDto.NotYetAired,
+		[AnimeStatus.Unknown]: AnimeStatusDto.Unknown,
 	};
 }

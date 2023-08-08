@@ -232,7 +232,8 @@ export class AnimeFormComponent implements OnInit {
 			tap(studio => {
 				this.form.controls.studiosIds.setValue([...this.form.controls.studiosIds.value, studio.id]);
 				this.studiosUpdateTrigger$.next();
-			}), this.untilDestroyed(),
+			}),
+			this.untilDestroyed(),
 		)
 			.subscribe();
 	}

@@ -5,7 +5,7 @@ import { Observable, ReplaySubject, combineLatest, map, startWith } from 'rxjs';
 
 import { BaseMatFormField } from '../base-mat-form-field/base-mat-form-field.component';
 
-/** Select with input component. */
+/** Select with create component. */
 @Component({
 	selector: 'camp-select-with-create',
 	templateUrl: './select-with-create.component.html',
@@ -44,9 +44,6 @@ export class SelectWithCreateComponent<TItem, TValue> extends BaseMatFormField<r
 	/** @inheritdoc */
 	public override controlType = 'select-with-input';
 
-	/**
-	 * @param ngControl Ng control.
-	 */
 	public constructor() {
 		super();
 

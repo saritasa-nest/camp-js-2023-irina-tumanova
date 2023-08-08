@@ -35,7 +35,7 @@ implements MatFormFieldControl<FormControlValue<TValue>>, OnDestroy, ControlValu
 
 	private _formControl: FormControl<FormControlValue<TValue>> | null = null;
 
-	/** Next id for select id.*/
+	/** Next id.*/
 	public static nextId = 0;
 
 	/** @inheritdoc */

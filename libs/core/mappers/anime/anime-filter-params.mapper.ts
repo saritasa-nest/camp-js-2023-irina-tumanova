@@ -1,7 +1,7 @@
 import { AnimeFilterParamsDto, AnimeSortingFieldDto } from '../../dtos/anime/anime-filter-params.dto';
 import { AnimeFilterParams, AnimeSortingField } from '../../models/anime/anime-params';
 
-import { AnimeMapper } from './anime.mapper';
+import { AnimeFormDataMapper } from './anime-form-data.mapper';
 
 export namespace AnimeFilterParamsMapper {
 
@@ -11,7 +11,7 @@ export namespace AnimeFilterParamsMapper {
 	 */
 	export function toDto(model: AnimeFilterParams): AnimeFilterParamsDto {
 		return {
-			type__in: model.types.map(type => AnimeMapper.ANIME_TYPE_TO_DTO[type]).join(','),
+			type__in: model.types.map(type => AnimeFormDataMapper.ANIME_TYPE_TO_DTO[type]).join(','),
 			search: model.search,
 		};
 	}
