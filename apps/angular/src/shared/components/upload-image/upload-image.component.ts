@@ -6,6 +6,8 @@ import { BehaviorSubject, Subject } from 'rxjs';
 
 type ChangeFunction<TValue> = (data: TValue) => void;
 
+type FileControlValue = File | null;
+
 const ACCEPT_IMAGE_TYPE = ['image/jpeg', 'image/png', 'image/webp'];
 
 /** Upload image component. */
@@ -16,7 +18,7 @@ const ACCEPT_IMAGE_TYPE = ['image/jpeg', 'image/png', 'image/webp'];
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	providers: [{ provide: MatFormFieldControl, useExisting: UploadImageComponent }],
 })
-export class UploadImageComponent implements MatFormFieldControl<string | File | null>, OnDestroy, ControlValueAccessor, DoCheck {
+export class UploadImageComponent implements MatFormFieldControl<FileControlValue>, OnDestroy, ControlValueAccessor, DoCheck {
 
 	/** Image url. */
 	protected readonly imageUrl$ = new BehaviorSubject<string | null>(null);
