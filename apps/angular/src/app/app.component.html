@@ -4,12 +4,12 @@
 
 		<a *ngIf="isAuth$ | async" mat-button routerLink="/anime/create">Create anime</a>
 
-		<button *ngIf="isAuth$ | async; else Login"  mat-button type="button" (click)="logout()">
+		<button *ngIf="isAuth$ | async; else loginTemplate"  mat-button type="button" (click)="logout()">
 			Logout
 			<mat-icon fontIcon="logout" /> 
 		</button>
 
-		<ng-template #Login>
+		<ng-template #loginTemplate>
 			<a mat-button routerLink="/auth">
 				Login
 				<mat-icon fontIcon="login" /> 

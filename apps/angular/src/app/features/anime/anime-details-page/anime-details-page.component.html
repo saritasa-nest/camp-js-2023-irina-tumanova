@@ -1,8 +1,8 @@
 <ng-container *ngIf="details$ | async as details">
 	<div class="anime-header">
 		<div class="anime-titles">
-			<h1 class="typography-title anime-title" *ngIf="details.titleEnglish.length > 0; else emptyEnglishTitle">{{details.titleEnglish}}</h1>
-			<h3 class="typography-subtitle anime-subtitle" *ngIf="details.titleJapanese.length > 0; else emptyJapaneseTitle">{{details.titleJapanese}}</h3>
+			<h1 class="typography-title anime-title">{{details.titleEnglish.length > 0 ? details.titleEnglish : 'unknown'}}</h1>
+			<h3 class="typography-subtitle anime-subtitle">{{details.titleJapanese.length > 0 ? details.titleJapanese : 'unknown'}}</h3>
 		</div>
 
 		<div class="anime-buttons">
@@ -26,14 +26,14 @@
 			<div class="anime-info">
 				<p class="anime-info__param">Airing:</p>
 				<p class="anime-info__badge">{{getReadableAiring(details.airing)}}</p>
-				<div class="anime-info__aired" *ngIf="details.aired.start as startDate; else emptyStartDate" >
+				<div class="anime-info__aired" *ngIf="details.aired.start as startDate; else emptyStartDateTemplate" >
 					<time class="typography-body anime-info__text-data"
 						[dateTime]="startDate">
 						{{ startDate | date }}
 					</time>
 					-
-					<time *ngIf="details.aired.end as endDate; else emptyEndDate anime-info__text-data" 
-						class="typography-body"
+					<time *ngIf="details.aired.end as endDate; else emptyEndDateTemplate"
+						class="typography-body anime-info__text-data"
 						[dateTime]="endDate">
 						{{ endDate | date }}
 					</time>
@@ -78,19 +78,11 @@
 		</iframe>
 	</div>
 
-	<ng-template #emptyEnglishTitle>
-		<h1 class="typography-title anime-title">unknown</h1>
-	</ng-template>
-
-	<ng-template #emptyJapaneseTitle>
-		<h3 class="typography-subtitle anime-subtitle">unknown</h3>
-	</ng-template>
-
-	<ng-template #emptyEndDate>
+	<ng-template #emptyEndDateTemplate>
 		<p class="typography-body anime-info__text-data">&mdash;</p> 
 	</ng-template>
 
-	<ng-template #emptyStartDate>
+	<ng-template #emptyStartDateTemplate>
 		<p class="typography-body anime-info__text-data">No aired</p>
 	</ng-template>
 </ng-container>
