@@ -29,7 +29,7 @@ export namespace AnimeFormDataMapper {
 			synopsis: model.description,
 			studios: model.studiosIds,
 			genres: model.genresIds,
-			rating: model.rating !== null ? ANIME_RATING_TO_FTO[model.rating] : null,
+			rating: model.rating !== null ? ANIME_RATING_TO_DTO[model.rating] : null,
 			season: model.season !== null ? ANIME_SEASON_TO_DTO[model.season] : null,
 			source: model.source !== null ? ANIME_SOURCE_TO_DTO[model.source] : null,
 		};
@@ -55,7 +55,7 @@ export namespace AnimeFormDataMapper {
 		[AnimeSource.Game]: AnimeSourceDto.Game,
 	};
 
-	const ANIME_RATING_TO_FTO = {
+	const ANIME_RATING_TO_DTO = {
 		[AnimeRating.G]: AnimeRatingDto.G,
 		[AnimeRating.PG]: AnimeRatingDto.PG,
 		[AnimeRating.PG13]: AnimeRatingDto.PG13,

@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { AnimeDetails } from '@js-camp/core/models/anime/anime-details';
-import { BehaviorSubject, Observable, catchError, map, of, shareReplay, tap, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, of, shareReplay, tap, switchMap, first } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { YOUTUBE_EMBED_URL } from '@js-camp/core/const/const';
 import { Anime } from '@js-camp/core/models/anime/anime';
@@ -39,8 +39,6 @@ export class AnimeDetailsPageComponent implements OnInit {
 
 	private readonly id$: Observable<Anime['id']>;
 
-	private id: Anime['id'] | null = null;
-
 	private readonly animeService = inject(AnimeService);
 
 	private readonly route = inject(ActivatedRoute);
@@ -66,12 +64,7 @@ export class AnimeDetailsPageComponent implements OnInit {
 	}
 
 	private createAnimeIdStream(): Observable<number> {
-		return this.route.params.pipe(
-			map(({ id }) => Number(id)),
-			tap(id => {
-				this.id = id;
-			}),
-		);
+		return this.route.params.pipe(map(({ id }) => Number(id)));
 	}
 
 	private createDetailsStream(): Observable<AnimeDetails> {
@@ -131,11 +124,12 @@ export class AnimeDetailsPageComponent implements OnInit {
 
 	/** Go to anime editing. */
 	protected navigateToAnimeEditing(): void {
-		if (this.id === null) {
-			return;
-		}
-
-		this.router.navigate([`/anime/${this.id}/edit`]);
+		this.id$.pipe(
+			first(),
+			tap(id => this.router.navigate([`/anime/${id}/edit`])),
+			this.untilDestroyed(),
+		)
+			.subscribe();
 	}
 
 	/** Handle delete button click. */
@@ -151,10 +145,9 @@ export class AnimeDetailsPageComponent implements OnInit {
 
 	/** Handle confirm button click. */
 	protected deleteAnime(): void {
-		if (this.id === null) {
-			return;
-		}
-		this.animeService.deleteAnime(this.id).pipe(
+		this.id$.pipe(
+			first(),
+			switchMap(id => this.animeService.deleteAnime(id)),
 			tap(() => this.deleteModal.closeAll()),
 			tap(() => this.navigateToMainPage()),
 			this.untilDestroyed(),

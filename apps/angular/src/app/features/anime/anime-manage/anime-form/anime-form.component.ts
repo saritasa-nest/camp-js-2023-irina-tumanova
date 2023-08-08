@@ -51,7 +51,7 @@ export class AnimeFormComponent implements OnInit {
 
 	/** Initial anime info. */
 	@Input()
-	public anime$: Observable<AnimeDetails> | null = null;
+	public anime: AnimeDetails | null = null;
 
 	/** Form type. */
 	@Input({ required: true })
@@ -137,17 +137,17 @@ export class AnimeFormComponent implements OnInit {
 
 	private createGenresStream(): Observable<readonly Genre[]> {
 		return this.genresUpdateTrigger$.pipe(
-			switchMap(() => this.mapPaginationStreamToItemsStreamWithShareReplay(this.genreService.getGenres())),
+			switchMap(() => this.mapPaginationToItems(this.genreService.getGenres())),
 		);
 	}
 
 	private createStudiosStream(): Observable<readonly Studio[]> {
 		return this.studiosUpdateTrigger$.pipe(
-			switchMap(() => this.mapPaginationStreamToItemsStreamWithShareReplay(this.studioService.getStudios())),
+			switchMap(() => this.mapPaginationToItems(this.studioService.getStudios())),
 		);
 	}
 
-	private mapPaginationStreamToItemsStreamWithShareReplay<T>(paginationStream$: Observable<Pagination<T>>): Observable<readonly T[]> {
+	private mapPaginationToItems<T>(paginationStream$: Observable<Pagination<T>>): Observable<readonly T[]> {
 		return paginationStream$.pipe(
 			map(pagination => pagination.items),
 			shareReplay({ refCount: true, bufferSize: 1 }),
@@ -156,12 +156,8 @@ export class AnimeFormComponent implements OnInit {
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		if (this.anime$ !== null) {
-			this.anime$.pipe(
-				tap(anime => this.setFormValueFromInputAnime(anime)),
-				this.untilDestroyed(),
-			)
-				.subscribe();
+		if (this.anime !== null) {
+			this.setFormValueFromAnime(this.anime);
 		}
 
 		combineLatest([this.genres$, this.studios$]).pipe(
@@ -172,7 +168,7 @@ export class AnimeFormComponent implements OnInit {
 			.subscribe();
 	}
 
-	private setFormValueFromInputAnime(anime: AnimeDetails): void {
+	private setFormValueFromAnime(anime: AnimeDetails): void {
 		this.form.patchValue(new AnimeFormData({
 			...anime,
 			genresIds: anime.genres.map(genre => genre.id),
