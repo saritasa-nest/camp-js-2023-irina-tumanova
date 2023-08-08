@@ -157,7 +157,7 @@ export class AnimeFormComponent implements OnInit {
 	/** @inheritdoc */
 	public ngOnInit(): void {
 		if (this.anime !== null) {
-			this.setFormValueFromAnime(this.anime);
+			this.setFormValues(this.anime);
 		}
 
 		combineLatest([this.genres$, this.studios$]).pipe(
@@ -168,7 +168,7 @@ export class AnimeFormComponent implements OnInit {
 			.subscribe();
 	}
 
-	private setFormValueFromAnime(anime: AnimeDetails): void {
+	private setFormValues(anime: AnimeDetails): void {
 		this.form.patchValue(new AnimeFormData({
 			...anime,
 			genresIds: anime.genres.map(genre => genre.id),
