@@ -1,9 +1,9 @@
 <form class="anime-form" [formGroup]="form">
-	<p class="typography-title" *ngIf="type === 'edit'; else CreationHeader">
+	<p class="typography-title" *ngIf="type === 'edit'; else creationHeader">
 		Edit anime
 	</p>
 
-	<ng-template #CreationHeader>
+	<ng-template #creationHeader>
 		<p class="typography-title">Create anime</p>
 	</ng-template>
 

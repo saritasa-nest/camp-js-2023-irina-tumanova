@@ -18,7 +18,7 @@ export namespace AnimeFormDataMapper {
 
 		return {
 			image: model.imageUrl as string,
-			trailer_youtube_id: model.trailerYoutubeId !== null ? model.trailerYoutubeId : null,
+			trailer_youtube_id: model.trailerYoutubeId,
 			title_eng: model.titleEnglish,
 			title_jpn: model.titleJapanese,
 			type: model.type !== null ? AnimeMapper.ANIME_TYPE_TO_DTO[model.type] : null,
