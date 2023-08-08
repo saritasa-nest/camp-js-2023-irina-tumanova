@@ -7,7 +7,7 @@ import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { AnimeDetails } from '@js-camp/core/models/anime/anime-details';
 import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
-import { BehaviorSubject, Observable, fromEvent, map, shareReplay, tap } from 'rxjs';
+import { BehaviorSubject, Observable, fromEvent, map, shareReplay, switchMap, tap } from 'rxjs';
 import { AnimeSource } from '@js-camp/core/models/anime/anime-source';
 import { AnimeSeason } from '@js-camp/core/models/anime/anime-season';
 
@@ -46,15 +46,26 @@ export class AnimeDetailsPageComponent implements OnInit {
 	private readonly untilDestroyed = untilDestroyed();
 
 	public constructor() {
-		const animeId = Number(this.route.snapshot.params['id']);
-		this.details$ = this.animeService.getAnimeDetails(animeId).pipe(shareReplay({ refCount: true, bufferSize: 1 }));
-		this.safeTrailerUrl$ = this.details$.pipe(
+		this.details$ = this.createDetailsStream();
+		this.safeTrailerUrl$ = this.createSafeTrailerUrlStream();
+
+		this.changeTrailerComponentHeight();
+	}
+
+	private createDetailsStream(): Observable<AnimeDetails> {
+		const animeId$ = this.route.params;
+		return animeId$.pipe(
+			switchMap(({ id }) => this.animeService.getAnimeDetails(Number(id))),
+			shareReplay({ refCount: true, bufferSize: 1 }),
+		);
+	}
+
+	private createSafeTrailerUrlStream(): Observable<SafeResourceUrl | null> {
+		return this.details$.pipe(
 			map(details => details.trailerYoutubeUrl !== null ?
 				this.sanitizer.bypassSecurityTrustResourceUrl(details.trailerYoutubeUrl) :
 				null),
 		);
-
-		this.changeTrailerComponentHeight();
 	}
 
 	/** @inheritdoc */
