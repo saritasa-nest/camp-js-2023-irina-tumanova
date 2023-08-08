@@ -93,12 +93,12 @@ export class UploadImageComponent implements MatFormFieldControl<FileControlValu
 
 	/** @inheritdoc */
 	@Input()
-	public get value(): string | File | null {
+	public get value(): FileControlValue {
 		return this._value;
 	}
 
 	/** @inheritdoc */
-	private set value(value: string | File | null) {
+	private set value(value: FileControlValue) {
 		this.setImageUrl(value);
 
 		this._value = value;
@@ -106,7 +106,7 @@ export class UploadImageComponent implements MatFormFieldControl<FileControlValu
 		this.stateChanges.next();
 	}
 
-	private _value: string | File | null = null;
+	private _value: FileControlValue = null;
 
 	/**
 	 * Change value.
@@ -258,7 +258,7 @@ export class UploadImageComponent implements MatFormFieldControl<FileControlValu
 	}
 
 	/** @inheritdoc */
-	public writeValue(value: string | File): void {
+	public writeValue(value: FileControlValue): void {
 		this.value = value;
 	}
 
