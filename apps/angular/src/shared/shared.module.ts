@@ -14,6 +14,9 @@ import { FieldErrorTextPipe } from './pipes/field-error-text';
 import { ReadableTextFromArrayPipe } from './pipes/readable-text-from-array';
 import { SelectWithCreateComponent } from './components/select-with-create/select-with-create.component';
 import { UploadImageComponent } from './components/upload-image/upload-image.component';
+import { ReadableAnimeStatusPipe } from './pipes/readable-anime-status';
+import { ReadableAnimeSeasonPipe } from './pipes/readable-anime-season';
+import { ReadableAnimeSourcePipe } from './pipes/readable-anime-source';
 
 /** Shared module. */
 @NgModule({
@@ -24,6 +27,9 @@ import { UploadImageComponent } from './components/upload-image/upload-image.com
 		ReadableTextFromArrayPipe,
 		SelectWithCreateComponent,
 		UploadImageComponent,
+		ReadableAnimeStatusPipe,
+		ReadableAnimeSeasonPipe,
+		ReadableAnimeSourcePipe,
 	],
 	imports: [
 		CommonModule,
@@ -42,6 +48,9 @@ import { UploadImageComponent } from './components/upload-image/upload-image.com
 		ReadableTextFromArrayPipe,
 		SelectWithCreateComponent,
 		UploadImageComponent,
+		ReadableAnimeStatusPipe,
+		ReadableAnimeSeasonPipe,
+		ReadableAnimeSourcePipe,
 	],
 })
 export class SharedModule {}
