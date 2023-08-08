@@ -6,7 +6,6 @@ import { Sort } from '@angular/material/sort';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Anime, AnimeType } from '@js-camp/core/models/anime/anime';
 import { AnimeSortingField, AnimeParams, AnimeFilterParams, QueryAnimeParams } from '@js-camp/core/models/anime/anime-params';
-import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, startWith, merge, combineLatest, finalize, withLatestFrom } from 'rxjs';
 import { Sorting } from '@js-camp/core/models/sorting';
@@ -122,14 +121,6 @@ export class AnimePageComponent implements OnInit {
 				sorting.active as AnimeSortingField :
 				AnimeSortingField.None,
 		});
-	}
-
-	/**
-	 * Get readable status.
-	 * @param status Anime status.
-	 */
-	protected getReadableStatus(status: AnimeStatus): string {
-		return AnimeStatus.toReadable(status);
 	}
 
 	/**

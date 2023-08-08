@@ -6,14 +6,33 @@ import { ShadowSpinnerComponent } from './components/shadow-spinner/shadow-spinn
 import { SenternseCasePipe } from './pipes/sentensecase';
 import { FieldErrorTextPipe } from './pipes/field-error-text';
 import { ReadableTextFromArrayPipe } from './pipes/readable-text-from-array';
+import { ReadableAnimeStatusPipe } from './pipes/readable-anime-status';
+import { ReadableAnimeSeasonPipe } from './pipes/readable-anime-season';
+import { ReadableAnimeSourcePipe } from './pipes/readable-anime-source';
 
 /** Shared module. */
 @NgModule({
-	declarations: [ShadowSpinnerComponent, SenternseCasePipe, FieldErrorTextPipe, ReadableTextFromArrayPipe],
+	declarations: [
+		ShadowSpinnerComponent,
+		SenternseCasePipe,
+		FieldErrorTextPipe,
+		ReadableTextFromArrayPipe,
+		ReadableAnimeStatusPipe,
+		ReadableAnimeSeasonPipe,
+		ReadableAnimeSourcePipe,
+	],
 	imports: [
 		CommonModule,
 		MatProgressSpinnerModule,
 	],
-	exports: [ShadowSpinnerComponent, SenternseCasePipe, FieldErrorTextPipe, ReadableTextFromArrayPipe],
+	exports: [
+		ShadowSpinnerComponent,
+		SenternseCasePipe,
+		FieldErrorTextPipe,
+		ReadableTextFromArrayPipe,
+		ReadableAnimeStatusPipe,
+		ReadableAnimeSeasonPipe,
+		ReadableAnimeSourcePipe,
+	],
 })
 export class SharedModule {}

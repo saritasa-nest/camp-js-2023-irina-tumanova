@@ -1,15 +1,11 @@
 import { DOCUMENT } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { AnimeDetails } from '@js-camp/core/models/anime/anime-details';
-import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
-import { BehaviorSubject, Observable, fromEvent, map, shareReplay, switchMap, tap } from 'rxjs';
-import { AnimeSource } from '@js-camp/core/models/anime/anime-source';
-import { AnimeSeason } from '@js-camp/core/models/anime/anime-season';
+import { BehaviorSubject, Observable, map, shareReplay, switchMap } from 'rxjs';
 
 import { ImageModalComponent } from '../components/image-modal/image-modal.component';
 
@@ -22,7 +18,7 @@ const TRAILER_COMPONENT_ASPECT_RATION = 9 / 16;
 	styleUrls: ['./anime-details-page.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnimeDetailsPageComponent implements OnInit {
+export class AnimeDetailsPageComponent {
 
 	/** Anime details. */
 	protected readonly details$: Observable<AnimeDetails>;
@@ -43,8 +39,6 @@ export class AnimeDetailsPageComponent implements OnInit {
 
 	private readonly imageModal = inject(MatDialog);
 
-	private readonly untilDestroyed = untilDestroyed();
-
 	public constructor() {
 		this.details$ = this.createDetailsStream();
 		this.safeTrailerUrl$ = this.createSafeTrailerUrlStream();
@@ -53,9 +47,9 @@ export class AnimeDetailsPageComponent implements OnInit {
 	}
 
 	private createDetailsStream(): Observable<AnimeDetails> {
-		const animeId$ = this.route.params;
-		return animeId$.pipe(
-			switchMap(({ id }) => this.animeService.getAnimeDetails(Number(id))),
+		return this.route.params.pipe(
+			map(({ id }) => Number(id)),
+			switchMap(id => this.animeService.getAnimeDetails(id)),
 			shareReplay({ refCount: true, bufferSize: 1 }),
 		);
 	}
@@ -66,16 +60,6 @@ export class AnimeDetailsPageComponent implements OnInit {
 				this.sanitizer.bypassSecurityTrustResourceUrl(details.trailerYoutubeUrl) :
 				null),
 		);
-	}
-
-	/** @inheritdoc */
-	public ngOnInit(): void {
-		fromEvent(this.window ?? window, 'resize')
-			.pipe(
-				tap(() => this.changeTrailerComponentHeight()),
-				this.untilDestroyed(),
-			)
-			.subscribe();
 	}
 
 	/**
@@ -96,34 +80,10 @@ export class AnimeDetailsPageComponent implements OnInit {
 	}
 
 	/**
-	 * Get readable status.
-	 * @param status Anime status.
-	 */
-	protected getReadableStatus(status: AnimeStatus): string {
-		return AnimeStatus.toReadable(status);
-	}
-
-	/**
 	 * Get readable airing.
 	 * @param airing Anime airing.
 	 */
 	protected getReadableAiring(airing: boolean): string {
 		return airing ? 'Yes' : 'No';
-	}
-
-	/**
-	 * Get readable source.
-	 * @param source Anime source.
-	 */
-	protected getReadableSource(source: AnimeSource): string {
-		return AnimeSource.toReadable(source);
-	}
-
-	/**
-	 * Get readable season.
-	 * @param season Anime season.
-	 */
-	protected getReadableSeason(season: AnimeSeason): string {
-		return AnimeSeason.toReadable(season);
 	}
 }
