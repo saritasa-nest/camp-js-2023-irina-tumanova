@@ -25,7 +25,7 @@ type FormType = 'create' | 'edit' | null;
 const DEFAULT_FORM_VALUES: AnimeFormData = {
 	imageUrl: null,
 	imageFile: null,
-	trailerYoutubeId: '',
+	trailerYoutubeId: null,
 	titleEnglish: '',
 	titleJapanese: '',
 	type: null,
