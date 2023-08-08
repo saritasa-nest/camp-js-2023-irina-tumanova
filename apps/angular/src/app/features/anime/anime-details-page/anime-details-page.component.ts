@@ -12,7 +12,7 @@ import { AnimeSource } from '@js-camp/core/models/anime/anime-source';
 import { AnimeSeason } from '@js-camp/core/models/anime/anime-season';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Anime } from '@js-camp/core/models/anime/anime';
-import { YOUTUBE_EMBED_URL } from '@js-camp/angular/core/const/const';
+import { YOUTUBE_EMBED_URL } from '@js-camp/core/const/const';
 
 import { ImageModalComponent } from '../components/image-modal/image-modal.component';
 import { DeleteModalComponent } from '../components/delete-modal/delete-modal.component';
