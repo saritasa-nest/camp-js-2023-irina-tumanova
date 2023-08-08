@@ -12,7 +12,6 @@ export namespace AnimeDetailsMapper {
 	/**
 	 * Maps DTO to model.
 	 * @param dto Studio DTO.
-	 * @param youtubeSrc Yotube src.
 	 */
 	export function fromDto(dto: AnimeDetailsDto): AnimeDetails {
 		return new AnimeDetails({
