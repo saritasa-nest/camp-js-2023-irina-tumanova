@@ -49,7 +49,7 @@
 		 <mat-form-field *ngIf="form.controls.status as status">
 			<mat-label>Status</mat-label>
 			<mat-select [formControl]="status">
-				<mat-option *ngFor="let status of statuses; trackBy trackByIndex" [value]="status">{{getReadableStatus(status)}}</mat-option>
+				<mat-option *ngFor="let status of statuses; trackBy trackByIndex" [value]="status">{{status | readableAnimeStatus}}</mat-option>
 			</mat-select>
 			<mat-error *ngIf="status.hasError('required')">{{'required' | fieldErrorText:'status'}}</mat-error>
 		</mat-form-field>

@@ -22,13 +22,13 @@ export class ApiUrlsConfig {
 
 	/** Genre routes. */
 	public readonly genre = {
-		get: this.toApi('anime/genres/'),
+		getList: this.toApi('anime/genres/'),
 		create: this.toApi('anime/genres/'),
 	};
 
 	/** Studio routes. */
 	public readonly studio = {
-		get: this.toApi('anime/studios/'),
+		getList: this.toApi('anime/studios/'),
 		create: this.toApi('anime/studios/'),
 	};
 

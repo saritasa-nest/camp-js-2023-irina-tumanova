@@ -82,9 +82,7 @@ export class AnimeDetailsPageComponent implements OnInit {
 	}
 
 	private createSafeTrailerUrlStream(): Observable<SafeResourceUrl | null> {
-		return this.details$.pipe(
-			map(details => this.createSafeYoutubeUrl(details.trailerYoutubeId)),
-		);
+		return this.details$.pipe(map(details => this.createSafeYoutubeUrl(details.trailerYoutubeId)));
 	}
 
 	/** @inheritdoc */

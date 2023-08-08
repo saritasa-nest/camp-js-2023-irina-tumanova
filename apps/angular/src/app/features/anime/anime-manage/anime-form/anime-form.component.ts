@@ -182,14 +182,6 @@ export class AnimeFormComponent implements OnInit {
 		}));
 	}
 
-	/**
-	 * Get readable status.
-	 * @param status Anime status.
-	 */
-	protected getReadableStatus(status: AnimeStatus): string {
-		return AnimeStatus.toReadable(status);
-	}
-
 	/** Submit anime form. */
 	protected handleSubmit(): void {
 		if (this.form.invalid || this.type === null) {

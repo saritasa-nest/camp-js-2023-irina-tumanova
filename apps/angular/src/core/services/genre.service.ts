@@ -22,7 +22,7 @@ export class GenreService {
 
 	/** Get genres.*/
 	public getGenres(): Observable<Pagination<Genre>> {
-		const url = this.apiUrlsConfig.genre.get;
+		const url = this.apiUrlsConfig.genre.getList;
 
 		return this.http
 			.get<PaginationDto<GenreDto>>(url)

@@ -22,7 +22,7 @@ export class StudioService {
 
 	/** Get studios.*/
 	public getStudios(): Observable<Pagination<Studio>> {
-		const url = this.apiUrlsConfig.studio.get;
+		const url = this.apiUrlsConfig.studio.getList;
 
 		return this.http
 			.get<PaginationDto<StudioDto>>(url)

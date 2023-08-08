@@ -8,7 +8,7 @@ type ChangeFunction<TValue> = (data: TValue) => void;
 
 type FormControlValue<TValue> = TValue | null;
 
-/** Base mat dorm field component. */
+/** Base mat form field component. */
 @Directive()
 export abstract class BaseMatFormField<TValue>
 implements MatFormFieldControl<FormControlValue<TValue>>, OnDestroy, ControlValueAccessor, DoCheck {
