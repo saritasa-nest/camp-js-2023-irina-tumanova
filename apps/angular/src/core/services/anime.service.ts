@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Anime } from '@js-camp/core/models/anime/anime';
-import { Observable, map, of } from 'rxjs';
+import { Observable, catchError, map, of, throwError } from 'rxjs';
 import { AnimeDto } from '@js-camp/core/dtos/anime/anime.dto';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
@@ -15,6 +15,7 @@ import { AnimeDetailsDto } from '@js-camp/core/dtos/anime/anime-details.dto';
 import { AnimeDetailsMapper } from '@js-camp/core/mappers/anime/anime-details.mapper';
 import { AnimeFormData } from '@js-camp/core/models/anime/anime-form-data';
 import { AnimeFormDataMapper } from '@js-camp/core/mappers/anime/anime-form-data.mapper';
+import { Router } from '@angular/router';
 
 import { ApiUrlsConfig } from './api-urls.config';
 import { S3Service } from './s3-bucket.service';
@@ -30,6 +31,8 @@ export class AnimeService {
 	private readonly apiUrlsConfig = inject(ApiUrlsConfig);
 
 	private readonly s3Service = inject(S3Service);
+
+	private readonly router = inject(Router);
 
 	/**
 	 * Get anime list.
@@ -63,7 +66,15 @@ export class AnimeService {
 
 		return this.http
 			.get<AnimeDetailsDto>(url)
-			.pipe(map(detailsDto => AnimeDetailsMapper.fromDto(detailsDto)));
+			.pipe(
+				map(detailsDto => AnimeDetailsMapper.fromDto(detailsDto)),
+				catchError((error: unknown) => {
+					if (error instanceof HttpErrorResponse && error.status === 404) {
+						this.router.navigate(['']);
+					}
+					return throwError(() => error);
+				}),
+			);
 	}
 
 	/**

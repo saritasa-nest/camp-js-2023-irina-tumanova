@@ -21,9 +21,12 @@ export class UploadImageComponent extends BaseMatFormField<FileControlValue> {
 	/** Image url. */
 	protected readonly imageUrl$ = new BehaviorSubject<string | null>(null);
 
-	/** Image max size. */
+	/**
+	 * Image max size.
+	 * Default image size 250 kB (not a lot, not a little).
+	 */
 	@Input()
-	public maxSize = 8 * 1024 * 1024 * 3;
+	public maxSize = 1024 * 250;
 
 	/** Default image url. */
 	@Input()
@@ -57,11 +60,7 @@ export class UploadImageComponent extends BaseMatFormField<FileControlValue> {
 	}
 
 	private setImageUrl(value: string | null | File): void {
-		if (value instanceof File) {
-			this.imageUrl$.next(URL.createObjectURL(value));
-		} else {
-			this.imageUrl$.next(value);
-		}
+		this.imageUrl$.next(value instanceof File ? URL.createObjectURL(value) : value);
 	}
 
 	/**

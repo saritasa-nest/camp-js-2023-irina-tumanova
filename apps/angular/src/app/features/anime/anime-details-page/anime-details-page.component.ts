@@ -1,13 +1,12 @@
 import { DOCUMENT } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { AnimeDetails } from '@js-camp/core/models/anime/anime-details';
-import { BehaviorSubject, Observable, catchError, map, of, shareReplay, tap, switchMap, first } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
+import { BehaviorSubject, Observable, map, shareReplay, tap, switchMap, first } from 'rxjs';
 import { YOUTUBE_EMBED_URL } from '@js-camp/core/const/const';
 import { Anime } from '@js-camp/core/models/anime/anime';
 
@@ -23,7 +22,7 @@ const TRAILER_COMPONENT_ASPECT_RATION = 9 / 16;
 	styleUrls: ['./anime-details-page.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnimeDetailsPageComponent implements OnInit {
+export class AnimeDetailsPageComponent {
 
 	/** Anime details. */
 	protected readonly details$: Observable<AnimeDetails>;
@@ -76,19 +75,6 @@ export class AnimeDetailsPageComponent implements OnInit {
 
 	private createSafeTrailerUrlStream(): Observable<SafeResourceUrl | null> {
 		return this.details$.pipe(map(details => this.createSafeYoutubeUrl(details.trailerYoutubeId)));
-	}
-
-	/** @inheritdoc */
-	public ngOnInit(): void {
-		this.details$.pipe(
-			catchError((error: unknown) => {
-				if (error instanceof HttpErrorResponse && error.status === 404) {
-					this.navigateToMainPage();
-				}
-				return of(error);
-			}),
-			this.untilDestroyed(),
-		).subscribe();
 	}
 
 	private createSafeYoutubeUrl(trailerYoutubeId: string | null): SafeResourceUrl | null {
