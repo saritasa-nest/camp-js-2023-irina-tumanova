@@ -9,6 +9,7 @@ import { ReadableTextFromArrayPipe } from './pipes/readable-text-from-array';
 import { ReadableAnimeStatusPipe } from './pipes/readable-anime-status';
 import { ReadableAnimeSeasonPipe } from './pipes/readable-anime-season';
 import { ReadableAnimeSourcePipe } from './pipes/readable-anime-source';
+import { YesNoPipe } from './pipes/yes-no-pipe';
 
 /** Shared module. */
 @NgModule({
@@ -20,6 +21,7 @@ import { ReadableAnimeSourcePipe } from './pipes/readable-anime-source';
 		ReadableAnimeStatusPipe,
 		ReadableAnimeSeasonPipe,
 		ReadableAnimeSourcePipe,
+		YesNoPipe,
 	],
 	imports: [
 		CommonModule,
@@ -33,6 +35,7 @@ import { ReadableAnimeSourcePipe } from './pipes/readable-anime-source';
 		ReadableAnimeStatusPipe,
 		ReadableAnimeSeasonPipe,
 		ReadableAnimeSourcePipe,
+		YesNoPipe,
 	],
 })
 export class SharedModule {}
