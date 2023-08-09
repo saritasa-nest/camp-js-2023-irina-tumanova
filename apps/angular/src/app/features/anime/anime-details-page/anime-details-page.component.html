@@ -24,7 +24,7 @@
 			</div>
 			<div class="anime-info">
 				<p class="anime-info__param">Airing:</p>
-				<p class="anime-info__badge">{{getReadableAiring(details.airing)}}</p>
+				<p class="anime-info__badge">{{details.airing | yesNoPipe}}</p>
 				<div class="anime-info__aired" *ngIf="details.aired.start as startDate; else emptyStartDateTemplate" >
 					<time class="typography-body anime-info__text-data"
 						[dateTime]="startDate">

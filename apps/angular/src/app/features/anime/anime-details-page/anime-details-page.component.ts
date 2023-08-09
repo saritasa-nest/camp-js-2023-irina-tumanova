@@ -114,14 +114,6 @@ export class AnimeDetailsPageComponent implements OnInit {
 		this.trailerComponentHeight$.next(this.window.innerWidth * TRAILER_COMPONENT_ASPECT_RATION);
 	}
 
-	/**
-	 * Get readable airing.
-	 * @param airing Anime airing.
-	 */
-	protected getReadableAiring(airing: boolean): string {
-		return airing ? 'Yes' : 'No';
-	}
-
 	/** Go to anime editing. */
 	protected navigateToAnimeEditing(): void {
 		this.id$.pipe(
