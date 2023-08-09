@@ -7,6 +7,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatChipsModule } from '@angular/material/chips';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { ShadowSpinnerComponent } from './components/shadow-spinner/shadow-spinner.component';
 import { SenternseCasePipe } from './pipes/sentensecase';
@@ -18,6 +21,7 @@ import { ReadableAnimeStatusPipe } from './pipes/readable-anime-status';
 import { ReadableAnimeSeasonPipe } from './pipes/readable-anime-season';
 import { ReadableAnimeSourcePipe } from './pipes/readable-anime-source';
 import { YesNoPipe } from './pipes/yes-no-pipe';
+import { ReadableTextFromObjectPipe } from './pipes/readable-text-from-object';
 
 /** Shared module. */
 @NgModule({
@@ -31,6 +35,7 @@ import { YesNoPipe } from './pipes/yes-no-pipe';
 		ReadableAnimeStatusPipe,
 		ReadableAnimeSeasonPipe,
 		ReadableAnimeSourcePipe,
+		ReadableTextFromObjectPipe,
 		YesNoPipe,
 	],
 	imports: [
@@ -42,6 +47,9 @@ import { YesNoPipe } from './pipes/yes-no-pipe';
 		MatIconModule,
 		MatButtonModule,
 		ReactiveFormsModule,
+		MatAutocompleteModule,
+		MatChipsModule,
+		InfiniteScrollModule,
 	],
 	exports: [
 		ShadowSpinnerComponent,
@@ -53,6 +61,7 @@ import { YesNoPipe } from './pipes/yes-no-pipe';
 		ReadableAnimeStatusPipe,
 		ReadableAnimeSeasonPipe,
 		ReadableAnimeSourcePipe,
+		ReadableTextFromObjectPipe,
 		YesNoPipe,
 	],
 })

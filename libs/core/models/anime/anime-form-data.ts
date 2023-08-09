@@ -5,6 +5,8 @@ import { AnimeRating } from './anime-details';
 import { AnimeSeason } from './anime-season';
 import { AnimeSource } from './anime-source';
 import { AnimeStatus } from './anime-status';
+import { Genre } from './genre';
+import { Studio } from './studio';
 
 /** Anime form data (edit, create). */
 export class AnimeFormData {
@@ -40,10 +42,10 @@ export class AnimeFormData {
 	public readonly description: string;
 
 	/** Studios ids. */
-	public readonly studiosIds: readonly number[];
+	public readonly studios: readonly Studio[];
 
 	/** Genres ids. */
-	public readonly genresIds: readonly number[];
+	public readonly genres: readonly Genre[];
 
 	/** Age rating. */
 	public readonly rating: AnimeRating | null;
@@ -65,8 +67,8 @@ export class AnimeFormData {
 		this.airing = data.airing;
 		this.aired = data.aired;
 		this.description = data.description;
-		this.studiosIds = data.studiosIds;
-		this.genresIds = data.genresIds;
+		this.studios = data.studios;
+		this.genres = data.genres;
 		this.rating = data.rating;
 		this.source = data.source;
 		this.season = data.season;

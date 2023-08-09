@@ -54,24 +54,22 @@
 			<mat-error *ngIf="status.hasError('required')">{{'required' | fieldErrorText:'status'}}</mat-error>
 		</mat-form-field>
 
-		<mat-form-field class="select-with-input"  *ngIf="genres$ | async as genres">
+		<mat-form-field class="select-with-input">
 			<mat-label>Genres</mat-label>
-			<camp-select-with-create [formControl]="form.controls.genresIds" 
-				valueKey="id" 
+			<camp-select-with-create [formControl]="form.controls.genres" 
 				nameKey="name" 
-				(createItemEvent)="addGenre($event)"
-				[items]="genres" />
-			<mat-error *ngIf="form.controls.genresIds.hasError('required')">{{'required' | fieldErrorText:'genres'}}</mat-error>
+				[createItem]="createGenre"
+				[getItems]="getGenres" />
+			<mat-error *ngIf="form.controls.genres.hasError('required')">{{'required' | fieldErrorText:'genres'}}</mat-error>
 		</mat-form-field>
 
-		<mat-form-field class="select-with-input" *ngIf="studios$ | async as studios">
+		<mat-form-field class="select-with-input">
 			<mat-label>Studios</mat-label>
-			<camp-select-with-create [formControl]="form.controls.studiosIds" 
-				valueKey="id" 
+			<camp-select-with-create [formControl]="form.controls.studios" 
 				nameKey="name" 
-				(createItemEvent)="addStudio($event)"
-				[items]="studios" />
-			<mat-error *ngIf="form.controls.studiosIds.hasError('required')">{{'required' | fieldErrorText:'studios'}}</mat-error>
+				[createItem]="createStudio"
+				[getItems]="getStudios" />
+			<mat-error *ngIf="form.controls.studios.hasError('required')">{{'required' | fieldErrorText:'studios'}}</mat-error>
 		</mat-form-field>
 
 		<mat-form-field *ngIf="form.controls.rating as rating">
@@ -130,5 +128,4 @@
 	<button type="submit" mat-raised-button color="primary" class="anime-form__submit" (click)="handleSubmit()">Save</button>
 </form>
 
-<camp-shadow-spinner *ngIf="isLoading$ | async" />
 <camp-shadow-spinner *ngIf="isSubmitting$ | async" />

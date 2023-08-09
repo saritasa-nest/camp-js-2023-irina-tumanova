@@ -27,3 +27,8 @@
 	color: var(--primary-contrast-color);
 	opacity: 0.6;
 }
+
+.autocomplete-list {
+	max-height: 100%;
+	overflow: auto;
+}

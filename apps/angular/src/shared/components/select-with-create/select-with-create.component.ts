@@ -1,9 +1,27 @@
-import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { Observable, ReplaySubject, combineLatest, map, startWith } from 'rxjs';
+import { BehaviorSubject, Observable, debounceTime, distinctUntilChanged, map, of, switchMap, tap, withLatestFrom } from 'rxjs';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { DefaultListParams } from '@js-camp/core/models/list-params';
+import { Pagination } from '@js-camp/core/models/pagination';
+import { Sorting } from '@js-camp/core/models/sorting';
+import { PaginationParams } from '@js-camp/core/models/pagination-params';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
 
 import { BaseMatFormField } from '../base-mat-form-field/base-mat-form-field.component';
+
+type GetItemsFunction<TItem> = (params: DefaultListParams<undefined>) => Observable<Pagination<TItem>>;
+
+type CreateItemFunction<TItem> = (name: string) => Observable<TItem>;
+
+const DEFAULT_LIST_PARAMS: DefaultListParams<undefined> = {
+	sorting: new Sorting({ field: undefined, direction: '' }),
+	filters: { search: '' },
+	pagination: new PaginationParams({ pageNumber: 0, pageSize: 15 }),
+};
 
 /** Select with create component. */
 @Component({
@@ -13,103 +31,133 @@ import { BaseMatFormField } from '../base-mat-form-field/base-mat-form-field.com
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	providers: [{ provide: MatFormFieldControl, useExisting: SelectWithCreateComponent }],
 })
-export class SelectWithCreateComponent<TItem, TValue> extends BaseMatFormField<readonly TValue[]> {
+export class SelectWithCreateComponent<TItem> extends BaseMatFormField<readonly TItem[]> implements OnInit {
 
-	/** Item key for get item value. */
+	/** Get items. */
 	@Input({ required: true })
-	public valueKey: keyof TItem | null = null;
+	public getItems: GetItemsFunction<TItem> | null = null;
 
-	/** Item key for get item name. */
+	/** Create item. */
+	@Input({ required: true })
+	public createItem: CreateItemFunction<TItem> | null = null;
+
+	/** Key with item name. */
 	@Input({ required: true })
 	public nameKey: keyof TItem | null = null;
 
-	/** Select items. */
-	@Input({ required: true })
-	public set items(value: readonly TItem[]) {
-		this.items$.next(value);
-	}
+	/** @inheritdoc */
+	public override controlType = 'select-with-create';
 
-	private readonly items$ = new ReplaySubject<readonly TItem[]>(1);
+	/** Separator keys codes. */
+	protected readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
-	/** Item key for get item name. */
-	@Output()
-	public createItemEvent = new EventEmitter<string>();
+	/** Items params. */
+	protected readonly itemsParams$ = new BehaviorSubject(DEFAULT_LIST_PARAMS);
 
-	/** Filtered items. */
-	protected readonly filteredItems$: Observable<readonly TItem[]>;
+	/** Items. */
+	protected items$ = new BehaviorSubject<TItem[]>([]);
 
 	/** Select's input controller. */
 	protected readonly inputControl: FormControl<string>;
 
-	/** @inheritdoc */
-	public override controlType = 'select-with-input';
+	private readonly untilDestroyed = untilDestroyed();
 
 	public constructor() {
 		super();
-
 		this.inputControl = this.formBuilder.control('');
-		this.filteredItems$ = this.createFilteredItemsStream();
-	}
-
-	private createFilteredItemsStream(): Observable<readonly TItem[]> {
-		return combineLatest([
-			this.items$,
-			this.inputControl.valueChanges.pipe(startWith('')),
-		]).pipe(
-			map(([items, search]) => this.filterItems(items, search, this.value ?? [])),
-		);
-	}
-
-	private filterItems(items: readonly TItem[], search: string, selectedItemsValue: readonly TValue[]): TItem[] {
-		return items.filter(item =>
-			this.checkItemMatchesSearch(item, search) ||
-			this.checkItemIsSelected(item, selectedItemsValue));
-	}
-
-	private checkItemMatchesSearch(item: TItem, search: string): boolean {
-		if (this.nameKey === null) {
-			return false;
-		}
-
-		return String(item[this.nameKey]).toLowerCase()
-			.includes(search.toLowerCase());
-	}
-
-	private checkItemIsSelected(item: TItem, selectedItems: readonly TValue[]): boolean {
-		if (this.valueKey === null) {
-			return false;
-		}
-
-		return selectedItems.includes(item[this.valueKey] as TValue);
 	}
 
 	/** @inheritdoc */
-	protected checkValueIsEmpty(value: TValue[] | null): boolean {
-		return value === null || value.length === 0;
+	public ngOnInit(): void {
+		this.inputControl.valueChanges.pipe(
+			debounceTime(400),
+			distinctUntilChanged(),
+			tap(value => {
+				this.items$.next([]);
+				this.itemsParams$.next(new DefaultListParams({
+					sorting: DEFAULT_LIST_PARAMS.sorting,
+					pagination: DEFAULT_LIST_PARAMS.pagination,
+					filters: { search: value },
+				}));
+			}),
+			this.untilDestroyed(),
+		).subscribe();
+
+		this.itemsParams$.pipe(
+			switchMap(params => this.getItems !== null ? this.mapPaginationToItems(this.getItems(params)) : of([])),
+			withLatestFrom(this.items$),
+			tap(([newItems, items]) => {
+				this.items$.next([...items, ...newItems]);
+			}),
+			this.untilDestroyed(),
+		).subscribe();
+	}
+
+	private mapPaginationToItems(paginaionStream$: Observable<Pagination<TItem>>): Observable<readonly TItem[]> {
+		return paginaionStream$.pipe(map(paginaion => paginaion.items));
 	}
 
 	/**
-	 * Handle select opened state change.
-	 * @param isClosed Select is closed.
+	 * Scroll.
+	 * @param params Request params.
 	 */
-	protected handleSelectOpenedChange(isClosed: boolean): void {
-		if (isClosed) {
-			this.clearSelectInput();
-		}
+	protected scroll(params: DefaultListParams<undefined>): void {
+		this.itemsParams$.next(new DefaultListParams({
+			...params,
+			pagination: new PaginationParams({ ...params.pagination, pageNumber: params.pagination.pageNumber + 1 }),
+		}));
 	}
 
-	private clearSelectInput(): void {
-		this.inputControl.setValue('');
+	/** @inheritdoc */
+	protected override checkValueIsEmpty(value: readonly TItem[] | null): boolean {
+		return (value === null || value.length === 0) && this.inputControl.value.length === 0 ;
 	}
 
-	/** Create item. */
-	protected createItem(): void {
-		const itemName = this.inputControl.getRawValue().trim();
+	/**
+	 * Handle create button click.
+	 * @param event Event.
+	 */
+	protected handleCreateButtonClick(event: MatChipInputEvent): void {
+		const value = (event.value || '').trim();
 
-		if (itemName.length === 0) {
+		if (this.createItem === null || value.length === 0) {
 			return;
 		}
 
-		this.createItemEvent.emit(itemName);
+		this.createItem(value).pipe(
+			tap(newItem => {
+				this.formControl.patchValue([...(this.formControl.value ?? []), newItem]);
+			}),
+		)
+			.subscribe();
+
+		this.inputControl.setValue('');
+	}
+
+	/**
+	 * Remove item.
+	 * @param removedItem Removed item.
+	 */
+	protected remove(removedItem: TItem): void {
+		if (this.formControl.value === null) {
+			return;
+		}
+		const newItems = this.formControl.value.filter(item => item !== removedItem);
+		this.formControl.patchValue(newItems);
+	}
+
+	/**
+	 * Select item.
+	 * @param event Event.
+	 */
+	protected selected(event: MatAutocompleteSelectedEvent): void {
+		this.inputControl.setValue('');
+		const item = event.option.value;
+
+		if (this.formControl.value?.includes(item)) {
+			return;
+		}
+
+		this.formControl.patchValue([...(this.formControl.value ?? []), item]);
 	}
 }

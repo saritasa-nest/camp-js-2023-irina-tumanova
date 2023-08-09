@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
@@ -16,9 +16,10 @@ import { Genre } from '@js-camp/core/models/anime/genre';
 import { Studio } from '@js-camp/core/models/anime/studio';
 import { DateRange } from '@js-camp/core/models/date-range';
 import { FormGroupOf } from '@js-camp/core/models/form-type-of';
+import { DefaultListParams } from '@js-camp/core/models/list-params';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { enumToArray } from '@js-camp/core/utils/enum-to-array';
-import { BehaviorSubject, Observable, combineLatest, finalize, first, map, shareReplay, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, finalize, switchMap, tap } from 'rxjs';
 
 type FormType = 'create' | 'edit' | null;
 
@@ -33,8 +34,8 @@ const DEFAULT_FORM_VALUES: AnimeFormData = {
 	airing: false,
 	aired: new DateRange({ start: null, end: null }),
 	description: '',
-	studiosIds: [],
-	genresIds: [],
+	studios: [],
+	genres: [],
 	rating: null,
 	season: null,
 	source: null,
@@ -47,11 +48,15 @@ const DEFAULT_FORM_VALUES: AnimeFormData = {
 	styleUrls: ['./anime-form.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnimeFormComponent implements OnInit {
+export class AnimeFormComponent {
 
 	/** Initial anime info. */
 	@Input()
-	public anime: AnimeDetails | null = null;
+	public set anime(anime: AnimeDetails | null) {
+		if (anime !== null) {
+			this.setFormValues(anime);
+		}
+	}
 
 	/** Form type. */
 	@Input({ required: true })
@@ -60,21 +65,8 @@ export class AnimeFormComponent implements OnInit {
 	/** Form. */
 	protected readonly form: FormGroupOf<AnimeFormData, 'aired'>;
 
-	/** Form is loading. */
-	protected readonly isLoading$ = new BehaviorSubject(true);
-
 	/** Form is submitting. */
 	protected readonly isSubmitting$ = new BehaviorSubject(false);
-
-	/** Genres. */
-	protected readonly genres$: Observable<readonly Genre[]>;
-
-	private readonly genresUpdateTrigger$ = new BehaviorSubject<void>(undefined);
-
-	/** Studios. */
-	protected readonly studios$: Observable<readonly Studio[]>;
-
-	private readonly studiosUpdateTrigger$ = new BehaviorSubject<void>(undefined);
 
 	/** Types. */
 	protected readonly types = enumToArray(AnimeType);
@@ -97,9 +89,11 @@ export class AnimeFormComponent implements OnInit {
 
 	private readonly animeService = inject(AnimeService);
 
-	private readonly genreService = inject(GenreService);
+	/** Genre service. */
+	protected readonly genreService = inject(GenreService);
 
-	private readonly studioService = inject(StudioService);
+	/** Studio service. */
+	protected readonly studioService = inject(StudioService);
 
 	private readonly router = inject(Router);
 
@@ -107,9 +101,6 @@ export class AnimeFormComponent implements OnInit {
 
 	public constructor() {
 		this.form = this.createForm();
-
-		this.genres$ = this.createGenresStream();
-		this.studios$ = this.createStudiosStream();
 	}
 
 	private createForm(): FormGroupOf<AnimeFormData, 'aired'> {
@@ -124,8 +115,8 @@ export class AnimeFormComponent implements OnInit {
 			airing: DEFAULT_FORM_VALUES.airing,
 			aired: this.formBuilder.group(DEFAULT_FORM_VALUES.aired),
 			description: [DEFAULT_FORM_VALUES.description, [Validators.required]],
-			studiosIds: [DEFAULT_FORM_VALUES.studiosIds, [Validators.required]],
-			genresIds: [DEFAULT_FORM_VALUES.genresIds, [Validators.required]],
+			studios: [DEFAULT_FORM_VALUES.studios, [Validators.required]],
+			genres: [DEFAULT_FORM_VALUES.genres, [Validators.required]],
 			rating: [DEFAULT_FORM_VALUES.rating, [Validators.required]],
 			season: [DEFAULT_FORM_VALUES.season, [Validators.required]],
 			source: [DEFAULT_FORM_VALUES.source, [Validators.required]],
@@ -135,45 +126,9 @@ export class AnimeFormComponent implements OnInit {
 		return form;
 	}
 
-	private createGenresStream(): Observable<readonly Genre[]> {
-		return this.genresUpdateTrigger$.pipe(
-			switchMap(() => this.mapPaginationToItems(this.genreService.getGenres())),
-		);
-	}
-
-	private createStudiosStream(): Observable<readonly Studio[]> {
-		return this.studiosUpdateTrigger$.pipe(
-			switchMap(() => this.mapPaginationToItems(this.studioService.getStudios())),
-		);
-	}
-
-	private mapPaginationToItems<T>(paginationStream$: Observable<Pagination<T>>): Observable<readonly T[]> {
-		return paginationStream$.pipe(
-			map(pagination => pagination.items),
-			shareReplay({ refCount: true, bufferSize: 1 }),
-		);
-	}
-
-	/** @inheritdoc */
-	public ngOnInit(): void {
-		if (this.anime !== null) {
-			this.setFormValues(this.anime);
-		}
-
-		combineLatest([this.genres$, this.studios$]).pipe(
-			first(),
-			tap(() => this.isLoading$.next(false)),
-			this.untilDestroyed(),
-		)
-			.subscribe();
-	}
-
 	private setFormValues(anime: AnimeDetails): void {
 		this.form.patchValue(new AnimeFormData({
 			...anime,
-			genresIds: anime.genres.map(genre => genre.id),
-			studiosIds: anime.studios.map(genre => genre.id),
-			imageUrl: anime.imageUrl,
 			imageFile: null,
 		}));
 	}
@@ -205,40 +160,34 @@ export class AnimeFormComponent implements OnInit {
 	}
 
 	/**
-	 * Add genre.
-	 * @param genreName Genre's name.
-	 */
-	protected addGenre(genreName: string): void {
-		this.genreService.createGenre(genreName).pipe(
-			tap(genre => {
-				this.form.controls.genresIds.setValue([...this.form.controls.genresIds.value, genre.id]);
-				this.genresUpdateTrigger$.next();
-			}),
-			this.untilDestroyed(),
-		)
-			.subscribe();
-	}
-
-	/**
-	 * Add studio.
-	 * @param studioName Studio's name.
-	 */
-	protected addStudio(studioName: string): void {
-		this.studioService.createStudio(studioName).pipe(
-			tap(studio => {
-				this.form.controls.studiosIds.setValue([...this.form.controls.studiosIds.value, studio.id]);
-				this.studiosUpdateTrigger$.next();
-			}),
-			this.untilDestroyed(),
-		)
-			.subscribe();
-	}
-
-	/**
 	 * Track by index.
 	 * @param index Item index.
 	 */
 	protected trackByIndex(index: number): number {
 		return index;
 	}
+
+	/**
+	 * Get genres.
+	 * @param params List params.
+	 */
+	protected getGenres = (params: DefaultListParams<undefined>): Observable<Pagination<Genre>> => this.genreService.getGenres(params);
+
+	/**
+	 * Create genre.
+	 * @param name Genre name.
+	 */
+	protected createGenre = (name: string): Observable<Genre> => this.genreService.createGenre(name);
+
+	/**
+	 * Get studios.
+	 * @param params List params.
+	 */
+	protected getStudios = (params: DefaultListParams<undefined>): Observable<Pagination<Studio>> => this.studioService.getStudios(params);
+
+	/**
+	 * Create studio.
+	 * @param name Studio name.
+	 */
+	protected createStudio = (name: string): Observable<Studio> => this.studioService.createStudio(name);
 }

@@ -23,17 +23,9 @@ implements MatFormFieldControl<FormControlValue<TValue>>, OnDestroy, ControlValu
 	protected readonly formBuilder = inject(NonNullableFormBuilder);
 
 	/** Form control. */
-	@Input({ required: true })
-	public set formControl(control: FormControl<FormControlValue<TValue>>) {
-		this._formControl = control;
-	}
-
-	/** Form control. */
 	public get formControl(): FormControl<FormControlValue<TValue>> {
-		return this._formControl ?? this.formBuilder.control(null);
+		return this.ngControl.control as FormControl<FormControlValue<TValue>>;
 	}
-
-	private _formControl: FormControl<FormControlValue<TValue>> | null = null;
 
 	/** Next id.*/
 	public static nextId = 0;
