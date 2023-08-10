@@ -21,10 +21,10 @@ const RegistrationPageComponent: FC = () => {
 	const { register, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(validationSchema) });
 
 	const onSubmit = data => {
-		console.log(data, errors);
-
-		dispatch(AuthDispatcher.login(data));
+		dispatch(AuthDispatcher.register(data));
 	};
+
+	console.log(error);
 
 	return (
 		<div className={`${classes.auth}`}>
@@ -41,18 +41,18 @@ const RegistrationPageComponent: FC = () => {
 				<TextField id="firstName"
 					autoComplete='given-name'
 					error={errors.firstName !== undefined}
-					helperText={errors.email?.message as string}
+					helperText={errors.firstName?.message as string}
 					label="First name"
 					variant="outlined"
-					{...register('email', { required: true })}/>
+					{...register('firstName', { required: true })}/>
 
 				<TextField id="lastName"
 					autoComplete='family-name'
 					error={errors.lastName !== undefined}
-					helperText={errors.email?.message as string}
+					helperText={errors.lastName?.message as string}
 					label="Email"
 					variant="outlined"
-					{...register('email', { required: true })}/>
+					{...register('lastName', { required: true })}/>
 
 				<PasswordField name='password'
 					label='Password'

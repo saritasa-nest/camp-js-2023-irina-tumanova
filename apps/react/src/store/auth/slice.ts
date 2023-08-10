@@ -32,6 +32,7 @@ export const authSlice = createSlice({
 			if (action.error.message) {
 				state.error = action.error.message;
 			}
+			console.log(action);
 			state.isAuth = false;
 			state.isLoading = false;
 		})
@@ -39,6 +40,7 @@ export const authSlice = createSlice({
 			if (action.error.message) {
 				state.error = action.error.message;
 			}
+			console.log(action);
 			state.isAuth = false;
 			state.isLoading = false;
 		})

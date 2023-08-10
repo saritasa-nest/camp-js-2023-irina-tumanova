@@ -13,7 +13,7 @@ export function catchHttpErrorResponse<TErrors extends object>(validationMapper:
 		return source$.pipe(
 			catchError((error: unknown) => {
 				if (error instanceof HttpErrorResponse && error.error?.errors instanceof Array) {
-					return throwError(() => AppErrorDictionaryMapper.fromDto(error, validationMapper));
+					return throwError(() => AppErrorDictionaryMapper.fromDto(error.error.errors, validationMapper));
 				}
 				return throwError(() => error);
 			}),
