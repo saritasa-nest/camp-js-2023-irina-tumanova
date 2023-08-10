@@ -1,12 +1,4 @@
-<form class="anime-form" [formGroup]="form">
-	<p class="typography-title" *ngIf="type === 'edit'; else creationHeaderTemplate">
-		Edit anime
-	</p>
-
-	<ng-template #creationHeaderTemplate>
-		<p class="typography-title">Create anime</p>
-	</ng-template>
-
+<form class="anime-form" [formGroup]="form" (submit)="handleSubmit()">
 	<div class="anime-form__common">
 		<mat-form-field *ngIf="form.controls.imageFile as imageFile" class="anime-form__cover">
 			<mat-label>Image</mat-label>
@@ -125,7 +117,7 @@
 		</mat-form-field>
 	</div>
 
-	<button type="submit" mat-raised-button color="primary" class="anime-form__submit" (click)="handleSubmit()">Save</button>
+	<button type="submit" mat-raised-button color="primary" class="anime-form__submit">Save</button>
 </form>
 
 <camp-shadow-spinner *ngIf="isSubmitting$ | async" />

@@ -16,6 +16,7 @@ import { AnimeDetailsMapper } from '@js-camp/core/mappers/anime/anime-details.ma
 import { AnimeFormData } from '@js-camp/core/models/anime/anime-form-data';
 import { AnimeFormDataMapper } from '@js-camp/core/mappers/anime/anime-form-data.mapper';
 import { Router } from '@angular/router';
+import { HttpStatusCode } from 'axios';
 
 import { ApiUrlsConfig } from './api-urls.config';
 import { S3Service } from './s3-bucket.service';
@@ -69,7 +70,7 @@ export class AnimeService {
 			.pipe(
 				map(detailsDto => AnimeDetailsMapper.fromDto(detailsDto)),
 				catchError((error: unknown) => {
-					if (error instanceof HttpErrorResponse && error.status === 404) {
+					if (error instanceof HttpErrorResponse && error.status === HttpStatusCode.NotFound) {
 						this.router.navigate(['']);
 					}
 					return throwError(() => error);

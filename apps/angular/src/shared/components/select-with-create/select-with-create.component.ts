@@ -87,7 +87,7 @@ export class SelectWithCreateComponent<TItem> extends BaseMatFormField<readonly 
 			switchMap(params => this.getItems !== null ? this.mapPaginationToItems(this.getItems(params)) : of([])),
 			withLatestFrom(this.items$),
 			tap(([newItems, items]) => {
-				this.items$.next([...items, ...newItems]);
+				this.items$.next(items.concat(newItems));
 			}),
 			this.untilDestroyed(),
 		).subscribe();
