@@ -85,9 +85,6 @@ implements MatFormFieldControl<FormControlValue<TValue>>, OnDestroy, ControlValu
 
 	/** @inheritdoc */
 	public get empty(): boolean {
-		if (this.formControl === null) {
-			return true;
-		}
 		return this.checkValueIsEmpty(this.formControl.value);
 	}
 
