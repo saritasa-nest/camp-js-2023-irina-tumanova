@@ -20,7 +20,7 @@
 			[matSortDirection]="sorting.direction"
 			(matSortChange)="handleSortChange($event)"
 			[dataSource]="animeList.items" 
-			[trackBy]="trackById"
+			[trackBy]="trackAnime"
 			aria-describedby="anime list">
 			
 			<ng-container matColumnDef="image">

@@ -23,21 +23,23 @@ import { ReadableAnimeSourcePipe } from './pipes/readable-anime-source';
 import { YesNoPipe } from './pipes/yes-no-pipe';
 import { ReadableTextFromObjectPipe } from './pipes/readable-text-from-object';
 
+const sharedElements = [
+	ShadowSpinnerComponent,
+	SenternseCasePipe,
+	FieldErrorTextPipe,
+	ReadableTextFromArrayPipe,
+	SelectWithCreateComponent,
+	UploadImageComponent,
+	ReadableAnimeStatusPipe,
+	ReadableAnimeSeasonPipe,
+	ReadableAnimeSourcePipe,
+	ReadableTextFromObjectPipe,
+	YesNoPipe,
+];
+
 /** Shared module. */
 @NgModule({
-	declarations: [
-		ShadowSpinnerComponent,
-		SenternseCasePipe,
-		FieldErrorTextPipe,
-		ReadableTextFromArrayPipe,
-		SelectWithCreateComponent,
-		UploadImageComponent,
-		ReadableAnimeStatusPipe,
-		ReadableAnimeSeasonPipe,
-		ReadableAnimeSourcePipe,
-		ReadableTextFromObjectPipe,
-		YesNoPipe,
-	],
+	declarations: sharedElements,
 	imports: [
 		CommonModule,
 		MatProgressSpinnerModule,
@@ -51,18 +53,6 @@ import { ReadableTextFromObjectPipe } from './pipes/readable-text-from-object';
 		MatChipsModule,
 		InfiniteScrollModule,
 	],
-	exports: [
-		ShadowSpinnerComponent,
-		SenternseCasePipe,
-		FieldErrorTextPipe,
-		ReadableTextFromArrayPipe,
-		SelectWithCreateComponent,
-		UploadImageComponent,
-		ReadableAnimeStatusPipe,
-		ReadableAnimeSeasonPipe,
-		ReadableAnimeSourcePipe,
-		ReadableTextFromObjectPipe,
-		YesNoPipe,
-	],
+	exports: sharedElements,
 })
 export class SharedModule {}
