@@ -37,6 +37,17 @@ const sharedElements = [
 	YesNoPipe,
 ];
 
+const sharedElements = [
+	ShadowSpinnerComponent,
+	SenternseCasePipe,
+	FieldErrorTextPipe,
+	ReadableTextFromArrayPipe,
+	ReadableAnimeStatusPipe,
+	ReadableAnimeSeasonPipe,
+	ReadableAnimeSourcePipe,
+	YesNoPipe,
+];
+
 /** Shared module. */
 @NgModule({
 	declarations: sharedElements,
