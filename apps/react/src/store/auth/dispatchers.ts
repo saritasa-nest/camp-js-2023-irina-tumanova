@@ -1,4 +1,4 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { AuthService } from '@js-camp/react/api/services/authServices';
 import { Login } from '@js-camp/core/models/auth/login';
@@ -13,3 +13,5 @@ export const register = createAsyncThunk(
 	'auth/register',
 	(credential: Registration) => AuthService.register(credential),
 );
+
+export const logout = createAction('auth/logout');

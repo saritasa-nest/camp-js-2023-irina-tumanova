@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { login, register } from './dispatchers';
+import { login, logout, register } from './dispatchers';
 import { initialState } from './state';
 
 export const authSlice = createSlice({
@@ -41,5 +41,10 @@ export const authSlice = createSlice({
 			}
 			state.isAuth = false;
 			state.isLoading = false;
+		})
+		.addCase(logout, state => {
+			state.isAuth = false;
+			state.isLoading = false;
+			state.error = undefined;
 		}),
 });
