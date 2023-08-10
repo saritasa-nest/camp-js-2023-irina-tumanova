@@ -6,16 +6,17 @@ import { RootRouter } from './routes/RootRouter';
 import { store } from './store';
 import { AppHeader } from './components/AppHeader';
 import './theme';
+import classes from './App.module.css';
 
 export const App: FC = () => (
 	<Provider store={store}>
 		<BrowserRouter>
-			<div>
-				<Suspense fallback={<div>Brrr... here should be your loader component</div>}>
-					<AppHeader />
+			<Suspense fallback={<div>Brrr... here should be your loader component</div>}>
+				<AppHeader />
+				<main className={`${classes.main}`}>
 					<RootRouter />
-				</Suspense>
-			</div>
+				</main>
+			</Suspense>
 		</BrowserRouter>
 	</Provider>
 );
