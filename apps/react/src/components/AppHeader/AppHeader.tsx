@@ -3,19 +3,17 @@ import { FC, memo } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { useAppDispatch } from '@js-camp/react/store';
-import { AppBar, Box, Button, Link, Toolbar } from '@mui/material';
-import { logout } from '@js-camp/react/store/auth/dispatchers';
+import { AppBar, Box, Button, Toolbar } from '@mui/material';
+import { AuthDispatcher } from '@js-camp/react/store/auth/dispatchers';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
-
-import classes from './AppHeader.module.css';
 
 const AppHeaderComponent: FC = () => {
 	const isAuth = useSelector(selectIsAuth);
 	const dispatch = useAppDispatch();
 
 	const handleLogout = () => {
-		dispatch(logout);
+		dispatch(AuthDispatcher.logout);
 	};
 
 	return (

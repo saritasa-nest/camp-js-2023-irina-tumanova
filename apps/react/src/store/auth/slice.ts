@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { login, logout, register } from './dispatchers';
+import { AuthDispatcher } from './dispatchers';
 import { initialState } from './state';
 
 export const authSlice = createSlice({
@@ -8,41 +8,41 @@ export const authSlice = createSlice({
 	initialState,
 	reducers: {},
 	extraReducers: builder => builder
-		.addCase(login.pending, state => {
+		.addCase(AuthDispatcher.login.pending, state => {
 			state.isLoading = true;
 			state.isAuth = false;
 			state.error = undefined;
 		})
-		.addCase(register.pending, state => {
+		.addCase(AuthDispatcher.register.pending, state => {
 			state.isLoading = true;
 			state.isAuth = false;
 			state.error = undefined;
 		})
-		.addCase(login.fulfilled, state => {
+		.addCase(AuthDispatcher.login.fulfilled, state => {
 			state.isLoading = false;
 			state.isAuth = true;
 			state.error = undefined;
 		})
-		.addCase(register.fulfilled, state => {
+		.addCase(AuthDispatcher.register.fulfilled, state => {
 			state.isLoading = false;
 			state.isAuth = true;
 			state.error = undefined;
 		})
-		.addCase(login.rejected, (state, action) => {
+		.addCase(AuthDispatcher.login.rejected, (state, action) => {
 			if (action.error.message) {
 				state.error = action.error.message;
 			}
 			state.isAuth = false;
 			state.isLoading = false;
 		})
-		.addCase(register.rejected, (state, action) => {
+		.addCase(AuthDispatcher.register.rejected, (state, action) => {
 			if (action.error.message) {
 				state.error = action.error.message;
 			}
 			state.isAuth = false;
 			state.isLoading = false;
 		})
-		.addCase(logout, state => {
+		.addCase(AuthDispatcher.logout, state => {
 			state.isAuth = false;
 			state.isLoading = false;
 			state.error = undefined;
