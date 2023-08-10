@@ -4,10 +4,11 @@ import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { RegistrationForm } from '@js-camp/core/models/auth/registration';
 import { FormGroupOf } from '@js-camp/core/models/form-type-of';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, finalize, first, tap } from 'rxjs';
+import { BehaviorSubject, finalize, tap } from 'rxjs';
 import { AppValidators } from '@js-camp/angular/core/utils/validators';
 import { catchFormErrors } from '@js-camp/angular/core/rxjs/catch-form-errors';
 import { QueryParamsService } from '@js-camp/angular/core/services/query-params.service';
+import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
 
 const defaultFormValues: RegistrationForm = {
 	email: '',
@@ -42,6 +43,8 @@ export class RegistrationPageComponent {
 
 	private readonly queryParamsService = inject(QueryParamsService);
 
+	private readonly untilDestroyed = untilDestroyed();
+
 	public constructor() {
 		this.form = this.createForm();
 	}
@@ -71,10 +74,10 @@ export class RegistrationPageComponent {
 		this.isSubmitting$.next(true);
 		this.authService.register(this.form.getRawValue())
 			.pipe(
-				first(),
 				tap(() => this.navigateToNextUrl()),
 				catchFormErrors(this.form),
 				finalize(() => this.isSubmitting$.next(false)),
+				this.untilDestroyed(),
 			)
 			.subscribe();
 	}

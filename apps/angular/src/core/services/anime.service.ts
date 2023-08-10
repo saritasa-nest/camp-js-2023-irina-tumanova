@@ -10,6 +10,9 @@ import { AnimeMapper } from '@js-camp/core/mappers/anime/anime.mapper';
 import { AnimeParams } from '@js-camp/core/models/anime/anime-params';
 import { ListParamsMapper } from '@js-camp/core/mappers/list-params.mapper';
 import { AnimeFilterParamsMapper } from '@js-camp/core/mappers/anime/anime-filter-params.mapper';
+import { AnimeDetails } from '@js-camp/core/models/anime/anime-details';
+import { AnimeDetailsDto } from '@js-camp/core/dtos/anime/anime-details.dto';
+import { AnimeDetailsMapper } from '@js-camp/core/mappers/anime/anime-details.mapper';
 
 import { ApiUrlsConfig } from './api-urls.config';
 
@@ -28,7 +31,7 @@ export class AnimeService {
 	 * @param animeParams Params from anime table.
 	 */
 	public getAnime(animeParams: AnimeParams): Observable<Pagination<Anime>> {
-		const url = this.apiUrlsConfig.anime.get;
+		const url = this.apiUrlsConfig.anime.getList;
 		const params = new HttpParams({
 			fromObject: ListParamsMapper.toDto(
 				animeParams,
@@ -44,5 +47,17 @@ export class AnimeService {
 					PaginationMapper.fromDto(paginationDto, animeDto =>
 						AnimeMapper.fromDto(animeDto))),
 			);
+	}
+
+	/**
+	 * Get anime details.
+	 * @param id Anime ID.
+	 */
+	public getAnimeDetails(id: Anime['id']): Observable<AnimeDetails> {
+		const url = this.apiUrlsConfig.anime.getDetail(id);
+
+		return this.http
+			.get<AnimeDetailsDto>(url)
+			.pipe(map(detailsDto => AnimeDetailsMapper.fromDto(detailsDto)));
 	}
 }
