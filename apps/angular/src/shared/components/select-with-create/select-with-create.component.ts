@@ -17,6 +17,8 @@ type GetItemsFunction<TItem> = (params: DefaultListParams<undefined>) => Observa
 
 type CreateItemFunction<TItem> = (name: string) => Observable<TItem>;
 
+type CheckAreEqualItems<TItem> = (first: TItem, second: TItem) => boolean;
+
 const DEFAULT_LIST_PARAMS: DefaultListParams<undefined> = {
 	sorting: new Sorting({ field: undefined, direction: '' }),
 	filters: { search: '' },
@@ -44,6 +46,10 @@ export class SelectWithCreateComponent<TItem> extends BaseMatFormField<readonly 
 	/** Key with item name. */
 	@Input({ required: true })
 	public nameKey: keyof TItem | null = null;
+
+	/** Сompare item. */
+	@Input({ required: true })
+	public checkAreEqualItems: CheckAreEqualItems<TItem> | null = null;
 
 	/** @inheritdoc */
 	public override controlType = 'select-with-create';
@@ -139,10 +145,11 @@ export class SelectWithCreateComponent<TItem> extends BaseMatFormField<readonly 
 	 * @param removedItem Removed item.
 	 */
 	protected remove(removedItem: TItem): void {
-		if (this.formControl.value === null) {
+		if (this.formControl.value === null || this.checkAreEqualItems === null) {
 			return;
 		}
-		const newItems = this.formControl.value.filter(item => item !== removedItem);
+		const newItems = this.formControl.value.filter(item =>
+			this.checkAreEqualItems !== null && !this.checkAreEqualItems(item, removedItem));
 		this.formControl.patchValue(newItems);
 	}
 
@@ -152,12 +159,13 @@ export class SelectWithCreateComponent<TItem> extends BaseMatFormField<readonly 
 	 */
 	protected selected(event: MatAutocompleteSelectedEvent): void {
 		this.inputControl.setValue('');
-		const item = event.option.value;
+		const selectedItem = event.option.value;
 
-		if (this.formControl.value?.includes(item)) {
+		if (this.checkAreEqualItems === null ||
+			this.formControl.value?.find(item => this.checkAreEqualItems?.(item, selectedItem)) !== undefined) {
 			return;
 		}
 
-		this.formControl.patchValue([...(this.formControl.value ?? []), item]);
+		this.formControl.patchValue([...(this.formControl.value ?? []), selectedItem]);
 	}
 }

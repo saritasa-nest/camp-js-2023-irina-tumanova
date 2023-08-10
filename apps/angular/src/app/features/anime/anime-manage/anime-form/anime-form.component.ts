@@ -180,6 +180,13 @@ export class AnimeFormComponent {
 	protected createGenre = (name: string): Observable<Genre> => this.genreService.createGenre(name);
 
 	/**
+	 * Check genres are equal.
+	 * @param first Genre.
+	 * @param second Genre.
+	 */
+	protected checkGenresAreEqual = (first: Genre, second: Genre): boolean => first.id === second.id;
+
+	/**
 	 * Get studios.
 	 * @param params List params.
 	 */
@@ -190,4 +197,11 @@ export class AnimeFormComponent {
 	 * @param name Studio name.
 	 */
 	protected createStudio = (name: string): Observable<Studio> => this.studioService.createStudio(name);
+
+	/**
+	 * Check studios are equal.
+	 * @param first Studio.
+	 * @param second Studio.
+	 */
+	protected checkStudiosAreEqual = (first: Studio, second: Studio): boolean => first.id === second.id;
 }

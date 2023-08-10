@@ -50,6 +50,7 @@
 			<mat-label>Genres</mat-label>
 			<camp-select-with-create [formControl]="form.controls.genres" 
 				nameKey="name" 
+				[checkAreEqualItems]="checkGenresAreEqual"
 				[createItem]="createGenre"
 				[getItems]="getGenres" />
 			<mat-error *ngIf="form.controls.genres.hasError('required')">{{'required' | fieldErrorText:'genres'}}</mat-error>
@@ -59,6 +60,7 @@
 			<mat-label>Studios</mat-label>
 			<camp-select-with-create [formControl]="form.controls.studios" 
 				nameKey="name" 
+				[checkAreEqualItems]="checkStudiosAreEqual"
 				[createItem]="createStudio"
 				[getItems]="getStudios" />
 			<mat-error *ngIf="form.controls.studios.hasError('required')">{{'required' | fieldErrorText:'studios'}}</mat-error>
