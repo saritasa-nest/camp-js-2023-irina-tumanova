@@ -134,10 +134,10 @@ export class AnimePageComponent implements OnInit {
 
 	/**
 	 * Track anime by id in table.
-	 * @param index Index.
+	 * @param _index Index.
 	 * @param anime Anime.
 	 */
-	protected trackById(index: number, anime: Anime): Anime['id'] {
+	protected trackAnime(_index: number, anime: Anime): Anime['id'] {
 		return anime.id;
 	}
 

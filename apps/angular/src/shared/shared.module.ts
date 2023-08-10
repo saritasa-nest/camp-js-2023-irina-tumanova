@@ -11,31 +11,24 @@ import { ReadableAnimeSeasonPipe } from './pipes/readable-anime-season';
 import { ReadableAnimeSourcePipe } from './pipes/readable-anime-source';
 import { YesNoPipe } from './pipes/yes-no-pipe';
 
+const sharedElements = [
+	ShadowSpinnerComponent,
+	SenternseCasePipe,
+	FieldErrorTextPipe,
+	ReadableTextFromArrayPipe,
+	ReadableAnimeStatusPipe,
+	ReadableAnimeSeasonPipe,
+	ReadableAnimeSourcePipe,
+	YesNoPipe,
+];
+
 /** Shared module. */
 @NgModule({
-	declarations: [
-		ShadowSpinnerComponent,
-		SenternseCasePipe,
-		FieldErrorTextPipe,
-		ReadableTextFromArrayPipe,
-		ReadableAnimeStatusPipe,
-		ReadableAnimeSeasonPipe,
-		ReadableAnimeSourcePipe,
-		YesNoPipe,
-	],
+	declarations: sharedElements,
 	imports: [
 		CommonModule,
 		MatProgressSpinnerModule,
 	],
-	exports: [
-		ShadowSpinnerComponent,
-		SenternseCasePipe,
-		FieldErrorTextPipe,
-		ReadableTextFromArrayPipe,
-		ReadableAnimeStatusPipe,
-		ReadableAnimeSeasonPipe,
-		ReadableAnimeSourcePipe,
-		YesNoPipe,
-	],
+	exports: sharedElements,
 })
 export class SharedModule {}
