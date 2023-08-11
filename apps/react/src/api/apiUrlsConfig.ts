@@ -41,6 +41,11 @@ export namespace ApiUrlsConfig {
 		verifySecret: toApi(`${AUTH_URL_PATH}/token/verify/`),
 	};
 
+	/** User routes. */
+	export const user = {
+		getCurrent: toApi(`users/profile/`),
+	};
+
 	/**
 	 * Args to apu url.
 	 * @param args Args.

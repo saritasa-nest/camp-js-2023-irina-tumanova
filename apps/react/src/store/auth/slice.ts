@@ -53,15 +53,5 @@ export const authSlice = createSlice({
 			state.isAuth = false;
 			state.isLoading = false;
 			state.error = undefined;
-		})
-		.addCase(AuthDispatcher.loginAuto.fulfilled, state => {
-			state.isAuth = true;
-			state.isLoading = false;
-			state.error = undefined;
-		})
-		.addCase(AuthDispatcher.loginAuto.rejected, state => {
-			state.isAuth = false;
-			state.isLoading = false;
-			state.error = undefined;
 		}),
 });

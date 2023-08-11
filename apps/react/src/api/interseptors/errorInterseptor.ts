@@ -1,14 +1,9 @@
-import { AxiosError } from 'axios';
-
-import { UserSecretService } from '../services/userSecretService';
+import { AxiosError, AxiosResponse } from 'axios';
 
 /**
  * Intercept error .
  * @param error Axios error object.
  */
-export function errorInterceptor(error: AxiosError): void {
-	if (error.response?.status === 401) {
-		UserSecretService.destroyToken();
-	}
+export function errorInterceptor(error: AxiosError): Promise<AxiosResponse<unknown, unknown>> {
 	throw error;
 }

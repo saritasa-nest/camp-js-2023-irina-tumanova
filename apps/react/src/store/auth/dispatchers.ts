@@ -5,7 +5,6 @@ import { Login } from '@js-camp/core/models/auth/login';
 import { Registration } from '@js-camp/core/models/auth/registration';
 import { LoginMapper } from '@js-camp/core/mappers/auth/login.mapper';
 import { RegistrationMapper } from '@js-camp/core/mappers/auth/registration.mapper';
-import { UserSecretService } from '@js-camp/react/api/services/userSecretService';
 
 export namespace AuthDispatcher {
 	export const login = createAsyncThunk(
@@ -36,20 +35,4 @@ export namespace AuthDispatcher {
 	);
 
 	export const reset = createAction('auth/reset');
-
-	export const loginAuto = createAsyncThunk(
-		'auth/loginAuto',
-		async() => {
-			try {
-				const token = await UserSecretService.getToken();
-				if (token === null) {
-					throw new Error('No token');
-				}
-				await AuthService.verifySecret(token);
-			} catch (error: unknown) {
-				await AuthService.logout();
-				throw error;
-			}
-		},
-	);
 }

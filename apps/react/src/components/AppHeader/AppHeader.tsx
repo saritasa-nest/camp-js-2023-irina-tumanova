@@ -1,4 +1,3 @@
-import { selectIsAuth } from '@js-camp/react/store/auth/selectors';
 import { FC, memo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
@@ -7,20 +6,22 @@ import { AppBar, Box, Button, Toolbar } from '@mui/material';
 import { AuthDispatcher } from '@js-camp/react/store/auth/dispatchers';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
+import { selectUser } from '@js-camp/react/store/user/selectors';
+import { UserDispatcher } from '@js-camp/react/store/user/dispatchers';
 
 const AppHeaderComponent: FC = () => {
-	const isAuth = useSelector(selectIsAuth);
+	const user = useSelector(selectUser);
 	const dispatch = useAppDispatch();
 
 	const handleLogout = () => {
 		dispatch(AuthDispatcher.logout());
 	};
 
-	const loginAuto = () => {
-		dispatch(AuthDispatcher.loginAuto());
-	};
-
-	useEffect(loginAuto, []);
+	useEffect(() => {
+		if (user === null) {
+			dispatch(UserDispatcher.getCurrentUser());
+		}
+	}, []);
 
 	return (
 		<AppBar sx={{ position: 'relative' }}>
@@ -34,7 +35,7 @@ const AppHeaderComponent: FC = () => {
 				</Button>
 
 				<Box sx={{ flexGrow: 1 }}/>
-				{isAuth ?
+				{user !== null ?
 					<Button
 						endIcon={<LogoutIcon/>}
 						color="inherit"

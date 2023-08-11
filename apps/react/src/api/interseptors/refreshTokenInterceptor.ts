@@ -5,14 +5,14 @@ import { UserSecretService } from '../services/userSecretService';
 import { AuthService } from '../services/authServices';
 import { http } from '..';
 
-export type SecretRefreshResult = Promise<AxiosResponse<unknown, unknown>>;
+export type RefreshResult = Promise<AxiosResponse<unknown, unknown>>;
 
 /**
  * Refresh secret interceptor.
  * @param error Server error.
  * @param refreshCallback Callback to refresh secret.
  */
-export async function refreshSecretInterceptor(error: AxiosError): SecretRefreshResult {
+export async function refreshSecretInterceptor(error: AxiosError): RefreshResult {
 
 	if (error.config == null ||
     !shouldRefreshSecretForUrl(error.config) ||
@@ -25,9 +25,8 @@ export async function refreshSecretInterceptor(error: AxiosError): SecretRefresh
 	return result;
 }
 
-const refreshSecret = async(error: AxiosError): SecretRefreshResult => {
+const refreshSecret = async(error: AxiosError): RefreshResult => {
 	const secret = await UserSecretService.getToken();
-
 	if (secret == null || error.config == null) {
 		throw error;
 	}
