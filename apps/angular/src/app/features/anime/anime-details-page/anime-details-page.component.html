@@ -5,7 +5,7 @@
 			<h3 class="typography-subtitle anime-subtitle">{{details.titleJapanese.length > 0 ? details.titleJapanese : 'unknown'}}</h3>
 		</div>
 		<div class="anime-buttons">
-			<button type="button" mat-raised-button color="primary" (click)="navigateToAnimeEditing()">Edit</button>
+			<a mat-raised-button color="primary" routerLink="edit">Edit</a>
 			<button type="button" mat-button (click)="openDeleteModal()">Delete</button>
 		</div>
 	</div>

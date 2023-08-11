@@ -62,6 +62,10 @@ export class AnimeFormComponent {
 	@Input({ required: true })
 	public type: FormType = null;
 
+	/** Form title. */
+	@Input({ required: true })
+	public title = '';
+
 	/** Form. */
 	protected readonly form: FormGroupOf<AnimeFormData, 'aired'>;
 

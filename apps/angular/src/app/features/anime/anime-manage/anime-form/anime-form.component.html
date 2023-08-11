@@ -1,4 +1,5 @@
 <form class="anime-form" [formGroup]="form" (submit)="handleSubmit()">
+	<p class="typography-title">{{title}}</p>
 	<div class="anime-form__common">
 		<mat-form-field *ngIf="form.controls.imageFile as imageFile" class="anime-form__cover">
 			<mat-label>Image</mat-label>

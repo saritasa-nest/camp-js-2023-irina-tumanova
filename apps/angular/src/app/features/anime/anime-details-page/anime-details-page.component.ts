@@ -8,7 +8,6 @@ import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { AnimeDetails } from '@js-camp/core/models/anime/anime-details';
 import { BehaviorSubject, Observable, map, shareReplay, tap, switchMap, first } from 'rxjs';
 import { YOUTUBE_EMBED_URL } from '@js-camp/core/const/const';
-import { Anime } from '@js-camp/core/models/anime/anime';
 
 import { ImageModalComponent } from '../components/image-modal/image-modal.component';
 import { DeleteModalComponent } from '../components/delete-modal/delete-modal.component';
@@ -36,8 +35,6 @@ export class AnimeDetailsPageComponent {
 	/** Anime trailer component height. */
 	protected readonly trailerComponentHeight$ = new BehaviorSubject<number | null>(null);
 
-	private readonly id$: Observable<Anime['id']>;
-
 	private readonly animeService = inject(AnimeService);
 
 	private readonly route = inject(ActivatedRoute);
@@ -55,7 +52,6 @@ export class AnimeDetailsPageComponent {
 	private readonly untilDestroyed = untilDestroyed();
 
 	public constructor() {
-		this.id$ = this.createAnimeIdStream();
 		this.details$ = this.createDetailsStream();
 		this.safeTrailerUrl$ = this.createSafeTrailerUrlStream();
 
@@ -67,8 +63,8 @@ export class AnimeDetailsPageComponent {
 	}
 
 	private createDetailsStream(): Observable<AnimeDetails> {
-		return this.id$.pipe(
-			switchMap(id => this.animeService.getAnimeDetails(id)),
+		return this.route.params.pipe(
+			switchMap(({ id }) => this.animeService.getAnimeDetails(Number(id))),
 			shareReplay({ refCount: true, bufferSize: 1 }),
 		);
 	}
@@ -100,16 +96,6 @@ export class AnimeDetailsPageComponent {
 		this.trailerComponentHeight$.next(this.window.innerWidth * TRAILER_COMPONENT_ASPECT_RATION);
 	}
 
-	/** Go to anime editing. */
-	protected navigateToAnimeEditing(): void {
-		this.id$.pipe(
-			first(),
-			tap(id => this.router.navigate([`/anime/${id}/edit`])),
-			this.untilDestroyed(),
-		)
-			.subscribe();
-	}
-
 	/** Handle delete button click. */
 	protected openDeleteModal(): void {
 		this.deleteModal.open(DeleteModalComponent, {
@@ -123,9 +109,9 @@ export class AnimeDetailsPageComponent {
 
 	/** Handle confirm button click. */
 	protected deleteAnime(): void {
-		this.id$.pipe(
+		this.details$.pipe(
 			first(),
-			switchMap(id => this.animeService.deleteAnime(id)),
+			switchMap(({ id }) => this.animeService.deleteAnime(id)),
 			tap(() => this.deleteModal.closeAll()),
 			tap(() => this.navigateToMainPage()),
 			this.untilDestroyed(),
