@@ -1,4 +1,5 @@
 import { Injectable, inject } from '@angular/core';
+import { Anime } from '@js-camp/core/models/anime/anime';
 
 import { AppConfig } from './app.config';
 
@@ -12,7 +13,28 @@ export class ApiUrlsConfig {
 
 	/** Anime routes. */
 	public readonly anime = {
-		get: this.toApi('anime/anime/'),
+		getList: this.toApi('anime/anime/'),
+		getDetail: (id: Anime['id']) => this.toApi(`anime/anime/${id}/`),
+		delete: (id: Anime['id']) => this.toApi(`anime/anime/${id}/`),
+		edit: (id: Anime['id']) => this.toApi(`anime/anime/${id}/`),
+		create: this.toApi('anime/anime/'),
+	};
+
+	/** Genre routes. */
+	public readonly genre = {
+		getList: this.toApi('anime/genres/'),
+		create: this.toApi('anime/genres/'),
+	};
+
+	/** Studio routes. */
+	public readonly studio = {
+		getList: this.toApi('anime/studios/'),
+		create: this.toApi('anime/studios/'),
+	};
+
+	/** S3 routes. */
+	public readonly s3 = {
+		getParams: this.toApi('s3direct/get_params/'),
 	};
 
 	/** Auth routes. */

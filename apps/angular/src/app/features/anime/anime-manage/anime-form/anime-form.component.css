@@ -1,0 +1,63 @@
+:host {
+	padding: var(--space-m);
+	display: flex;
+}
+
+.anime-form {
+	--anime-form-max-width: 1300px;
+
+	max-width: var(--anime-form-max-width);
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-m);
+	margin: 0 auto;
+	box-sizing: border-box;
+}
+
+.anime-form__common {
+	--cover-max-size: 150px;
+
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-gap: var(--space-m);
+}
+
+.anime-form__cover {
+	grid-column: 1/3;
+}
+
+.anime-form__description,
+.anime-form__section-title,
+.anime-form__trailer-id,
+.anime-airing__header {
+	grid-column: 1/3;
+}
+
+.anime-form__detail {
+	padding: var(--space-m) 0;
+	border-top: 1px solid var(--accent-surface-color);
+	border-bottom: 1px solid var(--accent-surface-color);
+}
+
+.anime-form__detail,
+.anime-form__airing {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-gap: var(--space-m);
+}
+
+.anime-airing__header {
+	display: flex;
+	align-items: center;
+	gap: var(--space-s);
+}
+
+.anime-airing_checkbox {
+	/* Indent from the library to align with the title */
+	margin-bottom: 12px;
+}
+
+.anime-form__submit {
+	margin: 0 auto;
+}

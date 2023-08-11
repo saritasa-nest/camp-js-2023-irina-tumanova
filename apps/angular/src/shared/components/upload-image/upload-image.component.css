@@ -1,0 +1,10 @@
+.upload-image__input {
+	position: absolute;
+	inset: 0;
+	opacity: 0;
+}
+
+.upload-image__url {
+	color: var(--primary-contrast-color);
+	font-size: var(--font-size-m);
+}

@@ -1,0 +1,34 @@
+.select-with-input {
+	width: 100%;
+}
+
+.select-add-item {
+	display: flex;
+	align-items: center;
+	gap: var(--space-s);
+	padding: 0 var(--space-xs);
+	max-width: 100%;
+}
+
+.select-add-item__input {
+	width: 100%;
+	outline: none;
+	padding: var(--space-s);
+	background-color: transparent;
+	color: var(--primary-contrast-color);
+	border: none;
+	border-bottom: 1px solid var(--accent-surface-color);
+	margin-bottom: var(--space-s);
+	box-sizing: border-box;
+	font-size: var(--font-size-m);
+}
+
+.select-add-item__input::placeholder {
+	color: var(--primary-contrast-color);
+	opacity: 0.6;
+}
+
+.autocomplete-list {
+	max-height: 100%;
+	overflow: auto;
+}

@@ -1,0 +1,87 @@
+<ng-container *ngIf="details$ | async as details">
+	<div class="anime-header">
+		<div class="anime-titles">
+			<h1 class="typography-title anime-title">{{details.titleEnglish.length > 0 ? details.titleEnglish : 'unknown'}}</h1>
+			<h3 class="typography-subtitle anime-subtitle">{{details.titleJapanese.length > 0 ? details.titleJapanese : 'unknown'}}</h3>
+		</div>
+		<div class="anime-buttons">
+			<a mat-raised-button color="primary" routerLink="edit">Edit</a>
+			<button type="button" mat-button (click)="openDeleteModal()">Delete</button>
+		</div>
+	</div>
+	
+
+	<div class="anime-main">
+		<img [src]="details.imageUrl" 
+			(click)="openImageModal(details.imageUrl, details.titleEnglish)"
+			[alt]="details.titleEnglish + ' cover'" 
+			class="anime-main__cover" />
+
+		<div class="anime-main__info">
+			<div class="anime-main__info-item anime-info">
+				<p class="anime-info__param">Status:</p>
+				<p class="anime-info__badge">{{details.status | readableAnimeStatus}}</p>
+			</div>
+			<div class="anime-info">
+				<p class="anime-info__param">Airing:</p>
+				<p class="anime-info__badge">{{details.airing | yesNoPipe}}</p>
+				<div class="anime-info__aired" *ngIf="details.aired.start as startDate; else emptyStartDateTemplate" >
+					<time class="typography-body anime-info__text-data"
+						[dateTime]="startDate">
+						{{ startDate | date }}
+					</time>
+					-
+					<time *ngIf="details.aired.end as endDate; else emptyEndDateTemplate"
+						class="typography-body anime-info__text-data"
+						[dateTime]="endDate">
+						{{ endDate | date }}
+					</time>
+				</div>
+			</div>
+			<div class="anime-info">
+				<p class="anime-info__param">Type:</p>
+				<p class="typography-body anime-info__text-data">{{details.type}}</p>
+			</div>
+			<div class="anime-info" *ngIf="details.genres.length > 0">
+				<p class="anime-info__param">Genres:</p>
+				<p class="typography-body anime-info__text-data">{{details.genres | readableTextFromArray: 'name'}}</p> 
+			</div>
+			<div class="anime-info" *ngIf="details.studios.length > 0">
+				<p class="anime-info__param">Studios:</p>
+				<p class="typography-body anime-info__text-data">{{details.studios | readableTextFromArray: 'name'}}</p>
+			</div>
+			<div class="anime-main__info-item anime-info">
+				<p class="anime-info__param">Rating:</p>
+				<p class="anime-info__badge">{{details.rating}}</p>
+			</div>
+			<div class="anime-info">
+				<p class="anime-info__param">Source:</p>
+				<p class="typography-body anime-info__text-data">{{details.source | readableAnimeSource}}</p>
+			</div>
+			<div class="anime-info">
+				<p class="anime-info__param">Season:</p>
+				<p class="typography-body anime-info__text-data">{{details.season | readableAnimeSeason}}</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="anime-description" *ngIf="details.description.length > 0">
+		<p class="typography-body anime-description__data">{{details.description}}</p>
+	</div>
+	
+	<div class="anime-trailer" *ngIf="safeTrailerUrl$ | async as safeTrailerUrl">
+		<iframe [src]="safeTrailerUrl" 
+			[height]="trailerComponentHeight$ | async" 
+			class="anime-trailer__iframe" 
+			[title]="details.titleEnglish + ' trailer'">
+		</iframe>
+	</div>
+
+	<ng-template #emptyEndDateTemplate>
+		<p class="typography-body anime-info__text-data">&mdash;</p> 
+	</ng-template>
+
+	<ng-template #emptyStartDateTemplate>
+		<p class="typography-body anime-info__text-data">No aired</p>
+	</ng-template>
+</ng-container>

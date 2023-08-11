@@ -2,6 +2,12 @@
 .typography-title {
 	font-size: var(--font-size-l);
 	color: var(--primary-contrast-color);
+	line-height: calc(var(--font-size-xl) * 1.25);
+}
+
+.typography-subtitle {
+	font-size: var(--font-size-l);
+	color: var(--primary-contrast-color);
 	line-height: calc(var(--font-size-l) * 1.25);
 }
 

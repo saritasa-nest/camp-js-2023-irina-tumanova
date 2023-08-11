@@ -1,0 +1,4 @@
+<div class="upload-image">
+	<span class="upload-image__url">{{imageUrl$ | async}}</span>
+	<input type="file" (change)="upload($event.target)" id="uploadImageInput" class="upload-image__input" accept=".jpg, .png, .webp"/>
+</div>

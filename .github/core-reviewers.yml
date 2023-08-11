@@ -2,8 +2,9 @@ reviewers:
   # The default core reviewers.
   # Reviews may only be requested from collaborators.
   defaults:
-    - AndreySkripachev
-    - khoanguyen-saritasa
-    - maxineo
-    - viktor-sakhno-saritasa
-    - pavelzadorin-saritasa
+    - andrey-gazzaev
+    - daoduong-saritasa
+    - karbik-creator
+    - timofei-maximov-saritasa
+    - golovachev-yaroslav
+    - gevorg-gevorgyan-saritasa

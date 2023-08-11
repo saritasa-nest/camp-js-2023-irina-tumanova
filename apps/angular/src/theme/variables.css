@@ -2,14 +2,23 @@
 	/* Colors */
 	--surface-color: hsl(0deg 0% 26% / 100%);
 	--on-surface-color: hsl(0deg 0% 26% / 50%);
+	--input-color: hsl(0deg 0% 100% / 60%);
+	--accent-surface-color: hsl(0deg 0% 20% / 100%);
+	--accent-color: hsl(336deg 78% 43% / 100%);
 
 	/* Spaces */
+	--space-xs: calc(var(--space-m) / 8);
 	--space-s: calc(var(--space-m) / 2);
 	--space-m: 32px;
 
 	/* Font size */
-	--font-size-m: 16px;
-	--font-size-l: calc(var(--font-size-m) * 3);
+	--font-size-m: 14px;
+	--font-size-l: calc(var(--font-size-m) * 2);
+	--font-size-xl: calc(var(--font-size-m) * 3);
+
+	/* Border radius */
+	--border-radius-s: calc(var(--border-radius-m) / 2);
+	--border-radius-m: 8px;
 
 	/* Other */
 	--table-image-size: 150px;

@@ -6,7 +6,6 @@ import { Sort } from '@angular/material/sort';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Anime, AnimeType } from '@js-camp/core/models/anime/anime';
 import { AnimeSortingField, AnimeParams, AnimeFilterParams, QueryAnimeParams } from '@js-camp/core/models/anime/anime-params';
-import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, startWith, merge, combineLatest, finalize, withLatestFrom } from 'rxjs';
 import { Sorting } from '@js-camp/core/models/sorting';
@@ -98,6 +97,66 @@ export class AnimePageComponent implements OnInit {
 	}
 
 	/**
+	 * Change paginator data.
+	 * @param event Page event.
+	 * @param prev Previous value of pagination.
+	 */
+	protected handlePageEvent(event: PageEvent, prev: PaginationParams): void {
+		this.pagination$.next(new PaginationParams({
+			pageNumber: prev.pageSize === event.pageSize ?
+				event.pageIndex :
+				defaultParams.pagination.pageNumber,
+			pageSize: event.pageSize,
+		}));
+	}
+
+	/**
+	 * Change sorting.
+	 * @param sorting Sorting: direction and field.
+	 */
+	protected handleSortChange(sorting: Sort): void {
+		this.sorting$.next({
+			direction: sorting.direction,
+			field: sorting.direction !== '' ?
+				sorting.active as AnimeSortingField :
+				AnimeSortingField.None,
+		});
+	}
+
+	/**
+	 * Track anime type.
+	 * @param _index Index.
+	 * @param type Anime type.
+	 */
+	protected trackAnimeType(_index: number, type: AnimeType): AnimeType {
+		return type;
+	}
+
+	/**
+	 * Track anime by id in table.
+	 * @param _index Index.
+	 * @param anime Anime.
+	 */
+	protected trackAnime(_index: number, anime: Anime): Anime['id'] {
+		return anime.id;
+	}
+
+	/**
+	 * Go to anime details.
+	 * @param id Anime id.
+	 */
+	protected goToAnimeDetails(id: Anime['id']): void {
+		this.router.navigate([`/anime/${id}`]);
+	}
+
+	/** Scroll to top. */
+	private scrollToTopPage(): void {
+		if (this.window) {
+			this.window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+		}
+	}
+
+	/**
 	 * Create filters form.
 	 * @param filters Initial filters.
 	 */
@@ -180,65 +239,5 @@ export class AnimePageComponent implements OnInit {
 					defaultParams.filters.types,
 			},
 		};
-	}
-
-	/**
-	 * Change paginator data.
-	 * @param event Page event.
-	 * @param prev Previous value of pagination.
-	 */
-	protected handlePageEvent(event: PageEvent, prev: PaginationParams): void {
-		this.pagination$.next(new PaginationParams({
-			pageNumber: prev.pageSize === event.pageSize ?
-				event.pageIndex :
-				defaultParams.pagination.pageNumber,
-			pageSize: event.pageSize,
-		}));
-	}
-
-	/**
-	 * Change sorting.
-	 * @param sorting Sorting: direction and field.
-	 */
-	protected handleSortChange(sorting: Sort): void {
-		this.sorting$.next({
-			direction: sorting.direction,
-			field: sorting.direction !== '' ?
-				sorting.active as AnimeSortingField :
-				AnimeSortingField.None,
-		});
-	}
-
-	/**
-	 * Get readable status.
-	 * @param status Anime status.
-	 */
-	protected getReadableStatus(status: AnimeStatus): string {
-		return AnimeStatus.toReadable(status);
-	}
-
-	/**
-	 * Track anime type.
-	 * @param _index Index.
-	 * @param type Anime type.
-	 */
-	protected trackAnimeType(_index: number, type: AnimeType): AnimeType {
-		return type;
-	}
-
-	/** Scroll to top. */
-	private scrollToTopPage(): void {
-		if (this.window) {
-			this.window.scroll({ top: 0, left: 0, behavior: 'smooth' });
-		}
-	}
-
-	/**
-	 * Track anime by id in table.
-	 * @param _index Index.
-	 * @param anime Anime.
-	 */
-	protected trackById(_index: number, anime: Anime): number {
-		return anime.id;
 	}
 }
