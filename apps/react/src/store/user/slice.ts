@@ -23,5 +23,10 @@ export const userSlice = createSlice({
 				state.error = action.error.message;
 			}
 			state.isLoading = false;
+		})
+		.addCase(UserDispatcher.reset, state => {
+			state.error = undefined;
+			state.isLoading = false;
+			state.user = null;
 		}),
 });

@@ -1,4 +1,4 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { UserService } from '@js-camp/react/api/services/userService';
 
 export namespace UserDispatcher {
@@ -6,4 +6,6 @@ export namespace UserDispatcher {
 		'user/getCurrentUser',
 		() => UserService.getCurrentUser(),
 	);
+
+	export const reset = createAction('user/reset');
 }
