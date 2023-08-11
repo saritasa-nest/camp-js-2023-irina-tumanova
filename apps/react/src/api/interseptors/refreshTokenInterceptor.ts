@@ -26,14 +26,14 @@ export async function refreshSecretInterceptor(error: AxiosError): RefreshResult
 }
 
 const refreshSecret = async(error: AxiosError): RefreshResult => {
-	const secret = await UserSecretService.getToken();
+	const secret = UserSecretService.getToken();
 	if (secret == null || error.config == null) {
 		throw error;
 	}
 
 	try {
 		const newSecret = await AuthService.refreshSecret(secret);
-		await UserSecretService.saveToken(newSecret);
+		UserSecretService.saveToken(newSecret);
 		return http.request(error.config);
 	} catch (err: unknown) {
 		await AuthService.logout();

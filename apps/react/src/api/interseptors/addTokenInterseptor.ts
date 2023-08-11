@@ -7,11 +7,11 @@ import { ApiUrlsConfig } from '../apiUrlsConfig';
  * Intercept token.
  * @param config Request config.
  */
-export async function addTokenInterceptor(config: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> {
+export function addTokenInterceptor(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
 	if (!shouldInterceptWithToken(config)) {
 		return config;
 	}
-	const token = await UserSecretService.getToken();
+	const token = UserSecretService.getToken();
 	if (token === null) {
 		return config;
 	}
