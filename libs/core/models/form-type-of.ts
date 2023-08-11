@@ -5,4 +5,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 export type FormGroupValuesBase = Record<string, any>;
 
 /** Common type for Form Group. */
-export type FormGroupOf<T extends FormGroupValuesBase> = FormGroup<{ [key in keyof T]: FormControl<T[key]> }>;
+export type FormGroupOf<T extends FormGroupValuesBase, GroupKeysT extends string = ''> = FormGroup<{
+	[key in keyof T]: key extends GroupKeysT ?
+		FormGroupOf<T[key]> :
+		FormControl<T[key]>
+}>;

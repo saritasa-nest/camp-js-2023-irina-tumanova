@@ -21,3 +21,6 @@ export class ListParams<TFilters, TSortingField> {
 }
 
 type InitListParams<TFilters, TSortField> = ListParams<TFilters, TSortField>;
+
+/** DefaultListParams. */
+export class DefaultListParams<TSortingField> extends ListParams<{search: string;}, TSortingField> {}

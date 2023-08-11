@@ -1,0 +1,126 @@
+<form class="anime-form" [formGroup]="form" (submit)="handleSubmit()">
+	<p class="typography-title">{{title}}</p>
+	<div class="anime-form__common">
+		<mat-form-field *ngIf="form.controls.imageFile as imageFile" class="anime-form__cover">
+			<mat-label>Image</mat-label>
+			<camp-upload-image [formControl]="imageFile" [defaultImageUrl]="form.controls.imageUrl.value"/>
+			<mat-error *ngIf="imageFile.hasError('requiredImage')">{{'requiredImage' | fieldErrorText}}</mat-error>
+		</mat-form-field>
+
+		<mat-form-field *ngIf="form.controls.titleEnglish as titleEnglish">
+			<mat-label>English title</mat-label>
+			<input matInput placeholder="Ex. Naruto" value="" [formControl]="titleEnglish" />
+			<mat-error *ngIf="titleEnglish.hasError('required')">{{'required' | fieldErrorText:'english title'}}</mat-error>
+		</mat-form-field>
+
+		<mat-form-field *ngIf="form.controls.titleJapanese as titleJapanese">
+			<mat-label>Japanese title</mat-label>
+			<input matInput placeholder="Ex. Naruto" value="" [formControl]="titleJapanese" />
+			<mat-error *ngIf="titleJapanese.hasError('required')">{{'required' | fieldErrorText:'japanese title'}}</mat-error>
+		</mat-form-field>
+	
+		<mat-form-field class="anime-form__description" *ngIf="form.controls.description as description">
+			<mat-label>Description</mat-label>
+			<textarea matInput rows="4"
+				placeholder="Ex. It tells the story of Naruto Uzumaki..." 
+				[formControl]="description"></textarea>
+			<mat-error *ngIf="description.hasError('required')">{{'required' | fieldErrorText:'description'}}</mat-error>
+		</mat-form-field>
+	</div>
+
+	<div class="anime-form__detail">
+		<p class="typography-title anime-form__section-title">Detail</p>
+
+		<mat-form-field *ngIf="form.controls.type as type">
+			<mat-label>Type</mat-label>
+			<mat-select [formControl]="type">
+				<mat-option *ngFor="let type of types; trackBy trackByIndex" [value]="type">{{type}}</mat-option>
+			</mat-select>
+			<mat-error *ngIf="type.hasError('required')">{{'required' | fieldErrorText:'type'}}</mat-error>
+		</mat-form-field>
+
+		 <mat-form-field *ngIf="form.controls.status as status">
+			<mat-label>Status</mat-label>
+			<mat-select [formControl]="status">
+				<mat-option *ngFor="let status of statuses; trackBy trackByIndex" [value]="status">{{status | readableAnimeStatus}}</mat-option>
+			</mat-select>
+			<mat-error *ngIf="status.hasError('required')">{{'required' | fieldErrorText:'status'}}</mat-error>
+		</mat-form-field>
+
+		<mat-form-field class="select-with-input">
+			<mat-label>Genres</mat-label>
+			<camp-select-with-create [formControl]="form.controls.genres" 
+				nameKey="name" 
+				[checkAreEqualItems]="checkGenresAreEqual"
+				[createItem]="createGenre"
+				[getItems]="getGenres" />
+			<mat-error *ngIf="form.controls.genres.hasError('required')">{{'required' | fieldErrorText:'genres'}}</mat-error>
+		</mat-form-field>
+
+		<mat-form-field class="select-with-input">
+			<mat-label>Studios</mat-label>
+			<camp-select-with-create [formControl]="form.controls.studios" 
+				nameKey="name" 
+				[checkAreEqualItems]="checkStudiosAreEqual"
+				[createItem]="createStudio"
+				[getItems]="getStudios" />
+			<mat-error *ngIf="form.controls.studios.hasError('required')">{{'required' | fieldErrorText:'studios'}}</mat-error>
+		</mat-form-field>
+
+		<mat-form-field *ngIf="form.controls.rating as rating">
+			<mat-label>Rating</mat-label>
+			<mat-select [formControl]="rating">
+				<mat-option *ngFor="let rating of ratings; trackBy trackByIndex" [value]="rating">{{rating}}</mat-option>
+			</mat-select>
+			<mat-error *ngIf="rating.hasError('required')">{{'required' | fieldErrorText:'rating'}}</mat-error>
+		</mat-form-field>
+
+		<mat-form-field *ngIf="form.controls.source as source">
+			<mat-label>Source</mat-label>
+			<mat-select [formControl]="source">
+				<mat-option *ngFor="let source of sources; trackBy trackByIndex" [value]="source">{{source}}</mat-option>
+			</mat-select>
+			<mat-error *ngIf="source.hasError('required')">{{'required' | fieldErrorText:'source'}}</mat-error>
+		</mat-form-field>
+
+		<mat-form-field *ngIf="form.controls.season as season">
+			<mat-label>Season</mat-label>
+			<mat-select [formControl]="season">
+				<mat-option *ngFor="let season of seasons; trackBy trackByIndex" [value]="season">{{season}}</mat-option>
+			</mat-select>
+			<mat-error *ngIf="season.hasError('required')">{{'required' | fieldErrorText:'season'}}</mat-error>
+		</mat-form-field>
+
+		<mat-form-field class="anime-form__trailer-id">
+			<mat-label>Youtube trailer id</mat-label>
+			<input matInput placeholder="Id" [formControl]="form.controls.trailerYoutubeId">
+		</mat-form-field>
+	</div>
+
+	<div class="anime-form__airing anime-airing" *ngIf="form.controls.aired as aired">
+		<div class="anime-airing__header">
+			<p class="typography-title">Airing</p>
+			<mat-checkbox [formControl]="form.controls.airing" class="anime-airing_checkbox" />
+		</div>
+
+		<mat-form-field>
+			<mat-label>Aired start</mat-label>
+			<input matInput [matDatepicker]="airedStart" [formControl]="aired.controls.start">
+			<mat-hint>MM/DD/YYYY</mat-hint>
+			<mat-datepicker-toggle matIconSuffix [for]="airedStart" />
+			<mat-datepicker #airedStart />
+		</mat-form-field>
+
+		<mat-form-field>
+			<mat-label>Aired end</mat-label>
+			<input matInput [matDatepicker]="airedEnd" [formControl]="aired.controls.end">
+			<mat-hint>MM/DD/YYYY</mat-hint>
+			<mat-datepicker-toggle matIconSuffix [for]="airedEnd" />
+			<mat-datepicker #airedEnd />
+		</mat-form-field>
+	</div>
+
+	<button type="submit" mat-raised-button color="primary" class="anime-form__submit">Save</button>
+</form>
+
+<camp-shadow-spinner *ngIf="isSubmitting$ | async" />

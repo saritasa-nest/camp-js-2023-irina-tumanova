@@ -35,7 +35,7 @@
 			<ng-container matColumnDef="titleEnglish">
 				<th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription>English title</th>
 				<td mat-cell *matCellDef="let element">
-					<p *ngIf="element.titleEnglish.length > 0; else emptyPlaceholder">
+					<p *ngIf="element.titleEnglish.length > 0; else emptyPlaceholderTemplate">
 						{{element.titleEnglish}}
 					</p>
 				</td>
@@ -44,7 +44,7 @@
 			<ng-container matColumnDef="titleJapanese">
 				<th mat-header-cell *matHeaderCellDef>Japanese title</th>
 				<td mat-cell *matCellDef="let element">
-					<p *ngIf="element.titleJapanese.length > 0; else emptyPlaceholder">
+					<p *ngIf="element.titleJapanese.length > 0; else emptyPlaceholderTemplate">
 						{{element.titleJapanese}}
 					</p>
 				</td>
@@ -53,7 +53,7 @@
 			<ng-container matColumnDef="aired.start">
 				<th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by aired start">Aired start</th>
 				<td mat-cell *matCellDef="let element">
-					<time *ngIf="element.aired.start as startDate; else emptyPlaceholder" 
+					<time *ngIf="element.aired.start as startDate; else emptyPlaceholderTemplate" 
 						[dateTime]="startDate">
 						{{ startDate | date }}
 				  	</time>
@@ -89,7 +89,7 @@
 			<tr mat-footer-row *matFooterRowDef="['paginator']; sticky: true"></tr>
 		</table>
 
-		<ng-template #emptyPlaceholder>&mdash;</ng-template>
+		<ng-template #emptyPlaceholderTemplate>&mdash;</ng-template>
 	</ng-container>
 
 	<camp-shadow-spinner *ngIf="isLoading$ | async" />

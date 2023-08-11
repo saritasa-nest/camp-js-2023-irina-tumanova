@@ -14,5 +14,13 @@ export interface GenreDto {
 	readonly modified: string;
 
 	/** DTO type. */
-	readonly type: 'GENRES';
+	readonly type: GenreTypeDto;
+}
+
+/** Genre type DTO. */
+export enum GenreTypeDto {
+	Genres = 'GENRES',
+	ExplicitGenres = 'EXPLICIT_GENRES',
+	Themes = 'THEMES',
+	Demographics = 'DEMOGRAPHICS',
 }

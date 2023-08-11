@@ -2,12 +2,15 @@ import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { AnimeDetails } from '@js-camp/core/models/anime/anime-details';
-import { BehaviorSubject, Observable, map, shareReplay, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, map, shareReplay, tap, switchMap, first } from 'rxjs';
+import { YOUTUBE_EMBED_URL } from '@js-camp/core/const/const';
 
 import { ImageModalComponent } from '../components/image-modal/image-modal.component';
+import { DeleteModalComponent } from '../components/delete-modal/delete-modal.component';
 
 const TRAILER_COMPONENT_ASPECT_RATION = 9 / 16;
 
@@ -26,6 +29,9 @@ export class AnimeDetailsPageComponent {
 	/** Safe trailer url. */
 	protected readonly safeTrailerUrl$: Observable<SafeResourceUrl | null>;
 
+	/** Is open delete modal. */
+	protected readonly isOpenDeleteModal$ = new BehaviorSubject(false);
+
 	/** Anime trailer component height. */
 	protected readonly trailerComponentHeight$ = new BehaviorSubject<number | null>(null);
 
@@ -39,6 +45,12 @@ export class AnimeDetailsPageComponent {
 
 	private readonly imageModal = inject(MatDialog);
 
+	private readonly deleteModal = inject(MatDialog);
+
+	private readonly router = inject(Router);
+
+	private readonly untilDestroyed = untilDestroyed();
+
 	public constructor() {
 		this.details$ = this.createDetailsStream();
 		this.safeTrailerUrl$ = this.createSafeTrailerUrlStream();
@@ -46,20 +58,25 @@ export class AnimeDetailsPageComponent {
 		this.changeTrailerComponentHeight();
 	}
 
+	private createAnimeIdStream(): Observable<number> {
+		return this.route.params.pipe(map(({ id }) => Number(id)));
+	}
+
 	private createDetailsStream(): Observable<AnimeDetails> {
 		return this.route.params.pipe(
-			map(({ id }) => Number(id)),
-			switchMap(id => this.animeService.getAnimeDetails(id)),
+			switchMap(({ id }) => this.animeService.getAnimeDetails(Number(id))),
 			shareReplay({ refCount: true, bufferSize: 1 }),
 		);
 	}
 
 	private createSafeTrailerUrlStream(): Observable<SafeResourceUrl | null> {
-		return this.details$.pipe(
-			map(details => details.trailerYoutubeUrl !== null ?
-				this.sanitizer.bypassSecurityTrustResourceUrl(details.trailerYoutubeUrl) :
-				null),
-		);
+		return this.details$.pipe(map(details => this.createSafeYoutubeUrl(details.trailerYoutubeId)));
+	}
+
+	private createSafeYoutubeUrl(trailerYoutubeId: string | null): SafeResourceUrl | null {
+		return trailerYoutubeId !== null ?
+			this.sanitizer.bypassSecurityTrustResourceUrl(`${YOUTUBE_EMBED_URL}${trailerYoutubeId}`) :
+			null;
 	}
 
 	/**
@@ -77,5 +94,32 @@ export class AnimeDetailsPageComponent {
 			return;
 		}
 		this.trailerComponentHeight$.next(this.window.innerWidth * TRAILER_COMPONENT_ASPECT_RATION);
+	}
+
+	/** Handle delete button click. */
+	protected openDeleteModal(): void {
+		this.deleteModal.open(DeleteModalComponent, {
+			data: {
+				delete: () => this.deleteAnime(),
+				name: 'anime',
+				cancel: () => this.deleteModal.closeAll(),
+			},
+		});
+	}
+
+	/** Handle confirm button click. */
+	protected deleteAnime(): void {
+		this.details$.pipe(
+			first(),
+			switchMap(({ id }) => this.animeService.deleteAnime(id)),
+			tap(() => this.deleteModal.closeAll()),
+			tap(() => this.navigateToMainPage()),
+			this.untilDestroyed(),
+		)
+			.subscribe();
+	}
+
+	private navigateToMainPage(): void {
+		this.router.navigate(['']);
 	}
 }

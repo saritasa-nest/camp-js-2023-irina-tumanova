@@ -37,7 +37,7 @@ export namespace AnimeMapper {
 		[AnimeTypeDto.Unknown]: AnimeType.Unknown,
 	};
 
-	/** Anime type transformation object in DTO. */
+	/** Anime status transformation object in DTO. */
 	const ANIME_STATUS_FROM_DTO = {
 		[AnimeStatusDto.Airing]: AnimeStatus.Airing,
 		[AnimeStatusDto.Finished]: AnimeStatus.Finished,

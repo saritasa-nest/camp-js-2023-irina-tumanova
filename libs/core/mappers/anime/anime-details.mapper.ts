@@ -2,7 +2,6 @@ import { AnimeSource } from '../../models/anime/anime-source';
 import { AnimeSeason } from '../../models/anime/anime-season';
 import { AnimeDetailsDto, AnimeRatingDto, AnimeSeasonDto, AnimeSourceDto } from '../../dtos/anime/anime-details.dto';
 import { AnimeDetails, AnimeRating } from '../../models/anime/anime-details';
-import { YOUTUBE_EMBED_URL } from '../../const/const';
 
 import { AnimeMapper } from './anime.mapper';
 import { GenreMapper } from './genre.mapper';
@@ -21,9 +20,7 @@ export namespace AnimeDetailsMapper {
 			airing: dto.airing,
 			studios: dto.studios_data.map(StudioMapper.fromDto),
 			genres: dto.genres_data.map(GenreMapper.fromDto),
-			trailerYoutubeUrl: dto.trailer_youtube_id !== null ?
-				`${YOUTUBE_EMBED_URL}${dto.trailer_youtube_id}` :
-				null,
+			trailerYoutubeId: dto.trailer_youtube_id,
 			source: ANIME_SOURCE_FROM_DTO[dto.source],
 			rating: ANIME_RATING_FROM_FTO[dto.rating],
 			season: ANIME_SEASON_FROM_DTO[dto.season],
@@ -47,6 +44,7 @@ export namespace AnimeDetailsMapper {
 		[AnimeSourceDto.VisualNovel]: AnimeSource.VisualNovel,
 		[AnimeSourceDto.WebManga]: AnimeSource.WebManga,
 		[AnimeSourceDto.WebNovel]: AnimeSource.WebNovel,
+		[AnimeSourceDto.Game]: AnimeSource.Game,
 	};
 
 	const ANIME_RATING_FROM_FTO = {

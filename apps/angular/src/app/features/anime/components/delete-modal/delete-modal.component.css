@@ -1,0 +1,5 @@
+.modal-buttons {
+	display: flex;
+	align-items: center;
+	gap: var(--space-s);
+}

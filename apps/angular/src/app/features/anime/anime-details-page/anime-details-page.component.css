@@ -5,6 +5,18 @@
 	gap: var(--space-m);
 }
 
+.anime-header {
+	display: flex;
+	justify-content: space-between;
+	gap: var(--space-m);
+}
+
+.anime-buttons {
+	display: flex;
+	align-items: center;
+	gap: var(--space-s);
+}
+
 .anime-title {
 	margin-bottom: 0;
 }

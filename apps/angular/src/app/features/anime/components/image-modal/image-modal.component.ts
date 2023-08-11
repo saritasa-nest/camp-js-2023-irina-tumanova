@@ -4,10 +4,10 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 /** Modal data for display. */
 interface ModalData {
 
-	/** Modal title. */
+	/** Title. */
 	readonly title: string;
 
-	/** Modal image url. */
+	/** Image url. */
 	readonly imageUrl: string;
 }
 

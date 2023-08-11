@@ -65,6 +65,7 @@ export enum AnimeSourceDto {
 	WebNovel = 'WEB_NOVEL',
 	Other = 'OTHER',
 	Unknown = 'UNKNOWN',
+	Game = 'GAME',
 }
 
 /** Anime season DTO. */

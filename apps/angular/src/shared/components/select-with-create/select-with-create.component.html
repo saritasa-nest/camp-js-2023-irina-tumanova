@@ -1,0 +1,28 @@
+<mat-chip-grid #chipGrid aria-label="Fruit selection">
+	<mat-chip-row *ngFor="let item of formControl.valueChanges | async" (removed)="remove(item)">
+			{{item | readableTextFromObject: nameKey}}
+			<button type="button" matChipRemove>
+				<mat-icon>cancel</mat-icon>
+			</button>
+	</mat-chip-row>
+</mat-chip-grid>
+
+<input placeholder="New item..." [formControl]="inputControl"
+	[matChipInputFor]="chipGrid" [matAutocomplete]="auto"
+	[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+	(matChipInputTokenEnd)="handleCreateButtonClick($event)"/>
+
+<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+	<div *ngIf="itemsParams$ | async as itemsParams"
+		class="autocomplete-list"
+		infiniteScroll 
+		[infiniteScrollDistance]="2"
+		[scrollWindow]="false"
+		[infiniteScrollThrottle]="50" 
+		(scrolled)="scroll(itemsParams)">
+		<mat-option *ngFor="let item of items$ | async" [value]="item">
+			{{item | readableTextFromObject: nameKey}}
+		</mat-option>
+	</div>
+</mat-autocomplete>
+

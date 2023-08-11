@@ -20,7 +20,7 @@ export class AnimeDetails extends Anime {
 	public readonly genres: readonly Genre[];
 
 	/** Trailer video id on youtube. */
-	public readonly trailerYoutubeUrl: string | null;
+	public readonly trailerYoutubeId: string | null;
 
 	/** Age rating. */
 	public readonly rating: AnimeRating;
@@ -39,7 +39,7 @@ export class AnimeDetails extends Anime {
 		this.studios = data.studios;
 		this.studios = data.studios;
 		this.genres = data.genres;
-		this.trailerYoutubeUrl = data.trailerYoutubeUrl;
+		this.trailerYoutubeId = data.trailerYoutubeId;
 		this.source = data.source;
 		this.rating = data.rating;
 		this.season = data.season;

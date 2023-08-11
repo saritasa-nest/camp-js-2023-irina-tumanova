@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { SharedModule } from '@js-camp/angular/shared/shared.module';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -19,7 +19,6 @@ import { PasswordFieldComponent } from './components/password-field/password-fie
 		CommonModule,
 		SharedModule,
 		AuthRoutingModule,
-		FormsModule,
 		ReactiveFormsModule,
 		MatFormFieldModule,
 		MatInputModule,

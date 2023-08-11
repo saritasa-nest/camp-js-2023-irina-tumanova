@@ -16,6 +16,7 @@ export enum AnimeSource {
 	WebNovel = 'WebNovel',
 	Other = 'Other',
 	Unknown = 'Unknown',
+	Game = 'Game',
 }
 
 export namespace AnimeSource {
@@ -37,6 +38,7 @@ export namespace AnimeSource {
 		[AnimeSource.WebNovel]: 'Web noval',
 		[AnimeSource.Other]: 'Other',
 		[AnimeSource.Unknown]: 'Unknown',
+		[AnimeSource.Game]: 'Game',
 	};
 
 	/**
