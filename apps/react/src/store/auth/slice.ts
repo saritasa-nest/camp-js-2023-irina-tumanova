@@ -44,12 +44,22 @@ export const authSlice = createSlice({
 			state.isAuth = false;
 			state.isLoading = false;
 		})
-		.addCase(AuthDispatcher.logout, state => {
+		.addCase(AuthDispatcher.logout.fulfilled, state => {
 			state.isAuth = false;
 			state.isLoading = false;
 			state.error = undefined;
 		})
 		.addCase(AuthDispatcher.reset, state => {
+			state.isAuth = false;
+			state.isLoading = false;
+			state.error = undefined;
+		})
+		.addCase(AuthDispatcher.loginAuto.fulfilled, state => {
+			state.isAuth = true;
+			state.isLoading = false;
+			state.error = undefined;
+		})
+		.addCase(AuthDispatcher.loginAuto.rejected, state => {
 			state.isAuth = false;
 			state.isLoading = false;
 			state.error = undefined;

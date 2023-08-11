@@ -1,5 +1,5 @@
 import { selectIsAuth } from '@js-camp/react/store/auth/selectors';
-import { FC, memo } from 'react';
+import { FC, memo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { useAppDispatch } from '@js-camp/react/store';
@@ -13,8 +13,14 @@ const AppHeaderComponent: FC = () => {
 	const dispatch = useAppDispatch();
 
 	const handleLogout = () => {
-		dispatch(AuthDispatcher.logout);
+		dispatch(AuthDispatcher.logout());
 	};
+
+	const loginAuto = () => {
+		dispatch(AuthDispatcher.loginAuto());
+	};
+
+	useEffect(loginAuto, []);
 
 	return (
 		<AppBar sx={{ position: 'relative' }}>

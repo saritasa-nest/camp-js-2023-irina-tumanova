@@ -7,7 +7,7 @@ export namespace UserSecretService {
 	const SECRET_KEY = 'SECRET';
 
 	/** Get user secret from local storage. */
-	export function getTokens(): Promise<UserSecret | null> {
+	export function getToken(): Promise<UserSecret | null> {
 		return LocalStorageService.get<UserSecret>(SECRET_KEY);
 	}
 

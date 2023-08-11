@@ -5,6 +5,11 @@ import { LoginMapper } from '@js-camp/core/mappers/auth/login.mapper';
 import { RegistrationMapper } from '@js-camp/core/mappers/auth/registration.mapper';
 import { Login } from '@js-camp/core/models/auth/login';
 import { UserSecret } from '@js-camp/core/models/auth/user-secret';
+import { AppValidationError } from '@js-camp/core/models/app-error';
+import { AxiosError } from 'axios';
+import { HttpErrorItemDto } from '@js-camp/core/dtos/http-error.dto';
+import { AppErrorDictionaryMapper } from '@js-camp/core/mappers/app-error.mapper';
+import { VerifiableUserSecretMapper } from '@js-camp/core/mappers/auth/verifiable-user-secret.mapper';
 
 import { ApiUrlsConfig } from '../apiUrlsConfig';
 import { http } from '..';
@@ -58,5 +63,34 @@ export namespace AuthService {
 		const userSecret = UserSecretMapper.fromDto(userSecterDto);
 		UserSecretService.saveToken(userSecret);
 		return userSecret;
+	}
+
+	/**
+	 * Verify user's secret.
+	 * @param secret Secret data.
+	 */
+	export async function verifySecret(secret: UserSecret): Promise<void> {
+		await http.post<UserSecretDto>(
+			ApiUrlsConfig.auth.verifySecret,
+			VerifiableUserSecretMapper.toDto(secret),
+		);
+	}
+
+	/**
+	 * Map error.
+	 * @param error Request error.
+	 * @param mapValidationError Map validation error.
+	 */
+	export function mapError<TValidationErrors extends object>(
+		error: unknown,
+		mapValidationError: (errors: readonly HttpErrorItemDto[]) => TValidationErrors,
+	): AppValidationError<TValidationErrors> | Error | null {
+		if (error instanceof AxiosError && error.response !== undefined) {
+			const { data } = error.response;
+			if (data.errors instanceof Array) {
+				return AppErrorDictionaryMapper.fromDto(data.errors, mapValidationError);
+			}
+		}
+		return new Error('Unknown error');
 	}
 }

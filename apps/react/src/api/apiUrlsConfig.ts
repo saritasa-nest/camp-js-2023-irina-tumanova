@@ -38,6 +38,7 @@ export namespace ApiUrlsConfig {
 		login: toApi(`${AUTH_URL_PATH}/login/`),
 		register: toApi(`${AUTH_URL_PATH}/register/`),
 		refreshSecret: toApi(`${AUTH_URL_PATH}/token/refresh/`),
+		verifySecret: toApi(`${AUTH_URL_PATH}/token/verify/`),
 	};
 
 	/**
