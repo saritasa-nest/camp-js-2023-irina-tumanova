@@ -10,12 +10,8 @@ export interface AuthState {
 
 	/** Error. */
 	readonly error?: AppValidationError<LoginValidationErrors | RegistrationValidationErrors>;
-
-	/** User is authorized. */
-	readonly isAuth: boolean;
 }
 
 export const initialState: AuthState = {
 	isLoading: false,
-	isAuth: false,
 };
