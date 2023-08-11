@@ -8,10 +8,15 @@ import LoginIcon from '@mui/icons-material/Login';
 import { selectUser } from '@js-camp/react/store/user/selectors';
 import { UserDispatcher } from '@js-camp/react/store/user/dispatchers';
 
+/** App header component. */
 const AppHeaderComponent: FC = () => {
+
+	/** Current user. */
 	const user = useAppSelector(selectUser);
+
 	const dispatch = useAppDispatch();
 
+	/** Handle logout. */
 	const handleLogout = () => {
 		dispatch(AuthDispatcher.logout());
 		dispatch(UserDispatcher.reset());

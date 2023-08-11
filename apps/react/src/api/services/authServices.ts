@@ -45,7 +45,7 @@ export namespace AuthService {
 	}
 
 	/** Handle logout. */
-	export function logout(): Promise<void> {
+	export function logout(): void {
 		return UserSecretService.destroyToken();
 	}
 

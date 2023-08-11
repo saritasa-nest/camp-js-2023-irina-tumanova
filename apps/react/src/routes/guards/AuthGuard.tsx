@@ -6,6 +6,7 @@ import { selectUser } from '@js-camp/react/store/user/selectors';
 import { UserDispatcher } from '@js-camp/react/store/user/dispatchers';
 import { UserSecretService } from '@js-camp/react/api/services/userSecretService';
 
+/** Auth guard. */
 export const AuthGuard: FC = () => {
 	const dispatch = useAppDispatch();
 	const hasToken = UserSecretService.hasToken();
@@ -14,7 +15,7 @@ export const AuthGuard: FC = () => {
 
 	if (hasToken && user === null) {
 		dispatch(UserDispatcher.getCurrentUser());
-		return <div>Fetching User...</div>;
+		return <div>Fetch User</div>;
 	}
 	if (!isAuth && !hasToken) {
 		const redirect: To = {

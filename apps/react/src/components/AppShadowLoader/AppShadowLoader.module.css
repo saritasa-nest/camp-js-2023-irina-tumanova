@@ -1,8 +1,8 @@
 .app-shadow-loader {
-  position: absolute;
-  inset: 0;
-  background-color: var(--on-surface);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	position: absolute;
+	inset: 0;
+	background-color: var(--on-surface);
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }

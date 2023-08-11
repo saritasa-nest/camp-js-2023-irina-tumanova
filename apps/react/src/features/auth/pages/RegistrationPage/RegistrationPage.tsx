@@ -8,7 +8,7 @@ import { Button, TextField, Typography, Link } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { AppValidationError } from '@js-camp/core/models/app-error';
 import { Registration, RegistrationForm, RegistrationValidationErrors } from '@js-camp/core/models/auth/registration';
-import { AppShadowLoader } from '@js-camp/react/components/AppShadowLoader/AppShadowLoader';
+import { AppShadowLoader } from '@js-camp/react/components/AppShadowLoader';
 
 import classes from '../common.module.css';
 import { PasswordField } from '../../components/PasswordField';
@@ -17,8 +17,13 @@ import { validationSchema } from './RegistrationPage.settings';
 
 /** Registration page component. */
 const RegistrationPageComponent: FC = () => {
+
+	/** Auth is loading. */
 	const isLoading = useAppSelector(selectIsAuthLoading);
+
+	/** Auth error. */
 	const error: AppValidationError<RegistrationValidationErrors> | undefined = useAppSelector(selectAuthError);
+
 	const dispatch = useAppDispatch();
 
 	const {
@@ -32,6 +37,11 @@ const RegistrationPageComponent: FC = () => {
 	};
 
 	useEffect(() => {
+		setServerErrors();
+	}, [error]);
+
+	/** Set server error. */
+	const setServerErrors = () => {
 		if (error === undefined) {
 			return;
 		}
@@ -42,8 +52,9 @@ const RegistrationPageComponent: FC = () => {
 				setError(key as keyof Registration, { message });
 			}
 		});
-	}, [error]);
+	};
 
+	/** Reset auth. */
 	const reset = () => {
 		dispatch(AuthDispatcher.reset);
 	};

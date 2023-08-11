@@ -27,15 +27,23 @@ interface Props<TFieldValues extends FieldValues> {
 	readonly error?: FieldError | Merge<FieldError, FieldErrorsImpl>;
 }
 
+/**
+ * Password field component.
+ * @param props Props.
+ */
 const PasswordFieldComponent = <TFieldValues extends FieldValues>(props: Props<TFieldValues>) => {
-	const [showPassword, setShowPassword] = useState(false);
 
-	const handleClickShowPassword = () => {
-		setShowPassword(true);
+	/** Show password. */
+	const [isVisiblePassword, setIsVisiblePassword] = useState(false);
+
+	/** Show password. */
+	const showPassword = () => {
+		setIsVisiblePassword(true);
 	};
 
-	const handleMouseDownPassword = () => {
-		setShowPassword(false);
+	/** Hide password. */
+	const hidePassword = () => {
+		setIsVisiblePassword(false);
 	};
 
 	return (
@@ -45,16 +53,16 @@ const PasswordFieldComponent = <TFieldValues extends FieldValues>(props: Props<T
 				{...props.register(props.name, { required: true })}
 				autoComplete={props.autocomplete}
 				id={props.name}
-				type={showPassword ? 'text' : 'password'}
+				type={isVisiblePassword ? 'text' : 'password'}
 				endAdornment={
 					<InputAdornment position="end">
 						<IconButton
 							aria-label="toggle password visibility"
-							onClick={handleClickShowPassword}
-							onMouseDown={handleMouseDownPassword}
+							onClick={showPassword}
+							onMouseDown={hidePassword}
 							edge="end"
 						>
-							{showPassword ? <VisibilityOff /> : <Visibility />}
+							{isVisiblePassword ? <VisibilityOff /> : <Visibility />}
 						</IconButton>
 					</InputAdornment>
 				}

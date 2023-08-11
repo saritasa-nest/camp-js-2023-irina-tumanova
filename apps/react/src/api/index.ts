@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 import { CONFIG } from './config';
-import { errorInterceptor } from './interseptors/errorInterseptor';
 import { addTokenInterceptor } from './interseptors/addTokenInterseptor';
 import { refreshSecretInterceptor } from './interseptors/refreshTokenInterceptor';
 
@@ -17,6 +16,3 @@ http.interceptors.request.use(config => addTokenInterceptor(config),
 
 http.interceptors.response.use(response => response,
 	error => refreshSecretInterceptor(error));
-
-http.interceptors.response.use(response => response,
-	error => errorInterceptor(error));

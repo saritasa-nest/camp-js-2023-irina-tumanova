@@ -27,7 +27,7 @@ export async function refreshSecretInterceptor(error: AxiosError): RefreshResult
 
 const refreshSecret = async(error: AxiosError): RefreshResult => {
 	const secret = UserSecretService.getToken();
-	if (secret == null || error.config == null) {
+	if (secret === null || error.config === undefined) {
 		throw error;
 	}
 

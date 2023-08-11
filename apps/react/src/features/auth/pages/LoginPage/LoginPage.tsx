@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AuthDispatcher } from '@js-camp/react/store/auth/dispatchers';
 import { Login } from '@js-camp/core/models/auth/login';
-import { AppShadowLoader } from '@js-camp/react/components/AppShadowLoader/AppShadowLoader';
+import { AppShadowLoader } from '@js-camp/react/components/AppShadowLoader';
 
 import classes from '../common.module.css';
 import { PasswordField } from '../../components/PasswordField';
@@ -16,8 +16,13 @@ import { validationSchema } from './LoginPage.settings';
 
 /** Login page component. */
 const LoginPageComponent: FC = () => {
+
+	/** Auth is loading. */
 	const isLoading = useAppSelector(selectIsAuthLoading);
+
+	/** Auth error. */
 	const error = useAppSelector(selectAuthError);
+
 	const dispatch = useAppDispatch();
 
 	const {
@@ -26,8 +31,17 @@ const LoginPageComponent: FC = () => {
 		formState: { errors },
 	} = useForm<Login>({ resolver: zodResolver(validationSchema) });
 
+	/**
+	 * Form submit.
+	 * @param data Login data.
+	 */
 	const onSubmit = (data: Login) => {
 		dispatch(AuthDispatcher.login(data));
+	};
+
+	/** Reset auth. */
+	const reset = () => {
+		dispatch(AuthDispatcher.reset);
 	};
 
 	return (
@@ -51,7 +65,10 @@ const LoginPageComponent: FC = () => {
 					autocomplete='current-password'
 					error={errors.password}/>
 				<Button variant="contained" className={`${classes['auth-form__submit']}`} type="submit">Submit</Button>
-				<Link component={NavLink} to='/auth/registration' className={`${classes['auth-form__auth-change']}`}>
+				<Link component={NavLink}
+					to='/auth/registration'
+					onClick={reset}
+					className={`${classes['auth-form__auth-change']}`}>
 					Sign up
 				</Link>
 			</form>
