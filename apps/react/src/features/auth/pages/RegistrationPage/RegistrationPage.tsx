@@ -46,7 +46,7 @@ const RegistrationPageComponent: FC = () => {
 			return;
 		}
 
-		Object.keys(error.errors).map(key => {
+		Object.keys(error.errors).forEach(key => {
 			const message = error.errors[key as keyof Registration];
 			if (message !== undefined) {
 				setError(key as keyof Registration, { message });

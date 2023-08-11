@@ -36,7 +36,7 @@ const refreshSecret = async(error: AxiosError): RefreshResult => {
 		UserSecretService.saveToken(newSecret);
 		return http.request(error.config);
 	} catch (err: unknown) {
-		await AuthService.logout();
+		AuthService.logout();
 		throw err;
 	}
 };
