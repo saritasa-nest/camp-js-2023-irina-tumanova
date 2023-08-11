@@ -18,7 +18,7 @@ export namespace AuthDispatcher {
 				if (error instanceof AxiosError && error.response !== undefined) {
 					const { data } = error.response;
 					if (data.errors instanceof Array) {
-						rejectWithValue(AppErrorDictionaryMapper.fromDto(
+						return rejectWithValue(AppErrorDictionaryMapper.fromDto(
 							data.errors,
 							LoginMapper.validateErrorFromDto,
 						));

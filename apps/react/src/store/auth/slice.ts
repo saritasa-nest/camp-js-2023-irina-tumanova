@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { AppValidationError } from '@js-camp/core/models/app-error';
+
 import { AuthDispatcher } from './dispatchers';
 import { initialState } from './state';
 
@@ -29,18 +31,16 @@ export const authSlice = createSlice({
 			state.error = undefined;
 		})
 		.addCase(AuthDispatcher.login.rejected, (state, action) => {
-			if (action.error.message) {
-				state.error = action.error.message;
+			if (action.payload instanceof AppValidationError) {
+				state.error = action.payload;
 			}
-			console.log(action);
 			state.isAuth = false;
 			state.isLoading = false;
 		})
 		.addCase(AuthDispatcher.register.rejected, (state, action) => {
-			if (action.error.message) {
-				state.error = action.error.message;
+			if (action.payload instanceof AppValidationError) {
+				state.error = action.payload;
 			}
-			console.log(action);
 			state.isAuth = false;
 			state.isLoading = false;
 		})

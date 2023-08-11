@@ -27,10 +27,14 @@ const LoginPageComponent: FC = () => {
 		dispatch(AuthDispatcher.login(data));
 	};
 
+	console.log(error?.errors.common);
+
 	return (
 		<div className={`${classes.auth}`}>
 			<form className={`${classes['auth-form']}`} onSubmit={handleSubmit(onSubmit)}>
 				<Typography variant='h2' className={`${classes['auth-form__title']}`}>Sign in</Typography>
+
+				<Typography variant='' className={`${classes['auth-form__title']}`}>Sign in</Typography>
 				<TextField id="email"
 					autoComplete='email'
 					error={errors.email !== undefined}
