@@ -108,11 +108,11 @@ export class AnimeFormComponent {
 
 	private createForm(): FormGroupOf<AnimeFormData, 'aired'> {
 		const form = this.formBuilder.group({
-			imageUrl: [DEFAULT_FORM_VALUES.imageUrl],
-			imageFile: [DEFAULT_FORM_VALUES.imageFile],
+			imageUrl: DEFAULT_FORM_VALUES.imageUrl,
+			imageFile: DEFAULT_FORM_VALUES.imageFile,
 			trailerYoutubeId: DEFAULT_FORM_VALUES.trailerYoutubeId,
-			titleEnglish: [DEFAULT_FORM_VALUES.titleEnglish],
-			titleJapanese: [DEFAULT_FORM_VALUES.titleJapanese],
+			titleEnglish: [DEFAULT_FORM_VALUES.titleEnglish, [Validators.required]],
+			titleJapanese: [DEFAULT_FORM_VALUES.titleJapanese, [Validators.required]],
 			type: [DEFAULT_FORM_VALUES.type, [Validators.required]],
 			status: [DEFAULT_FORM_VALUES.status, [Validators.required]],
 			airing: DEFAULT_FORM_VALUES.airing,
