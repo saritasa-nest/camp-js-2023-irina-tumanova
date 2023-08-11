@@ -27,9 +27,9 @@ jobs:
         npm ci
         PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
         REPO_NAME=camp-js-2023-irina-tumanova
-        npm run angular:build -- --baseHref=/$REPO_NAME/pr-preview/pr-$PR_NUMBER/
+        npm run react:build -- --baseHref=/$REPO_NAME/pr-preview/pr-$PR_NUMBER/
 
     - name: Deploy preview
       uses: rossjrw/pr-preview-action@v1
       with:
-        source-dir: dist/apps/angular
+        source-dir: dist/apps/react
