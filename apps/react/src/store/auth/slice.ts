@@ -48,5 +48,10 @@ export const authSlice = createSlice({
 			state.isAuth = false;
 			state.isLoading = false;
 			state.error = undefined;
+		})
+		.addCase(AuthDispatcher.reset, state => {
+			state.isAuth = false;
+			state.isLoading = false;
+			state.error = undefined;
 		}),
 });

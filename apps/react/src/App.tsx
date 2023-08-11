@@ -13,6 +13,7 @@ export const App: FC = () => (
 		<BrowserRouter>
 			<Suspense fallback={<div>Brrr... here should be your loader component</div>}>
 				<AppHeader />
+				<div id='app-shadow-loader-root'></div>
 				<main className={`${classes.main}`}>
 					<RootRouter />
 				</main>

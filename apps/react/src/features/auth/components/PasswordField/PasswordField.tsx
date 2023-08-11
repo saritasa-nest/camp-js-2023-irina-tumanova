@@ -1,4 +1,4 @@
-import { FC, memo, useState } from 'react';
+import { memo, useState } from 'react';
 import FormControl from '@mui/material/FormControl';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
@@ -6,25 +6,19 @@ import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import {
-	FieldError, FieldErrorsImpl, FieldValues,
-	Merge,
-	RegisterOptions,
-	UseFormRegisterReturn,
-} from 'react-hook-form';
+import { FieldError, FieldErrorsImpl, UseFormRegister, Merge, FieldValues, Path } from 'react-hook-form';
 import { FormHelperText } from '@mui/material';
 
-interface Props {
+interface Props<TFieldValues extends FieldValues> {
 
 	/** Field name. */
-	readonly name: string;
+	readonly name: Path<TFieldValues>;
 
 	/** Field label. */
 	readonly label: string;
 
 	/** Register input. */
-	readonly register: <TName extends string>(name: TName, options?: RegisterOptions<FieldValues, TName> | undefined) =>
-	UseFormRegisterReturn<TName>;
+	readonly register: UseFormRegister<TFieldValues>;
 
 	/** Autocomplete. */
 	readonly autocomplete: 'current-password' | 'new-password';
@@ -33,7 +27,7 @@ interface Props {
 	readonly error?: FieldError | Merge<FieldError, FieldErrorsImpl>;
 }
 
-const PasswordFieldComponent: FC<Props> = props => {
+const PasswordFieldComponent = <TFieldValues extends FieldValues>(props: Props<TFieldValues>) => {
 	const [showPassword, setShowPassword] = useState(false);
 
 	const handleClickShowPassword = () => {

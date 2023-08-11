@@ -1,12 +1,13 @@
-import { Button, Link, TextField, Typography } from '@mui/material';
+import { Button, Link, TextField, Typography, Alert } from '@mui/material';
 import { FC, memo } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { selectAuthError, selectIsAuthLoading } from '@js-camp/react/store/auth/selectors';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-
 import { AuthDispatcher } from '@js-camp/react/store/auth/dispatchers';
+import { Login } from '@js-camp/core/models/auth/login';
+import { AppShadowLoader } from '@js-camp/react/components/AppShadowLoader/AppShadowLoader';
 
 import classes from '../common.module.css';
 import { PasswordField } from '../../components/PasswordField';
@@ -19,22 +20,24 @@ const LoginPageComponent: FC = () => {
 	const error = useAppSelector(selectAuthError);
 	const dispatch = useAppDispatch();
 
-	const { register, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(validationSchema) });
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<Login>({ resolver: zodResolver(validationSchema) });
 
-	const onSubmit = data => {
-		console.log(data, errors);
-
+	const onSubmit = (data: Login) => {
 		dispatch(AuthDispatcher.login(data));
 	};
 
-	console.log(error?.errors.common);
-
 	return (
 		<div className={`${classes.auth}`}>
+			{isLoading && <AppShadowLoader />}
+
 			<form className={`${classes['auth-form']}`} onSubmit={handleSubmit(onSubmit)}>
 				<Typography variant='h2' className={`${classes['auth-form__title']}`}>Sign in</Typography>
 
-				<Typography variant='' className={`${classes['auth-form__title']}`}>Sign in</Typography>
+				{error !== undefined && <Alert severity="error">{error?.errors.common}</Alert>}
 				<TextField id="email"
 					autoComplete='email'
 					error={errors.email !== undefined}
