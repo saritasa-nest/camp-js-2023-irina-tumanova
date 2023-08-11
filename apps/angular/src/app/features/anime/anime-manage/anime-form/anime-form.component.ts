@@ -5,7 +5,6 @@ import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { GenreService } from '@js-camp/angular/core/services/genre.service';
 import { StudioService } from '@js-camp/angular/core/services/studio.service';
-import { AppValidators } from '@js-camp/angular/core/utils/validators';
 import { AnimeType } from '@js-camp/core/models/anime/anime';
 import { AnimeDetails, AnimeRating } from '@js-camp/core/models/anime/anime-details';
 import { AnimeFormData } from '@js-camp/core/models/anime/anime-form-data';
@@ -109,8 +108,8 @@ export class AnimeFormComponent {
 
 	private createForm(): FormGroupOf<AnimeFormData, 'aired'> {
 		const form = this.formBuilder.group({
-			imageUrl: [DEFAULT_FORM_VALUES.imageUrl],
-			imageFile: [DEFAULT_FORM_VALUES.imageFile],
+			imageUrl: DEFAULT_FORM_VALUES.imageUrl,
+			imageFile: DEFAULT_FORM_VALUES.imageFile,
 			trailerYoutubeId: DEFAULT_FORM_VALUES.trailerYoutubeId,
 			titleEnglish: [DEFAULT_FORM_VALUES.titleEnglish, [Validators.required]],
 			titleJapanese: [DEFAULT_FORM_VALUES.titleJapanese, [Validators.required]],
@@ -125,7 +124,6 @@ export class AnimeFormComponent {
 			season: [DEFAULT_FORM_VALUES.season, [Validators.required]],
 			source: [DEFAULT_FORM_VALUES.source, [Validators.required]],
 		});
-		form.controls.imageFile.setValidators(AppValidators.requiredImageUrl(form.controls.imageUrl));
 
 		return form;
 	}
