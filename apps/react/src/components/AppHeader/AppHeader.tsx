@@ -4,22 +4,17 @@ import { AppBar, Box, Button, Toolbar } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 import { AuthDispatcher } from '@js-camp/react/store/auth/dispatchers';
-import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
-import { selectUser } from '@js-camp/react/store/user/selectors';
-import { UserDispatcher } from '@js-camp/react/store/user/dispatchers';
+import { useAppDispatch } from '@js-camp/react/store';
+import { useUserState } from '@js-camp/react/hooks/useUserState';
 
 /** App header component. */
 const AppHeaderComponent: FC = () => {
-
-	/** Current user. */
-	const user = useAppSelector(selectUser);
-
+	const { user } = useUserState();
 	const dispatch = useAppDispatch();
 
 	/** Handle logout. */
 	const handleLogout = () => {
 		dispatch(AuthDispatcher.logout());
-		dispatch(UserDispatcher.reset());
 	};
 
 	return (
