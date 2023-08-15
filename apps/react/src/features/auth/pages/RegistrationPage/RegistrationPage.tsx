@@ -1,11 +1,11 @@
-import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
-import { selectAuthError, selectIsAuthLoading } from '@js-camp/react/store/auth/selectors';
 import { FC, memo, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AuthDispatcher } from '@js-camp/react/store/auth/dispatchers';
 import { Button, TextField, Typography, Link } from '@mui/material';
 import { NavLink } from 'react-router-dom';
+import { AuthDispatcher } from '@js-camp/react/store/auth/dispatchers';
+import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
+import { selectAuthError, selectIsAuthLoading } from '@js-camp/react/store/auth/selectors';
 import { AppValidationError } from '@js-camp/core/models/app-error';
 import { Registration, RegistrationForm, RegistrationValidationErrors } from '@js-camp/core/models/auth/registration';
 import { AppShadowLoader } from '@js-camp/react/components/AppShadowLoader';
@@ -60,51 +60,54 @@ const RegistrationPageComponent: FC = () => {
 	};
 
 	return (
-		<div className={`${classes.auth}`}>
+		<div className={classes.auth}>
 			{isLoading && <AppShadowLoader />}
 
-			<form className={`${classes['auth-form']}`} onSubmit={handleSubmit(onSubmit)}>
-				<Typography variant='h2' className={`${classes['auth-form__title']}`}>Sign up</Typography>
+			<form className={classes['auth-form']} onSubmit={handleSubmit(onSubmit)}>
+				<Typography variant='h2' className={classes['auth-form__title']}>Sign up</Typography>
 				<TextField id="email"
+					required
 					autoComplete='email'
 					error={errors.email !== undefined}
 					helperText={errors.email?.message as string}
 					label="Email"
 					variant="outlined"
-					{...register('email', { required: true })}/>
+					{...register('email')} />
 
 				<TextField id="firstName"
+					required
 					autoComplete='given-name'
 					error={errors.firstName !== undefined}
 					helperText={errors.firstName?.message as string}
 					label="First name"
 					variant="outlined"
-					{...register('firstName', { required: true })}/>
+					{...register('firstName')} />
 
 				<TextField id="lastName"
+					required
 					autoComplete='family-name'
 					error={errors.lastName !== undefined}
 					helperText={errors.lastName?.message as string}
-					label="Email"
+					label="Last name"
 					variant="outlined"
-					{...register('lastName', { required: true })}/>
+					{...register('lastName')} />
 
 				<PasswordField name='password'
 					label='Password'
 					register={register}
 					autocomplete='new-password'
-					error={errors.password}/>
+					error={errors.password} />
 
 				<PasswordField name='repeatedPassword'
 					label='Repeated password'
 					register={register}
 					autocomplete='new-password'
-					error={errors.repeatedPassword}/>
+					error={errors.repeatedPassword} />
 
-				<Button variant="contained" className={`${classes['auth-form__submit']}`} type="submit">Submit</Button>
+				<Button variant="contained" className={classes['auth-form__submit']} type="submit">Submit</Button>
 				<Link component={NavLink}
 					to='/auth/login'
-					className={`${classes['auth-form__auth-change']}`}
+					className={classes['auth-form__auth-change']}
 					onClick={reset}>
 					Sign in
 				</Link>

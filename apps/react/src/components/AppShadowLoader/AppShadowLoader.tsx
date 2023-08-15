@@ -1,6 +1,6 @@
 import { FC, memo } from 'react';
-import { CircularProgress } from '@mui/material';
 import { createPortal } from 'react-dom';
+import { CircularProgress } from '@mui/material';
 
 import classes from './AppShadowLoader.module.css';
 
@@ -12,7 +12,7 @@ const AppShadowLoaderComponent: FC = () => {
 		return null;
 	}
 	return createPortal(
-		<div className={`${classes['app-shadow-loader']}`}>
+		<div className={classes['app-shadow-loader']}>
 			<CircularProgress />
 		</div>,
 		appShadowLoaderRoot,

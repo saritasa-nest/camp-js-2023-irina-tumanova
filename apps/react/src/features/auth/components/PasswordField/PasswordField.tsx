@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import { memo, useId, useState } from 'react';
 import FormControl from '@mui/material/FormControl';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
@@ -6,8 +6,8 @@ import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { FieldError, FieldErrorsImpl, UseFormRegister, Merge, FieldValues, Path } from 'react-hook-form';
 import { FormHelperText } from '@mui/material';
+import { FieldError, FieldErrorsImpl, UseFormRegister, Merge, FieldValues, Path } from 'react-hook-form';
 
 interface Props<TFieldValues extends FieldValues> {
 
@@ -36,6 +36,9 @@ const PasswordFieldComponent = <TFieldValues extends FieldValues>(props: Props<T
 	/** Show password. */
 	const [isVisiblePassword, setIsVisiblePassword] = useState(false);
 
+	/** Password input id. */
+	const passwordId = useId();
+
 	/** Show password. */
 	const showPassword = () => {
 		setIsVisiblePassword(true);
@@ -48,11 +51,11 @@ const PasswordFieldComponent = <TFieldValues extends FieldValues>(props: Props<T
 
 	return (
 		<FormControl variant="outlined" error={props.error !== undefined}>
-			<InputLabel htmlFor="outlined-adornment-password">{props.label}</InputLabel>
+			<InputLabel htmlFor={passwordId} required>{props.label}</InputLabel>
 			<OutlinedInput
-				{...props.register(props.name, { required: true })}
+				{...props.register(props.name)}
 				autoComplete={props.autocomplete}
-				id={props.name}
+				id={passwordId}
 				type={isVisiblePassword ? 'text' : 'password'}
 				endAdornment={
 					<InputAdornment position="end">

@@ -1,13 +1,13 @@
-import { Button, Link, TextField, Typography, Alert } from '@mui/material';
 import { FC, memo } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
-import { selectAuthError, selectIsAuthLoading } from '@js-camp/react/store/auth/selectors';
+import { Button, Link, TextField, Typography, Alert } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AuthDispatcher } from '@js-camp/react/store/auth/dispatchers';
 import { Login } from '@js-camp/core/models/auth/login';
 import { AppShadowLoader } from '@js-camp/react/components/AppShadowLoader';
+import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
+import { selectAuthError, selectIsAuthLoading } from '@js-camp/react/store/auth/selectors';
 
 import classes from '../common.module.css';
 import { PasswordField } from '../../components/PasswordField';
@@ -48,8 +48,8 @@ const LoginPageComponent: FC = () => {
 		<div className={`${classes.auth}`}>
 			{isLoading && <AppShadowLoader />}
 
-			<form className={`${classes['auth-form']}`} onSubmit={handleSubmit(onSubmit)}>
-				<Typography variant='h2' className={`${classes['auth-form__title']}`}>Sign in</Typography>
+			<form className={classes['auth-form']} onSubmit={handleSubmit(onSubmit)}>
+				<Typography variant='h2' className={classes['auth-form__title']}>Sign in</Typography>
 
 				{error !== undefined && <Alert severity="error">{error?.errors.common}</Alert>}
 				<TextField id="email"
@@ -57,18 +57,19 @@ const LoginPageComponent: FC = () => {
 					error={errors.email !== undefined}
 					helperText={errors.email?.message as string}
 					label="Email"
+					required
 					variant="outlined"
-					{...register('email', { required: true })}/>
+					{...register('email')} />
 				<PasswordField name='password'
 					label='Password'
 					register={register}
 					autocomplete='current-password'
-					error={errors.password}/>
-				<Button variant="contained" className={`${classes['auth-form__submit']}`} type="submit">Submit</Button>
+					error={errors.password} />
+				<Button variant="contained" className={classes['auth-form__submit']} type="submit">Submit</Button>
 				<Link component={NavLink}
 					to='/auth/registration'
 					onClick={reset}
-					className={`${classes['auth-form__auth-change']}`}>
+					className={classes['auth-form__auth-change']}>
 					Sign up
 				</Link>
 			</form>

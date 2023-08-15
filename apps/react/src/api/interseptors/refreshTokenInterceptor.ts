@@ -2,7 +2,7 @@ import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import { ApiUrlsConfig } from '../apiUrlsConfig';
 import { UserSecretService } from '../services/userSecretService';
-import { AuthService } from '../services/authServices';
+import { AuthService } from '../services/authService';
 import { http } from '..';
 
 export type RefreshResult = Promise<AxiosResponse<unknown, unknown>>;
@@ -15,8 +15,8 @@ export type RefreshResult = Promise<AxiosResponse<unknown, unknown>>;
 export async function refreshSecretInterceptor(error: AxiosError): RefreshResult {
 
 	if (error.config == null ||
-    !shouldRefreshSecretForUrl(error.config) ||
-    (error.response != null && error.response.status !== 401)
+		!shouldRefreshSecretForUrl(error.config) ||
+		(error.response != null && error.response.status !== 401)
 	) {
 		throw error;
 	}
@@ -25,19 +25,19 @@ export async function refreshSecretInterceptor(error: AxiosError): RefreshResult
 	return result;
 }
 
-const refreshSecret = async(error: AxiosError): RefreshResult => {
+const refreshSecret = async(requestError: AxiosError): RefreshResult => {
 	const secret = UserSecretService.getToken();
-	if (secret === null || error.config === undefined) {
-		throw error;
+	if (secret === null || requestError.config === undefined) {
+		throw requestError;
 	}
 
 	try {
 		const newSecret = await AuthService.refreshSecret(secret);
 		UserSecretService.saveToken(newSecret);
-		return http.request(error.config);
-	} catch (err: unknown) {
+		return http.request(requestError.config);
+	} catch (error: unknown) {
 		AuthService.logout();
-		throw err;
+		throw error;
 	}
 };
 

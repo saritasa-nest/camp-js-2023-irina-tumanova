@@ -1,5 +1,5 @@
 import { memo, FC } from 'react';
-import { Genre } from '@js-camp/core/models/genre';
+import { Genre } from '@js-camp/core/models/anime/genre';
 
 import styles from './GenreCard.module.css';
 

@@ -47,7 +47,7 @@ export namespace ApiUrlsConfig {
 	};
 
 	/**
-	 * Args to apu url.
+	 * Args to apy url.
 	 * @param args Args.
 	 */
 	function toApi(...args: readonly string[]): string {

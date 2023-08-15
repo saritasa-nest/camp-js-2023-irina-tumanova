@@ -1,6 +1,5 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
-
-import { AuthService } from '@js-camp/react/api/services/authServices';
+import { AuthService } from '@js-camp/react/api/services/authService';
 import { Login } from '@js-camp/core/models/auth/login';
 import { Registration } from '@js-camp/core/models/auth/registration';
 import { LoginMapper } from '@js-camp/core/mappers/auth/login.mapper';
