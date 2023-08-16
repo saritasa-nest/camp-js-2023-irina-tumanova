@@ -1,8 +1,8 @@
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import { ApiUrlsConfig } from '../apiUrlsConfig';
-import { UserSecretService } from '../services/userSecretService';
-import { AuthService } from '../services/authService';
+import { UserSecretService } from '../services/userSecret';
+import { AuthService } from '../services/auth';
 import { http } from '..';
 
 export type RefreshResult = Promise<AxiosResponse<unknown, unknown>>;
@@ -25,7 +25,7 @@ export async function refreshSecretInterceptor(error: AxiosError): RefreshResult
 	return result;
 }
 
-const refreshSecret = async(requestError: AxiosError): RefreshResult => {
+const refreshSecret = async (requestError: AxiosError): RefreshResult => {
 	const secret = UserSecretService.getToken();
 	if (secret === null || requestError.config === undefined) {
 		throw requestError;

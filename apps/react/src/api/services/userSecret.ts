@@ -1,6 +1,6 @@
 import { UserSecret } from '@js-camp/core/models/auth/user-secret';
 
-import { LocalStorageService } from './localStorageService';
+import { LocalStorageService } from './localStorage';
 
 export namespace UserSecretService {
 

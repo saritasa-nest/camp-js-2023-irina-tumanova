@@ -3,7 +3,7 @@ import { Navigate, Outlet, To } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { selectUser } from '@js-camp/react/store/user/selectors';
 import { UserDispatcher } from '@js-camp/react/store/user/dispatchers';
-import { UserSecretService } from '@js-camp/react/api/services/userSecretService';
+import { UserSecretService } from '@js-camp/react/api/services/userSecret';
 
 /** Auth guard. */
 export const AuthGuard: FC = () => {
@@ -19,7 +19,7 @@ export const AuthGuard: FC = () => {
 		const redirect: To = {
 			pathname: 'auth/login',
 		};
-		return <Navigate to={redirect} replace/>;
+		return <Navigate to={redirect} replace />;
 	}
 	return <Outlet />;
 };

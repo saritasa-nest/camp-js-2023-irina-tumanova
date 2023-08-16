@@ -13,7 +13,7 @@ import { AppErrorDictionaryMapper } from '@js-camp/core/mappers/app-error.mapper
 import { ApiUrlsConfig } from '../apiUrlsConfig';
 import { http } from '..';
 
-import { UserSecretService } from './userSecretService';
+import { UserSecretService } from './userSecret';
 
 /** Auth service. */
 export namespace AuthService {

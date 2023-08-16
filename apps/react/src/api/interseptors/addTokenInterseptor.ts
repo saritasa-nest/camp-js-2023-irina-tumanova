@@ -1,6 +1,6 @@
 import { InternalAxiosRequestConfig } from 'axios';
 
-import { UserSecretService } from '../services/userSecretService';
+import { UserSecretService } from '../services/userSecret';
 import { ApiUrlsConfig } from '../apiUrlsConfig';
 
 /**

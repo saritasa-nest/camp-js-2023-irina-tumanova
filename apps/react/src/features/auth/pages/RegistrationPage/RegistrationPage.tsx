@@ -10,7 +10,7 @@ import { AppValidationError } from '@js-camp/core/models/app-error';
 import { Registration, RegistrationForm, RegistrationValidationErrors } from '@js-camp/core/models/auth/registration';
 import { AppShadowLoader } from '@js-camp/react/components/AppShadowLoader';
 
-import classes from '../common.module.css';
+import styles from '../common.module.css';
 import { PasswordField } from '../../components/PasswordField';
 
 import { validationSchema } from './RegistrationPage.settings';
@@ -55,28 +55,28 @@ const RegistrationPageComponent: FC = () => {
 	};
 
 	/** Reset auth. */
-	const reset = () => {
+	const resetAuth = () => {
 		dispatch(AuthDispatcher.reset);
 	};
 
 	return (
-		<div className={classes.auth}>
+		<div className={styles.auth}>
 			{isLoading && <AppShadowLoader />}
 
-			<form className={classes['auth-form']} onSubmit={handleSubmit(onSubmit)}>
-				<Typography variant='h2' className={classes['auth-form__title']}>Sign up</Typography>
+			<form className={styles['auth-form']} onSubmit={handleSubmit(onSubmit)}>
+				<Typography variant="h2" className={styles['auth-form__title']}>Sign up</Typography>
 				<TextField id="email"
 					required
-					autoComplete='email'
+					autoComplete="email"
 					error={errors.email !== undefined}
-					helperText={errors.email?.message as string}
+					helperText={errors.email?.message ?? ''}
 					label="Email"
 					variant="outlined"
 					{...register('email')} />
 
 				<TextField id="firstName"
 					required
-					autoComplete='given-name'
+					autoComplete="given-name"
 					error={errors.firstName !== undefined}
 					helperText={errors.firstName?.message as string}
 					label="First name"
@@ -85,30 +85,30 @@ const RegistrationPageComponent: FC = () => {
 
 				<TextField id="lastName"
 					required
-					autoComplete='family-name'
+					autoComplete="family-name"
 					error={errors.lastName !== undefined}
 					helperText={errors.lastName?.message as string}
 					label="Last name"
 					variant="outlined"
 					{...register('lastName')} />
 
-				<PasswordField name='password'
-					label='Password'
+				<PasswordField name="password"
+					label="Password"
 					register={register}
-					autocomplete='new-password'
+					autocomplete="new-password"
 					error={errors.password} />
 
-				<PasswordField name='repeatedPassword'
-					label='Repeated password'
+				<PasswordField name="repeatedPassword"
+					label="Repeated password"
 					register={register}
-					autocomplete='new-password'
+					autocomplete="new-password"
 					error={errors.repeatedPassword} />
 
-				<Button variant="contained" className={classes['auth-form__submit']} type="submit">Submit</Button>
+				<Button variant="contained" className={styles['auth-form__submit']} type="submit">Submit</Button>
 				<Link component={NavLink}
-					to='/auth/login'
-					className={classes['auth-form__auth-change']}
-					onClick={reset}>
+					to="/auth/login"
+					className={styles['auth-form__auth-change']}
+					onClick={resetAuth}>
 					Sign in
 				</Link>
 			</form>

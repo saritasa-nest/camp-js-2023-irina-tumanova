@@ -1,5 +1,5 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { UserService } from '@js-camp/react/api/services/userService';
+import { UserService } from '@js-camp/react/api/services/user';
 
 export namespace UserDispatcher {
 	export const getCurrentUser = createAsyncThunk(

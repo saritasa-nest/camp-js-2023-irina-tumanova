@@ -39,14 +39,9 @@ const PasswordFieldComponent = <TFieldValues extends FieldValues>(props: Props<T
 	/** Password input id. */
 	const passwordId = useId();
 
-	/** Show password. */
-	const showPassword = () => {
-		setIsVisiblePassword(true);
-	};
-
-	/** Hide password. */
-	const hidePassword = () => {
-		setIsVisiblePassword(false);
+	/** Toggle isVisible password. */
+	const toggleDisplayPassword = () => {
+		setIsVisiblePassword(isVisible => !isVisible);
 	};
 
 	return (
@@ -61,8 +56,7 @@ const PasswordFieldComponent = <TFieldValues extends FieldValues>(props: Props<T
 					<InputAdornment position="end">
 						<IconButton
 							aria-label="toggle password visibility"
-							onClick={showPassword}
-							onMouseDown={hidePassword}
+							onClick={toggleDisplayPassword}
 							edge="end"
 						>
 							{isVisiblePassword ? <VisibilityOff /> : <Visibility />}

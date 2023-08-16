@@ -9,7 +9,7 @@ import { AppShadowLoader } from '@js-camp/react/components/AppShadowLoader';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { selectAuthError, selectIsAuthLoading } from '@js-camp/react/store/auth/selectors';
 
-import classes from '../common.module.css';
+import styles from '../common.module.css';
 import { PasswordField } from '../../components/PasswordField';
 
 import { validationSchema } from './LoginPage.settings';
@@ -45,31 +45,31 @@ const LoginPageComponent: FC = () => {
 	};
 
 	return (
-		<div className={`${classes.auth}`}>
+		<div className={`${styles.auth}`}>
 			{isLoading && <AppShadowLoader />}
 
-			<form className={classes['auth-form']} onSubmit={handleSubmit(onSubmit)}>
-				<Typography variant='h2' className={classes['auth-form__title']}>Sign in</Typography>
+			<form className={styles['auth-form']} onSubmit={handleSubmit(onSubmit)}>
+				<Typography variant='h2' className={styles['auth-form__title']}>Sign in</Typography>
 
 				{error !== undefined && <Alert severity="error">{error?.errors.common}</Alert>}
 				<TextField id="email"
-					autoComplete='email'
+					autoComplete="email"
 					error={errors.email !== undefined}
 					helperText={errors.email?.message as string}
 					label="Email"
 					required
 					variant="outlined"
 					{...register('email')} />
-				<PasswordField name='password'
-					label='Password'
+				<PasswordField name="password"
+					label="Password"
 					register={register}
-					autocomplete='current-password'
+					autocomplete="current-password"
 					error={errors.password} />
-				<Button variant="contained" className={classes['auth-form__submit']} type="submit">Submit</Button>
+				<Button variant="contained" className={styles['auth-form__submit']} type="submit">Submit</Button>
 				<Link component={NavLink}
-					to='/auth/registration'
+					to="/auth/registration"
 					onClick={reset}
-					className={classes['auth-form__auth-change']}>
+					className={styles['auth-form__auth-change']}>
 					Sign up
 				</Link>
 			</form>

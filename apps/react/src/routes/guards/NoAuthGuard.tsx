@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Navigate, Outlet, To } from 'react-router-dom';
-import { UserSecretService } from '@js-camp/react/api/services/userSecretService';
+import { UserSecretService } from '@js-camp/react/api/services/userSecret';
 
 /** No auth guard. */
 export const NoAuthGuard: FC = () => {
@@ -11,7 +11,7 @@ export const NoAuthGuard: FC = () => {
 			pathname: '/',
 		};
 
-		return <Navigate to={redirect} replace/>;
+		return <Navigate to={redirect} replace />;
 	}
 
 	return <Outlet />;

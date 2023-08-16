@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../store';
 import { selectIsAuthLoading } from '../store/auth/selectors';
 import { selectIsUserLoading, selectUser, selectUserError } from '../store/user/selectors';
-import { UserSecretService } from '../api/services/userSecretService';
+import { UserSecretService } from '../api/services/userSecret';
 import { UserDispatcher } from '../store/user/dispatchers';
 
 /** Use user state. */
