@@ -1,19 +1,22 @@
+import { Immerable, OmitImmerable } from '../immerable';
+
 /** Anime studio. */
-export class Studio {
+export class Studio extends Immerable {
 
 	/** ID. */
 	public readonly id: number;
 
-	/** Creation date.*/
+	/** Creation date, e.g. "2023-08-17T03:11:37.172Z". */
 	public readonly created: Date;
 
-	/** Modification date. */
+	/** Modification date, e.g. "2023-08-17T03:11:37.172Z". */
 	public readonly modified: Date;
 
 	/** Name. */
 	public readonly name: string;
 
-	public constructor({ id, created, modified, name }: InitStudioParams) {
+	public constructor({ id, created, modified, name }: StudioConstructorData) {
+		super();
 		this.id = id;
 		this.created = created;
 		this.modified = modified;
@@ -21,4 +24,4 @@ export class Studio {
 	}
 }
 
-type InitStudioParams = Studio;
+type StudioConstructorData = OmitImmerable<Studio>;

@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["**/*.ts", "../../libs"],
+  "include": ["**/*.ts", "../../libs", "src/features/genres/pages/StudiosPage/index.ts"],
   "compilerOptions": {
     "types": ["node"]
   }
