@@ -1,5 +1,5 @@
 import { FC, memo } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Navigate, useNavigate } from 'react-router-dom';
 import { Button, Link, TextField, Typography, Alert } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -8,6 +8,8 @@ import { Login } from '@js-camp/core/models/auth/login';
 import { AppShadowLoader } from '@js-camp/react/components/AppShadowLoader';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { selectAuthError, selectIsAuthLoading } from '@js-camp/react/store/auth/selectors';
+
+import { selectUser } from '@js-camp/react/store/user/selectors';
 
 import styles from '../common.module.css';
 import { PasswordField } from '../../components/PasswordField';
@@ -19,6 +21,9 @@ const LoginPageComponent: FC = () => {
 
 	/** Auth is loading. */
 	const isLoading = useAppSelector(selectIsAuthLoading);
+
+	/** Current user. */
+	const user = useAppSelector(selectUser);
 
 	/** Auth error. */
 	const error = useAppSelector(selectAuthError);
@@ -32,11 +37,11 @@ const LoginPageComponent: FC = () => {
 	} = useForm<Login>({ resolver: zodResolver(validationSchema) });
 
 	/**
-	 * Form submit.
-	 * @param data Login data.
+	 * On submit.
+	 * @param credentials Login credentials.
 	 */
-	const onSubmit = (data: Login) => {
-		dispatch(AuthDispatcher.login(data));
+	const onSubmit = (credentials: Login) => {
+		dispatch(AuthDispatcher.login(credentials));
 	};
 
 	/** Reset auth. */
@@ -44,6 +49,9 @@ const LoginPageComponent: FC = () => {
 		dispatch(AuthDispatcher.reset);
 	};
 
+	if (user !== null) {
+		return <Navigate to="/" replace />;
+	}
 	return (
 		<div className={`${styles.auth}`}>
 			{isLoading && <AppShadowLoader />}
