@@ -1,8 +1,15 @@
 {
-  "extends": ["../../.eslintrc.json", "plugin:react/jsx-runtime"],
-  "ignorePatterns": ["!**/*"],
+  "extends": [
+    "../../.eslintrc.json",
+    "plugin:react/jsx-runtime"
+  ],
+  "ignorePatterns": [
+    "!**/*"
+  ],
   "parserOptions": {
-    "project": ["apps/react/tsconfig.*?.json"]
+    "project": [
+      "apps/react/tsconfig.*?.json"
+    ]
   },
   "rules": {
     "@typescript-eslint/explicit-function-return-type": "off",
@@ -12,15 +19,23 @@
     "class-methods-use-this": "off",
     "max-classes-per-file": "off",
     "react/prop-types": "off",
-    "max-len": ["warn", 120],
+    "max-len": [
+      "warn",
+      120
+    ],
     "no-param-reassign": [
       "error",
       {
         "props": true,
-        "ignorePropertyModificationsFor": ["state"]
+        "ignorePropertyModificationsFor": [
+          "state"
+        ]
       }
     ],
-    "arrow-parens": ["error", "as-needed"],
+    "arrow-parens": [
+      "error",
+      "as-needed"
+    ],
     "react/function-component-definition": [
       "warn",
       {
@@ -29,7 +44,9 @@
     ],
     "@typescript-eslint/no-unused-vars": [
       "error",
-      { "argsIgnorePattern": "^_" }
+      {
+        "argsIgnorePattern": "^_"
+      }
     ],
     "jsdoc/require-param": [
       "error",
@@ -40,7 +57,9 @@
   },
   "overrides": [
     {
-      "files": ["**/*.tsx"],
+      "files": [
+        "**/*.tsx"
+      ],
       "rules": {
         "no-restricted-syntax": [
           "error",
@@ -60,21 +79,58 @@
       }
     },
     {
-      "files": ["**/*.tsx", "**/*.ts"],
+      "files": [
+        "**/*.tsx",
+        "**/*.ts"
+      ],
       "rules": {
         "@nx/enforce-module-boundaries": [
           "error",
           {
             "enforceBuildableLibDependency": true,
-            "allow": ["@js-camp/react/", "@js-camp/react/*"],
+            "allow": [
+              "@js-camp/react/",
+              "@js-camp/react/*"
+            ],
             "depConstraints": [
               {
                 "sourceTag": "*",
-                "onlyDependOnLibsWithTags": ["*"]
+                "onlyDependOnLibsWithTags": [
+                  "*"
+                ]
               }
             ]
           }
-        ]
+        ],
+        "no-tabs": "off",
+        "import/order": [
+          "error",
+          {
+            "newlines-between": "always",
+            "pathGroups": [
+              {
+                "pattern": "@js-camp/**",
+                "group": "internal",
+                "position": "before"
+              }
+            ],
+            "pathGroupsExcludedImportTypes": [
+              "builtin"
+            ],
+            "groups": [
+              [
+                "builtin",
+                "external"
+              ],
+              "internal",
+              [
+                "parent",
+                "sibling"
+              ],
+              "index"
+            ]
+          }
+        ],
       }
     }
   ],

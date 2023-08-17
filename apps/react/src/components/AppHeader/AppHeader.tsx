@@ -1,57 +1,33 @@
 import { FC, memo, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { AppBar, Box, Button, Toolbar } from '@mui/material';
-import LogoutIcon from '@mui/icons-material/Logout';
+import { AppBar, Avatar, Box, Toolbar, Typography } from '@mui/material';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LoginIcon from '@mui/icons-material/Login';
-import { AuthDispatcher } from '@js-camp/react/store/auth/dispatchers';
-import { useAppDispatch } from '@js-camp/react/store';
 import { useUserState } from '@js-camp/react/hooks/useUserState';
-
 import { AppDrawer } from '../AppDrawer';
+import styles from './AppHeader.module.css';
 
 /** App header component. */
 const AppHeaderComponent: FC = () => {
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 	const { user } = useUserState();
-	const dispatch = useAppDispatch();
-
-	/** Handle logout. */
-	const handleLogout = () => {
-		dispatch(AuthDispatcher.logout());
-	};
 
 	return (
-		<AppBar sx={{ position: 'relative' }}>
+		<AppBar className={styles['app-header']}>
 			<Toolbar>
+				{user !== null ?
+					<div className={styles['app-header__menu-trigger']} onClick={() => setIsDrawerOpen(true)}>
+						<Avatar alt={`${user.firstName} avatar`} src={user.avatarUrl} />
+						<Typography variant="body1">Hi, {user.firstName}</Typography>
+					</div> :
+					<NavLink to="/login" className={styles['app-header__login-trigger']}>
+						<LoginIcon className={styles['app-header__login-icon']} />
+						<Typography variant="body1">Login</Typography>
+					</NavLink>}
 
-				<Button onClick={() => setIsDrawerOpen(true)}></Button>
 				<AppDrawer isOpen={isDrawerOpen} close={() => setIsDrawerOpen(false)} />
-				<Button
-					component={NavLink}
-					color="inherit"
-					variant="outlined"
-					to="/anime">
-					Anime
-				</Button>
 
 				<Box sx={{ flexGrow: 1 }} />
-				{user !== null ?
-					<Button
-						endIcon={<LogoutIcon />}
-						color="inherit"
-						variant="outlined"
-						onClick={handleLogout}>
-						Logout
-					</Button> :
-
-					<Button
-						component={NavLink}
-						endIcon={<LoginIcon />}
-						color="inherit"
-						variant="outlined"
-						to="/auth/login">
-						Login
-					</Button>}
 			</Toolbar>
 		</AppBar>
 	);
