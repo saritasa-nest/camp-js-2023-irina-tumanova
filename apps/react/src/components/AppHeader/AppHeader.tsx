@@ -1,4 +1,4 @@
-import { FC, memo } from 'react';
+import { FC, memo, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AppBar, Box, Button, Toolbar } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -7,8 +7,11 @@ import { AuthDispatcher } from '@js-camp/react/store/auth/dispatchers';
 import { useAppDispatch } from '@js-camp/react/store';
 import { useUserState } from '@js-camp/react/hooks/useUserState';
 
+import { AppDrawer } from '../AppDrawer';
+
 /** App header component. */
 const AppHeaderComponent: FC = () => {
+	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 	const { user } = useUserState();
 	const dispatch = useAppDispatch();
 
@@ -20,6 +23,9 @@ const AppHeaderComponent: FC = () => {
 	return (
 		<AppBar sx={{ position: 'relative' }}>
 			<Toolbar>
+
+				<Button onClick={() => setIsDrawerOpen(true)}></Button>
+				<AppDrawer isOpen={isDrawerOpen} close={() => setIsDrawerOpen(false)} />
 				<Button
 					component={NavLink}
 					color="inherit"
