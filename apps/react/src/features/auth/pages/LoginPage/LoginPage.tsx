@@ -16,7 +16,6 @@ import { validationSchema } from './LoginPage.settings';
 
 /** Login page component. */
 const LoginPageComponent: FC = () => {
-
 	/** Auth is loading. */
 	const isLoading = useAppSelector(selectIsAuthLoading);
 
@@ -49,27 +48,32 @@ const LoginPageComponent: FC = () => {
 			{isLoading && <AppShadowLoader />}
 
 			<form className={styles['auth-form']} onSubmit={handleSubmit(onSubmit)}>
-				<Typography variant='h2' className={styles['auth-form__title']}>Sign in</Typography>
+				<Typography variant="h2" className={styles['auth-form__title']}>
+					Sign in
+				</Typography>
 
 				{error !== undefined && <Alert severity="error">{error?.errors.common}</Alert>}
-				<TextField id="email"
+				<TextField
+					id="email"
 					autoComplete="email"
 					error={errors.email !== undefined}
 					helperText={errors.email?.message as string}
 					label="Email"
 					required
 					variant="outlined"
-					{...register('email')} />
-				<PasswordField name="password"
+					{...register('email')}
+				/>
+				<PasswordField
+					name="password"
 					label="Password"
 					register={register}
 					autocomplete="current-password"
-					error={errors.password} />
-				<Button variant="contained" className={styles['auth-form__submit']} type="submit">Submit</Button>
-				<Link component={NavLink}
-					to="/auth/registration"
-					onClick={reset}
-					className={styles['auth-form__auth-change']}>
+					error={errors.password}
+				/>
+				<Button variant="contained" className={styles['auth-form__submit']} type="submit">
+					Submit
+				</Button>
+				<Link component={NavLink} to="/auth/registration" onClick={reset} className={styles['auth-form__auth-change']}>
 					Sign up
 				</Link>
 			</form>

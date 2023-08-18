@@ -1,5 +1,7 @@
+import { GenreType } from '@js-camp/core/models/anime/genre-type';
+
 import { GenreDto, GenreTypeDto } from '../../dtos/anime/genre.dto';
-import { Genre, GenreType } from '../../models/anime/genre';
+import { Genre } from '../../models/anime/genre';
 
 export namespace GenreMapper {
 
