@@ -2,18 +2,15 @@ import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { fetchStudios } from '@js-camp/react/store/studio/dispatchers';
 import { selectAreStudiosLoading, selectStudios } from '@js-camp/react/store/studio/selectors';
 import { FC, memo, useEffect } from 'react';
-
-import List from '@mui/material/List';
 import { Box, CssBaseline, Divider, Drawer } from '@mui/material';
 
-import { StudioCard } from '../../components/StudioCard';
+import { StudioList } from '../../components/StudioList/StudioList';
 
 const StudiosPageComponent: FC = () => {
 	const dispatch = useAppDispatch();
 	const studios = useAppSelector(selectStudios);
 	const isLoading = useAppSelector(selectAreStudiosLoading);
-
-	const drawerWidth = 300;
+	const drawerWidth = 400;
 
 	useEffect(() => {
 		dispatch(fetchStudios());
@@ -35,11 +32,7 @@ const StudiosPageComponent: FC = () => {
 					[`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
 				}}
 			>
-				<List>
-					{studios.map(studio => (
-						<StudioCard key={studio.id} studio={studio} />
-					))}
-				</List>
+				<StudioList studios={studios}/>
 				<Divider />
 			</Drawer>
 			<div>

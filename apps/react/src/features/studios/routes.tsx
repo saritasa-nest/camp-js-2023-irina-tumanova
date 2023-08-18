@@ -9,6 +9,10 @@ export const studiosRoutes: RouteObject[] = [
 		element: <StudiosPage/>,
 	},
 	{
+		path: 'studios/:id',
+		element: <StudiosPage/>,
+	},
+	{
 		path: '*',
 		element: <Navigate to="GenresPage" />,
 	},
