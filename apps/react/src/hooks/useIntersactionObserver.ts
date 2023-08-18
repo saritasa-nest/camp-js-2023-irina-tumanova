@@ -1,7 +1,7 @@
-import { MutableRefObject, useEffect } from 'react';
+import { ForwardedRef, MutableRefObject, useEffect } from 'react';
 
 type UseIntersectionObserver = (
-	rootRef: MutableRefObject<HTMLUListElement | null>,
+	rootRef: MutableRefObject<HTMLUListElement | null> | ForwardedRef<HTMLUListElement | null>,
 	targetRef: MutableRefObject<HTMLLIElement | null>,
 	onIntersectCallback: () => void
 ) => void;

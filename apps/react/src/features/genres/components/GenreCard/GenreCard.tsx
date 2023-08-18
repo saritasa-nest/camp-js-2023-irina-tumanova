@@ -15,7 +15,7 @@ interface Props {
 /** Card with genre data. */
 const GenreCardComponent = forwardRef<HTMLLIElement | null, Props>(({ genre }, forwardedRef) => (
 	<>
-		<ListItem ref={forwardedRef} className={styles.card}>
+		<ListItem ref={forwardedRef} alignItems="flex-start" className={styles.card}>
 			<ListItemText
 				primary={genre.name}
 				secondary={

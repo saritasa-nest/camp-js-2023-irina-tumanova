@@ -11,12 +11,13 @@ import { http } from '..';
 const url = 'anime/genres/';
 
 export namespace GenresService {
+
 	/**
 	 * Fetches a list of genres.
 	 * @param params Pagination params.
 	 */
 	export async function fetchGenres(params: PaginationParams): Promise<Genre[]> {
 		const { data } = await http.get<PaginationDto<GenreDto>>(url, { params: PaginationParamsMapper.toDto(params) });
-		return data.results.map((dto) => GenreMapper.fromDto(dto));
+		return data.results.map(dto => GenreMapper.fromDto(dto));
 	}
 }

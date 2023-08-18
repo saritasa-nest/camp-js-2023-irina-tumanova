@@ -2,10 +2,9 @@ import { memo, useEffect, FC, useRef, useState } from 'react';
 import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
 import { selectGenres } from '@js-camp/react/store/genre/selectors';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
-
-import { List } from '@mui/material';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
-import { useIntersectionObserver } from '@js-camp/react/hooks/useIntersactionObserver';
+
+import { InfinityScroll } from '@js-camp/react/components/InfinityScrollCards';
 
 import { GenreCard } from '../../components/GenreCard';
 
@@ -23,24 +22,34 @@ const GenresPageComponent: FC = () => {
 	const rootRef = useRef<HTMLUListElement | null>(null);
 	const lastItemRef = useRef<HTMLLIElement | null>(null);
 
+	const handleObserve = () => {
+		setParameters((prevState) => ({ ...prevState, pageNumber: prevState.pageNumber + 1 }));
+	};
+
+	/** Duplication is result of react strict mode. */
 	useEffect(() => {
 		dispatch(fetchGenres(parameters));
 	}, [parameters]);
 
-	const handleObserve = () => {
-		setParameters(prevState => ({ ...prevState, pageNumber: prevState.pageNumber + 1 }));
-	};
+	// this resolve duplication of data.
+	// useEffect(() => {
+	// 	dispatch(fetchGenres(defaultParams));
+	// }, []);
 
-	useIntersectionObserver(rootRef, lastItemRef, handleObserve);
+	// useEffect(() => {
+	// 	if (parameters.pageNumber !== defaultParams.pageNumber) {
+	// 		dispatch(fetchGenres(parameters));
+	// 	}
+	// }, [parameters]);
 
 	return (
-		<div>
-			<List ref={rootRef} sx={{ maxHeight: 200, width: 200, overflow: 'auto	' }}>
+		<aside className="">
+			<InfinityScroll ref={rootRef} lastItemRef={lastItemRef} handleObserve={handleObserve}>
 				{genres.map((genre, index) => (
 					<GenreCard ref={index === genres.length - 1 ? lastItemRef : null} key={genre.id} genre={genre} />
 				))}
-			</List>
-		</div>
+			</InfinityScroll>
+		</aside>
 	);
 };
 
