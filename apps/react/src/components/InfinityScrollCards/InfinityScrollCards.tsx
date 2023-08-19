@@ -1,4 +1,4 @@
-import { memo, forwardRef, ReactNode } from 'react';
+import { memo, FC, ReactNode, useRef } from 'react';
 
 import { List } from '@mui/material';
 import { useIntersectionObserver } from '@js-camp/react/hooks/useIntersactionObserver';
@@ -16,16 +16,15 @@ interface InfinityScrollProps {
 }
 
 /** Infinity scroll component. */
-const InfinityScrollComponent = forwardRef<HTMLUListElement | null, InfinityScrollProps>(
-	({ lastItemRef, handleObserve, children }, rootRef) => {
-		useIntersectionObserver(rootRef, lastItemRef, handleObserve);
+const InfinityScrollComponent: FC<InfinityScrollProps> = ({ lastItemRef, handleObserve, children }) => {
+	const rootRef = useRef<HTMLUListElement | null>(null);
+	useIntersectionObserver(rootRef, lastItemRef, handleObserve);
 
-		return (
-			<List ref={rootRef} sx={{ width: '100%', maxHeight: '100%', maxWidth: 360, overflowY: 'auto' }}>
-				{children}
-			</List>
-		);
-	}
-);
+	return (
+		<List ref={rootRef} sx={{ maxHeight: '100%', overflowY: 'auto' }}>
+			{children}
+		</List>
+	);
+};
 
 export const InfinityScroll = memo(InfinityScrollComponent);
