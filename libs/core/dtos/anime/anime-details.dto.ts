@@ -1,10 +1,9 @@
 import { AnimeDto } from './anime.dto';
-import { GenreDto } from './genre.dto';
+import { GenreDto } from '../genre/genre.dto';
 import { StudioDto } from './studio.dto';
 
 /** Anime details DTO. */
 export type AnimeDetailsDto = AnimeDto & {
-
 	/** Description. */
 	readonly synopsis: string;
 

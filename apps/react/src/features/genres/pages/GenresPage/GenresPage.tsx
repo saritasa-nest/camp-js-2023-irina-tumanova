@@ -9,29 +9,38 @@ import { InfinityScroll } from '@js-camp/react/components/InfinityScrollCards';
 
 import { GenreCard } from '../../components/GenreCard';
 import { MultipleFilter } from '@js-camp/react/components/MultipleFilter/MultipleFilter';
-import { GenreType } from '@js-camp/core/models/anime/genre-type';
+import { GenreType } from '@js-camp/core/models/genre/genre-type';
 import { Button } from '@mui/material';
 import { useForm } from 'react-hook-form';
+import { GenreFilterParams, GenreParams, GenreSortingField } from '@js-camp/core/models/genre/genre-params';
+import { Sorting } from '@js-camp/core/models/sorting';
+import { clearGenres } from '@js-camp/react/store/genre/slice';
 
-const defaultParams: PaginationParams = {
-	pageNumber: 0,
-	pageSize: 5,
+const defaultParams: GenreParams = {
+	pagination: new PaginationParams({ pageSize: 5, pageNumber: 0 }),
+	sorting: new Sorting({ field: GenreSortingField.None, direction: 'asc' }),
+	filters: new GenreFilterParams({ types: [], search: '' }),
 };
 
+/** Form values. */
 interface FormValues {
-	filter: GenreType[];
+	/** Genre types. */
+	types: GenreType[];
 }
 
 /** Genres page component. */
 const GenresPageComponent: FC = () => {
 	const dispatch = useAppDispatch();
 	const genres = useAppSelector(selectGenres);
-	const [parameters, setParameters] = useState<PaginationParams>(defaultParams);
+	const [parameters, setParameters] = useState<GenreParams>(defaultParams);
 
 	const lastItemRef = useRef<HTMLLIElement | null>(null);
 
 	const handleObserve = () => {
-		setParameters((prevState) => ({ ...prevState, pageNumber: prevState.pageNumber + 1 }));
+		setParameters((prevState) => ({
+			...prevState,
+			pagination: { ...prevState.pagination, pageNumber: prevState.pagination.pageNumber + 1 },
+		}));
 	};
 
 	/** Duplication is result of react strict mode. */
@@ -41,14 +50,18 @@ const GenresPageComponent: FC = () => {
 
 	const form = useForm<FormValues>({
 		defaultValues: {
-			filter: [],
+			types: [],
 		},
 	});
 
 	const { register, handleSubmit } = form;
 
 	const onSubmit = (data: FormValues) => {
-		console.log(data.filter);
+		dispatch(clearGenres());
+		setParameters({
+			...defaultParams,
+			filters: new GenreFilterParams({ types: data.types, search: defaultParams.filters.search }),
+		});
 	};
 
 	/** Getting genre type array. */
@@ -57,7 +70,7 @@ const GenresPageComponent: FC = () => {
 	return (
 		<aside className={styles.aside}>
 			<form onSubmit={handleSubmit(onSubmit)}>
-				<MultipleFilter registerReturn={register('filter')} title={'Filter'} items={items} />
+				<MultipleFilter items={items} registerReturn={register('types')} title={'Filter'} />
 				<Button type="submit">Submit</Button>
 			</form>
 			<InfinityScroll lastItemRef={lastItemRef} handleObserve={handleObserve}>

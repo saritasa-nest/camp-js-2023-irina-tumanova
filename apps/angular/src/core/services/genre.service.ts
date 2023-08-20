@@ -4,9 +4,9 @@ import { Observable, map } from 'rxjs';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
-import { Genre } from '@js-camp/core/models/anime/genre';
-import { GenreDto, GenreTypeDto } from '@js-camp/core/dtos/anime/genre.dto';
-import { GenreMapper } from '@js-camp/core/mappers/anime/genre.mapper';
+import { Genre } from '@js-camp/core/models/genre/genre';
+import { GenreDto, GenreTypeDto } from '@js-camp/core/dtos/genre/genre.dto';
+import { GenreMapper } from '@js-camp/core/mappers/genre/genre.mapper';
 import { DefaultListParams } from '@js-camp/core/models/list-params';
 import { ListParamsMapper } from '@js-camp/core/mappers/list-params.mapper';
 
@@ -17,7 +17,6 @@ import { ApiUrlsConfig } from './api-urls.config';
 	providedIn: 'root',
 })
 export class GenreService {
-
 	private readonly http = inject(HttpClient);
 
 	private readonly apiUrlsConfig = inject(ApiUrlsConfig);
@@ -31,14 +30,14 @@ export class GenreService {
 		const params = new HttpParams({
 			fromObject: ListParamsMapper.toDto(
 				genreParams,
-				filters => filters,
-				() => undefined,
+				(filters) => filters,
+				() => undefined
 			),
 		});
 
 		return this.http
 			.get<PaginationDto<GenreDto>>(url, { params })
-			.pipe(map(pagination => PaginationMapper.fromDto(pagination, GenreMapper.fromDto)));
+			.pipe(map((pagination) => PaginationMapper.fromDto(pagination, GenreMapper.fromDto)));
 	}
 
 	/**
@@ -50,6 +49,6 @@ export class GenreService {
 
 		return this.http
 			.post<GenreDto>(url, { name: genreName, type: GenreTypeDto.Genres })
-			.pipe(map(genreDto => GenreMapper.fromDto(genreDto)));
+			.pipe(map((genreDto) => GenreMapper.fromDto(genreDto)));
 	}
 }

@@ -5,12 +5,11 @@ import { AnimeRating } from './anime-details';
 import { AnimeSeason } from './anime-season';
 import { AnimeSource } from './anime-source';
 import { AnimeStatus } from './anime-status';
-import { Genre } from './genre';
+import { Genre } from '../genre/genre';
 import { Studio } from './studio';
 
 /** Anime form data (edit, create). */
 export class AnimeFormData {
-
 	/** Image url. */
 	public readonly imageUrl: string | null;
 

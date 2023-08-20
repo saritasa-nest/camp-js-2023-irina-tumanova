@@ -1,8 +1,7 @@
-import { Genre } from '@js-camp/core/models/anime/genre';
+import { Genre } from '@js-camp/core/models/genre/genre';
 
 /** Genres state. */
 export interface GenresState {
-
 	/** Genres list. */
 	readonly genres: Genre[];
 

@@ -1,13 +1,12 @@
 import { memo, forwardRef } from 'react';
-import { Genre } from '@js-camp/core/models/anime/genre';
+import { Genre } from '@js-camp/core/models/genre/genre';
 
 import { Divider, ListItem, ListItemText, Typography } from '@mui/material';
-import { GenreType } from '@js-camp/core/models/anime/genre-type';
+import { GenreType } from '@js-camp/core/models/genre/genre-type';
 
 import styles from './GenreCard.module.css';
 
 interface Props {
-
 	/** Genre. */
 	readonly genre: Genre;
 }

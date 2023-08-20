@@ -4,11 +4,10 @@ import { AnimeDetailsDto, AnimeRatingDto, AnimeSeasonDto, AnimeSourceDto } from 
 import { AnimeDetails, AnimeRating } from '../../models/anime/anime-details';
 
 import { AnimeMapper } from './anime.mapper';
-import { GenreMapper } from './genre.mapper';
+import { GenreMapper } from '../genre/genre.mapper';
 import { StudioMapper } from './studio.mapper';
 
 export namespace AnimeDetailsMapper {
-
 	/**
 	 * Maps DTO to model.
 	 * @param dto Studio DTO.

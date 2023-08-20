@@ -6,10 +6,14 @@ import { initialState } from './state';
 export const genresSlice = createSlice({
 	name: 'genres',
 	initialState,
-	reducers: {},
-	extraReducers: builder =>
+	reducers: {
+		clearGenres(state) {
+			state.genres = [];
+		},
+	},
+	extraReducers: (builder) =>
 		builder
-			.addCase(fetchGenres.pending, state => {
+			.addCase(fetchGenres.pending, (state) => {
 				state.isLoading = true;
 			})
 			.addCase(fetchGenres.fulfilled, (state, action) => {
@@ -23,3 +27,5 @@ export const genresSlice = createSlice({
 				state.isLoading = false;
 			}),
 });
+
+export const { clearGenres } = genresSlice.actions;

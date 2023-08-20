@@ -5,25 +5,23 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import { InputLabel } from '@mui/material';
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-	PaperProps: {
-		style: {
-			maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-			width: 250,
-		},
-	},
-};
-
+/**  Multiple filter props. */
 interface Props<T> {
-	readonly items: T[];
+	/** Option items in select. */
+	readonly items: readonly T[];
 
+	/** Title. */
 	readonly title: string;
 
-	readonly registerReturn: UseFormRegisterReturn<'filter'>;
+	/**
+	 * Return type of react hook form register function with needed conrol name - always the same.
+	 * @example registerReturn-{register('type')}
+	 */
+	readonly registerReturn: UseFormRegisterReturn<'types'>;
 }
 
+// Arrow react functiol components can takes generic parameter only this way.
+// eslint-disable-next-line @typescript-eslint/comma-dangle
 const MultipleFilterComponent = <T extends string>(props: Props<T>) => {
 	const [filteredItems, setFilteredItems] = useState<T[]>([]);
 
@@ -37,9 +35,9 @@ const MultipleFilterComponent = <T extends string>(props: Props<T>) => {
 	return (
 		<FormControl sx={{ m: 1, width: 300 }}>
 			<InputLabel>{props.title}</InputLabel>
-			<Select multiple {...props.registerReturn} value={filteredItems} onChange={handleChange} MenuProps={MenuProps}>
-				{props.items.map((name) => (
-					<MenuItem key={name} value={name}>
+			<Select multiple {...props.registerReturn} value={filteredItems} onChange={handleChange}>
+				{props.items.map((name, index) => (
+					<MenuItem key={index} value={name}>
 						{name}
 					</MenuItem>
 				))}

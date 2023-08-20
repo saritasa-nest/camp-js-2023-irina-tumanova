@@ -1,7 +1,7 @@
 /** Genre type. */
 export enum GenreType {
 	Genres = 'Genres',
-	ExplicitGenres = 'ExplicitGenres',
+	ExplicitGenres = 'Explicit genres',
 	Themes = 'Themes',
 	Demographics = 'Demographics',
 }
@@ -17,9 +17,9 @@ export namespace GenreType {
 
 	/**
 	 * Makes genre type readable.
-	 * @param genreType Genre type.
+	 * @param value Genre type.
 	 */
-	export function toReadable(genreType: GenreType): string {
-		return TO_READABLE_TYPE[genreType];
+	export function toReadable(value: GenreType): string {
+		return TO_READABLE_TYPE[value];
 	}
 }
