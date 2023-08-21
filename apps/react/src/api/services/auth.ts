@@ -75,7 +75,7 @@ export namespace AuthService {
 	): AppValidationError<TValidationErrors> | Error | null {
 		if (error instanceof AxiosError && error.response !== undefined) {
 			const { data } = error.response;
-			if (data.errors instanceof Array) {
+			if (Array.isArray(data.errors)) {
 				return AppErrorDictionaryMapper.fromDto(data.errors, mapValidationError);
 			}
 		}
