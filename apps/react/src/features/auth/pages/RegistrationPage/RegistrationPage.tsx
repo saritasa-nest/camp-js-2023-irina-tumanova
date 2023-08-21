@@ -32,10 +32,6 @@ const RegistrationPageComponent: FC = () => {
 		setError,
 	} = useForm<RegistrationForm>({ resolver: zodResolver(validationSchema) });
 
-	const onSubmit = (data: Registration) => {
-		dispatch(AuthDispatcher.register(data));
-	};
-
 	useEffect(() => {
 		setServerErrors();
 	}, [error]);
@@ -52,6 +48,14 @@ const RegistrationPageComponent: FC = () => {
 				setError(key as keyof Registration, { message });
 			}
 		});
+	};
+
+	/**
+	 * On submit form.
+	 * @param credentials Registration credentials.
+	 */
+	const onSubmit = (credentials: Registration) => {
+		dispatch(AuthDispatcher.register(credentials));
 	};
 
 	/** Reset auth. */
