@@ -1,4 +1,4 @@
-import { FC, memo } from 'react';
+import { FC, memo, useEffect } from 'react';
 import { NavLink, Navigate } from 'react-router-dom';
 import { Button, Link, TextField, Typography, Alert } from '@mui/material';
 import { useForm } from 'react-hook-form';
@@ -33,6 +33,7 @@ const LoginPageComponent: FC = () => {
 		register,
 		handleSubmit,
 		formState: { errors },
+		setError,
 	} = useForm<Login>({ resolver: zodResolver(validationSchema) });
 
 	/**
@@ -41,6 +42,24 @@ const LoginPageComponent: FC = () => {
 	 */
 	const onSubmit = (credentials: Login) => {
 		dispatch(AuthDispatcher.login(credentials));
+	};
+
+	useEffect(() => {
+		setValidationErrors();
+	}, [error]);
+
+	/** Set validation error. */
+	const setValidationErrors = () => {
+		if (error === undefined) {
+			return;
+		}
+
+		Object.keys(error.errors).forEach(key => {
+			const message = error.errors[key as keyof Login];
+			if (message !== undefined) {
+				setError(key as keyof Login, { message });
+			}
+		});
 	};
 
 	/** Reset auth. */
