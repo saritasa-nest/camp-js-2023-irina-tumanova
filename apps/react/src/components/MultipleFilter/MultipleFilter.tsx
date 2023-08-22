@@ -1,9 +1,6 @@
 import { useId } from 'react';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import { Controller, FieldValues } from 'react-hook-form';
-import { InputLabel } from '@mui/material';
+import { InputLabel, FormControl, Select, MenuItem } from '@mui/material';
 
 import { typedMemo } from '@js-camp/react/utils/typedMemo';
 
