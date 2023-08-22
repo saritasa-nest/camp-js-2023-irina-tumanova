@@ -77,7 +77,13 @@ const GenresPageComponent: FC = () => {
 	return (
 		<aside className={styles.aside}>
 			<form onSubmit={handleSubmit(onSubmit)}>
-				<MultipleFilter name={'types'} control={control} items={items} title={'Filter'} />
+				<MultipleFilter
+					name={'types'}
+					toReadable={GenreType.toReadable}
+					control={control}
+					items={items}
+					title={'Filter'}
+				/>
 				<TextField label="Search" {...register('search')} />
 				<Button type="submit">Submit</Button>
 			</form>

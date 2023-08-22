@@ -17,6 +17,9 @@ type Props<T, R extends FieldValues> = {
 
 	/** Title. */
 	readonly title: string;
+
+	/** Makes items readable for users. */
+	readonly toReadable?: (value: T) => string;
 } & FormControlProps<R>;
 
 // Arrow react functiol components can takes generic parameter only this way.
@@ -26,6 +29,7 @@ const MultipleFilterComponent = <T extends string, R extends FieldValues>({
 	title,
 	control,
 	name,
+	toReadable,
 }: Props<T, R>) => {
 	const id = useId();
 
@@ -39,7 +43,7 @@ const MultipleFilterComponent = <T extends string, R extends FieldValues>({
 					<Select {...rest} id={id} multiple onChange={onChange}>
 						{items.map((itemName, index) => (
 							<MenuItem key={index} value={itemName}>
-								{itemName}
+								{toReadable ? toReadable(itemName) : itemName}
 							</MenuItem>
 						))}
 					</Select>
