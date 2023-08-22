@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+
 import { AppErrorConfig } from '@js-camp/core/models/app-error-config';
 
 /** Transform error code to error text. */

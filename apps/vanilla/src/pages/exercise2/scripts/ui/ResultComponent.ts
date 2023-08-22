@@ -1,5 +1,4 @@
 import { Subscriber } from '../models/Subscriber';
-
 import { ResultComponentProps } from './types';
 
 /** Result component. */

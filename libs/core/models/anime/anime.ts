@@ -1,11 +1,9 @@
 import { DateRange } from '../date-range';
-
 import { AnimeStatus } from './anime-status';
 import { AnimeType } from './anime-type';
 
 /** Anime. */
 export class Anime {
-
 	/** ID. */
 	public readonly id: number;
 

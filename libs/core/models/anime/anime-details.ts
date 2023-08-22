@@ -1,12 +1,11 @@
 import { Anime } from './anime';
 import { AnimeSeason } from './anime-season';
 import { AnimeSource } from './anime-source';
-import { Genre } from './genre';
+import { Genre } from '../genre/genre';
 import { Studio } from './studio';
 
 /** Anime details. */
 export class AnimeDetails extends Anime {
-
 	/** Description. */
 	public readonly description: string;
 

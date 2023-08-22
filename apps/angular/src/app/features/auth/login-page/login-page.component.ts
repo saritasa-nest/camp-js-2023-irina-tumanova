@@ -1,13 +1,14 @@
 import { Component, ChangeDetectionStrategy, inject, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { BehaviorSubject, Observable, catchError, finalize, tap, throwError, first } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { Login, LoginValidationErrors } from '@js-camp/core/models/auth/login';
 import { FormGroupOf } from '@js-camp/core/models/form-type-of';
-import { BehaviorSubject, Observable, catchError, finalize, tap, throwError, first } from 'rxjs';
 import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
 import { AppValidationError } from '@js-camp/core/models/app-error';
 import { AppValidators } from '@js-camp/angular/core/utils/validators';
-import { ActivatedRoute, Router } from '@angular/router';
 import { QueryParamsService } from '@js-camp/angular/core/services/query-params.service';
 
 const defaultFormValues: Login = {

@@ -1,28 +1,43 @@
 {
-  "root": true,
-  "ignorePatterns": ["**/*"],
-  "plugins": ["@nx"],
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "extends": ["@saritasa/eslint-config-saritasa"],
-      "rules": {
+	"root": true,
+	"ignorePatterns": ["**/*"],
+	"plugins": ["@nx"],
+	"overrides": [
+		{
+			"files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+			"extends": ["@saritasa/eslint-config-saritasa"],
+			"rules": {
 				"no-tabs": "off",
+				"import/order": [
+					"error",
+					{
+						"newlines-between": "always",
+						"pathGroups": [
+							{
+								"pattern": "@js-camp/**",
+								"group": "internal",
+								"position": "before"
+							}
+						],
+						"pathGroupsExcludedImportTypes": ["builtin"],
+						"groups": [["builtin", "external"], "internal", ["parent", "sibling"], "index"]
+					}
+				],
 				"@typescript-eslint/indent": ["error", "tab"],
-        "@nx/enforce-module-boundaries": [
-          "error",
-          {
-            "enforceBuildableLibDependency": true,
-            "allow": [],
-            "depConstraints": [
-              {
-                "sourceTag": "*",
-                "onlyDependOnLibsWithTags": ["*"]
-              }
-            ]
-          }
-        ]
-      }
-    }
-  ]
+				"@nx/enforce-module-boundaries": [
+					"error",
+					{
+						"enforceBuildableLibDependency": true,
+						"allow": [],
+						"depConstraints": [
+							{
+								"sourceTag": "*",
+								"onlyDependOnLibsWithTags": ["*"]
+							}
+						]
+					}
+				]
+			}
+		}
+	]
 }

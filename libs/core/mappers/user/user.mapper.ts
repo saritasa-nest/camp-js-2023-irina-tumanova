@@ -13,8 +13,6 @@ export namespace UserMapper {
 			firstName: dto.first_name,
 			lastName: dto.last_name,
 			avatarUrl: dto.avatar,
-			created: new Date(dto.created),
-			modified: new Date(dto.modified),
 		});
 	}
 }

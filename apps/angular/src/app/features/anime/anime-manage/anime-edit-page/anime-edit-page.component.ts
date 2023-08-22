@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, switchMap } from 'rxjs';
+
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { AnimeDetails } from '@js-camp/core/models/anime/anime-details';
-import { Observable, switchMap } from 'rxjs';
 
 /** Anime edit page. */
 @Component({

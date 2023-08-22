@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+
 import { UserSecretDto } from '@js-camp/core/dtos/auth/user-secret.dto';
 import { UserSecretMapper } from '@js-camp/core/mappers/auth/user-secret.mapper';
 import { Registration } from '@js-camp/core/models/auth/registration';
@@ -12,7 +13,6 @@ import { AppErrorDictionaryMapper } from '@js-camp/core/mappers/app-error.mapper
 
 import { ApiUrlsConfig } from '../apiUrlsConfig';
 import { http } from '..';
-
 import { UserSecretService } from './userSecret';
 
 /** Auth service. */
@@ -23,12 +23,16 @@ export namespace AuthService {
 	 * @param credentials Login credentials.
 	 */
 	export async function login(credentials: Login): Promise<void> {
-		const { data: userSecretDto } = await http.post<UserSecretDto>(
-			ApiUrlsConfig.auth.login,
-			LoginMapper.toDto(credentials),
-		);
-		const userSecret = UserSecretMapper.fromDto(userSecretDto);
-		return UserSecretService.saveToken(userSecret);
+		try {
+			const { data: userSecretDto } = await http.post<UserSecretDto>(
+				ApiUrlsConfig.auth.login,
+				LoginMapper.toDto(credentials),
+			);
+			const userSecret = UserSecretMapper.fromDto(userSecretDto);
+			return UserSecretService.saveToken(userSecret);
+		} catch (error: unknown) {
+			return Promise.reject(AuthService.mapError(error, LoginMapper.validateErrorFromDto));
+		}
 	}
 
 	/**
@@ -36,12 +40,16 @@ export namespace AuthService {
 	 * @param credentials Register credentials.
 	 */
 	export async function register(credentials: Registration): Promise<void> {
-		const { data: userSecretDto } = await http.post<UserSecretDto>(
-			ApiUrlsConfig.auth.register,
-			RegistrationMapper.toDto(credentials),
-		);
-		const userSecret = UserSecretMapper.fromDto(userSecretDto);
-		return UserSecretService.saveToken(userSecret);
+		try {
+			const { data: userSecretDto } = await http.post<UserSecretDto>(
+				ApiUrlsConfig.auth.register,
+				RegistrationMapper.toDto(credentials),
+			);
+			const userSecret = UserSecretMapper.fromDto(userSecretDto);
+			return UserSecretService.saveToken(userSecret);
+		} catch (error: unknown) {
+			return Promise.reject(AuthService.mapError(error, RegistrationMapper.validateErrorFromDto));
+		}
 	}
 
 	/** Handle logout. */
@@ -75,7 +83,7 @@ export namespace AuthService {
 	): AppValidationError<TValidationErrors> | Error | null {
 		if (error instanceof AxiosError && error.response !== undefined) {
 			const { data } = error.response;
-			if (data.errors instanceof Array) {
+			if (Array.isArray(data.errors)) {
 				return AppErrorDictionaryMapper.fromDto(data.errors, mapValidationError);
 			}
 		}

@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { Navigate, Outlet, To } from 'react-router-dom';
+
 import { UserSecretService } from '@js-camp/react/api/services/userSecret';
 
 /** No auth guard. */

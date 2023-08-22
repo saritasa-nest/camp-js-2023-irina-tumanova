@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject, Observable, finalize, switchMap, tap } from 'rxjs';
+
 import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { GenreService } from '@js-camp/angular/core/services/genre.service';
@@ -11,14 +13,13 @@ import { AnimeFormData } from '@js-camp/core/models/anime/anime-form-data';
 import { AnimeSeason } from '@js-camp/core/models/anime/anime-season';
 import { AnimeSource } from '@js-camp/core/models/anime/anime-source';
 import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
-import { Genre } from '@js-camp/core/models/anime/genre';
+import { Genre } from '@js-camp/core/models/genre/genre';
 import { Studio } from '@js-camp/core/models/anime/studio';
 import { DateRange } from '@js-camp/core/models/date-range';
 import { FormGroupOf } from '@js-camp/core/models/form-type-of';
 import { DefaultListParams } from '@js-camp/core/models/list-params';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { enumToArray } from '@js-camp/core/utils/enum-to-array';
-import { BehaviorSubject, Observable, finalize, switchMap, tap } from 'rxjs';
 
 type FormType = 'create' | 'edit' | null;
 
@@ -48,7 +49,6 @@ const DEFAULT_FORM_VALUES: AnimeFormData = {
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeFormComponent {
-
 	/** Initial anime info. */
 	@Input()
 	public set anime(anime: AnimeDetails | null) {
@@ -129,10 +129,12 @@ export class AnimeFormComponent {
 	}
 
 	private setFormValues(anime: AnimeDetails): void {
-		this.form.patchValue(new AnimeFormData({
-			...anime,
-			imageFile: null,
-		}));
+		this.form.patchValue(
+			new AnimeFormData({
+				...anime,
+				imageFile: null,
+			}),
+		);
 	}
 
 	/** Submit anime form. */
@@ -145,12 +147,14 @@ export class AnimeFormComponent {
 
 		const formData = this.form.getRawValue();
 
-		this.animeService.saveAnimeImage(formData.imageFile).pipe(
-			switchMap(imageUrl => this.submitAnime(formData, imageUrl ?? formData.imageUrl)),
-			tap(anime => this.router.navigate([`/anime/${anime.id}`])),
-			finalize(() => this.isSubmitting$.next(false)),
-			this.untilDestroyed(),
-		)
+		this.animeService
+			.saveAnimeImage(formData.imageFile)
+			.pipe(
+				switchMap(imageUrl => this.submitAnime(formData, imageUrl ?? formData.imageUrl)),
+				tap(anime => this.router.navigate([`/anime/${anime.id}`])),
+				finalize(() => this.isSubmitting$.next(false)),
+				this.untilDestroyed(),
+			)
 			.subscribe();
 	}
 
@@ -173,7 +177,8 @@ export class AnimeFormComponent {
 	 * Get genres.
 	 * @param params List params.
 	 */
-	protected getGenres = (params: DefaultListParams<undefined>): Observable<Pagination<Genre>> => this.genreService.getGenres(params);
+	protected getGenres = (params: DefaultListParams<undefined>): Observable<Pagination<Genre>> =>
+		this.genreService.getGenres(params);
 
 	/**
 	 * Create genre.
@@ -192,7 +197,8 @@ export class AnimeFormComponent {
 	 * Get studios.
 	 * @param params List params.
 	 */
-	protected getStudios = (params: DefaultListParams<undefined>): Observable<Pagination<Studio>> => this.studioService.getStudios(params);
+	protected getStudios = (params: DefaultListParams<undefined>): Observable<Pagination<Studio>> =>
+		this.studioService.getStudios(params);
 
 	/**
 	 * Create studio.

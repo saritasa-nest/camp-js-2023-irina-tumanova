@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
+
 import { UserSecret } from '@js-camp/core/models/auth/user-secret';
 
 import { StorageService } from './storage.service';
