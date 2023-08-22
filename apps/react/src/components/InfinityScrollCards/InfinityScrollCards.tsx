@@ -1,4 +1,4 @@
-import { memo, FC, ReactNode, useRef } from 'react';
+import { memo, FC, ReactNode, useRef, MutableRefObject } from 'react';
 import { List } from '@mui/material';
 
 import { useIntersectionObserver } from '@js-camp/react/hooks/useIntersactionObserver';
@@ -7,7 +7,7 @@ import { useIntersectionObserver } from '@js-camp/react/hooks/useIntersactionObs
 interface InfinityScrollProps {
 
 	/** Ref to last item in array. */
-	readonly lastItemRef: React.MutableRefObject<HTMLLIElement | null>;
+	readonly lastItemRef: MutableRefObject<HTMLLIElement | null>;
 
 	/** Trigger function to continue pagination. */
 	readonly handleObserve: () => void;
