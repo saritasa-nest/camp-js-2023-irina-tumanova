@@ -54,8 +54,8 @@
     "regenerator-runtime": "0.13.7",
     "rxjs": "7.8.1",
     "tslib": "^2.5.2",
-    "zod": "^3.21.4",
     "xml-js": "^1.6.11",
+    "zod": "^3.21.4",
     "zone.js": "0.13.0"
   },
   "devDependencies": {

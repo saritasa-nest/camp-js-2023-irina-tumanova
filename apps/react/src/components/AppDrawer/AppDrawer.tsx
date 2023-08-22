@@ -1,6 +1,6 @@
 import { useUserState } from '@js-camp/react/hooks/useUserState';
 import { FC, memo } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import Drawer from '@mui/material/Drawer';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
@@ -10,13 +10,12 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
-import CloseIcon from '@mui/icons-material/Close';
+import { blue } from '@mui/material/colors';
 import { useAppDispatch } from '@js-camp/react/store';
 import { AuthDispatcher } from '@js-camp/react/store/auth/dispatchers';
 import { Box, Button } from '@mui/material';
 import styles from './AppDrawer.module.css';
 import { navigationList } from './AppDrawer.settings';
-import { blue } from '@mui/material/colors';
 
 type Props = Readonly<{
 	isOpen: boolean;
@@ -24,8 +23,7 @@ type Props = Readonly<{
 }>;
 
 const AppDrawerComponent: FC<Props> = props => {
-	const location = useLocation();
-	const { user, isUserLoading, userError } = useUserState();
+	const { user } = useUserState();
 	const dispatch = useAppDispatch();
 
 	/** Handle logout. */
@@ -47,8 +45,6 @@ const AppDrawerComponent: FC<Props> = props => {
 					<Button startIcon={<PersonIcon />} className={styles['drawer__user-action']} color="white">Profile</Button>
 					<Button startIcon={<LogoutIcon />} onClick={handleLogout} className={styles['drawer__user-action']} color="white">Log out</Button>
 				</Box>
-
-				<CloseIcon className={styles.drawer__close} onClick={props.close} />
 			</Box>
 
 			<Box className={styles.drawer__navigation}>

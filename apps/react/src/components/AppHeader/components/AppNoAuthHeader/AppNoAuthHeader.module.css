@@ -1,18 +1,15 @@
-.app-header {}
-
-.app-header__menu-trigger,
-.app-header__login-trigger {
+.app-no-auth-header__login-trigger {
     display: flex;
     align-items: center;
     gap: var(--space-s);
     cursor: pointer
 }
 
-.app-header__login-trigger {
+.app-no-auth-header__login-trigger {
     color: var(--primary-contrast-color);
     text-decoration: none;
 }
 
-.app-header__login-icon {
+.app-no-auth-header__login-icon {
     fill: var(--primary-contrast-color);
 }
