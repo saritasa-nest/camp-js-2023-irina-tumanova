@@ -1,5 +1,6 @@
-import { environment } from '@js-camp/angular/environments/environment';
 import { Injectable } from '@angular/core';
+
+import { environment } from '@js-camp/angular/environments/environment';
 
 /** App config. */
 @Injectable({ providedIn: 'root' })

@@ -1,6 +1,7 @@
 import { HttpRequest, HttpHandler, HttpInterceptor, HttpEvent, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, first, map, switchMap } from 'rxjs';
+
 import { UserSecret } from '@js-camp/core/models/auth/user-secret';
 
 import { UserSecretService } from '../services/user-secret.service';

@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, TextField, Typography, Link } from '@mui/material';
 import { NavLink } from 'react-router-dom';
+
 import { AuthDispatcher } from '@js-camp/react/store/auth/dispatchers';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { selectAuthError, selectIsAuthLoading } from '@js-camp/react/store/auth/selectors';
@@ -12,8 +13,15 @@ import { AppShadowLoader } from '@js-camp/react/components/AppShadowLoader';
 
 import styles from '../common.module.css';
 import { PasswordField } from '../../components/PasswordField';
-
 import { validationSchema } from './RegistrationPage.settings';
+
+const defaultRegistrationValues: RegistrationForm = {
+	email: '',
+	firstName: '',
+	lastName: '',
+	password: '',
+	repeatedPassword: '',
+};
 
 /** Registration page component. */
 const RegistrationPageComponent: FC = () => {
@@ -30,7 +38,8 @@ const RegistrationPageComponent: FC = () => {
 		handleSubmit,
 		formState: { errors },
 		setError,
-	} = useForm<RegistrationForm>({ resolver: zodResolver(validationSchema) });
+		control,
+	} = useForm({ defaultValues: defaultRegistrationValues, resolver: zodResolver(validationSchema) });
 
 	useEffect(() => {
 		setValidationErrors();
@@ -107,7 +116,7 @@ const RegistrationPageComponent: FC = () => {
 				<PasswordField
 					name="password"
 					label="Password"
-					register={register}
+					control={control}
 					autocomplete="new-password"
 					error={errors.password}
 				/>
@@ -115,7 +124,7 @@ const RegistrationPageComponent: FC = () => {
 				<PasswordField
 					name="repeatedPassword"
 					label="Repeated password"
-					register={register}
+					control={control}
 					autocomplete="new-password"
 					error={errors.repeatedPassword}
 				/>

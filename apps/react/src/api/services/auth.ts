@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+
 import { UserSecretDto } from '@js-camp/core/dtos/auth/user-secret.dto';
 import { UserSecretMapper } from '@js-camp/core/mappers/auth/user-secret.mapper';
 import { Registration } from '@js-camp/core/models/auth/registration';
@@ -12,7 +13,6 @@ import { AppErrorDictionaryMapper } from '@js-camp/core/mappers/app-error.mapper
 
 import { ApiUrlsConfig } from '../apiUrlsConfig';
 import { http } from '..';
-
 import { UserSecretService } from './userSecret';
 
 /** Auth service. */

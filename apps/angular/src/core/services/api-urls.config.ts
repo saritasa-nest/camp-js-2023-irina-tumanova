@@ -1,4 +1,5 @@
 import { Injectable, inject } from '@angular/core';
+
 import { Anime } from '@js-camp/core/models/anime/anime';
 
 import { AppConfig } from './app.config';

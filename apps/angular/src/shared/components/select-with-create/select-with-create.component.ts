@@ -3,12 +3,13 @@ import { FormControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { BehaviorSubject, Observable, debounceTime, distinctUntilChanged, map, of, switchMap, tap, withLatestFrom } from 'rxjs';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+
 import { DefaultListParams } from '@js-camp/core/models/list-params';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { Sorting } from '@js-camp/core/models/sorting';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
 
 import { BaseMatFormField } from '../base-mat-form-field/base-mat-form-field.component';

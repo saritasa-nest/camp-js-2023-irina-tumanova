@@ -1,7 +1,5 @@
 import { DateRangeDto } from '../date-range.dto';
-
 import { AnimeRatingDto, AnimeSeasonDto, AnimeSourceDto } from './anime-details.dto';
-
 import { AnimeStatusDto, AnimeTypeDto } from './anime.dto';
 
 /** Anime form data (edit, create) DTO. */
