@@ -14,19 +14,16 @@ export namespace AnimeService {
 
 	/**
 	 * Get anime list.
-	 * @param animeParams Params from anime table.
+	 * @param params Params from anime table.
 	 */
-	export async function fetchAnime(animeParams: AnimeParams): Promise<Anime[]> {
-		const params = {
-			fromObject: ListParamsMapper.toDto(
-				animeParams,
+	export async function fetchAnime(params: AnimeParams): Promise<Anime[]> {
+		const { data } = await http.get<PaginationDto<AnimeDto>>(url, {
+			params: ListParamsMapper.toDto(
+				params,
 				AnimeFilterParamsMapper.toDto,
 				field => AnimeFilterParamsMapper.ANIME_SORT_FIELD_TO_DTO[field],
 			),
-		};
-
-		const { data } = await http.get<PaginationDto<AnimeDto>>(url, { params });
-
-		return data.results.map(animeDto => AnimeMapper.fromDto(animeDto));
+		});
+		return data.results.map(dto => AnimeMapper.fromDto(dto));
 	}
 }

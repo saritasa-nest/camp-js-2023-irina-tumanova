@@ -1,5 +1,8 @@
-import { memo, FC } from 'react';
+import { memo, forwardRef } from 'react';
+import { Divider, ListItem, ListItemText, Typography } from '@mui/material';
+
 import { Anime } from '@js-camp/core/models/anime/anime';
+import { AnimeType } from '@js-camp/core/models/anime/anime-type';
 
 import styles from './AnimeCard.module.css';
 
@@ -10,12 +13,20 @@ interface Props {
 }
 
 /** Card with genre data. */
-const AnimeCardComponent: FC<Props> = ({ anime }) => (
-	<div className={styles.card}>
-		<span>English title: {anime.titleEnglish}</span>
-		<span>Japanese title: {anime.titleJapanese}</span>
-		<span>Id: {anime.id}</span>
-	</div>
-);
+const AnimeCardComponent = forwardRef<HTMLLIElement | null, Props>(({ anime }, forwardedRef) => (
+	<>
+		<ListItem ref={forwardedRef} alignItems="flex-start" className={styles.card}>
+			<ListItemText
+				primary={anime.titleEnglish}
+				secondary={
+					<Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
+						{AnimeType.toReadable(anime.type)}
+					</Typography>
+				}
+			/>
+		</ListItem>
+		<Divider />
+	</>
+));
 
 export const AnimeCard = memo(AnimeCardComponent);

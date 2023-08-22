@@ -1,75 +1,111 @@
-import { memo, useEffect, FC, useMemo, useState } from 'react';
+import { memo, useEffect, FC, useMemo, useState, useRef } from 'react';
+import { Button, InputLabel, TextField } from '@mui/material';
+import { useForm } from 'react-hook-form';
+
 import { fetchAnime } from '@js-camp/react/store/anime/dispatchers';
-import { selectAnime, selectIsAnimeLoading } from '@js-camp/react/store/anime/selectors';
+import { selectAnime } from '@js-camp/react/store/anime/selectors';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { AnimeFilterParams, AnimeParams, AnimeSortingField } from '@js-camp/core/models/anime/anime-params';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { Sorting } from '@js-camp/core/models/sorting';
 import { MultipleSort } from '@js-camp/react/components/MultipleSort/MultipleSort';
-import { Button } from '@mui/material';
-import { useForm } from 'react-hook-form';
 import { clearAnimeList } from '@js-camp/react/store/anime/slice';
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
+import { MultipleFilter } from '@js-camp/react/components/MultipleFilter/MultipleFilter';
+import { InfinityScroll } from '@js-camp/react/components/InfinityScrollCards';
 
 import { AnimeCard } from '../../components/AnimeCard';
-
 import styles from './AnimePage.module.css';
 
 const defaultParams: AnimeParams = {
-	pagination: new PaginationParams({ pageSize: 5, pageNumber: 0 }),
-	sorting: new Sorting({ field: AnimeSortingField.None, direction: 'asc' }),
+	pagination: new PaginationParams({ pageSize: 15, pageNumber: 0 }),
+	sorting: [new Sorting({ field: AnimeSortingField.None, direction: 'asc' })],
 	filters: new AnimeFilterParams({ types: [], search: '' }),
 };
 
 /** Form values. */
 interface FormValues {
 
-	/** Anime sorted fields. */
-	sorting: Sorting<AnimeSortingField>;
+	/** Genre types. */
+	types: AnimeType[];
+
+	/** Search. */
+	search: string;
+
+	/** Anime sorting field. */
+	sorting: Sorting<AnimeSortingField>[];
 }
+
+const defaultFormValues: FormValues = {
+	types: [],
+	search: '',
+	sorting: [{ field: AnimeSortingField.None, direction: 'asc' }],
+};
 
 /** Anime page component. */
 const AnimePageComponent: FC = () => {
 	const dispatch = useAppDispatch();
 	const animeList = useAppSelector(selectAnime);
-	const isLoading = useAppSelector(selectIsAnimeLoading);
 	const [parameters, setParameters] = useState<AnimeParams>(defaultParams);
+
+	const lastItemRef = useRef<HTMLLIElement | null>(null);
+
+	const handleObserve = () => {
+		setParameters(prevState => ({
+			...prevState,
+			pagination: { ...prevState.pagination, pageNumber: prevState.pagination.pageNumber + 1 },
+		}));
+	};
 
 	useEffect(() => {
 		dispatch(fetchAnime(parameters));
 	}, [parameters]);
 
 	const form = useForm<FormValues>({
-		defaultValues: {
-			sorting: defaultParams.sorting,
-		},
+		defaultValues: defaultFormValues,
 	});
 
-	const { control, handleSubmit } = form;
+	const { register, handleSubmit, control } = form;
 
 	const onSubmit = (data: FormValues) => {
 		dispatch(clearAnimeList());
 		setParameters({
 			...defaultParams,
-			sorting: { field: data.sorting.field, direction: data.sorting.direction },
+			sorting: data.sorting,
 		});
 	};
-
-	if (isLoading) {
-		return <div>Loading</div>;
-	}
 
 	/** Getting genre type array. */
 	const items = useMemo(() => Object.values(AnimeType).slice(0, -1), [AnimeType]) as AnimeType[];
 
+	const sortedFields = ['Title English', 'Status'];
+
 	return (
 		<aside className={styles.aside}>
 			<form onSubmit={handleSubmit(onSubmit)}>
-				<MultipleSort name={'sorting'} control={control} items={items} title={'Sorting'} />
+				<MultipleFilter name={'types'} control={control} items={items} title={'Filter'} />
+				<InputLabel>Sorting</InputLabel>
+				{
+					sortedFields.map(
+						(field, index) =>
+							<MultipleSort
+								key={index}
+								index={index}
+								name={'sorting'}
+								control={control}
+								item={field}
+								title={'Sorting'}
+							/>,
+					)
+				}
+				<TextField label="Search" {...register('search')} />
 				<Button type="submit">Submit</Button>
 			</form>
-			<h1>Anime</h1>
-			{animeList.map(anime => <AnimeCard key={anime.id} anime={anime} />)}
+			<InfinityScroll lastItemRef={lastItemRef} handleObserve={handleObserve}>
+				{animeList.map((anime, index) => (
+					<AnimeCard ref={index === animeList.length - 1 ? lastItemRef : null} key={anime.id} anime={anime} />
+				))}
+			</InfinityScroll>
 		</aside>
 	);
 };

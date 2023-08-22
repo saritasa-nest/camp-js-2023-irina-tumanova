@@ -1,63 +1,52 @@
-import React, { useId } from 'react';
-import FormControl from '@mui/material/FormControl';
+import { useId } from 'react';
 import { Controller, FieldValues } from 'react-hook-form';
-import { Button, InputLabel } from '@mui/material';
+import { Button } from '@mui/material';
 
-import { FormControlProps } from '../../utils/'
+import { typedMemo } from '@js-camp/react/utils/typedMemo';
 
-/**  Multiple filter props. */
+import { FormControlProps } from '../../utils/formControl';
+
+/**  Sort props. */
 type Props<T, R extends FieldValues> = {
 
 	/** Option items in select. */
-	readonly items: readonly T[];
+	readonly item: T;
 
 	/** Title. */
 	readonly title: string;
+
+	/** Sort field index. */
+	readonly index: number;
 } & FormControlProps<R>;
 
 // Arrow react functiol components can takes generic parameter only this way.
 // eslint-disable-next-line @typescript-eslint/comma-dangle
 const MultipleSortComponent = <T extends string, R extends FieldValues>({
-	items,
-	title,
+	item,
 	control,
 	name,
+	index,
 }: Props<T, R>) => {
 	const id = useId();
 
 	return (
-		<FormControl sx={{ m: 1, width: 300 }}>
-			<InputLabel>{title}</InputLabel>
-			<Controller
-				control={control}
-				name={name}
-				render={({ field: { value, onBlur, onChange, ref } }) => (
-					<Button
-						onBlur={onBlur}
-						ref={ref}
-						color='secondary'
-						sx={{ m: 1, width: 300 }}
-						onClick={() => onChange(value === 'asc' ? 'desc' : 'asc')}
-					>
-						{value === 'asc' ? '⬆️' : '⬇️'}{items}
-					</Button>
-				)}
-			/>
-		</FormControl>
+		<Controller
+			control={control}
+			name={name}
+			render={({ field: { value, onBlur, onChange, ref } }) => (
+				<Button
+					onBlur={onBlur}
+					ref={ref}
+					color="primary"
+					sx={{ m: 1, width: 300 }}
+					onClick={() => onChange(value[index].direction === 'asc' ? 'desc' : 'asc')}
+				>
+					{value === 'asc' ? '⬆️' : '⬇️'}
+					{item}
+				</Button>
+			)}
+		/>
 	);
 };
 
-export const MultipleSort = React.memo(MultipleSortComponent);
-
-/*
-		<FormControl sx={{ m: 1, width: 300 }}>
-			<InputLabel>{props.title}</InputLabel>
-			<Select multiple {...props.registerReturn} value={filteredItems} onChange={handleChange}>
-				{props.items.map((name, index) => (
-					<MenuItem key={index} value={name}>
-						{name}
-					</MenuItem>
-				))}
-			</Select>
-		</FormControl>
-*/
+export const MultipleSort = typedMemo(MultipleSortComponent);
