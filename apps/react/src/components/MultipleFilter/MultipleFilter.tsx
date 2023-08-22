@@ -35,7 +35,6 @@ const MultipleFilterComponent = <T extends string, R extends FieldValues>({
 			<Controller
 				control={control}
 				name={name}
-				rules={{ required: true }}
 				render={({ field: { onChange, ...rest } }) => (
 					<Select {...rest} id={id} multiple onChange={onChange}>
 						{items.map((itemName, index) => (

@@ -1,6 +1,6 @@
 import { memo, useEffect, FC, useRef, useState, useMemo } from 'react';
-import { Button } from '@mui/material';
-import { useForm } from 'react-hook-form';
+import { Button, TextField } from '@mui/material';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
 import { selectGenres } from '@js-camp/react/store/genre/selectors';
@@ -27,10 +27,14 @@ interface FormValues {
 
 	/** Genre types. */
 	types: GenreType[];
+
+	/** Search. */
+	search: string;
 }
 
 const defaultFormValues: FormValues = {
 	types: [],
+	search: '',
 };
 
 /** Genres page component. */
@@ -57,13 +61,13 @@ const GenresPageComponent: FC = () => {
 		defaultValues: defaultFormValues,
 	});
 
-	const { handleSubmit, control } = form;
+	const { register, handleSubmit, control } = form;
 
-	const onSubmit = (data: FormValues) => {
+	const onSubmit: SubmitHandler<FormValues> = ({ types, search }) => {
 		dispatch(clearGenres());
 		setParameters({
 			...defaultParams,
-			filters: new GenreFilterParams({ types: data.types, search: defaultParams.filters.search }),
+			filters: new GenreFilterParams({ types, search }),
 		});
 	};
 
@@ -74,6 +78,7 @@ const GenresPageComponent: FC = () => {
 		<aside className={styles.aside}>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<MultipleFilter name={'types'} control={control} items={items} title={'Filter'} />
+				<TextField label="Search" {...register('search')} />
 				<Button type="submit">Submit</Button>
 			</form>
 			<InfinityScroll lastItemRef={lastItemRef} handleObserve={handleObserve}>
