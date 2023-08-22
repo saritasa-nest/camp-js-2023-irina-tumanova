@@ -72,7 +72,7 @@ const GenresPageComponent: FC = () => {
 	};
 
 	/** Getting genre type array. */
-	const items = useMemo(() => Object.values(GenreType).slice(0, -1), [GenreType]) as GenreType[];
+	const items = useMemo(() => GenreType.toArray(), [GenreType]);
 
 	return (
 		<aside className={styles.aside}>

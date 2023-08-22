@@ -1,3 +1,5 @@
+import { enumToArray } from '../../../core/utils/enum-to-array';
+
 /** Genre type. */
 export enum GenreType {
 	Genres = 'Genres',
@@ -14,6 +16,11 @@ export namespace GenreType {
 		[GenreType.ExplicitGenres]: 'Explicit genres',
 		[GenreType.Genres]: 'Genres',
 	};
+
+	/** Converts enum genre type to array. */
+	export function toArray(): readonly GenreType[] {
+		return enumToArray(GenreType);
+	}
 
 	/**
 	 * Makes genre type readable.
