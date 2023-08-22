@@ -41,8 +41,8 @@ const MultipleFilterComponent = <T extends string, R extends FieldValues>({
 				name={name}
 				render={({ field: { onChange, ...rest } }) => (
 					<Select {...rest} id={id} multiple onChange={onChange}>
-						{items.map((itemName, index) => (
-							<MenuItem key={index} value={itemName}>
+						{items.map(itemName => (
+							<MenuItem key={itemName} value={itemName}>
 								{toReadable ? toReadable(itemName) : itemName}
 							</MenuItem>
 						))}
