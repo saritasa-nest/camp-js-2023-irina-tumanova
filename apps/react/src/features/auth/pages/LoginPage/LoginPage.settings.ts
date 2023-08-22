@@ -1,10 +1,10 @@
-import * as zod from 'zod';
+import { z } from 'zod';
 
-export const validationSchema = zod.object({
-	email: zod.string().trim()
-		.min(1, { message: 'Enter email' })
-		.email({ message: 'Enter valid email' }),
-	password: zod.string().trim()
-		.min(1, { message: 'Enter password' })
-		.min(8, { message: 'Min 8 characters' }),
-});
+export const validationSchema = z
+	.object({
+		email: z.string().trim()
+			.email({ message: 'Enter valid email' }),
+		password: z.string().trim()
+			.min(8, { message: 'Min 8 characters' }),
+	})
+	.required();

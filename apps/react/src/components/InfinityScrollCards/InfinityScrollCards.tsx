@@ -1,10 +1,11 @@
 import { memo, FC, ReactNode, useRef } from 'react';
-
 import { List } from '@mui/material';
+
 import { useIntersectionObserver } from '@js-camp/react/hooks/useIntersactionObserver';
 
 /** Props. */
 interface InfinityScrollProps {
+
 	/** Ref to last item in array. */
 	readonly lastItemRef: React.MutableRefObject<HTMLLIElement | null>;
 

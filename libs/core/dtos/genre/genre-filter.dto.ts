@@ -1,5 +1,6 @@
 /** Filters params for getting genre DTO. */
 export interface GenreFilterParamsDto {
+
 	/** Genre types. */
 	readonly type__in: string;
 

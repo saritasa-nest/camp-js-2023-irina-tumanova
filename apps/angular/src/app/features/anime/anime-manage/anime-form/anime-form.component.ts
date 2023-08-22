@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject, Observable, finalize, switchMap, tap } from 'rxjs';
+
 import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { GenreService } from '@js-camp/angular/core/services/genre.service';
@@ -18,7 +20,6 @@ import { FormGroupOf } from '@js-camp/core/models/form-type-of';
 import { DefaultListParams } from '@js-camp/core/models/list-params';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { enumToArray } from '@js-camp/core/utils/enum-to-array';
-import { BehaviorSubject, Observable, finalize, switchMap, tap } from 'rxjs';
 
 type FormType = 'create' | 'edit' | null;
 
@@ -132,7 +133,7 @@ export class AnimeFormComponent {
 			new AnimeFormData({
 				...anime,
 				imageFile: null,
-			})
+			}),
 		);
 	}
 
@@ -149,10 +150,10 @@ export class AnimeFormComponent {
 		this.animeService
 			.saveAnimeImage(formData.imageFile)
 			.pipe(
-				switchMap((imageUrl) => this.submitAnime(formData, imageUrl ?? formData.imageUrl)),
-				tap((anime) => this.router.navigate([`/anime/${anime.id}`])),
+				switchMap(imageUrl => this.submitAnime(formData, imageUrl ?? formData.imageUrl)),
+				tap(anime => this.router.navigate([`/anime/${anime.id}`])),
 				finalize(() => this.isSubmitting$.next(false)),
-				this.untilDestroyed()
+				this.untilDestroyed(),
 			)
 			.subscribe();
 	}

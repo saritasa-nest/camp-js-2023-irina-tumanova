@@ -3,13 +3,14 @@ import { DOCUMENT } from '@angular/common';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
+import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, startWith, merge, combineLatest, finalize, withLatestFrom } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Anime, AnimeType } from '@js-camp/core/models/anime/anime';
 import { AnimeSortingField, AnimeParams, AnimeFilterParams, QueryAnimeParams } from '@js-camp/core/models/anime/anime-params';
 import { Pagination } from '@js-camp/core/models/pagination';
-import { BehaviorSubject, Observable, tap, map, debounceTime, switchMap, startWith, merge, combineLatest, finalize, withLatestFrom } from 'rxjs';
 import { Sorting } from '@js-camp/core/models/sorting';
-import { ActivatedRoute, Router } from '@angular/router';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { enumToArray } from '@js-camp/core/utils/enum-to-array';
 import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';

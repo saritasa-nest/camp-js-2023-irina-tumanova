@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable, switchMap } from 'rxjs';
 import { xml2js } from 'xml-js';
+
 import { S3UploadRequestDto } from '@js-camp/core/dtos/s3-upload-request.dto';
 
 import { ApiUrlsConfig } from './api-urls.config';

@@ -7,7 +7,7 @@ type UseIntersectionObserver = (
 ) => void;
 
 /**
- * Intersaction observer hook
+ * Intersaction observer hook.
  * @param rootRef List ref in other words container.
  * @param targetRef Last item in list.
  * @param onIntersectCallback Callback that will work when target item will triggered.
@@ -20,8 +20,8 @@ export const useIntersectionObserver: UseIntersectionObserver = (rootRef, target
 				threshold: 0,
 			};
 
-			const observer = new IntersectionObserver((entries) => {
-				if (entries.every((entry) => entry.isIntersecting)) {
+			const observer = new IntersectionObserver(entries => {
+				if (entries.every(entry => entry.isIntersecting)) {
 					onIntersectCallback();
 				}
 			}, interceptConfig);

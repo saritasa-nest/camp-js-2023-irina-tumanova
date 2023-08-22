@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
+
 import { Pagination } from '@js-camp/core/models/pagination';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
@@ -30,14 +31,14 @@ export class GenreService {
 		const params = new HttpParams({
 			fromObject: ListParamsMapper.toDto(
 				genreParams,
-				(filters) => filters,
-				() => undefined
+				filters => filters,
+				() => undefined,
 			),
 		});
 
 		return this.http
 			.get<PaginationDto<GenreDto>>(url, { params })
-			.pipe(map((pagination) => PaginationMapper.fromDto(pagination, GenreMapper.fromDto)));
+			.pipe(map(pagination => PaginationMapper.fromDto(pagination, GenreMapper.fromDto)));
 	}
 
 	/**
@@ -49,6 +50,6 @@ export class GenreService {
 
 		return this.http
 			.post<GenreDto>(url, { name: genreName, type: GenreTypeDto.Genres })
-			.pipe(map((genreDto) => GenreMapper.fromDto(genreDto)));
+			.pipe(map(genreDto => GenreMapper.fromDto(genreDto)));
 	}
 }

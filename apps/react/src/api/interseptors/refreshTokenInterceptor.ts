@@ -12,17 +12,16 @@ export type RefreshResult = Promise<AxiosResponse<unknown, unknown>>;
  * @param error Server error.
  * @param refreshCallback Callback to refresh secret.
  */
-export async function refreshSecretInterceptor(error: AxiosError): RefreshResult {
-
-	if (error.config == null ||
+export function refreshSecretInterceptor(error: AxiosError): RefreshResult {
+	if (
+		error.config == null ||
 		!shouldRefreshSecretForUrl(error.config) ||
 		(error.response != null && error.response.status !== 401)
 	) {
 		throw error;
 	}
 
-	const result = await refreshSecret(error);
-	return result;
+	return refreshSecret(error);
 }
 
 const refreshSecret = async(requestError: AxiosError): RefreshResult => {

@@ -30,7 +30,7 @@ export enum GenreSortingField {
 export type GenreParams = ListParams<GenreFilterParams, GenreSortingField>;
 
 export type QueryGenreParams = PaginationParams &
-	Sorting<GenreSortingField> & {
-		search: string;
-		types: string;
-	};
+Sorting<GenreSortingField> & {
+	search: string;
+	types: string;
+};

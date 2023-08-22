@@ -1,49 +1,53 @@
-import React, { useState } from 'react';
+import { useId } from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { UseFormRegisterReturn } from 'react-hook-form';
+import Select from '@mui/material/Select';
+import { Controller, FieldValues } from 'react-hook-form';
 import { InputLabel } from '@mui/material';
 
+import { typedMemo } from '@js-camp/react/utils/typedMemo';
+
+import { FormControlProps } from '../../utils/formControl';
+
 /**  Multiple filter props. */
-interface Props<T> {
+type Props<T, R extends FieldValues> = {
+
 	/** Option items in select. */
 	readonly items: readonly T[];
 
 	/** Title. */
 	readonly title: string;
-
-	/**
-	 * Return type of react hook form register function with needed conrol name - always the same.
-	 * @example registerReturn-{register('type')}
-	 */
-	readonly registerReturn: UseFormRegisterReturn<'types'>;
-}
+} & FormControlProps<R>;
 
 // Arrow react functiol components can takes generic parameter only this way.
 // eslint-disable-next-line @typescript-eslint/comma-dangle
-const MultipleFilterComponent = <T extends string>(props: Props<T>) => {
-	const [filteredItems, setFilteredItems] = useState<T[]>([]);
-
-	const handleChange = (event: SelectChangeEvent<T[]>) => {
-		const {
-			target: { value },
-		} = event;
-		setFilteredItems(typeof value === 'string' ? (value.split(',') as T[]) : value);
-	};
+const MultipleFilterComponent = <T extends string, R extends FieldValues>({
+	items,
+	title,
+	control,
+	name,
+}: Props<T, R>) => {
+	const id = useId();
 
 	return (
 		<FormControl sx={{ m: 1, width: 300 }}>
-			<InputLabel>{props.title}</InputLabel>
-			<Select multiple {...props.registerReturn} value={filteredItems} onChange={handleChange}>
-				{props.items.map((name, index) => (
-					<MenuItem key={index} value={name}>
-						{name}
-					</MenuItem>
-				))}
-			</Select>
+			<InputLabel>{title}</InputLabel>
+			<Controller
+				control={control}
+				name={name}
+				rules={{ required: true }}
+				render={({ field: { onChange, ...rest } }) => (
+					<Select {...rest} id={id} multiple onChange={onChange}>
+						{items.map((itemName, index) => (
+							<MenuItem key={index} value={itemName}>
+								{itemName}
+							</MenuItem>
+						))}
+					</Select>
+				)}
+			/>
 		</FormControl>
 	);
 };
 
-export const MultipleFilter = React.memo(MultipleFilterComponent);
+export const MultipleFilter = typedMemo(MultipleFilterComponent);

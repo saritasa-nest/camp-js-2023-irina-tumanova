@@ -1,9 +1,9 @@
-import { GenreType } from '@js-camp/core/models/genre/genre-type';
-
+import { GenreType } from '../../../core/models/genre/genre-type';
 import { GenreDto, GenreTypeDto } from '../../dtos/genre/genre.dto';
 import { Genre } from '../../models/genre/genre';
 
 export namespace GenreMapper {
+
 	/**
 	 * Maps DTO to model.
 	 * @param dto Genre DTO.

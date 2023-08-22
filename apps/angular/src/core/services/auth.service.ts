@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject, catchError, concat, distinctUntilChanged, first, map, merge, switchMap, tap, throwError } from 'rxjs';
+
 import { UserSecretDto } from '@js-camp/core/dtos/auth/user-secret.dto';
 import { UserSecretMapper } from '@js-camp/core/mappers/auth/user-secret.mapper';
 import { Registration } from '@js-camp/core/models/auth/registration';
@@ -10,7 +11,6 @@ import { Login } from '@js-camp/core/models/auth/login';
 import { UserSecret } from '@js-camp/core/models/auth/user-secret';
 
 import { catchHttpErrorResponse } from '../rxjs/catch-http-error-response';
-
 import { ApiUrlsConfig } from './api-urls.config';
 import { UserSecretService } from './user-secret.service';
 

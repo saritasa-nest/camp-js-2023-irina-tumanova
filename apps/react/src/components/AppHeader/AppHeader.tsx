@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { AppBar, Box, Button, Toolbar } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
+
 import { AuthDispatcher } from '@js-camp/react/store/auth/dispatchers';
 import { useAppDispatch } from '@js-camp/react/store';
 import { useUserState } from '@js-camp/react/hooks/useUserState';

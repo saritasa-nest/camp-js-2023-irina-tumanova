@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { QueryParamsOf } from '@js-camp/core/models/query-params-of';
 
 /** Query params service. */

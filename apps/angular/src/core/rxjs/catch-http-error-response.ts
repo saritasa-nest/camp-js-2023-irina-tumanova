@@ -1,6 +1,7 @@
 import { Observable, catchError, throwError } from 'rxjs';
-import { AppErrorDictionaryMapper } from '@js-camp/core/mappers/app-error.mapper';
 import { HttpErrorResponse } from '@angular/common/http';
+
+import { AppErrorDictionaryMapper } from '@js-camp/core/mappers/app-error.mapper';
 import { ValidationMapper } from '@js-camp/core/models/app-error';
 
 /**

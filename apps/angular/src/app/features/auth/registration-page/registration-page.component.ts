@@ -1,10 +1,11 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject, finalize, tap } from 'rxjs';
+
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { RegistrationForm } from '@js-camp/core/models/auth/registration';
 import { FormGroupOf } from '@js-camp/core/models/form-type-of';
-import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, finalize, tap } from 'rxjs';
 import { AppValidators } from '@js-camp/angular/core/utils/validators';
 import { catchFormErrors } from '@js-camp/angular/core/rxjs/catch-form-errors';
 import { QueryParamsService } from '@js-camp/angular/core/services/query-params.service';

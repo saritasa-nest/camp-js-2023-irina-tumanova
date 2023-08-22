@@ -1,20 +1,20 @@
-import styles from './GenrePage.module.css';
 import { memo, useEffect, FC, useRef, useState, useMemo } from 'react';
+import { Button } from '@mui/material';
+import { useForm } from 'react-hook-form';
+
 import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
 import { selectGenres } from '@js-camp/react/store/genre/selectors';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
-
 import { InfinityScroll } from '@js-camp/react/components/InfinityScrollCards';
-
-import { GenreCard } from '../../components/GenreCard';
 import { MultipleFilter } from '@js-camp/react/components/MultipleFilter/MultipleFilter';
 import { GenreType } from '@js-camp/core/models/genre/genre-type';
-import { Button } from '@mui/material';
-import { useForm } from 'react-hook-form';
 import { GenreFilterParams, GenreParams, GenreSortingField } from '@js-camp/core/models/genre/genre-params';
 import { Sorting } from '@js-camp/core/models/sorting';
 import { clearGenres } from '@js-camp/react/store/genre/slice';
+
+import { GenreCard } from '../../components/GenreCard';
+import styles from './GenrePage.module.css';
 
 const defaultParams: GenreParams = {
 	pagination: new PaginationParams({ pageSize: 5, pageNumber: 0 }),
@@ -24,9 +24,14 @@ const defaultParams: GenreParams = {
 
 /** Form values. */
 interface FormValues {
+
 	/** Genre types. */
 	types: GenreType[];
 }
+
+const defaultFormValues: FormValues = {
+	types: [],
+};
 
 /** Genres page component. */
 const GenresPageComponent: FC = () => {
@@ -37,7 +42,7 @@ const GenresPageComponent: FC = () => {
 	const lastItemRef = useRef<HTMLLIElement | null>(null);
 
 	const handleObserve = () => {
-		setParameters((prevState) => ({
+		setParameters(prevState => ({
 			...prevState,
 			pagination: { ...prevState.pagination, pageNumber: prevState.pagination.pageNumber + 1 },
 		}));
@@ -49,12 +54,10 @@ const GenresPageComponent: FC = () => {
 	}, [parameters]);
 
 	const form = useForm<FormValues>({
-		defaultValues: {
-			types: [],
-		},
+		defaultValues: defaultFormValues,
 	});
 
-	const { register, handleSubmit } = form;
+	const { handleSubmit, control } = form;
 
 	const onSubmit = (data: FormValues) => {
 		dispatch(clearGenres());
@@ -70,7 +73,7 @@ const GenresPageComponent: FC = () => {
 	return (
 		<aside className={styles.aside}>
 			<form onSubmit={handleSubmit(onSubmit)}>
-				<MultipleFilter items={items} registerReturn={register('types')} title={'Filter'} />
+				<MultipleFilter name={'types'} control={control} items={items} title={'Filter'} />
 				<Button type="submit">Submit</Button>
 			</form>
 			<InfinityScroll lastItemRef={lastItemRef} handleObserve={handleObserve}>

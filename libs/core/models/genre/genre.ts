@@ -1,5 +1,4 @@
 import { Immerable, OmitImmerable } from '../immerable';
-
 import { GenreType } from './genre-type';
 
 /** Genre. */

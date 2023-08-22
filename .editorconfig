@@ -12,7 +12,6 @@ end_of_line = lf
 [*.ts]
 quote_type = single
 
-
 [*.tsx]
 quote_type = single
 
