@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
+
 import { genresRoutes } from '../features/genres/routes';
 import { authRoutes } from '../features/auth/routes';
 import { AppLayout } from '../components/AppLayout/AppLayout';
@@ -15,9 +16,9 @@ const routes: RouteObject[] = [
 				children: [
 					{
 						path: '/',
-						element: <div>Main</div>
+						element: <div>Main</div>,
 					},
-					...genresRoutes
+					...genresRoutes,
 				],
 			},
 			{

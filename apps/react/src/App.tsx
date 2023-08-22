@@ -1,12 +1,12 @@
 import { FC, Suspense } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from '@mui/material';
 
 import { RootRouter } from './routes/RootRouter';
 import { store } from './store';
 import './theme';
 import { AppShadowLoader } from './components/AppShadowLoader';
-import { ThemeProvider } from '@mui/material';
 import { theme } from './config/muiConfig';
 
 export const App: FC = () => (

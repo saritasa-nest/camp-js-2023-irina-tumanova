@@ -1,1 +1,1 @@
-export { AppAuthHeader } from './AppAuthHeader'
+export { AppAuthHeader } from './AppAuthHeader';

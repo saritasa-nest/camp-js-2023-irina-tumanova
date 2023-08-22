@@ -2,8 +2,10 @@ import { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AppBar, Toolbar, Typography } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
-import styles from './AppNoAuthHeader.module.css';
+
 import { typedMemo } from '@js-camp/react/utils/typedMemo';
+
+import styles from './AppNoAuthHeader.module.css';
 
 /** App no auth header component. */
 const AppNoAuthHeaderComponent: FC = () => (
@@ -15,6 +17,6 @@ const AppNoAuthHeaderComponent: FC = () => (
 			</NavLink>
 		</Toolbar>
 	</AppBar>
-)
+);
 
 export const AppNoAuthHeader = typedMemo(AppNoAuthHeaderComponent);

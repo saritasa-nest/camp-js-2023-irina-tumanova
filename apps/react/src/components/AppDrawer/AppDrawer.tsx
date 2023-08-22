@@ -11,12 +11,14 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
 import { blue } from '@mui/material/colors';
 import { Box, Button } from '@mui/material';
+
 import { useAppDispatch } from '@js-camp/react/store';
 import { AuthDispatcher } from '@js-camp/react/store/auth/dispatchers';
-import styles from './AppDrawer.module.css';
-import { navigationList } from './AppDrawer.settings';
 import { typedMemo } from '@js-camp/react/utils/typedMemo';
 import { useUserState } from '@js-camp/react/hooks/useUserState';
+
+import styles from './AppDrawer.module.css';
+import { navigationList } from './AppDrawer.settings';
 
 type Props = Readonly<{
 
@@ -27,7 +29,10 @@ type Props = Readonly<{
 	close: () => void;
 }>;
 
-/** App drawer component. */
+/**
+ * App drawer component.
+ * @param props Component props.
+ */
 const AppDrawerComponent: FC<Props> = props => {
 	const { user } = useUserState();
 	const dispatch = useAppDispatch();
@@ -43,13 +48,22 @@ const AppDrawerComponent: FC<Props> = props => {
 	return (
 		<Drawer open={props.isOpen} onClose={props.close}>
 			<Box className={styles['drawer__user-section']} sx={{ backgroundColor: blue[700] }}>
-				<Box className={styles['drawer__user']}>
+				<Box className={styles.drawer__user}>
 					<Avatar alt={`${user.firstName} avatar`} src={user.avatarUrl} />
-					<Typography variant="body1" className={styles['drawer__user-name']}>{user.firstName} {user.lastName}</Typography>
+					<Typography variant="body1" className={styles['drawer__user-name']}>
+						{user.firstName} {user.lastName}
+					</Typography>
 				</Box>
 				<Box className={styles['drawer__user-actions']}>
-					<Button startIcon={<PersonIcon />} className={styles['drawer__user-action']} color="white">Profile</Button>
-					<Button startIcon={<LogoutIcon />} onClick={handleLogout} className={styles['drawer__user-action']} color="white">Log out</Button>
+					<Button startIcon={<PersonIcon />} className={styles['drawer__user-action']} color="white">
+						Profile
+					</Button>
+					<Button startIcon={<LogoutIcon />}
+						onClick={handleLogout}
+						className={styles['drawer__user-action']}
+						color="white">
+						Log out
+					</Button>
 				</Box>
 			</Box>
 

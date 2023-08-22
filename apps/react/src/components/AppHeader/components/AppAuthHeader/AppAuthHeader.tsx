@@ -2,18 +2,23 @@ import { FC, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AppBar, Avatar, Button, Toolbar, Typography } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+
 import { User } from '@js-camp/core/models/user/user';
 import { AppDrawer } from '@js-camp/react/components/AppDrawer';
 import { typedMemo } from '@js-camp/react/utils/typedMemo';
+
 import styles from './AppAuthHeader.module.css';
 
 type Props = Readonly<{
 
 	/** Current user. */
 	user: User;
-}>
+}>;
 
-/** App auth header component. */
+/**
+ * App auth header component.
+ * @param props Component props.
+ */
 const AppAuthHeaderComponent: FC<Props> = props => {
 
 	/** Drawer is open. */
@@ -25,12 +30,9 @@ const AppAuthHeaderComponent: FC<Props> = props => {
 
 	const goToMainPage = (): void => {
 		navigate('/');
-	}
+	};
 
-	const checkIsNotMainPage = (): boolean => {
-		console.log(23)
-		return location.pathname !== '/';
-	}
+	const checkIsNotMainPage = (): boolean => location.pathname !== '/';
 
 	return (
 		<AppBar>
@@ -40,7 +42,7 @@ const AppAuthHeaderComponent: FC<Props> = props => {
 					<Typography variant="body1">Hi, {props.user.firstName}</Typography>
 				</div>
 
-				{checkIsNotMainPage() && 
+				{checkIsNotMainPage() &&
 					<Button color="white" onClick={goToMainPage} startIcon={<ArrowBackIosIcon />}>
 						Main page
 					</Button>}
@@ -48,7 +50,7 @@ const AppAuthHeaderComponent: FC<Props> = props => {
 				<AppDrawer isOpen={isDrawerOpen} close={() => setIsDrawerOpen(false)} />
 			</Toolbar>
 		</AppBar>
-	)
-}
+	);
+};
 
 export const AppAuthHeader = typedMemo(AppAuthHeaderComponent);
