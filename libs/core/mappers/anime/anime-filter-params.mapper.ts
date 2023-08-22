@@ -1,6 +1,5 @@
 import { AnimeFilterParamsDto, AnimeSortingFieldDto } from '../../dtos/anime/anime-filter-params.dto';
 import { AnimeFilterParams, AnimeSortingField } from '../../models/anime/anime-params';
-
 import { AnimeFormDataMapper } from './anime-form-data.mapper';
 
 export namespace AnimeFilterParamsMapper {

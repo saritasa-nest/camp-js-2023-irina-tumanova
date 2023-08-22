@@ -4,5 +4,5 @@
 	--space-s: calc(var(--space-m) / 2);
 
 	/* Colors */
-	--on-surface: hsl(0deg 0 0 / 16%);
+	--on-surface: hsl(0deg 0% 0% / 16%);
 }

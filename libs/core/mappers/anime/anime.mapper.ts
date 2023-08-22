@@ -1,7 +1,6 @@
 import { AnimeDto, AnimeStatusDto, AnimeTypeDto } from '../../dtos/anime/anime.dto';
 import { Anime, AnimeType } from '../../models/anime/anime';
 import { AnimeStatus } from '../../models/anime/anime-status';
-
 import { DateRangeMapper } from '../date-range.mapper';
 
 export namespace AnimeMapper {

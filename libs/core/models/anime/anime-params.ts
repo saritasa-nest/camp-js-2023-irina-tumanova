@@ -1,7 +1,6 @@
 import { ListParams } from '../list-params';
 import { PaginationParams } from '../pagination-params';
 import { Sorting } from '../sorting';
-
 import { AnimeType } from './anime';
 
 /** Filters parameters for getting anime. */

@@ -1,5 +1,4 @@
 import { DateRange } from '../date-range';
-
 import { AnimeStatus } from './anime-status';
 
 /** Anime. */

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { noAuthGuard } from '@js-camp/angular/core/guards/no-auth.guard';
 
 import { LoginPageComponent } from './login-page/login-page.component';

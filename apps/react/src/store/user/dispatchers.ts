@@ -1,4 +1,5 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
+
 import { UserService } from '@js-camp/react/api/services/user';
 
 export namespace UserDispatcher {

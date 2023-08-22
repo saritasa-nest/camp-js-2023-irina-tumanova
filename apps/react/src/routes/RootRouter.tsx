@@ -1,11 +1,8 @@
 import { FC } from 'react';
 import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
-
 import { genresRoutes } from '../features/genres/routes';
 import { authRoutes } from '../features/auth/routes';
-
 import { AppLayout } from '../components/AppLayout/AppLayout';
-
 import { AuthGuard, NoAuthGuard } from './guards';
 
 const routes: RouteObject[] = [

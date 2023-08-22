@@ -1,6 +1,7 @@
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatFormFieldControl } from '@angular/material/form-field';
+
 import { BaseMatFormField } from '@js-camp/angular/shared/components/base-mat-form-field/base-mat-form-field.component';
 
 /** Password field component. */

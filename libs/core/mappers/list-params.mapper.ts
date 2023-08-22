@@ -1,7 +1,6 @@
 import { ListParamsDto } from '../dtos/list-params.dto';
 import { SortDirectionDto } from '../dtos/sort-direction.dto';
 import { ListParams } from '../models/list-params';
-
 import { PaginationParamsMapper } from './pagination-params.mapper';
 
 export namespace ListParamsMapper {

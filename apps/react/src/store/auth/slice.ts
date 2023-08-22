@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+
 import { AppValidationError } from '@js-camp/core/models/app-error';
 
 import { AuthDispatcher } from './dispatchers';
