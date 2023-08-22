@@ -6,7 +6,11 @@ import { initialState } from './state';
 export const animeSlice = createSlice({
 	name: 'anime',
 	initialState,
-	reducers: {},
+	reducers: {
+		clearAnimeList(state) {
+			state.anime = [];
+		},
+	},
 	extraReducers: builder => builder
 		.addCase(fetchAnime.pending, state => {
 			state.isLoading = true;
@@ -22,3 +26,5 @@ export const animeSlice = createSlice({
 			state.isLoading = false;
 		}),
 });
+
+export const { clearAnimeList } = animeSlice.actions;

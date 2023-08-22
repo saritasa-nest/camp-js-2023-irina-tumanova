@@ -1,6 +1,6 @@
 import { DateRange } from '../date-range';
 
-import { AnimeType } from './anime';
+import { AnimeType } from './anime-type';
 import { AnimeRating } from './anime-details';
 import { AnimeSeason } from './anime-season';
 import { AnimeSource } from './anime-source';
