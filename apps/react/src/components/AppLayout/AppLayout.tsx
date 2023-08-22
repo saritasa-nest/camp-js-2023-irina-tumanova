@@ -1,7 +1,8 @@
-import { FC, memo } from 'react';
+import { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 import { AppHeader } from '../AppHeader';
 import styles from './AppLayout.module.css';
+import { typedMemo } from '@js-camp/react/utils/typedMemo';
 
 const AppLayoutComponent: FC = () => (
 	<>
@@ -13,4 +14,4 @@ const AppLayoutComponent: FC = () => (
 	</>
 );
 
-export const AppLayout = memo(AppLayoutComponent);
+export const AppLayout = typedMemo(AppLayoutComponent);

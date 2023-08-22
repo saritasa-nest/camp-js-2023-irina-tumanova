@@ -1,7 +1,8 @@
-import { FC, memo } from 'react';
+import { FC } from 'react';
 import { useUserState } from '@js-camp/react/hooks/useUserState';
 import { AppNoAuthHeader } from './components/AppNoAuthHeader';
 import { AppAuthHeader } from './components/AppAuthHeader';
+import { typedMemo } from '@js-camp/react/utils/typedMemo';
 
 /** App header component. */
 const AppHeaderComponent: FC = () => {
@@ -13,4 +14,4 @@ const AppHeaderComponent: FC = () => {
 	return <AppAuthHeader user={user} />;
 };
 
-export const AppHeader = memo(AppHeaderComponent);
+export const AppHeader = typedMemo(AppHeaderComponent);

@@ -1,10 +1,11 @@
-import { FC, memo, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { AppBar, Avatar, Button, Toolbar, Typography } from "@mui/material";
+import { FC, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { AppBar, Avatar, Button, Toolbar, Typography } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import styles from "./AppAuthHeader.module.css";
-import { User } from "@js-camp/core/models/user/user";
-import { AppDrawer } from "@js-camp/react/components/AppDrawer";
+import { User } from '@js-camp/core/models/user/user';
+import { AppDrawer } from '@js-camp/react/components/AppDrawer';
+import { typedMemo } from '@js-camp/react/utils/typedMemo';
+import styles from './AppAuthHeader.module.css';
 
 type Props = Readonly<{
 
@@ -27,6 +28,7 @@ const AppAuthHeaderComponent: FC<Props> = props => {
 	}
 
 	const checkIsNotMainPage = (): boolean => {
+		console.log(23)
 		return location.pathname !== '/';
 	}
 
@@ -49,4 +51,4 @@ const AppAuthHeaderComponent: FC<Props> = props => {
 	)
 }
 
-export const AppAuthHeader = memo(AppAuthHeaderComponent);
+export const AppAuthHeader = typedMemo(AppAuthHeaderComponent);

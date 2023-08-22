@@ -1,5 +1,4 @@
-import { useUserState } from '@js-camp/react/hooks/useUserState';
-import { FC, memo } from 'react';
+import { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import Drawer from '@mui/material/Drawer';
 import Avatar from '@mui/material/Avatar';
@@ -11,17 +10,24 @@ import ListItemText from '@mui/material/ListItemText';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
 import { blue } from '@mui/material/colors';
+import { Box, Button } from '@mui/material';
 import { useAppDispatch } from '@js-camp/react/store';
 import { AuthDispatcher } from '@js-camp/react/store/auth/dispatchers';
-import { Box, Button } from '@mui/material';
 import styles from './AppDrawer.module.css';
 import { navigationList } from './AppDrawer.settings';
+import { typedMemo } from '@js-camp/react/utils/typedMemo';
+import { useUserState } from '@js-camp/react/hooks/useUserState';
 
 type Props = Readonly<{
+
+	/** Drawer is open. */
 	isOpen: boolean;
+
+	/** Close drawer. */
 	close: () => void;
 }>;
 
+/** App drawer component. */
 const AppDrawerComponent: FC<Props> = props => {
 	const { user } = useUserState();
 	const dispatch = useAppDispatch();
@@ -62,4 +68,4 @@ const AppDrawerComponent: FC<Props> = props => {
 	);
 };
 
-export const AppDrawer = memo(AppDrawerComponent);
+export const AppDrawer = typedMemo(AppDrawerComponent);

@@ -72,7 +72,7 @@
             "message": "Missing readonly type modifier for array."
           },
           {
-            "selector": "TSTypeReference[typeName.name='FC'] TSTypeReference[typeName.name!=/Props$/]",
+            "selector": "TSTypeReference[typeName.name=\"FC\"] TSTypeReference[typeName.name!=/Props$/]",
             "message": "Prefer name with `Props` ending for the component's props interface"
           }
         ]
