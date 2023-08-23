@@ -6,6 +6,7 @@ import { genresRoutes } from '../features/genres/routes';
 import { authRoutes } from '../features/auth/routes';
 import { AppLayout } from '../components/AppLayout/AppLayout';
 import { AuthGuard, NoAuthGuard } from './guards';
+import { studiosRoutes } from '../features/studios/routes';
 
 const routes: RouteObject[] = [
 	{
@@ -21,6 +22,7 @@ const routes: RouteObject[] = [
 					},
 					...genresRoutes,
 					...animeRoutes,
+					...studiosRoutes,
 				],
 			},
 			{

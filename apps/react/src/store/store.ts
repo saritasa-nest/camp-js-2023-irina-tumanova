@@ -6,6 +6,7 @@ import { authSlice } from './auth/slice';
 import { userSlice } from './user/slice';
 import { genreDetailsSlice } from './genre-details/slice';
 import { animeSlice } from './anime/slice';
+import { studiosSlice } from './studio/slice';
 
 export const store = configureStore({
 	reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
 		auth: authSlice.reducer,
 		user: userSlice.reducer,
 		anime: animeSlice.reducer,
+		studios: studiosSlice.reducer,
 	},
 	middleware: getDefaultMiddleware =>
 		getDefaultMiddleware({

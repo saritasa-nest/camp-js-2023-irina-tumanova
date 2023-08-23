@@ -1,0 +1,1 @@
+export { StudiosPage } from './StudiosPage';
