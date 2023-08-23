@@ -11,16 +11,23 @@ import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { InfinityScroll } from '@js-camp/react/components/InfinityScrollCards';
 import { MultipleFilter } from '@js-camp/react/components/MultipleFilter/MultipleFilter';
 import { GenreType } from '@js-camp/core/models/genre/genre-type';
-import { GenreFilterParams, GenreParams, GenreSortingField } from '@js-camp/core/models/genre/genre-params';
+import { GenreFilterParams, GenreParams } from '@js-camp/core/models/genre/genre-params';
 import { Sorting } from '@js-camp/core/models/sorting';
 import { clearGenres } from '@js-camp/react/store/genre/slice';
+import { GenreSortingField } from '@js-camp/core/models/genre/genre-sort';
+import { MultipleSort } from '@js-camp/react/components/MultipleSort/MultipleSort';
 
 import { GenreCard } from '../../components/GenreCard';
 import styles from './GenrePage.module.css';
 
+const genreSoringFields: Sorting<GenreSortingField>[] = [
+	{ field: GenreSortingField.Name, direction: '' },
+	{ field: GenreSortingField.Type, direction: '' },
+];
+
 const defaultParams: GenreParams = {
 	pagination: new PaginationParams({ pageSize: 15, pageNumber: 0 }),
-	sorting: new Sorting({ field: GenreSortingField.None, direction: 'asc' }),
+	sorting: genreSoringFields,
 	filters: new GenreFilterParams({ types: [], search: '' }),
 };
 
@@ -32,11 +39,15 @@ interface FormValues {
 
 	/** Search. */
 	search: string;
+
+	/** Genre sorting fields. */
+	sorting: Sorting<GenreSortingField>[];
 }
 
 const defaultFormValues: FormValues = {
 	types: [],
 	search: '',
+	sorting: genreSoringFields,
 };
 
 /** Genres page component. */
@@ -71,10 +82,11 @@ const GenresPageComponent: FC = () => {
 		setIsOpenMenu(prevState => !prevState);
 	};
 
-	const onSubmit: SubmitHandler<FormValues> = ({ types, search }) => {
+	const onSubmit: SubmitHandler<FormValues> = ({ types, search, sorting }) => {
 		dispatch(clearGenres());
 		setParameters({
 			...defaultParams,
+			sorting,
 			filters: new GenreFilterParams({ types, search }),
 		});
 		toggleMenu();
@@ -91,6 +103,12 @@ const GenresPageComponent: FC = () => {
 						control={control}
 						items={items}
 						title={'Filter'}
+					/>
+					<MultipleSort
+						name={'sorting'}
+						control={control}
+						title={'Sorting'}
+						toReadable={GenreSortingField.toReadable}
 					/>
 					<Button type="submit">Apply</Button>
 				</form>

@@ -1,6 +1,7 @@
 import { ListParams } from '../list-params';
 import { PaginationParams } from '../pagination-params';
 import { Sorting } from '../sorting';
+import { GenreSortingField } from './genre-sort';
 import { GenreType } from './genre-type';
 
 /** Filters parameters for getting anime. */
@@ -18,13 +19,6 @@ export class GenreFilterParams {
 }
 
 type InitGenreFilterParams = GenreFilterParams;
-
-/** Field to sort by. */
-export enum GenreSortingField {
-	Name = 'name',
-	Type = 'type',
-	None = '',
-}
 
 /** Request params for getting anime. */
 export type GenreParams = ListParams<GenreFilterParams, GenreSortingField>;

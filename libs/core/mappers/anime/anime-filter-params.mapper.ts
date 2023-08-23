@@ -1,6 +1,7 @@
 import { AnimeFilterParamsDto, AnimeSortingFieldDto } from '../../dtos/anime/anime-filter-params.dto';
-import { AnimeFilterParams, AnimeSortingField } from '../../models/anime/anime-params';
+import { AnimeFilterParams } from '../../models/anime/anime-params';
 import { AnimeFormDataMapper } from './anime-form-data.mapper';
+import { AnimeSortingField } from '../../models/anime/anime-sort';
 
 export namespace AnimeFilterParamsMapper {
 
@@ -16,10 +17,7 @@ export namespace AnimeFilterParamsMapper {
 	}
 
 	export const ANIME_SORT_FIELD_TO_DTO = {
-		[AnimeSortingField.AiredStart]: AnimeSortingFieldDto.AiredStart,
-		[AnimeSortingField.None]: AnimeSortingFieldDto.None,
 		[AnimeSortingField.Status]: AnimeSortingFieldDto.Status,
 		[AnimeSortingField.TitleEnglish]: AnimeSortingFieldDto.TitleEnglish,
-		[AnimeSortingField.TitleJapanese]: AnimeSortingFieldDto.TitleJapanese,
 	};
 }

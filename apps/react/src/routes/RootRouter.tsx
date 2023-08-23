@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
 
+import { animeRoutes } from '../features/anime/routes';
 import { genresRoutes } from '../features/genres/routes';
 import { authRoutes } from '../features/auth/routes';
 import { AppLayout } from '../components/AppLayout/AppLayout';
@@ -19,6 +20,7 @@ const routes: RouteObject[] = [
 						element: <div>Main</div>,
 					},
 					...genresRoutes,
+					...animeRoutes,
 				],
 			},
 			{

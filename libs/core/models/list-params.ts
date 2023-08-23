@@ -3,12 +3,11 @@ import { Sorting } from './sorting';
 
 /** Params for query with list. */
 export class ListParams<TFilters, TSortingField> {
-
 	/** Pagination. */
 	public readonly pagination: PaginationParams;
 
 	/** Sorting: sort field and direction. */
-	public readonly sorting: Sorting<TSortingField>;
+	public readonly sorting: Sorting<TSortingField>[];
 
 	/** List filters. */
 	public readonly filters: TFilters;
@@ -23,4 +22,4 @@ export class ListParams<TFilters, TSortingField> {
 type InitListParams<TFilters, TSortField> = ListParams<TFilters, TSortField>;
 
 /** DefaultListParams. */
-export class DefaultListParams<TSortingField> extends ListParams<{search: string;}, TSortingField> {}
+export class DefaultListParams<TSortingField> extends ListParams<{ search: string; }, TSortingField> {}
