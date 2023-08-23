@@ -10,7 +10,6 @@ import { typedMemo } from '@js-camp/react/utils/typedMemo';
 import styles from './AppAuthHeader.module.css';
 
 type Props = Readonly<{
-
 	/** Current user. */
 	user: User;
 }>;
@@ -19,8 +18,7 @@ type Props = Readonly<{
  * App auth header component.
  * @param props Component props.
  */
-const AppAuthHeaderComponent: FC<Props> = props => {
-
+const AppAuthHeaderComponent: FC<Props> = (props) => {
 	/** Drawer is open. */
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -42,10 +40,11 @@ const AppAuthHeaderComponent: FC<Props> = props => {
 					<Typography variant="body1">Hi, {props.user.firstName}</Typography>
 				</div>
 
-				{checkIsNotMainPage() &&
+				{checkIsNotMainPage() && (
 					<Button color="white" onClick={goToMainPage} startIcon={<ArrowBackIosIcon />}>
 						Main page
-					</Button>}
+					</Button>
+				)}
 
 				<AppDrawer isOpen={isDrawerOpen} close={() => setIsDrawerOpen(false)} />
 			</Toolbar>

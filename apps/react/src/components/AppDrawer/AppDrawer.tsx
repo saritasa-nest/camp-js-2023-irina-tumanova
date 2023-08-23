@@ -21,7 +21,6 @@ import styles from './AppDrawer.module.css';
 import { navigationList } from './AppDrawer.settings';
 
 type Props = Readonly<{
-
 	/** Drawer is open. */
 	isOpen: boolean;
 
@@ -33,7 +32,7 @@ type Props = Readonly<{
  * App drawer component.
  * @param props Component props.
  */
-const AppDrawerComponent: FC<Props> = props => {
+const AppDrawerComponent: FC<Props> = (props) => {
 	const { user } = useUserState();
 	const dispatch = useAppDispatch();
 
@@ -58,10 +57,12 @@ const AppDrawerComponent: FC<Props> = props => {
 					<Button startIcon={<PersonIcon />} className={styles['drawer__user-action']} color="white">
 						Profile
 					</Button>
-					<Button startIcon={<LogoutIcon />}
+					<Button
+						startIcon={<LogoutIcon />}
 						onClick={handleLogout}
 						className={styles['drawer__user-action']}
-						color="white">
+						color="white"
+					>
 						Log out
 					</Button>
 				</Box>
@@ -69,7 +70,7 @@ const AppDrawerComponent: FC<Props> = props => {
 
 			<Box className={styles.drawer__navigation}>
 				<List>
-					{navigationList.map(navigationItem => (
+					{navigationList.map((navigationItem) => (
 						<ListItem key={navigationItem.name} disablePadding>
 							<ListItemButton component={NavLink} to={navigationItem.link}>
 								<ListItemText primary={navigationItem.name} />

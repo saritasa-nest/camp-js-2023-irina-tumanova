@@ -12,7 +12,6 @@ import { UserSecretService } from '../api/services/userSecret';
 import { UserDispatcher } from '../store/user/dispatchers';
 
 interface UserState {
-
 	/** Current user. */
 	readonly user: User | null;
 

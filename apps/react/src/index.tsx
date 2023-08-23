@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 
 import { App } from './App';
 
-import '@js-camp/theme/src/index.css';
+import './theme';
 
 const rootElement: HTMLElement | null = document.getElementById('root');
 if (rootElement === null) {
@@ -13,5 +13,5 @@ if (rootElement === null) {
 ReactDOM.createRoot(rootElement).render(
 	<StrictMode>
 		<App />
-	</StrictMode>,
+	</StrictMode>
 );

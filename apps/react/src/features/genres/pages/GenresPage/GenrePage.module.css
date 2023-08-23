@@ -1,5 +1,13 @@
 .aside {
-	height: 300px;
-	width: 100%;
-	max-width: 360px;
+	margin-top: 70px;
+	height: 100%;
+	width: 360px;
+	background-color: var(--background-color);
+}
+
+.form {
+	padding: var(--space-s);
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-s);
 }

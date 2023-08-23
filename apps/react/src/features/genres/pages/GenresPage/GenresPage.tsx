@@ -1,5 +1,6 @@
 import { memo, useEffect, FC, useRef, useState, useMemo } from 'react';
-import { Button, TextField } from '@mui/material';
+import { Box, Button, Drawer, IconButton, TextField } from '@mui/material';
+import { Menu } from '@mui/icons-material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
@@ -24,7 +25,6 @@ const defaultParams: GenreParams = {
 
 /** Form values. */
 interface FormValues {
-
 	/** Genre types. */
 	types: GenreType[];
 
@@ -41,21 +41,23 @@ const defaultFormValues: FormValues = {
 const GenresPageComponent: FC = () => {
 	const dispatch = useAppDispatch();
 	const genres = useAppSelector(selectGenres);
+	const items = useMemo(() => GenreType.toArray(), [GenreType]);
+
+	const [isOpenMenu, setIsOpenMenu] = useState(false);
 	const [parameters, setParameters] = useState<GenreParams>(defaultParams);
 
 	const lastItemRef = useRef<HTMLLIElement | null>(null);
 
+	useEffect(() => {
+		dispatch(fetchGenres(parameters));
+	}, [parameters]);
+
 	const handleObserve = () => {
-		setParameters(prevState => ({
+		setParameters((prevState) => ({
 			...prevState,
 			pagination: { ...prevState.pagination, pageNumber: prevState.pagination.pageNumber + 1 },
 		}));
 	};
-
-	/** Duplication is result of react strict mode. */
-	useEffect(() => {
-		dispatch(fetchGenres(parameters));
-	}, [parameters]);
 
 	const form = useForm<FormValues>({
 		defaultValues: defaultFormValues,
@@ -63,36 +65,47 @@ const GenresPageComponent: FC = () => {
 
 	const { register, handleSubmit, control } = form;
 
+	const toggleMenu = () => {
+		setIsOpenMenu((prevState) => !prevState);
+	};
+
 	const onSubmit: SubmitHandler<FormValues> = ({ types, search }) => {
 		dispatch(clearGenres());
 		setParameters({
 			...defaultParams,
 			filters: new GenreFilterParams({ types, search }),
 		});
+		toggleMenu();
 	};
 
-	/** Getting genre type array. */
-	const items = useMemo(() => GenreType.toArray(), [GenreType]);
-
 	return (
-		<aside className={styles.aside}>
-			<form onSubmit={handleSubmit(onSubmit)}>
-				<MultipleFilter
-					name={'types'}
-					toReadable={GenreType.toReadable}
-					control={control}
-					items={items}
-					title={'Filter'}
-				/>
-				<TextField label="Search" {...register('search')} />
-				<Button type="submit">Submit</Button>
-			</form>
-			<InfinityScroll lastItemRef={lastItemRef} handleObserve={handleObserve}>
-				{genres.map((genre, index) => (
-					<GenreCard ref={index === genres.length - 1 ? lastItemRef : null} key={genre.id} genre={genre} />
-				))}
-			</InfinityScroll>
-		</aside>
+		<>
+			<Drawer open={isOpenMenu} onClose={toggleMenu}>
+				<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+					<TextField label="Search" {...register('search')} />
+					<MultipleFilter
+						name={'types'}
+						toReadable={GenreType.toReadable}
+						control={control}
+						items={items}
+						title={'Filter'}
+					/>
+					<Button type="submit">Apply</Button>
+				</form>
+			</Drawer>
+			<Box sx={{ display: 'flex', height: '100%', maxHeight: '100%' }}>
+				<aside className={styles.aside}>
+					<IconButton onClick={toggleMenu}>
+						<Menu />
+					</IconButton>
+					<InfinityScroll lastItemRef={lastItemRef} handleObserve={handleObserve}>
+						{genres.map((genre, index) => (
+							<GenreCard ref={index === genres.length - 1 ? lastItemRef : null} key={genre.id} genre={genre} />
+						))}
+					</InfinityScroll>
+				</aside>
+			</Box>
+		</>
 	);
 };
 

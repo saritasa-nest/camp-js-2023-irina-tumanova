@@ -31,7 +31,6 @@ const routes: RouteObject[] = [
 			},
 		],
 	},
-
 ];
 
 /** Root router component. */
