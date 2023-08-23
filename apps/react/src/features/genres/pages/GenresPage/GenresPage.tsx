@@ -2,6 +2,7 @@ import { memo, useEffect, FC, useRef, useState, useMemo } from 'react';
 import { Box, Button, Drawer, IconButton, TextField } from '@mui/material';
 import { Menu } from '@mui/icons-material';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { Outlet } from 'react-router-dom';
 
 import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
 import { selectGenres } from '@js-camp/react/store/genre/selectors';
@@ -18,13 +19,14 @@ import { GenreCard } from '../../components/GenreCard';
 import styles from './GenrePage.module.css';
 
 const defaultParams: GenreParams = {
-	pagination: new PaginationParams({ pageSize: 5, pageNumber: 0 }),
+	pagination: new PaginationParams({ pageSize: 15, pageNumber: 0 }),
 	sorting: new Sorting({ field: GenreSortingField.None, direction: 'asc' }),
 	filters: new GenreFilterParams({ types: [], search: '' }),
 };
 
 /** Form values. */
 interface FormValues {
+
 	/** Genre types. */
 	types: GenreType[];
 
@@ -53,7 +55,7 @@ const GenresPageComponent: FC = () => {
 	}, [parameters]);
 
 	const handleObserve = () => {
-		setParameters((prevState) => ({
+		setParameters(prevState => ({
 			...prevState,
 			pagination: { ...prevState.pagination, pageNumber: prevState.pagination.pageNumber + 1 },
 		}));
@@ -66,7 +68,7 @@ const GenresPageComponent: FC = () => {
 	const { register, handleSubmit, control } = form;
 
 	const toggleMenu = () => {
-		setIsOpenMenu((prevState) => !prevState);
+		setIsOpenMenu(prevState => !prevState);
 	};
 
 	const onSubmit: SubmitHandler<FormValues> = ({ types, search }) => {
@@ -79,7 +81,7 @@ const GenresPageComponent: FC = () => {
 	};
 
 	return (
-		<>
+		<Box sx={{ flex: 1, display: 'flex' }}>
 			<Drawer open={isOpenMenu} onClose={toggleMenu}>
 				<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
 					<TextField label="Search" {...register('search')} />
@@ -93,19 +95,18 @@ const GenresPageComponent: FC = () => {
 					<Button type="submit">Apply</Button>
 				</form>
 			</Drawer>
-			<Box sx={{ display: 'flex', height: '100%', maxHeight: '100%' }}>
-				<aside className={styles.aside}>
-					<IconButton onClick={toggleMenu}>
-						<Menu />
-					</IconButton>
-					<InfinityScroll lastItemRef={lastItemRef} handleObserve={handleObserve}>
-						{genres.map((genre, index) => (
-							<GenreCard ref={index === genres.length - 1 ? lastItemRef : null} key={genre.id} genre={genre} />
-						))}
-					</InfinityScroll>
-				</aside>
-			</Box>
-		</>
+			<aside className={styles.aside}>
+				<IconButton onClick={toggleMenu}>
+					<Menu />
+				</IconButton>
+				<InfinityScroll lastItemRef={lastItemRef} handleObserve={handleObserve}>
+					{genres.map((genre, index) => (
+						<GenreCard ref={index === genres.length - 1 ? lastItemRef : null} key={genre.id} genre={genre} />
+					))}
+				</InfinityScroll>
+			</aside>
+			<Outlet />
+		</Box>
 	);
 };
 

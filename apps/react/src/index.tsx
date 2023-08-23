@@ -13,5 +13,5 @@ if (rootElement === null) {
 ReactDOM.createRoot(rootElement).render(
 	<StrictMode>
 		<App />
-	</StrictMode>
+	</StrictMode>,
 );

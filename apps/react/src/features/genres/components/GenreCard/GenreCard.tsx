@@ -5,6 +5,7 @@ import { Genre } from '@js-camp/core/models/genre/genre';
 import { GenreType } from '@js-camp/core/models/genre/genre-type';
 
 interface Props {
+
 	/** Genre. */
 	readonly genre: Genre;
 }

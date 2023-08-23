@@ -1,10 +1,11 @@
 import { memo, FC, ReactNode, useRef, MutableRefObject } from 'react';
-import { List } from '@mui/material';
+import { Box, List } from '@mui/material';
 
 import { useIntersectionObserver } from '@js-camp/react/hooks/useIntersactionObserver';
 
 /** Props. */
 interface InfinityScrollProps {
+
 	/** Ref to last item in array. */
 	readonly lastItemRef: MutableRefObject<HTMLLIElement | null>;
 
@@ -21,9 +22,11 @@ const InfinityScrollComponent: FC<InfinityScrollProps> = ({ lastItemRef, handleO
 	useIntersectionObserver(rootRef, lastItemRef, handleObserve);
 
 	return (
-		<List ref={rootRef} sx={{ maxHeight: '100%', overflowY: 'auto' }}>
-			{children}
-		</List>
+		<Box sx={{ position: 'relative', flex: 1, display: 'flex', width: '100%' }}>
+			<List ref={rootRef} sx={{ overflowY: 'auto', position: 'absolute', inset: 0 }}>
+				{children}
+			</List>
+		</Box>
 	);
 };
 
