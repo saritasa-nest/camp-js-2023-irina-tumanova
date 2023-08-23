@@ -4,7 +4,7 @@ import { AnimeDetailsDto, AnimeRatingDto, AnimeSeasonDto, AnimeSourceDto } from 
 import { AnimeDetails, AnimeRating } from '../../models/anime/anime-details';
 import { AnimeMapper } from './anime.mapper';
 import { GenreMapper } from '../genre/genre.mapper';
-import { StudioMapper } from './studio.mapper';
+import { StudioMapper } from '../studio/studio.mapper';
 
 export namespace AnimeDetailsMapper {
 

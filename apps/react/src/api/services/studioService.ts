@@ -1,7 +1,7 @@
-import { Studio } from '@js-camp/core/models/anime/studio';
+import { Studio } from '@js-camp/core/models/studio/studio';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
-import { StudioDto } from '@js-camp/core/dtos/anime/studio.dto';
-import { StudioMapper } from '@js-camp/core/mappers/anime/studio.mapper';
+import { StudioDto } from '@js-camp/core/dtos/studio/studio.dto';
+import { StudioMapper } from '@js-camp/core/mappers/studio/studio.mapper';
 
 import { http } from '..';
 

@@ -1,4 +1,4 @@
-import { Studio } from '@js-camp/core/models/anime/studio';
+import { Studio } from '@js-camp/core/models/studio/studio';
 
 /** Studios state. */
 export interface StudiosState {

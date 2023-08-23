@@ -4,7 +4,7 @@ import VideocamIcon from '@mui/icons-material/Videocam';
 import { Box } from '@mui/system';
 import { useNavigate } from 'react-router';
 
-import { Studio } from '@js-camp/core/models/anime/studio';
+import { Studio } from '@js-camp/core/models/studio/studio';
 
 interface Props {
 

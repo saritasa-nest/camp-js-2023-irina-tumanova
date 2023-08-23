@@ -5,9 +5,9 @@ import { Observable, map } from 'rxjs';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
-import { Studio } from '@js-camp/core/models/anime/studio';
-import { StudioDto } from '@js-camp/core/dtos/anime/studio.dto';
-import { StudioMapper } from '@js-camp/core/mappers/anime/studio.mapper';
+import { Studio } from '@js-camp/core/models/studio/studio';
+import { StudioDto } from '@js-camp/core/dtos/studio/studio.dto';
+import { StudioMapper } from '@js-camp/core/mappers/studio/studio.mapper';
 import { ListParamsMapper } from '@js-camp/core/mappers/list-params.mapper';
 import { DefaultListParams } from '@js-camp/core/models/list-params';
 
@@ -18,7 +18,6 @@ import { ApiUrlsConfig } from './api-urls.config';
 	providedIn: 'root',
 })
 export class StudioService {
-
 	private readonly http = inject(HttpClient);
 
 	private readonly apiUrlsConfig = inject(ApiUrlsConfig);

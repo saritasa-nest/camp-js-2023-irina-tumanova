@@ -1,5 +1,5 @@
 import { Anime } from '@js-camp/core/models/anime/anime';
-import { Studio } from '@js-camp/core/models/anime/studio';
+import { Studio } from '@js-camp/core/models/studio/studio';
 import { Genre } from '@js-camp/core/models/genre/genre';
 
 const AUTH_URL_PATH = 'auth';
