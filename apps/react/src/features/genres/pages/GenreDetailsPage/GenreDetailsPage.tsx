@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Divider, List, ListItem, Typography } from '@mui/material';
 import { FC, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -11,6 +11,8 @@ import {
 	selectGenreDetailsErrors,
 } from '@js-camp/react/store/genre-details/selectors';
 import { typedMemo } from '@js-camp/react/utils/typedMemo';
+
+import styles from './GenreDetailsPage.module.css';
 
 /** Genre details page component. */
 const GenreDetailsPageComponent: FC = () => {
@@ -34,7 +36,27 @@ const GenreDetailsPageComponent: FC = () => {
 		return <AppShadowLoader />;
 	}
 
-	return genre && <Box>{genre.name}</Box>;
+	return (
+		genre && (
+			<Box className={styles['details-container']}>
+				<Typography className={styles['details-title']} variant="h4" component="h2">
+					Genre details
+				</Typography>
+				<List>
+					<ListItem>
+						<span className={styles['details-subtitle']}>Name:</span>
+						{genre.name}
+					</ListItem>
+					<Divider />
+					<ListItem>
+						<span className={styles['details-subtitle']}>Type:</span>
+						{genre.type}
+					</ListItem>
+					<Divider />
+				</List>
+			</Box>
+		)
+	);
 };
 
 export const GenreDetailsPage = typedMemo(GenreDetailsPageComponent);
