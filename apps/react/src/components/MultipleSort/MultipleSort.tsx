@@ -1,51 +1,79 @@
 import { useId } from 'react';
 import { Controller, FieldValues } from 'react-hook-form';
-import { Button } from '@mui/material';
+import { Button, FormControl, Typography } from '@mui/material';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 import { typedMemo } from '@js-camp/react/utils/typedMemo';
 
 import { FormControlProps } from '../../utils/formControl';
+import styles from './MultipleSort.module.css';
 
 /**  Sort props. */
 type Props<T, R extends FieldValues> = {
 
-	/** Option items in select. */
-	readonly item: T;
-
 	/** Title. */
 	readonly title: string;
 
-	/** Sort field index. */
-	readonly index: number;
+	/** Makes items readable for users. */
+	readonly toReadable?: (value: T) => string;
 } & FormControlProps<R>;
 
 // Arrow react functiol components can takes generic parameter only this way.
 // eslint-disable-next-line @typescript-eslint/comma-dangle
 const MultipleSortComponent = <T extends string, R extends FieldValues>({
-	item,
 	control,
 	name,
-	index,
+	title,
+	toReadable,
 }: Props<T, R>) => {
 	const id = useId();
 
+	/**
+	 * Return new value array with toggled direction.
+	 * @param value Value.
+	 * @param index Index of sort field.
+	 */
+	function getNewValueWithToggledDirection<TValue extends FieldValues>(value: TValue, index: number) {
+		const newValueArray = value;
+		if (value[index].direction === 'asc') {
+			newValueArray[index].direction = 'desc';
+		} else if (value[index].direction === 'desc') {
+			newValueArray[index].direction = '';
+		} else if (value[index].direction === '') {
+			newValueArray[index].direction = 'asc';
+		}
+		return newValueArray;
+	}
+
 	return (
-		<Controller
-			control={control}
-			name={name}
-			render={({ field: { value, onBlur, onChange, ref } }) => (
-				<Button
-					onBlur={onBlur}
-					ref={ref}
-					color="primary"
-					sx={{ m: 1, width: 300 }}
-					onClick={() => onChange(value[index].direction === 'asc' ? 'desc' : 'asc')}
-				>
-					{value === 'asc' ? '⬆️' : '⬇️'}
-					{item}
-				</Button>
-			)}
-		/>
+		<FormControl sx={{ m: 1, width: 300 }} className={styles.formControl}>
+			<Typography color='gray'>{title}</Typography>
+			<Controller
+				control={control}
+				name={name}
+				render={({ field: { value, onBlur, onChange, ref } }) =>
+					value.map((sortField: R, index: number) => (
+						<Button
+							key={index}
+							id={id}
+							onBlur={onBlur}
+							ref={ref}
+							startIcon={
+								(sortField.direction === 'asc' || sortField.direction === '') ?
+									<ArrowUpwardIcon /> : <ArrowDownwardIcon />
+							}
+							variant='contained'
+							className={sortField.direction === '' ? styles.disabledButton : ''}
+							color={sortField.direction === '' ? 'inherit' : 'primary'}
+							onClick={() => onChange(getNewValueWithToggledDirection(value, index))}
+						>
+							{toReadable ? toReadable(value[index].field) : value[index].field}
+						</Button>
+					))
+				}
+			/>
+		</FormControl>
 	);
 };
 

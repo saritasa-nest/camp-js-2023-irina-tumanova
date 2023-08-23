@@ -20,7 +20,7 @@ const AnimeCardComponent = forwardRef<HTMLLIElement | null, Props>(({ anime }, f
 				primary={anime.titleEnglish}
 				secondary={
 					<Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
-						{AnimeType.toReadable(anime.type)}
+						{AnimeType.toReadable(anime.type)} {anime.status}
 					</Typography>
 				}
 			/>

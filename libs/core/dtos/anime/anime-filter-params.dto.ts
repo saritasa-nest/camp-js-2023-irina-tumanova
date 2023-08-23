@@ -11,8 +11,5 @@ export interface AnimeFilterParamsDto {
 /** Field to sort by. */
 export enum AnimeSortingFieldDto {
 	TitleEnglish = 'title_eng',
-	TitleJapanese = 'title_jpn',
-	AiredStart = 'aired__startswith',
 	Status = 'status',
-	None = '',
 }

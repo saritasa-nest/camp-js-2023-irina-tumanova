@@ -1,6 +1,7 @@
 import { ListParams } from '../list-params';
 import { PaginationParams } from '../pagination-params';
 import { Sorting } from '../sorting';
+import { AnimeSortingField } from './anime-sort';
 import { AnimeType } from './anime-type';
 
 /** Filters parameters for getting anime. */
@@ -19,15 +20,6 @@ export class AnimeFilterParams {
 }
 
 type InitAnimeFilterParams = AnimeFilterParams;
-
-/** Field to sort by. */
-export enum AnimeSortingField {
-	TitleEnglish = 'titleEnglish',
-	TitleJapanese = 'titleJapanese',
-	AiredStart = 'aired.start',
-	Status = 'status',
-	None = '',
-}
 
 /** Request params for getting anime. */
 export type AnimeParams = ListParams<AnimeFilterParams, AnimeSortingField>;
