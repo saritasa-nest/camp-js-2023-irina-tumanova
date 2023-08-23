@@ -5,7 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Outlet } from 'react-router-dom';
 
 import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
-import { selectGenres } from '@js-camp/react/store/genre/selectors';
+import { selectAreGenresLoading, selectGenres } from '@js-camp/react/store/genre/selectors';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { InfinityScroll } from '@js-camp/react/components/InfinityScrollCards';
@@ -16,6 +16,7 @@ import { Sorting } from '@js-camp/core/models/sorting';
 import { clearGenres } from '@js-camp/react/store/genre/slice';
 import { GenreSortingField } from '@js-camp/core/models/genre/genre-sort';
 import { MultipleSort } from '@js-camp/react/components/MultipleSort/MultipleSort';
+import { AppShadowLoader } from '@js-camp/react/components/AppShadowLoader';
 
 import { GenreCard } from '../../components/GenreCard';
 import styles from './GenrePage.module.css';
@@ -54,6 +55,7 @@ const defaultFormValues: FormValues = {
 const GenresPageComponent: FC = () => {
 	const dispatch = useAppDispatch();
 	const genres = useAppSelector(selectGenres);
+	const isLoading = useAppSelector(selectAreGenresLoading);
 	const items = useMemo(() => GenreType.toArray(), [GenreType]);
 
 	const [isOpenMenu, setIsOpenMenu] = useState(false);
@@ -118,9 +120,12 @@ const GenresPageComponent: FC = () => {
 					<Menu />
 				</IconButton>
 				<InfinityScroll lastItemRef={lastItemRef} handleObserve={handleObserve}>
-					{genres.map((genre, index) => (
-						<GenreCard ref={index === genres.length - 1 ? lastItemRef : null} key={genre.id} genre={genre} />
-					))}
+					<>
+						{isLoading && genres.length === 0 && <AppShadowLoader />}
+						{genres.map((genre, index) => (
+							<GenreCard ref={index === genres.length - 1 ? lastItemRef : null} key={genre.id} genre={genre} />
+						))}
+					</>
 				</InfinityScroll>
 			</aside>
 			<Outlet />

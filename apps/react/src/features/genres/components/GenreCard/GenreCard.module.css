@@ -3,5 +3,5 @@
 }
 
 .card-container:hover {
-	background-color: var(--blackout-color);
+	background-color: var(--on-surface);
 }
