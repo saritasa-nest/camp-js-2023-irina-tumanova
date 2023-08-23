@@ -9,7 +9,7 @@ import styles from './AppLayout.module.css';
 
 const AppLayoutComponent: FC = () => (
 	<>
-		<div id='app-shadow-loader-root'></div>
+		<div id='app-shadow-loader-root' />
 		<AppHeader />
 		<main className={styles['app-main']}>
 			<Toolbar />

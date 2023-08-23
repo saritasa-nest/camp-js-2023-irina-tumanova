@@ -28,11 +28,11 @@ const AppAuthHeaderComponent: FC<Props> = props => {
 
 	const navigate = useNavigate();
 
+	const isNotMainPage = location.pathname !== '/';
+
 	const goToMainPage = (): void => {
 		navigate('/');
 	};
-
-	const checkIsNotMainPage = (): boolean => location.pathname !== '/';
 
 	return (
 		<AppBar>
@@ -42,7 +42,7 @@ const AppAuthHeaderComponent: FC<Props> = props => {
 					<Typography variant="body1">Hi, {props.user.firstName}</Typography>
 				</div>
 
-				{checkIsNotMainPage() &&
+				{isNotMainPage &&
 					<Button color="white" onClick={goToMainPage} startIcon={<ArrowBackIosIcon />}>
 						Main page
 					</Button>}
