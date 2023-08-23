@@ -1,7 +1,10 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { Anime } from '@js-camp/core/models/anime/anime';
 import { Observable, catchError, map, of, throwError } from 'rxjs';
+import { Router } from '@angular/router';
+import { HttpStatusCode } from 'axios';
+
+import { Anime } from '@js-camp/core/models/anime/anime';
 import { AnimeDto } from '@js-camp/core/dtos/anime/anime.dto';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
@@ -15,8 +18,6 @@ import { AnimeDetailsDto } from '@js-camp/core/dtos/anime/anime-details.dto';
 import { AnimeDetailsMapper } from '@js-camp/core/mappers/anime/anime-details.mapper';
 import { AnimeFormData } from '@js-camp/core/models/anime/anime-form-data';
 import { AnimeFormDataMapper } from '@js-camp/core/mappers/anime/anime-form-data.mapper';
-import { Router } from '@angular/router';
-import { HttpStatusCode } from 'axios';
 
 import { ApiUrlsConfig } from './api-urls.config';
 import { S3Service } from './s3-bucket.service';

@@ -1,0 +1,11 @@
+.app-shadow-loader {
+	position: absolute;
+	inset: 0;
+	background-color: var(--on-surface);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	/* This is necessary so that the load is above all elements. */
+	z-index: 1;
+}

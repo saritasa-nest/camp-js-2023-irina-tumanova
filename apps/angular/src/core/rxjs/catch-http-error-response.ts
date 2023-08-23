@@ -1,6 +1,7 @@
 import { Observable, catchError, throwError } from 'rxjs';
-import { AppErrorDictionaryMapper } from '@js-camp/core/mappers/app-error.mapper';
 import { HttpErrorResponse } from '@angular/common/http';
+
+import { AppErrorDictionaryMapper } from '@js-camp/core/mappers/app-error.mapper';
 import { ValidationMapper } from '@js-camp/core/models/app-error';
 
 /**
@@ -13,7 +14,7 @@ export function catchHttpErrorResponse<TErrors extends object>(validationMapper:
 		return source$.pipe(
 			catchError((error: unknown) => {
 				if (error instanceof HttpErrorResponse && error.error?.errors instanceof Array) {
-					return throwError(() => AppErrorDictionaryMapper.fromDto(error, validationMapper));
+					return throwError(() => AppErrorDictionaryMapper.fromDto(error.error.errors, validationMapper));
 				}
 				return throwError(() => error);
 			}),

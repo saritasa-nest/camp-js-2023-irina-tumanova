@@ -1,5 +1,4 @@
 import { DateRange } from '../date-range';
-
 import { AnimeType } from './anime';
 import { AnimeRating } from './anime-details';
 import { AnimeSeason } from './anime-season';

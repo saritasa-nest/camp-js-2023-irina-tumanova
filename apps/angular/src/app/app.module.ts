@@ -11,7 +11,6 @@ import { ApiKeyInterceptor } from '../core/interceptors/api-key.interceptor';
 import { HttpErrorInterceptor } from '../core/interceptors/http-error.interceptor';
 import { AuthInterceptor } from '../core/interceptors/auth.interceptor';
 import { RefreshTokenInterceptor } from '../core/interceptors/refresh-token.interceptor';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';

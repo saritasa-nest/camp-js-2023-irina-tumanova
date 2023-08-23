@@ -4,15 +4,21 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { RootRouter } from './routes/RootRouter';
 import { store } from './store';
+import { AppHeader } from './components/AppHeader';
+import './theme';
+import classes from './App.module.css';
+import { AppShadowLoader } from './components/AppShadowLoader';
 
 export const App: FC = () => (
 	<Provider store={store}>
 		<BrowserRouter>
-			<div>
-				<Suspense fallback={<div>Brrr... here should be your loader component</div>}>
+			<Suspense fallback={<AppShadowLoader />}>
+				<AppHeader />
+				<div id='app-shadow-loader-root'></div>
+				<main className={classes.main}>
 					<RootRouter />
-				</Suspense>
-			</div>
+				</main>
+			</Suspense>
 		</BrowserRouter>
 	</Provider>
 );

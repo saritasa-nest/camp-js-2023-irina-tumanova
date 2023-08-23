@@ -1,0 +1,22 @@
+.auth {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 1;
+	padding: var(--space-m);
+}
+
+.auth-form {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-m);
+	max-width: 600px;
+	margin: auto;
+	width: 100%;
+}
+
+.auth-form__title,
+.auth-form__submit,
+.auth-form__auth-change {
+	align-self: center;
+}

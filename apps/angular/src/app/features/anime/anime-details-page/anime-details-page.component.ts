@@ -3,10 +3,11 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject, Observable, map, shareReplay, tap, switchMap, first } from 'rxjs';
+
 import { untilDestroyed } from '@js-camp/angular/core/rxjs/until-destroyed';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { AnimeDetails } from '@js-camp/core/models/anime/anime-details';
-import { BehaviorSubject, Observable, map, shareReplay, tap, switchMap, first } from 'rxjs';
 import { YOUTUBE_EMBED_URL } from '@js-camp/core/const/const';
 
 import { ImageModalComponent } from '../components/image-modal/image-modal.component';

@@ -1,0 +1,7 @@
+:root {
+	/* Spaces */
+	--space-m: 16px;
+
+	/* Colors */
+	--on-surface: hsl(0deg 0% 0% / 16%);
+}

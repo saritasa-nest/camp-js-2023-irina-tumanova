@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+
 import { AnimeSeason } from '@js-camp/core/models/anime/anime-season';
 
 /** Transform anime season to string.*/
