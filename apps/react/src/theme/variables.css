@@ -1,6 +1,7 @@
 :root {
 	/* Spaces */
 	--space-m: 16px;
+	--space-s: calc(var(--space-m) / 2);
 
 	/* Colors */
 	--on-surface: hsl(0deg 0% 0% / 16%);

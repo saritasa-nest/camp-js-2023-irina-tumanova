@@ -1,24 +1,22 @@
 import { FC, Suspense } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from '@mui/material';
 
 import { RootRouter } from './routes/RootRouter';
 import { store } from './store';
-import { AppHeader } from './components/AppHeader';
 import './theme';
-import classes from './App.module.css';
 import { AppShadowLoader } from './components/AppShadowLoader';
+import { theme } from './config/muiConfig';
 
 export const App: FC = () => (
 	<Provider store={store}>
 		<BrowserRouter>
-			<Suspense fallback={<AppShadowLoader />}>
-				<AppHeader />
-				<div id='app-shadow-loader-root'></div>
-				<main className={classes.main}>
+			<ThemeProvider theme={theme}>
+				<Suspense fallback={<AppShadowLoader />}>
 					<RootRouter />
-				</main>
-			</Suspense>
+				</Suspense>
+			</ThemeProvider>
 		</BrowserRouter>
 	</Provider>
 );
