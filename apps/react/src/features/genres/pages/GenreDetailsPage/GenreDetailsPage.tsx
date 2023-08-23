@@ -11,6 +11,7 @@ import {
 	selectGenreDetailsErrors,
 } from '@js-camp/react/store/genre-details/selectors';
 import { typedMemo } from '@js-camp/react/utils/typedMemo';
+import { NotFoundPage } from '@js-camp/react/features/NotFoundPage/NotFoundPage';
 
 import styles from './GenreDetailsPage.module.css';
 
@@ -29,7 +30,7 @@ const GenreDetailsPageComponent: FC = () => {
 	}, [id]);
 
 	if (errors) {
-		return <div>Opps... Something went wrong :() </div>;
+		return <NotFoundPage error={errors} />;
 	}
 
 	if (isLoading) {
