@@ -1,0 +1,7 @@
+.card-container:hover {
+	cursor: pointer;
+}
+
+.card-container:hover {
+	background-color: var(--blackout-color);
+}

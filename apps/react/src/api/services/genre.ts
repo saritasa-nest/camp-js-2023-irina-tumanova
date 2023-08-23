@@ -26,4 +26,13 @@ export namespace GenresService {
 		});
 		return data.results.map(dto => GenreMapper.fromDto(dto));
 	}
+
+	/**
+	 * Fetches genre details.
+	 * @param id Genre ID.
+	 */
+	export async function fetchGenreDetails(id: number): Promise<Genre> {
+		const { data } = await http.get<GenreDto>(`${url}${id}/`);
+		return GenreMapper.fromDto(data);
+	}
 }
