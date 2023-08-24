@@ -1,3 +1,5 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
 import { AuthService } from '@js-camp/react/api/services/auth';
 import { Login } from '@js-camp/core/models/auth/login';
 import { Registration } from '@js-camp/core/models/auth/registration';

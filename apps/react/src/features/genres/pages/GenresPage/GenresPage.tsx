@@ -6,12 +6,12 @@ import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
 import { selectGenres } from '@js-camp/react/store/genre/selectors';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
-import { InfinityScroll } from '@js-camp/react/components/InfinityScrollCards';
+import { InfinityScroll } from '@js-camp/react/components/InfinityScroll';
 import { GenreType } from '@js-camp/core/models/genre/genre-type';
 import { GenreFilterParams, GenreParams, GenreSortingField } from '@js-camp/core/models/genre/genre-params';
 import { Sorting } from '@js-camp/core/models/sorting';
 import { clearGenres } from '@js-camp/react/store/genre/slice';
-import { MultipleSelect } from '@js-camp/react/components/MultipleSelect/MultipleFilter';
+import { MultipleSelect } from '@js-camp/react/components/MultipleSelect/MultipleSelect';
 
 import { GenreCard } from '../../components/GenreCard';
 import styles from './GenrePage.module.css';

@@ -21,32 +21,20 @@ const AppHeaderComponent: FC = () => {
 	return (
 		<AppBar sx={{ position: 'relative' }}>
 			<Toolbar>
-				<Button
-					component={NavLink}
-					color="inherit"
-					variant="outlined"
-					to="/anime">
+				<Button component={NavLink} color="inherit" variant="outlined" to="/anime">
 					Anime
 				</Button>
 
 				<Box sx={{ flexGrow: 1 }} />
-				{user !== null ?
-					<Button
-						endIcon={<LogoutIcon />}
-						color="inherit"
-						variant="outlined"
-						onClick={handleLogout}>
+				{user !== null ? (
+					<Button endIcon={<LogoutIcon />} color="inherit" variant="outlined" onClick={handleLogout}>
 						Logout
-					</Button> :
-
-					<Button
-						component={NavLink}
-						endIcon={<LoginIcon />}
-						color="inherit"
-						variant="outlined"
-						to="/auth/login">
+					</Button>
+				) : (
+					<Button component={NavLink} endIcon={<LoginIcon />} color="inherit" variant="outlined" to="/auth/login">
 						Login
-					</Button>}
+					</Button>
+				)}
 			</Toolbar>
 		</AppBar>
 	);

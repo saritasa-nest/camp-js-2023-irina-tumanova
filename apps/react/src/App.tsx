@@ -14,7 +14,7 @@ export const App: FC = () => (
 		<BrowserRouter>
 			<Suspense fallback={<AppShadowLoader />}>
 				<AppHeader />
-				<div id='app-shadow-loader-root'></div>
+				<div id="app-shadow-loader-root"></div>
 				<main className={classes.main}>
 					<RootRouter />
 				</main>

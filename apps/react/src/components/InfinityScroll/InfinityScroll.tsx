@@ -17,9 +17,9 @@ interface InfinityScrollProps {
 }
 
 /** Infinity scroll component. */
-const InfinityScrollComponent: FC<InfinityScrollProps> = ({ lastItemRef, handleObserve, children }) => {
+const InfinityScrollComponent: FC<InfinityScrollProps> = ({ lastItemRef, onObserve, children }) => {
 	const rootRef = useRef<HTMLUListElement | null>(null);
-	useIntersectionObserver(rootRef, lastItemRef, handleObserve);
+	useIntersectionObserver(rootRef, lastItemRef, onObserve);
 
 	return (
 		<List ref={rootRef} sx={{ maxHeight: '100%', overflowY: 'auto' }}>

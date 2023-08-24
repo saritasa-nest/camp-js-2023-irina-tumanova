@@ -32,10 +32,10 @@ export const useUserState = (): UserState => {
 	const user = useAppSelector(selectUser);
 
 	/** User is loading. */
-	const isUserLoading = useAppSelector(selectIsUserLoading);
+	const isLoading = useAppSelector(selectIsUserLoading);
 
 	/** User error. */
-	const userError = useAppSelector(selectUserError);
+	const error = useAppSelector(selectUserError);
 
 	const dispacth = useAppDispatch();
 
@@ -49,7 +49,7 @@ export const useUserState = (): UserState => {
 
 	return {
 		user,
-		isUserLoading,
-		userError,
+		isLoading,
+		error,
 	};
 };
