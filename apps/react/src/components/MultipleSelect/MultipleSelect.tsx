@@ -8,7 +8,6 @@ import { FormControlProps } from '../../utils/formControl';
 
 /**  Multiple filter props. */
 type Props<T, R extends FieldValues> = {
-
 	/** Option items in select. */
 	readonly items: readonly T[];
 
@@ -19,7 +18,7 @@ type Props<T, R extends FieldValues> = {
 	readonly toReadable?: (value: T) => string;
 } & FormControlProps<R>;
 
-const MultipleFilterComponent = <T extends string, R extends FieldValues>({
+const MultipleSelectComponent = <T extends string, R extends FieldValues>({
 	items,
 	title,
 	control,
@@ -36,7 +35,7 @@ const MultipleFilterComponent = <T extends string, R extends FieldValues>({
 				name={name}
 				render={({ field: { onChange, ...rest } }) => (
 					<Select label={title} {...rest} id={id} multiple onChange={onChange}>
-						{items.map(itemName => (
+						{items.map((itemName) => (
 							<MenuItem key={itemName} value={itemName}>
 								{toReadable ? toReadable(itemName) : itemName}
 							</MenuItem>
@@ -48,4 +47,4 @@ const MultipleFilterComponent = <T extends string, R extends FieldValues>({
 	);
 };
 
-export const MultipleFilter = typedMemo(MultipleFilterComponent);
+export const MultipleSelect = typedMemo(MultipleSelectComponent);

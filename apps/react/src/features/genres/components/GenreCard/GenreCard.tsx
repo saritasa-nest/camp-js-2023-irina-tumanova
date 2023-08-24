@@ -1,5 +1,5 @@
 import { memo, forwardRef } from 'react';
-import { Divider, ListItem, ListItemText, Typography } from '@mui/material';
+import { ListItem, ListItemText, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 import { Genre } from '@js-camp/core/models/genre/genre';
@@ -11,7 +11,6 @@ import { selectGenreDetailsErrors } from '@js-camp/react/store/genre-details/sel
 import styles from './GenreCard.module.css';
 
 interface Props {
-
 	/** Genre. */
 	readonly genre: Genre;
 }
@@ -41,7 +40,6 @@ const GenreCardComponent = forwardRef<HTMLLIElement | null, Props>(({ genre }, f
 					}
 				/>
 			</ListItem>
-			<Divider />
 		</>
 	);
 });

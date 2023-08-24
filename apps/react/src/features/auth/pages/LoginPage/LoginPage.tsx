@@ -10,6 +10,7 @@ import { AppShadowLoader } from '@js-camp/react/components/AppShadowLoader';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { selectAuthError, selectIsAuthLoading } from '@js-camp/react/store/auth/selectors';
 import { selectUser } from '@js-camp/react/store/user/selectors';
+import { setValidationErrors } from '@js-camp/react/utils/setValidationErrors';
 
 import styles from '../common.module.css';
 import { PasswordField } from '../../components/PasswordField';
@@ -50,22 +51,8 @@ const LoginPageComponent: FC = () => {
 	};
 
 	useEffect(() => {
-		setValidationErrors();
+		setValidationErrors<Login>(error, setError);
 	}, [error]);
-
-	/** Set validation error. */
-	const setValidationErrors = () => {
-		if (error === undefined) {
-			return;
-		}
-
-		Object.keys(error.errors).forEach(key => {
-			const message = error.errors[key as keyof Login];
-			if (message !== undefined) {
-				setError(key as keyof Login, { message });
-			}
-		});
-	};
 
 	/** Reset auth. */
 	const reset = () => {
@@ -76,7 +63,7 @@ const LoginPageComponent: FC = () => {
 		return <Navigate to="/" replace />;
 	}
 	return (
-		<div className={`${styles.auth}`}>
+		<div className={styles.auth}>
 			{isLoading && <AppShadowLoader />}
 
 			<form className={styles['auth-form']} onSubmit={handleSubmit(onSubmit)}>

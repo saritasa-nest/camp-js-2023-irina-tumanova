@@ -12,15 +12,14 @@ import { UserSecretService } from '../api/services/userSecret';
 import { UserDispatcher } from '../store/user/dispatchers';
 
 interface UserState {
-
 	/** Current user. */
 	readonly user: User | null;
 
 	/** User is loading. */
-	readonly isUserLoading: boolean;
+	readonly isLoading: boolean;
 
 	/** User error. */
-	readonly userError: AppValidationError<LoginValidationErrors | RegistrationValidationErrors> | undefined;
+	readonly error: AppValidationError<LoginValidationErrors | RegistrationValidationErrors> | undefined;
 }
 
 /** Use user state. */

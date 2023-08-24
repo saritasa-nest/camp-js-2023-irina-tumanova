@@ -8,7 +8,12 @@ import { initialState } from './state';
 export const authSlice = createSlice({
 	name: 'auth',
 	initialState,
-	reducers: {},
+	reducers: {
+		reset(state) {
+			state.isLoading = false;
+			state.error = undefined;
+		},
+	},
 	extraReducers: builder =>
 		builder
 			.addCase(AuthDispatcher.login.pending, state => {
@@ -50,9 +55,7 @@ export const authSlice = createSlice({
 			.addCase(AuthDispatcher.logout.rejected, state => {
 				state.isLoading = false;
 				state.error = undefined;
-			})
-			.addCase(AuthDispatcher.reset, state => {
-				state.isLoading = false;
-				state.error = undefined;
 			}),
 });
+
+export const { reset } = authSlice.actions;

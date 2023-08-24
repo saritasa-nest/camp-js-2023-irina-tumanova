@@ -10,7 +10,7 @@ interface InfinityScrollProps {
 	readonly lastItemRef: MutableRefObject<HTMLLIElement | null>;
 
 	/** Trigger function to continue pagination. */
-	readonly handleObserve: () => void;
+	readonly onObserve: () => void;
 
 	/** Array of items that need to be paginated. */
 	readonly children: ReactNode;
