@@ -1,5 +1,5 @@
 import { memo, forwardRef } from 'react';
-import { Divider, ListItem, ListItemText, Typography } from '@mui/material';
+import { ListItem, ListItemText, Typography } from '@mui/material';
 
 import { Genre } from '@js-camp/core/models/genre/genre';
 import { GenreType } from '@js-camp/core/models/genre/genre-type';
@@ -25,7 +25,6 @@ const GenreCardComponent = forwardRef<HTMLLIElement | null, Props>(({ genre }, f
 				}
 			/>
 		</ListItem>
-		<Divider />
 	</>
 ));
 

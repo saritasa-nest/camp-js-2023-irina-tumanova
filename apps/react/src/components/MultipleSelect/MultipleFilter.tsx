@@ -21,7 +21,7 @@ type Props<T, R extends FieldValues> = {
 
 // Arrow react functiol components can takes generic parameter only this way.
 // eslint-disable-next-line @typescript-eslint/comma-dangle
-const MultipleFilterComponent = <T extends string, R extends FieldValues>({
+const MultipleSelectComponent = <T extends string, R extends FieldValues>({
 	items,
 	title,
 	control,
@@ -50,4 +50,4 @@ const MultipleFilterComponent = <T extends string, R extends FieldValues>({
 	);
 };
 
-export const MultipleFilter = typedMemo(MultipleFilterComponent);
+export const MultipleSelect = typedMemo(MultipleSelectComponent);

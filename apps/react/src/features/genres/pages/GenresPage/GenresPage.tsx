@@ -1,5 +1,5 @@
 import { memo, useEffect, FC, useRef, useState, useMemo } from 'react';
-import { Button, TextField } from '@mui/material';
+import { Button, Divider, TextField } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
@@ -7,11 +7,11 @@ import { selectGenres } from '@js-camp/react/store/genre/selectors';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { InfinityScroll } from '@js-camp/react/components/InfinityScrollCards';
-import { MultipleFilter } from '@js-camp/react/components/MultipleFilter/MultipleFilter';
 import { GenreType } from '@js-camp/core/models/genre/genre-type';
 import { GenreFilterParams, GenreParams, GenreSortingField } from '@js-camp/core/models/genre/genre-params';
 import { Sorting } from '@js-camp/core/models/sorting';
 import { clearGenres } from '@js-camp/react/store/genre/slice';
+import { MultipleSelect } from '@js-camp/react/components/MultipleSelect/MultipleFilter';
 
 import { GenreCard } from '../../components/GenreCard';
 import styles from './GenrePage.module.css';
@@ -77,7 +77,7 @@ const GenresPageComponent: FC = () => {
 	return (
 		<aside className={styles.aside}>
 			<form onSubmit={handleSubmit(onSubmit)}>
-				<MultipleFilter
+				<MultipleSelect
 					name={'types'}
 					toReadable={GenreType.toReadable}
 					control={control}
@@ -87,9 +87,12 @@ const GenresPageComponent: FC = () => {
 				<TextField label="Search" {...register('search')} />
 				<Button type="submit">Submit</Button>
 			</form>
-			<InfinityScroll lastItemRef={lastItemRef} handleObserve={handleObserve}>
+			<InfinityScroll lastItemRef={lastItemRef} onObserve={handleObserve}>
 				{genres.map((genre, index) => (
-					<GenreCard ref={index === genres.length - 1 ? lastItemRef : null} key={genre.id} genre={genre} />
+					<>
+						<GenreCard ref={index === genres.length - 1 ? lastItemRef : null} key={genre.id} genre={genre} />
+						<Divider />
+					</>
 				))}
 			</InfinityScroll>
 		</aside>
