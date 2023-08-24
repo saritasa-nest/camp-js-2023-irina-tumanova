@@ -33,7 +33,7 @@ const StudiosPageComponent: FC = () => {
 					[`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
 				}}
 			>
-				<StudioList studios={studios}/>
+				<StudioList studios={studios} />
 				<Divider />
 			</Drawer>
 			<div>

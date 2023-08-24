@@ -17,9 +17,9 @@ interface InfinityScrollProps {
 }
 
 /** Infinity scroll component. */
-const InfinityScrollComponent: FC<InfinityScrollProps> = ({ lastItemRef, handleObserve, children }) => {
+const InfinityScrollComponent: FC<InfinityScrollProps> = ({ lastItemRef, onObserve, children }) => {
 	const rootRef = useRef<HTMLUListElement | null>(null);
-	useIntersectionObserver(rootRef, lastItemRef, handleObserve);
+	useIntersectionObserver(rootRef, lastItemRef, onObserve);
 
 	return (
 		<Box sx={{ position: 'relative', flex: 1, display: 'flex', width: '100%' }}>

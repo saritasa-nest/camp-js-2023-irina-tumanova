@@ -12,8 +12,8 @@ import { Sorting } from '@js-camp/core/models/sorting';
 import { MultipleSort } from '@js-camp/react/components/MultipleSort/MultipleSort';
 import { clearAnimeList } from '@js-camp/react/store/anime/slice';
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
-import { MultipleFilter } from '@js-camp/react/components/MultipleFilter/MultipleFilter';
-import { InfinityScroll } from '@js-camp/react/components/InfinityScrollCards';
+import { MultipleSelect } from '@js-camp/react/components/MultipleSelect';
+import { InfinityScroll } from '@js-camp/react/components/InfinityScroll';
 
 import { AnimeCard } from '../../components/AnimeCard';
 import styles from './AnimePage.module.css';
@@ -87,7 +87,7 @@ const AnimePageComponent: FC = () => {
 	return (
 		<aside className={styles.aside}>
 			<form onSubmit={handleSubmit(onSubmit)}>
-				<MultipleFilter name={'types'} control={control} items={typeItems} title={'Filter'} />
+				<MultipleSelect name={'types'} control={control} items={typeItems} title={'Filter'} />
 				<MultipleSort
 					name={'sorting'}
 					control={control}
@@ -97,7 +97,7 @@ const AnimePageComponent: FC = () => {
 				<TextField label="Search" {...register('search')} />
 				<Button type="submit">Submit</Button>
 			</form>
-			<InfinityScroll lastItemRef={lastItemRef} handleObserve={handleObserve}>
+			<InfinityScroll lastItemRef={lastItemRef} onObserve={handleObserve}>
 				{animeList.map((anime, index) => (
 					<AnimeCard ref={index === animeList.length - 1 ? lastItemRef : null} key={anime.id} anime={anime} />
 				))}

@@ -12,6 +12,7 @@ import { UserSecretService } from '../api/services/userSecret';
 import { UserDispatcher } from '../store/user/dispatchers';
 
 interface UserState {
+
 	/** Current user. */
 	readonly user: User | null;
 
@@ -31,10 +32,10 @@ export const useUserState = (): UserState => {
 	const user = useAppSelector(selectUser);
 
 	/** User is loading. */
-	const isUserLoading = useAppSelector(selectIsUserLoading);
+	const isLoading = useAppSelector(selectIsUserLoading);
 
 	/** User error. */
-	const userError = useAppSelector(selectUserError);
+	const error = useAppSelector(selectUserError);
 
 	const dispacth = useAppDispatch();
 
@@ -45,7 +46,7 @@ export const useUserState = (): UserState => {
 
 		const hasToken = UserSecretService.hasToken();
 
-		if (hasToken && user == null && !isUserLoading) {
+		if (hasToken && user == null && !isLoading) {
 			dispacth(UserDispatcher.getCurrentUser());
 		}
 		if (!hasToken) {
@@ -55,7 +56,7 @@ export const useUserState = (): UserState => {
 
 	return {
 		user,
-		isUserLoading,
-		userError,
+		isLoading,
+		error,
 	};
 };

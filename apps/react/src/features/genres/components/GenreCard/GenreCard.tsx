@@ -11,6 +11,7 @@ import { selectGenreDetailsErrors } from '@js-camp/react/store/genre-details/sel
 import styles from './GenreCard.module.css';
 
 interface Props {
+
 	/** Genre. */
 	readonly genre: Genre;
 }

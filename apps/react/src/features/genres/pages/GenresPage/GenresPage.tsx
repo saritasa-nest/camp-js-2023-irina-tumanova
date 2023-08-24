@@ -8,7 +8,7 @@ import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
 import { selectAreGenresLoading, selectGenres } from '@js-camp/react/store/genre/selectors';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
-import { InfinityScroll } from '@js-camp/react/components/InfinityScrollCards';
+import { InfinityScroll } from '@js-camp/react/components/InfinityScroll';
 import { GenreType } from '@js-camp/core/models/genre/genre-type';
 import { GenreFilterParams, GenreParams } from '@js-camp/core/models/genre/genre-params';
 import { Sorting } from '@js-camp/core/models/sorting';
@@ -16,6 +16,7 @@ import { clearGenres } from '@js-camp/react/store/genre/slice';
 import { GenreSortingField } from '@js-camp/core/models/genre/genre-sort';
 import { MultipleSort } from '@js-camp/react/components/MultipleSort/MultipleSort';
 import { AppShadowLoader } from '@js-camp/react/components/AppShadowLoader';
+import { MultipleSelect } from '@js-camp/react/components/MultipleSelect';
 
 import { GenreCard } from '../../components/GenreCard';
 import styles from './GenrePage.module.css';
@@ -33,6 +34,7 @@ const defaultParams: GenreParams = {
 
 /** Form values. */
 interface FormValues {
+
 	/** Genre types. */
 	types: GenreType[];
 
@@ -66,7 +68,7 @@ const GenresPageComponent: FC = () => {
 	}, [parameters]);
 
 	const handleObserve = () => {
-		setParameters((prevState) => ({
+		setParameters(prevState => ({
 			...prevState,
 			pagination: { ...prevState.pagination, pageNumber: prevState.pagination.pageNumber + 1 },
 		}));
@@ -79,7 +81,7 @@ const GenresPageComponent: FC = () => {
 	const { register, handleSubmit, control } = form;
 
 	const toggleMenu = () => {
-		setIsOpenMenu((prevState) => !prevState);
+		setIsOpenMenu(prevState => !prevState);
 	};
 
 	const onSubmit: SubmitHandler<FormValues> = ({ types, search, sorting }) => {
@@ -97,7 +99,7 @@ const GenresPageComponent: FC = () => {
 			<Drawer open={isOpenMenu} onClose={toggleMenu}>
 				<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
 					<TextField label="Search" {...register('search')} />
-					<MultipleFilter
+					<MultipleSelect
 						name={'types'}
 						toReadable={GenreType.toReadable}
 						control={control}
@@ -117,7 +119,7 @@ const GenresPageComponent: FC = () => {
 				<IconButton onClick={toggleMenu}>
 					<Menu />
 				</IconButton>
-				<InfinityScroll lastItemRef={lastItemRef} handleObserve={handleObserve}>
+				<InfinityScroll lastItemRef={lastItemRef} onObserve={handleObserve}>
 					<>
 						{isLoading && genres.length === 0 && <AppShadowLoader />}
 						{genres.map((genre, index) => (
