@@ -1,0 +1,28 @@
+.drawer__user-section {
+	padding: var(--space-m);
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-m);
+}
+
+.drawer__user {
+	display: flex;
+	gap: var(--space-m);
+	align-items: center;
+}
+
+.drawer__user-name {
+	color: var(--primary-contrast-color);
+}
+
+.drawer__user-actions {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--space-s);
+}
+
+.drawer__user-action {
+	color: var(--primary-contrast-color);
+	fill: var(--primary-contrast-color);
+}

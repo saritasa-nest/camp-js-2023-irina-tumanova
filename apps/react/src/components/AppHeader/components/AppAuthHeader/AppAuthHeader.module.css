@@ -1,0 +1,10 @@
+.app-auth-header {
+	gap: var(--space-m);
+}
+
+.app-auth-header__menu-trigger {
+	display: flex;
+	align-items: center;
+	gap: var(--space-s);
+	cursor: pointer;
+}

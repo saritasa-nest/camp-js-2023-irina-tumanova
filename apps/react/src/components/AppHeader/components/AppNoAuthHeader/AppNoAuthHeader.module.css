@@ -1,0 +1,12 @@
+.app-no-auth-header__login-trigger {
+	display: flex;
+	align-items: center;
+	gap: var(--space-s);
+	cursor: pointer;
+	color: var(--primary-contrast-color);
+	text-decoration: none;
+}
+
+.app-no-auth-header__login-icon {
+	fill: var(--primary-contrast-color);
+}
