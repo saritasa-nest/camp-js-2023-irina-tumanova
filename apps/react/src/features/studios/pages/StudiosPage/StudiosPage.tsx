@@ -30,7 +30,7 @@ const studioSortingFields: Sorting<StudioSortingField>[] = [
 ];
 
 const defaultParams: StudioParams = {
-	pagination: new PaginationParams({ pageSize: 30, pageNumber: 0 }),
+	pagination: new PaginationParams({ pageSize: 15, pageNumber: 0 }),
 	sorting: studioSortingFields,
 	filters: new StudioFilterParams({ search: '' }),
 };
