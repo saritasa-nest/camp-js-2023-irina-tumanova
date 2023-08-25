@@ -1,22 +1,22 @@
-import { MutableRefObject, useEffect } from 'react';
+import { useEffect } from 'react';
 
 type UseIntersectionObserver = (
-	rootRef: MutableRefObject<HTMLUListElement | null>,
-	targetRef: MutableRefObject<HTMLLIElement | null>,
+	rootNode: HTMLUListElement | null,
+	targetNode: HTMLLIElement | null,
 	onIntersectCallback: () => void
 ) => void;
 
 /**
  * Intersaction observer hook.
- * @param rootRef List ref in other words container.
- * @param targetRef Last item in list.
+ * @param rootNode Container of items.
+ * @param targetNode Item.
  * @param onIntersectCallback Callback that will work when target item will triggered.
  */
-export const useIntersectionObserver: UseIntersectionObserver = (rootRef, targetRef, onIntersectCallback) => {
+export const useIntersectionObserver: UseIntersectionObserver = (rootNode, targetNode, onIntersectCallback) => {
 	useEffect(() => {
-		if (rootRef.current && targetRef.current) {
+		if (rootNode && targetNode) {
 			const interceptConfig = {
-				root: rootRef.current,
+				root: rootNode,
 				threshold: 0,
 			};
 
@@ -26,10 +26,10 @@ export const useIntersectionObserver: UseIntersectionObserver = (rootRef, target
 				}
 			}, interceptConfig);
 
-			observer.observe(targetRef.current);
+			observer.observe(targetNode);
 			return () => {
 				observer.disconnect();
 			};
 		}
-	}, [rootRef.current, targetRef.current]);
+	}, [rootNode, targetNode]);
 };

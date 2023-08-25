@@ -1,4 +1,4 @@
-import { memo, useEffect, FC, useRef, useState, useMemo } from 'react';
+import { memo, useEffect, FC, useState, useMemo, useCallback } from 'react';
 import { Box, Button, Drawer, IconButton, TextField } from '@mui/material';
 import { Menu } from '@mui/icons-material';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -61,7 +61,7 @@ const GenresPageComponent: FC = () => {
 	const [isOpenMenu, setIsOpenMenu] = useState(false);
 	const [parameters, setParameters] = useState<GenreParams>(defaultParams);
 
-	const lastItemRef = useRef<HTMLLIElement | null>(null);
+	const [lastItemNode, setLastItemNode] = useState<HTMLLIElement | null>(null);
 
 	useEffect(() => {
 		dispatch(fetchGenres(parameters));
@@ -94,6 +94,10 @@ const GenresPageComponent: FC = () => {
 		toggleMenu();
 	};
 
+	const handleSetListNode = useCallback((node: HTMLLIElement) => {
+		setLastItemNode(node);
+	}, []);
+
 	return (
 		<Box sx={{ flex: 1, display: 'flex' }}>
 			<Drawer open={isOpenMenu} onClose={toggleMenu}>
@@ -119,11 +123,11 @@ const GenresPageComponent: FC = () => {
 				<IconButton onClick={toggleMenu}>
 					<Menu />
 				</IconButton>
-				<InfinityScroll lastItemRef={lastItemRef} onObserve={handleObserve}>
+				<InfinityScroll lastItemNode={lastItemNode} onObserve={handleObserve}>
 					<>
 						{isLoading && genres.length === 0 && <AppShadowLoader />}
 						{genres.map((genre, index) => (
-							<GenreCard ref={index === genres.length - 1 ? lastItemRef : null} key={genre.id} genre={genre} />
+							<GenreCard ref={index === genres.length - 1 ? handleSetListNode : null} key={genre.id} genre={genre} />
 						))}
 					</>
 				</InfinityScroll>
