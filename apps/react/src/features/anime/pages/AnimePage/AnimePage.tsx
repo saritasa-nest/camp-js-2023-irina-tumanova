@@ -1,5 +1,5 @@
 import { memo, useEffect, FC, useMemo, useState, useRef } from 'react';
-import { Box, Button, Drawer, IconButton, TextField } from '@mui/material';
+import { Box, Button, Divider, Drawer, IconButton, TextField } from '@mui/material';
 import { Menu } from '@mui/icons-material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Outlet } from 'react-router-dom';
@@ -123,11 +123,14 @@ const AnimePageComponent: FC = () => {
 					<>
 						{isLoading && animeList.length === 0 && <AppShadowLoader />}
 						{animeList.map((anime, index) => (
-							<AnimeCard
-								ref={index === animeList.length - 1 ? lastItemRef : null}
-								key={anime.id}
-								anime={anime}
-							/>
+							<Box key={anime.id}>
+								<AnimeCard
+									ref={index === animeList.length - 1 ? lastItemRef : null}
+									key={anime.id}
+									anime={anime}
+								/>
+								<Divider />
+							</Box>
 						))}
 					</>
 				</InfinityScroll>
