@@ -1,4 +1,4 @@
-import { memo, useEffect, FC, useRef, useState, useMemo } from 'react';
+import { memo, useEffect, FC, useState, useMemo, useCallback } from 'react';
 import { Button, TextField } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
@@ -43,7 +43,7 @@ const GenresPageComponent: FC = () => {
 	const genres = useAppSelector(selectGenres);
 	const [parameters, setParameters] = useState<GenreParams>(defaultParams);
 
-	const lastItemRef = useRef<HTMLLIElement | null>(null);
+	const [lastItemNode, setLastItemNode] = useState<HTMLLIElement | null>(null);
 
 	const getNextPaginationData = () => {
 		setParameters(prevState => ({
@@ -70,6 +70,10 @@ const GenresPageComponent: FC = () => {
 
 	const genreTypes = useMemo(() => GenreType.toArray(), [GenreType]);
 
+	const getLastItemNode = useCallback((node: HTMLLIElement) => {
+		setLastItemNode(node);
+	}, []);
+
 	return (
 		<aside className={styles.aside}>
 			<form onSubmit={handleSubmit(onSubmit)}>
@@ -83,9 +87,9 @@ const GenresPageComponent: FC = () => {
 				<TextField label="Search" {...register('search')} />
 				<Button type="submit">Submit</Button>
 			</form>
-			<InfinityScroll lastItemRef={lastItemRef} onObserve={getNextPaginationData}>
+			<InfinityScroll lastItemNode={lastItemNode} onObserve={getNextPaginationData}>
 				{genres.map((genre, index) => (
-					<GenreCard ref={index === genres.length - 1 ? lastItemRef : null} key={genre.id} genre={genre} />
+					<GenreCard ref={index === genres.length - 1 ? getLastItemNode : null} key={genre.id} genre={genre} />
 				))}
 			</InfinityScroll>
 		</aside>

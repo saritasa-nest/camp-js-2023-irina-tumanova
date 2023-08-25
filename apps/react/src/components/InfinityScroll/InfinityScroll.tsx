@@ -1,4 +1,4 @@
-import { memo, FC, ReactNode, useRef, MutableRefObject } from 'react';
+import { memo, FC, ReactNode, useState, useCallback } from 'react';
 import { List } from '@mui/material';
 
 import { useIntersectionObserver } from '@js-camp/react/hooks/useIntersactionObserver';
@@ -6,8 +6,8 @@ import { useIntersectionObserver } from '@js-camp/react/hooks/useIntersactionObs
 /** Props. */
 interface InfinityScrollProps {
 
-	/** Ref to last item in array. */
-	readonly lastItemRef: MutableRefObject<HTMLLIElement | null>;
+	/** Node of last item in array. */
+	readonly lastItemNode: HTMLLIElement | null;
 
 	/** Trigger function to continue pagination. */
 	readonly onObserve: () => void;
@@ -17,12 +17,16 @@ interface InfinityScrollProps {
 }
 
 /** Infinity scroll component. */
-const InfinityScrollComponent: FC<InfinityScrollProps> = ({ lastItemRef, onObserve, children }) => {
-	const rootRef = useRef<HTMLUListElement | null>(null);
-	useIntersectionObserver(rootRef, lastItemRef, onObserve);
+const InfinityScrollComponent: FC<InfinityScrollProps> = ({ lastItemNode, onObserve, children }) => {
+	const [rootNode, setRootNode] = useState<HTMLUListElement | null>(null);
+	useIntersectionObserver(rootNode, lastItemNode, onObserve);
+
+	const getRootNode = useCallback((node: HTMLUListElement) => {
+		setRootNode(node);
+	}, []);
 
 	return (
-		<List ref={rootRef} sx={{ maxHeight: '100%', overflowY: 'auto' }}>
+		<List ref={getRootNode} sx={{ maxHeight: '100%', overflowY: 'auto' }}>
 			{children}
 		</List>
 	);
