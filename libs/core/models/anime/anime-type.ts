@@ -1,4 +1,6 @@
-/** Anime type dto. */
+import { enumToArray } from '../../utils/enum-to-array';
+
+/** Anime type. */
 export enum AnimeType {
 	TV = 'TV',
 	OVA = 'OVA',
@@ -9,7 +11,7 @@ export enum AnimeType {
 	Unknown = 'Unknown',
 }
 
-/** Genre Type. */
+/** Anime Type. */
 export namespace AnimeType {
 	const TO_READABLE_TYPE: Record<AnimeType, string> = {
 		[AnimeType.TV]: 'TV',
@@ -21,8 +23,13 @@ export namespace AnimeType {
 		[AnimeType.Unknown]: 'Unknown',
 	};
 
+	/** Converts enum anime type to array. */
+	export function toArray(): readonly AnimeType[] {
+		return enumToArray(AnimeType);
+	}
+
 	/**
-	 * Makes genre type readable.
+	 * Makes anime type readable.
 	 * @param value Genre type.
 	 */
 	export function toReadable(value: AnimeType): string {

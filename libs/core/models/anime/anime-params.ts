@@ -6,7 +6,6 @@ import { AnimeType } from './anime-type';
 
 /** Filters parameters for getting anime. */
 export class AnimeFilterParams {
-
 	/** Anime types. */
 	public readonly types: AnimeType[];
 
