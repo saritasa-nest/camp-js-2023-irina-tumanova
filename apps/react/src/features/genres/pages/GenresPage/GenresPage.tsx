@@ -83,7 +83,7 @@ const GenresPageComponent: FC = () => {
 				<TextField label="Search" {...register('search')} />
 				<Button type="submit">Submit</Button>
 			</form>
-			<InfinityScroll lastItemRef={lastItemRef} getNextPaginationData={getNextPaginationData}>
+			<InfinityScroll lastItemRef={lastItemRef} onObserve={getNextPaginationData}>
 				{genres.map((genre, index) => (
 					<GenreCard ref={index === genres.length - 1 ? lastItemRef : null} key={genre.id} genre={genre} />
 				))}
