@@ -2,14 +2,14 @@ import { useEffect } from 'react';
 
 type UseIntersectionObserver = (
 	rootNode: HTMLUListElement | null,
-	targetNode: HTMLLIElement | null,
+	targetRef: HTMLLIElement | null,
 	onIntersectCallback: () => void
 ) => void;
 
 /**
  * Intersaction observer hook.
- * @param rootNode Container of items.
- * @param targetNode Item.
+ * @param rootNode Container.
+ * @param targetNode Last item in container.
  * @param onIntersectCallback Callback that will work when target item will triggered.
  */
 export const useIntersectionObserver: UseIntersectionObserver = (rootNode, targetNode, onIntersectCallback) => {

@@ -6,7 +6,7 @@ import { useIntersectionObserver } from '@js-camp/react/hooks/useIntersactionObs
 /** Props. */
 interface InfinityScrollProps {
 
-	/** Ref to last item in array. */
+	/** Node of last item in array. */
 	readonly lastItemNode: HTMLLIElement | null;
 
 	/** Trigger function to continue pagination. */

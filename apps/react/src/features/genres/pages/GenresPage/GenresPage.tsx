@@ -1,5 +1,5 @@
 import { memo, useEffect, FC, useState, useMemo, useCallback } from 'react';
-import { Box, Button, Drawer, IconButton, TextField } from '@mui/material';
+import { Box, Button, Divider, Drawer, IconButton, TextField } from '@mui/material';
 import { Menu } from '@mui/icons-material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Outlet } from 'react-router-dom';
@@ -12,7 +12,7 @@ import { InfinityScroll } from '@js-camp/react/components/InfinityScroll';
 import { GenreType } from '@js-camp/core/models/genre/genre-type';
 import { GenreFilterParams, GenreParams } from '@js-camp/core/models/genre/genre-params';
 import { Sorting } from '@js-camp/core/models/sorting';
-import { clearGenres } from '@js-camp/react/store/genre/slice';
+import { clearGenres, clearGenresState } from '@js-camp/react/store/genre/slice';
 import { GenreSortingField } from '@js-camp/core/models/genre/genre-sort';
 import { MultipleSort } from '@js-camp/react/components/MultipleSort/MultipleSort';
 import { AppShadowLoader } from '@js-camp/react/components/AppShadowLoader';
@@ -36,7 +36,7 @@ const defaultParams: GenreParams = {
 interface FormValues {
 
 	/** Genre types. */
-	types: GenreType[];
+	readonly types: GenreType[];
 
 	/** Search. */
 	search: string;
@@ -56,29 +56,31 @@ const GenresPageComponent: FC = () => {
 	const dispatch = useAppDispatch();
 	const genres = useAppSelector(selectGenres);
 	const isLoading = useAppSelector(selectAreGenresLoading);
-	const items = useMemo(() => GenreType.toArray(), [GenreType]);
+	const genreTypes = useMemo(() => GenreType.toArray(), [GenreType]);
 
 	const [isOpenMenu, setIsOpenMenu] = useState(false);
 	const [parameters, setParameters] = useState<GenreParams>(defaultParams);
 
 	const [lastItemNode, setLastItemNode] = useState<HTMLLIElement | null>(null);
 
-	useEffect(() => {
-		dispatch(fetchGenres(parameters));
-	}, [parameters]);
-
-	const handleObserve = () => {
+	const getNextPaginationData = () => {
 		setParameters(prevState => ({
 			...prevState,
 			pagination: { ...prevState.pagination, pageNumber: prevState.pagination.pageNumber + 1 },
 		}));
 	};
 
-	const form = useForm<FormValues>({
+	useEffect(() => {
+		dispatch(clearGenresState());
+	}, []);
+
+	useEffect(() => {
+		dispatch(fetchGenres(parameters));
+	}, [parameters]);
+
+	const { register, handleSubmit, control } = useForm<FormValues>({
 		defaultValues: defaultFormValues,
 	});
-
-	const { register, handleSubmit, control } = form;
 
 	const toggleMenu = () => {
 		setIsOpenMenu(prevState => !prevState);
@@ -94,7 +96,7 @@ const GenresPageComponent: FC = () => {
 		toggleMenu();
 	};
 
-	const handleSetListNode = useCallback((node: HTMLLIElement) => {
+	const getLastItemNode = useCallback((node: HTMLLIElement) => {
 		setLastItemNode(node);
 	}, []);
 
@@ -107,7 +109,7 @@ const GenresPageComponent: FC = () => {
 						name={'types'}
 						toReadable={GenreType.toReadable}
 						control={control}
-						items={items}
+						items={genreTypes}
 						title={'Filter'}
 					/>
 					<MultipleSort
@@ -123,11 +125,14 @@ const GenresPageComponent: FC = () => {
 				<IconButton onClick={toggleMenu}>
 					<Menu />
 				</IconButton>
-				<InfinityScroll lastItemNode={lastItemNode} onObserve={handleObserve}>
+				<InfinityScroll lastItemNode={lastItemNode} onObserve={getNextPaginationData}>
 					<>
 						{isLoading && genres.length === 0 && <AppShadowLoader />}
 						{genres.map((genre, index) => (
-							<GenreCard ref={index === genres.length - 1 ? handleSetListNode : null} key={genre.id} genre={genre} />
+							<Box key={genre.id}>
+								<GenreCard ref={index === genres.length - 1 ? getLastItemNode : null} genre={genre} />
+								<Divider />
+							</Box>
 						))}
 					</>
 				</InfinityScroll>
