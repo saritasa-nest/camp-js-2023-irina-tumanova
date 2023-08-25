@@ -1,8 +1,7 @@
 import { FC, memo, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, List, ListItem } from '@mui/material';
+import { Box, List, ListItemText } from '@mui/material';
 import YouTube, { YouTubeProps } from 'react-youtube';
-import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { fetchAnimeDetails } from '@js-camp/react/store/anime-details/dispatchers';
@@ -57,53 +56,58 @@ const AnimeDetailsComponent: FC = () => {
 	return (
 		animeDetails && (
 			<Box className={styles.wrapper}>
-				<Box className={styles['details-view']}>
-					<Box className={styles['image-wrapper']}>
-						<img className={styles.img} src={animeDetails.imageUrl} alt="Anime cover image" />
-						<button type="button" onClick={handleOpen} className="plain-icon-btn">
-							<OpenInFullIcon />
-						</button>
-					</Box>
-					<ImageDialog open={open} onClose={handleClose} imageSrc={animeDetails.imageUrl} />
-					{animeDetails.trailerYoutubeId && (
-						<Box>
-							<YouTube videoId={animeDetails.trailerYoutubeId ?? undefined} opts={opts}></YouTube>
-						</Box>
-					)}
+
+				<Box className={styles.imageWrapper}>
+					<img
+						className={styles.image}
+						src={animeDetails.imageUrl}
+						onClick={handleOpen}
+						alt="Anime cover image"
+					/>
 				</Box>
-				<Box className={styles['details-text']}>
+				<ImageDialog open={open} onClose={handleClose} imageSrc={animeDetails.imageUrl} />
+
+				<Box className={styles.infoWrapper}>
+
 					<List>
-						{
-							animeDetails.titleEnglish &&
-							<ListItem className={styles.titleEng}>{animeDetails.titleEnglish}</ListItem>
-						}
-						<ListItem>{animeDetails.titleJapanese}</ListItem>
-						<ListItem>Type: {animeDetails.type}</ListItem>
-						<ListItem>Status: {animeDetails.status}</ListItem>
-						<ListItem>Rating: {animeDetails.rating}</ListItem>
-						<ListItem>Source: {animeDetails.source}</ListItem>
-						<ListItem>Season: {animeDetails.season}</ListItem>
-						<ListItem>Airing: {animeDetails.airing ? 'Yes' : 'No'}</ListItem>
-						<ListItem>Aired: {getYearsRange(animeDetails.aired.start, animeDetails.aired.end)}</ListItem>
-						<ListItem>
-							Studios:
-							{animeDetails.studios.length ? animeDetails.studios.map(el => (
-								<span key={el.id} className={styles.item}>
-									{el.name}
-								</span>
-							)) : ' Unknown'}
-						</ListItem>
-						<ListItem>
-							Genres:
-							{animeDetails.genres.length ? animeDetails.genres.map(el => (
-								<span key={el.id} className={styles.item}>
-									{el.name}
-								</span>
-							)) : ' Unknown'}
-						</ListItem>
-						<ListItem>Description: {animeDetails.description}</ListItem>
+						<ListItemText primary='Title English:' secondary={animeDetails.titleEnglish} />
+						<ListItemText primary='Title Japanese:' secondary={animeDetails.titleJapanese} />
+						<ListItemText primary='Type:' secondary={animeDetails.type} />
+						<ListItemText primary='Status:' secondary={animeDetails.status} />
+						<ListItemText primary='Rating:' secondary={animeDetails.rating} />
+						<ListItemText primary='Source:' secondary={animeDetails.source} />
+						<ListItemText primary='Season:' secondary={animeDetails.season} />
 					</List>
+
+					<List>
+						<ListItemText primary='Airing:' secondary={animeDetails.airing ? 'Yes' : 'No'} />
+						<ListItemText primary='Aired:' secondary={
+							getYearsRange(animeDetails.aired.start, animeDetails.aired.end)
+						} />
+						<ListItemText primary='Studios:' secondary={
+							animeDetails.studios.length ? animeDetails.studios.map(studio => (
+								<span key={studio.id} className={styles.studio}>
+									{studio.name}
+								</span>
+							)) : 'Unknown'
+						} />
+						<ListItemText primary='Genres:' secondary={
+							animeDetails.genres.length ? animeDetails.genres.map(genre => (
+								<span key={genre.id} className={styles.genre}>
+									{genre.name}
+								</span>
+							)) : 'Unknown'
+						} />
+						<ListItemText primary='Description:' secondary={animeDetails.description} />
+					</List>
+
 				</Box>
+
+				{animeDetails.trailerYoutubeId && (
+					<Box>
+						<YouTube videoId={animeDetails.trailerYoutubeId ?? undefined} opts={opts}></YouTube>
+					</Box>
+				)}
 			</Box>
 		)
 	);

@@ -1,6 +1,5 @@
 import { Dialog } from '@mui/material';
 import { FC, memo } from 'react';
-import CloseIcon from '@mui/icons-material/Close';
 
 import styles from './ImageDialog.module.css';
 
@@ -25,9 +24,6 @@ const ImageDialogComponent: FC<ImageDialogProps> = (props: ImageDialogProps) => 
 			<div className={styles['img-wrapper']}>
 				<img src={imageSrc} className={styles.img}/>
 			</div>
-			<button onClick={onClose} className="plain-icon-btn" >
-				<CloseIcon />
-			</button>
 		</Dialog>
 	);
 };
