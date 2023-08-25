@@ -30,7 +30,7 @@ const studioSortingFields: Sorting<StudioSortingField>[] = [
 ];
 
 const defaultParams: StudioParams = {
-	pagination: new PaginationParams({ pageSize: 20, pageNumber: 0 }),
+	pagination: new PaginationParams({ pageSize: 30, pageNumber: 0 }),
 	sorting: studioSortingFields,
 	filters: new StudioFilterParams({ search: '' }),
 };
@@ -88,7 +88,7 @@ const StudiosPageComponent: FC = () => {
 			filters: new StudioFilterParams({ search }),
 		});
 		toggleMenu();
-	}
+	};
 
 	return (
 		<Box sx={{ flex: 1, display: 'flex' }}>
