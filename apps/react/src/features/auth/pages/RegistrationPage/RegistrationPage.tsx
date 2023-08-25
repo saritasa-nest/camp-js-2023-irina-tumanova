@@ -10,6 +10,8 @@ import { selectAuthError, selectIsAuthLoading } from '@js-camp/react/store/auth/
 import { AppValidationError } from '@js-camp/core/models/app-error';
 import { Registration, RegistrationForm, RegistrationValidationErrors } from '@js-camp/core/models/auth/registration';
 import { AppShadowLoader } from '@js-camp/react/components/AppShadowLoader';
+import { setValidationErrors } from '@js-camp/react/utils/setValidationErrors';
+import { reset } from '@js-camp/react/store/auth/slice';
 
 import styles from '../common.module.css';
 import { PasswordField } from '../../components/PasswordField';
@@ -42,22 +44,8 @@ const RegistrationPageComponent: FC = () => {
 	} = useForm({ defaultValues: defaultRegistrationValues, resolver: zodResolver(validationSchema) });
 
 	useEffect(() => {
-		setValidationErrors();
+		setValidationErrors(error, setError);
 	}, [error]);
-
-	/** Set validation error. */
-	const setValidationErrors = () => {
-		if (error === undefined) {
-			return;
-		}
-
-		Object.keys(error.errors).forEach(key => {
-			const message = error.errors[key as keyof Registration];
-			if (message !== undefined) {
-				setError(key as keyof Registration, { message });
-			}
-		});
-	};
 
 	/**
 	 * On submit form.
@@ -69,7 +57,7 @@ const RegistrationPageComponent: FC = () => {
 
 	/** Reset auth. */
 	const resetAuth = () => {
-		dispatch(AuthDispatcher.reset);
+		dispatch(reset());
 	};
 
 	return (
@@ -107,7 +95,7 @@ const RegistrationPageComponent: FC = () => {
 					required
 					autoComplete="family-name"
 					error={errors.lastName !== undefined}
-					helperText={errors.lastName?.message as string}
+					helperText={errors.lastName?.message ?? ''}
 					label="Last name"
 					variant="outlined"
 					{...register('lastName')}

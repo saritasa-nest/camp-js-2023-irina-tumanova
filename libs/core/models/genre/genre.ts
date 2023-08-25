@@ -1,8 +1,8 @@
 import { Immerable, OmitImmerable } from '../immerable';
+import { GenreType } from './genre-type';
 
 /** Genre. */
 export class Genre extends Immerable {
-
 	/** Id. */
 	public readonly id: number;
 
@@ -26,14 +26,6 @@ export class Genre extends Immerable {
 		this.modified = data.modified;
 		this.type = data.type;
 	}
-}
-
-/** Genre type. */
-export enum GenreType {
-	Genres = 'Genres',
-	ExplicitGenres = 'ExplicitGenres',
-	Themes = 'Themes',
-	Demographics = 'Demographics',
 }
 
 type GenreConstructorData = OmitImmerable<Genre>;

@@ -1,4 +1,4 @@
-import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { AuthService } from '@js-camp/react/api/services/auth';
 import { Login } from '@js-camp/core/models/auth/login';
@@ -22,6 +22,4 @@ export namespace AuthDispatcher {
 	});
 
 	export const logout = createAsyncThunk('auth/logout', () => AuthService.logout());
-
-	export const reset = createAction('auth/reset');
 }

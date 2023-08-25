@@ -3,7 +3,6 @@ import { AnimeStatus } from './anime-status';
 
 /** Anime. */
 export class Anime {
-
 	/** ID. */
 	public readonly id: number;
 
