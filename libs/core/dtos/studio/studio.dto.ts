@@ -18,4 +18,7 @@ export interface StudioDto {
 
 	/** Name. */
 	readonly name: string;
+
+	/** Image. */
+	readonly image: string;
 }

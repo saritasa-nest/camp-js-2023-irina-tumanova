@@ -15,12 +15,16 @@ export class Studio extends Immerable {
 	/** Name. */
 	public readonly name: string;
 
-	public constructor({ id, created, modified, name }: StudioConstructorData) {
+	/** Thumbnail image. */
+	public readonly thumbnailImg: string;
+
+	public constructor({ id, created, modified, name, thumbnailImg }: StudioConstructorData) {
 		super();
 		this.id = id;
 		this.created = created;
 		this.modified = modified;
 		this.name = name;
+		this.thumbnailImg = thumbnailImg;
 	}
 }
 

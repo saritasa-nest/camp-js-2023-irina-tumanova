@@ -13,6 +13,7 @@ export namespace StudioMapper {
 			name: dto.name,
 			created: new Date(dto.created),
 			modified: new Date(dto.modified),
+			thumbnailImg: dto.image,
 		});
 	}
 }
