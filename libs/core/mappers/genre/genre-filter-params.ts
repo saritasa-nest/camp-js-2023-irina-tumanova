@@ -15,7 +15,7 @@ export namespace GenreFilterParamsMapper {
 		};
 	}
 
-	export const GENRE_SORT_FIELD_TO_DTO = {
+	export const GENRE_SORT_FIELD_TO_DTO: Record<GenreSortingField, GenreSortingFieldDto> = {
 		[GenreSortingField.None]: GenreSortingFieldDto.None,
 		[GenreSortingField.Name]: GenreSortingFieldDto.Name,
 		[GenreSortingField.Type]: GenreSortingFieldDto.Type,

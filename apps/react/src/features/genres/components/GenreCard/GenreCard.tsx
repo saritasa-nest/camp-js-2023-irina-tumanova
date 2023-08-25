@@ -14,18 +14,16 @@ interface Props {
 
 /** Card with genre data. */
 const GenreCardComponent = forwardRef<HTMLLIElement | null, Props>(({ genre }, forwardedRef) => (
-	<>
-		<ListItem ref={forwardedRef} alignItems="flex-start" className={styles.card}>
-			<ListItemText
-				primary={genre.name}
-				secondary={
-					<Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
-						{GenreType.toReadable(genre.type)}
-					</Typography>
-				}
-			/>
-		</ListItem>
-	</>
+	<ListItem ref={forwardedRef} alignItems="flex-start" className={styles.card}>
+		<ListItemText
+			primary={genre.name}
+			secondary={
+				<Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
+					{GenreType.toReadable(genre.type)}
+				</Typography>
+			}
+		/>
+	</ListItem>
 ));
 
 export const GenreCard = memo(GenreCardComponent);

@@ -29,8 +29,9 @@ export enum GenreSortingField {
 /** Request params for getting anime. */
 export type GenreParams = ListParams<GenreFilterParams, GenreSortingField>;
 
+/** Query genre params. */
 export type QueryGenreParams = PaginationParams &
 Sorting<GenreSortingField> & {
-	search: string;
-	types: string;
+	readonly search: string;
+	readonly types: string;
 };

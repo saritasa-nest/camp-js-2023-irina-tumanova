@@ -10,16 +10,16 @@ interface InfinityScrollProps {
 	readonly lastItemRef: MutableRefObject<HTMLLIElement | null>;
 
 	/** Trigger function to continue pagination. */
-	readonly onObserve: () => void;
+	readonly getNextPaginationData: () => void;
 
 	/** Array of items that need to be paginated. */
 	readonly children: ReactNode;
 }
 
 /** Infinity scroll component. */
-const InfinityScrollComponent: FC<InfinityScrollProps> = ({ lastItemRef, onObserve, children }) => {
+const InfinityScrollComponent: FC<InfinityScrollProps> = ({ lastItemRef, getNextPaginationData, children }) => {
 	const rootRef = useRef<HTMLUListElement | null>(null);
-	useIntersectionObserver(rootRef, lastItemRef, onObserve);
+	useIntersectionObserver(rootRef, lastItemRef, getNextPaginationData);
 
 	return (
 		<List ref={rootRef} sx={{ maxHeight: '100%', overflowY: 'auto' }}>

@@ -19,7 +19,7 @@ type Props<T, R extends FieldValues> = {
 	readonly toReadable?: (value: T) => string;
 } & FormControlProps<R>;
 
-// Arrow react functiol components can takes generic parameter only this way.
+// Arrow react functiol components can take generic parameter only this way.
 // eslint-disable-next-line @typescript-eslint/comma-dangle
 const MultipleSelectComponent = <T extends string, R extends FieldValues>({
 	items,

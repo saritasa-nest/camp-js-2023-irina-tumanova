@@ -1,5 +1,5 @@
 import { memo, useEffect, FC, useRef, useState, useMemo } from 'react';
-import { Button, Divider, TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
@@ -26,10 +26,10 @@ const defaultParams: GenreParams = {
 interface FormValues {
 
 	/** Genre types. */
-	types: GenreType[];
+	readonly types: GenreType[];
 
 	/** Search. */
-	search: string;
+	readonly search: string;
 }
 
 const defaultFormValues: FormValues = {
@@ -45,23 +45,20 @@ const GenresPageComponent: FC = () => {
 
 	const lastItemRef = useRef<HTMLLIElement | null>(null);
 
-	const handleObserve = () => {
+	const getNextPaginationData = () => {
 		setParameters(prevState => ({
 			...prevState,
 			pagination: { ...prevState.pagination, pageNumber: prevState.pagination.pageNumber + 1 },
 		}));
 	};
 
-	/** Duplication is result of react strict mode. */
 	useEffect(() => {
 		dispatch(fetchGenres(parameters));
 	}, [parameters]);
 
-	const form = useForm<FormValues>({
+	const { register, handleSubmit, control } = useForm<FormValues>({
 		defaultValues: defaultFormValues,
 	});
-
-	const { register, handleSubmit, control } = form;
 
 	const onSubmit: SubmitHandler<FormValues> = ({ types, search }) => {
 		dispatch(clearGenres());
@@ -71,8 +68,7 @@ const GenresPageComponent: FC = () => {
 		});
 	};
 
-	/** Getting genre type array. */
-	const items = useMemo(() => GenreType.toArray(), [GenreType]);
+	const genreTypes = useMemo(() => GenreType.toArray(), [GenreType]);
 
 	return (
 		<aside className={styles.aside}>
@@ -81,18 +77,15 @@ const GenresPageComponent: FC = () => {
 					name={'types'}
 					toReadable={GenreType.toReadable}
 					control={control}
-					items={items}
+					items={genreTypes}
 					title={'Filter'}
 				/>
 				<TextField label="Search" {...register('search')} />
 				<Button type="submit">Submit</Button>
 			</form>
-			<InfinityScroll lastItemRef={lastItemRef} onObserve={handleObserve}>
+			<InfinityScroll lastItemRef={lastItemRef} getNextPaginationData={getNextPaginationData}>
 				{genres.map((genre, index) => (
-					<>
-						<GenreCard ref={index === genres.length - 1 ? lastItemRef : null} key={genre.id} genre={genre} />
-						<Divider />
-					</>
+					<GenreCard ref={index === genres.length - 1 ? lastItemRef : null} key={genre.id} genre={genre} />
 				))}
 			</InfinityScroll>
 		</aside>
