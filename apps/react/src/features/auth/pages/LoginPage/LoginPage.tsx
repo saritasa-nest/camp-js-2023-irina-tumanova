@@ -92,7 +92,10 @@ const LoginPageComponent: FC = () => {
 				<Button variant="contained" className={styles['auth-form__submit']} type="submit">
 					Submit
 				</Button>
-				<Link component={NavLink} to="/auth/registration" onClick={reset} className={styles['auth-form__auth-change']}>
+				<Link component={NavLink}
+					to="/auth/registration"
+					onClick={reset}
+					className={styles['auth-form__auth-change']}>
 					Sign up
 				</Link>
 			</form>

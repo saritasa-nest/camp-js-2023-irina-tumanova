@@ -1,0 +1,6 @@
+.MuiDrawer-paper {
+	--drawer-min-width: 300px;
+
+	max-width: var(--drawer-min-width);
+	width: 100%;
+}

@@ -44,7 +44,14 @@ export const useUserState = (): UserState => {
 			return;
 		}
 
-		dispacth(UserSecretService.hasToken() ? UserDispatcher.getCurrentUser() : UserDispatcher.reset());
+		const hasToken = UserSecretService.hasToken();
+
+		if (hasToken && user == null && !isUserLoading) {
+			dispacth(UserDispatcher.getCurrentUser());
+		}
+		if (!hasToken) {
+			dispacth(UserDispatcher.reset());
+		}
 	}, [isAuthLoading]);
 
 	return {
