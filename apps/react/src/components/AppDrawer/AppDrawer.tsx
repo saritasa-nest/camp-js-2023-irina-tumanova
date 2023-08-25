@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import Drawer from '@mui/material/Drawer';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
@@ -55,7 +55,11 @@ const AppDrawerComponent: FC<Props> = props => {
 					</Typography>
 				</Box>
 				<Box className={styles['drawer__user-actions']}>
-					<Button startIcon={<PersonIcon />} className={styles['drawer__user-action']} color="white">
+					<Button startIcon={<PersonIcon />}
+						component={Link}
+						to="/profile"
+						className={styles['drawer__user-action']}
+						color="white">
 						Profile
 					</Button>
 					<Button startIcon={<LogoutIcon />}
@@ -71,7 +75,7 @@ const AppDrawerComponent: FC<Props> = props => {
 				<List>
 					{navigationList.map(navigationItem => (
 						<ListItem key={navigationItem.name} disablePadding>
-							<ListItemButton component={NavLink} to={navigationItem.link}>
+							<ListItemButton component={NavLink} to={navigationItem.link} onClick={props.close}>
 								<ListItemText primary={navigationItem.name} />
 							</ListItemButton>
 						</ListItem>
