@@ -10,7 +10,7 @@ import { InfinityScroll } from '@js-camp/react/components/InfinityScroll';
 import { GenreType } from '@js-camp/core/models/genre/genre-type';
 import { GenreFilterParams, GenreParams, GenreSortingField } from '@js-camp/core/models/genre/genre-params';
 import { Sorting } from '@js-camp/core/models/sorting';
-import { clearGenres } from '@js-camp/react/store/genre/slice';
+import { clearGenres, clearGenresState } from '@js-camp/react/store/genre/slice';
 import { MultipleSelect } from '@js-camp/react/components/MultipleSelect/MultipleSelect';
 
 import { GenreCard } from '../../components/GenreCard';
@@ -51,6 +51,10 @@ const GenresPageComponent: FC = () => {
 			pagination: { ...prevState.pagination, pageNumber: prevState.pagination.pageNumber + 1 },
 		}));
 	};
+
+	useEffect(() => {
+		dispatch(clearGenresState());
+	}, []);
 
 	useEffect(() => {
 		dispatch(fetchGenres(parameters));
