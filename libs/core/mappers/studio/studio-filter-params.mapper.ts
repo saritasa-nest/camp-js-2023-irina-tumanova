@@ -1,8 +1,8 @@
-import { StudioFilterParamsDto, StudioSortingFieldDto } from '../../../core/dtos/studio/studio-filter.dto';
-import { StudioFilterParams } from '../../../core/models/studio/studio-params';
-import { StudioSortingField } from '../../../core/models/studio/studio-sort';
+import { StudioFilterParamsDto, StudioSortingFieldDto } from '../../dtos/studio/studio-filter.dto';
+import { StudioFilterParams } from '../../models/studio/studio-params';
+import { StudioSortingField } from '../../models/studio/studio-sort';
 
-export namespace StudioParamsMapper {
+export namespace StudioFilterParamsMapper {
 
 	/**
 	 * Maps model to DTO.

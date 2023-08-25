@@ -4,7 +4,7 @@ import { StudioDto } from '@js-camp/core/dtos/studio/studio.dto';
 import { StudioMapper } from '@js-camp/core/mappers/studio/studio.mapper';
 import { StudioParams } from '@js-camp/core/models/studio/studio-params';
 import { ListParamsMapper } from '@js-camp/core/mappers/list-params.mapper';
-import { StudioParamsMapper } from '@js-camp/core/mappers/studio/studio-params.mapper';
+import { StudioFilterParamsMapper } from '@js-camp/core/mappers/studio/studio-filter-params.mapper';
 
 import { http } from '..';
 import { ApiUrlsConfig } from '../apiUrlsConfig';
@@ -19,8 +19,8 @@ export namespace StudiosService {
 		const { data } = await http.get<PaginationDto<StudioDto>>(ApiUrlsConfig.studio.getList, {
 			params: ListParamsMapper.toDto(
 				params,
-				StudioParamsMapper.toDto,
-				field => StudioParamsMapper.STUDIO_SORT_FIELD_TO_DTO[field],
+				StudioFilterParamsMapper.toDto,
+				field => StudioFilterParamsMapper.STUDIO_SORT_FIELD_TO_DTO[field],
 			),
 		});
 		return data.results.map(dto => StudioMapper.fromDto(dto));
