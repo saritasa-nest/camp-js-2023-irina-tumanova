@@ -19,8 +19,6 @@ type Props<T, R extends FieldValues> = {
 	readonly toReadable?: (value: T) => string;
 } & FormControlProps<R>;
 
-// Arrow react functiol components can takes generic parameter only this way.
-// eslint-disable-next-line @typescript-eslint/comma-dangle
 const MultipleSortComponent = <T extends string, R extends FieldValues>({
 	control,
 	name,
@@ -35,7 +33,7 @@ const MultipleSortComponent = <T extends string, R extends FieldValues>({
 	 * @param index Index of sort field.
 	 */
 	function getNewValueWithToggledDirection<TValue extends FieldValues>(value: TValue, index: number) {
-		const newValueArray = value;
+		const newValueArray = { ...value };
 		if (value[index].direction === 'asc') {
 			newValueArray[index].direction = 'desc';
 		} else if (value[index].direction === 'desc') {
@@ -52,13 +50,12 @@ const MultipleSortComponent = <T extends string, R extends FieldValues>({
 			<Controller
 				control={control}
 				name={name}
-				render={({ field: { value, onBlur, onChange, ref } }) =>
+				render={({ field: { value, onChange, ...rest } }) =>
 					value.map((sortField: R, index: number) => (
 						<Button
 							key={index}
 							id={id}
-							onBlur={onBlur}
-							ref={ref}
+							{...rest}
 							startIcon={
 								sortField.direction === 'asc' || sortField.direction === '' ? (
 									<ArrowUpwardIcon />

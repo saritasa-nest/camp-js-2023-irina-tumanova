@@ -1,10 +1,9 @@
-import { memo, useEffect, FC, useMemo, useState, useRef } from 'react';
+import { memo, useEffect, FC, useState } from 'react';
 import { Button, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 
 import { fetchAnime } from '@js-camp/react/store/anime/dispatchers';
-import { selectAnime } from '@js-camp/react/store/anime/selectors';
-import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
+import { useAppDispatch } from '@js-camp/react/store';
 import { AnimeFilterParams, AnimeParams } from '@js-camp/core/models/anime/anime-params';
 import { AnimeSortingField, ReadableAnimeSortField } from '@js-camp/core/models/anime/anime-sort';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
@@ -13,22 +12,20 @@ import { MultipleSort } from '@js-camp/react/components/MultipleSort/MultipleSor
 import { clearAnimeList } from '@js-camp/react/store/anime/slice';
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
 import { MultipleSelect } from '@js-camp/react/components/MultipleSelect';
-import { InfinityScroll } from '@js-camp/react/components/InfinityScroll';
 
-import { AnimeCard } from '../../components/AnimeCard';
 import styles from './AnimePage.module.css';
 
 /** Form values. */
 interface FormValues {
 
 	/** Genre types. */
-	types: AnimeType[];
+	readonly types: AnimeType[];
 
 	/** Search. */
-	search: string;
+	readonly search: string;
 
 	/** Anime sorting field. */
-	sorting: Sorting<AnimeSortingField>[];
+	readonly sorting: Sorting<AnimeSortingField>[];
 }
 
 const thisPageSortFields: Sorting<AnimeSortingField>[] = [
@@ -51,27 +48,15 @@ const defaultFormValues: FormValues = {
 /** Anime page component. */
 const AnimePageComponent: FC = () => {
 	const dispatch = useAppDispatch();
-	const animeList = useAppSelector(selectAnime);
 	const [parameters, setParameters] = useState<AnimeParams>(defaultParams);
-
-	const lastItemRef = useRef<HTMLLIElement | null>(null);
-
-	const handleObserve = () => {
-		setParameters(prevState => ({
-			...prevState,
-			pagination: { ...prevState.pagination, pageNumber: prevState.pagination.pageNumber + 1 },
-		}));
-	};
 
 	useEffect(() => {
 		dispatch(fetchAnime(parameters));
 	}, [parameters]);
 
-	const form = useForm<FormValues>({
+	const { register, handleSubmit, control } = useForm<FormValues>({
 		defaultValues: defaultFormValues,
 	});
-
-	const { register, handleSubmit, control } = form;
 
 	const onSubmit = (data: FormValues) => {
 		dispatch(clearAnimeList());
@@ -81,13 +66,10 @@ const AnimePageComponent: FC = () => {
 		});
 	};
 
-	/** Getting anime type array. */
-	const typeItems = useMemo(() => Object.values(AnimeType).slice(0, -1), [AnimeType]) as AnimeType[];
-
 	return (
 		<aside className={styles.aside}>
 			<form onSubmit={handleSubmit(onSubmit)}>
-				<MultipleSelect name={'types'} control={control} items={typeItems} title={'Filter'} />
+				<MultipleSelect name={'types'} control={control} items={AnimeType.toArray()} title={'Filter'} />
 				<MultipleSort
 					name={'sorting'}
 					control={control}
@@ -97,11 +79,6 @@ const AnimePageComponent: FC = () => {
 				<TextField label="Search" {...register('search')} />
 				<Button type="submit">Submit</Button>
 			</form>
-			<InfinityScroll lastItemRef={lastItemRef} onObserve={handleObserve}>
-				{animeList.map((anime, index) => (
-					<AnimeCard ref={index === animeList.length - 1 ? lastItemRef : null} key={anime.id} anime={anime} />
-				))}
-			</InfinityScroll>
 		</aside>
 	);
 };

@@ -1,4 +1,4 @@
-import { memo, useEffect, FC, useState, useMemo, useCallback } from 'react';
+import { memo, useEffect, FC, useState, useCallback } from 'react';
 import { Box, Button, Divider, Drawer, IconButton, TextField } from '@mui/material';
 import { Menu } from '@mui/icons-material';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -56,7 +56,6 @@ const GenresPageComponent: FC = () => {
 	const dispatch = useAppDispatch();
 	const genres = useAppSelector(selectGenres);
 	const isLoading = useAppSelector(selectAreGenresLoading);
-	const genreTypes = useMemo(() => GenreType.toArray(), [GenreType]);
 
 	const [isOpenMenu, setIsOpenMenu] = useState(false);
 	const [parameters, setParameters] = useState<GenreParams>(defaultParams);
@@ -109,7 +108,7 @@ const GenresPageComponent: FC = () => {
 						name={'types'}
 						toReadable={GenreType.toReadable}
 						control={control}
-						items={genreTypes}
+						items={GenreType.toArray()}
 						title={'Filter'}
 					/>
 					<MultipleSort
