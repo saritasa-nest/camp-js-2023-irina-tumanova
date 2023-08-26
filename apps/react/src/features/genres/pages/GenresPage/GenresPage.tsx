@@ -39,10 +39,10 @@ interface FormValues {
 	readonly types: GenreType[];
 
 	/** Search. */
-	search: string;
+	readonly search: string;
 
 	/** Genre sorting fields. */
-	sorting: Sorting<GenreSortingField>[];
+	readonly sorting: Sorting<GenreSortingField>[];
 }
 
 const defaultFormValues: FormValues = {
