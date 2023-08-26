@@ -53,7 +53,7 @@ const MultipleSortComponent = <T extends string, R extends FieldValues>({
 				render={({ field: { value, onChange, ...rest } }) =>
 					value.map((sortField: R, index: number) => (
 						<Button
-							key={index}
+							key={`${value[index].field}`}
 							id={id}
 							{...rest}
 							startIcon={
