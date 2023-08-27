@@ -93,7 +93,9 @@ const GenresPageComponent: FC = () => {
 			</form>
 			<InfinityScroll lastItemNode={lastItemNode} onObserve={getNextPaginationData}>
 				{genres.map((genre, index) => (
-					<GenreCard ref={index === genres.length - 1 ? getLastItemNode : null} key={genre.id} genre={genre} />
+					<GenreCard ref={index === genres.length - 1 ? getLastItemNode : null}
+						key={genre.id}
+						genre={genre} />
 				))}
 			</InfinityScroll>
 		</aside>

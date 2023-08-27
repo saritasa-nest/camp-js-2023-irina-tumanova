@@ -10,7 +10,7 @@ export class User {
 	public readonly lastName: string;
 
 	/** Avatar url. */
-	public readonly avatarUrl: string;
+	public readonly avatarUrl: string | null;
 
 	public constructor(data: InitUserParams) {
 		this.email = data.email;
