@@ -43,7 +43,8 @@ export namespace ApiUrlsConfig {
 
 	/** User routes. */
 	export const user = {
-		getCurrent: toApi(`users/profile/`),
+		getCurrent: toApi('users/profile/'),
+		updateCurrent: toApi('users/update-profile/'),
 	};
 
 	/**

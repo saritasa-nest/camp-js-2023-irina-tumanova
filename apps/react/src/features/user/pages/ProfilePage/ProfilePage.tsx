@@ -8,6 +8,8 @@ import { useUserState } from '@js-camp/react/hooks/useUserState';
 import { typedMemo } from '@js-camp/react/utils/typedMemo';
 import { AppShadowLoader } from '@js-camp/react/components/AppShadowLoader';
 import { User } from '@js-camp/core/models/user/user';
+import { useAppDispatch } from '@js-camp/react/store';
+import { UserDispatcher } from '@js-camp/react/store/user/dispatchers';
 
 import styles from './ProfilePage.module.css';
 import { AvatarUpload } from '../../components/AvatarUpload';
@@ -25,9 +27,11 @@ const ProfilePageComponent: FC = () => {
 		control,
 	} = useForm({ defaultValues: user ?? defaultProfileValues, resolver: zodResolver(validationSchema) });
 	const [image, setImage] = useState<File | null>(null);
+	const dispatch = useAppDispatch();
 
-	const onSubmit = (profileForm: User): void => {
-		console.log(profileForm, errors);
+	const onSubmit = (userForm: User): void => {
+		dispatch(UserDispatcher.updateCurrentUser({ image, user: userForm }));
+		setIsReadOnly(true);
 	};
 
 	const toggleIsReadOnly = (): void => {
