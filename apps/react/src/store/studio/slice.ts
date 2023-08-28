@@ -10,6 +10,11 @@ export const studiosSlice = createSlice({
 		clearStudios(state) {
 			state.studios = [];
 		},
+		clearStudiosState(state) {
+			state.studios = [];
+			state.isLoading = false;
+			state.error = undefined;
+		},
 	},
 	extraReducers: builder =>
 		builder
@@ -28,4 +33,4 @@ export const studiosSlice = createSlice({
 			}),
 });
 
-export const { clearStudios } = studiosSlice.actions;
+export const { clearStudios, clearStudiosState } = studiosSlice.actions;

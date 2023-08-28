@@ -1,4 +1,4 @@
-import { Box, List, ListItem, Typography } from '@mui/material';
+import { Box, List, ListItemText, Typography } from '@mui/material';
 import { FC, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -39,15 +39,19 @@ const StudioDetailsPageComponent: FC = () => {
 
 	return (
 		studio && (
-			<Box className={styles['details-container']}>
-				<Typography className={styles['details-title']} variant="h4" component="h2">
+			<Box className={styles.detailsСontainer}>
+				<Typography className={styles.detailsTitle} variant="h4" component="h2">
 					Studio details
 				</Typography>
+				<Box className={styles.imageWrapper}>
+					<img
+						className={styles.image}
+						src={studio.thumbnailImg}
+						alt={`${studio.name} image`}
+					/>
+				</Box>
 				<List>
-					<ListItem>
-						<span className={styles['details-subtitle']}>Name:</span>
-						{studio.name}
-					</ListItem>
+					<ListItemText primary='Name:' secondary={studio.name} />
 				</List>
 			</Box>
 		)

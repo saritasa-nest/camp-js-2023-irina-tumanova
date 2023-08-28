@@ -30,18 +30,16 @@ const GenreCardComponent = forwardRef<HTMLLIElement | null, Props>(({ genre }, f
 	};
 
 	return (
-		<>
-			<ListItem className={styles['card-container']} ref={forwardedRef} onClick={handleNavigateToDetails}>
-				<ListItemText
-					primary={genre.name}
-					secondary={
-						<Typography component="span" variant="body2" color="text.primary">
-							{GenreType.toReadable(genre.type)}
-						</Typography>
-					}
-				/>
-			</ListItem>
-		</>
+		<ListItem className={styles['card-container']} ref={forwardedRef} onClick={handleNavigateToDetails}>
+			<ListItemText
+				primary={genre.name}
+				secondary={
+					<Typography component="span" variant="body2" color="text.primary">
+						{GenreType.toReadable(genre.type)}
+					</Typography>
+				}
+			/>
+		</ListItem>
 	);
 });
 

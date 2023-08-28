@@ -1,12 +1,6 @@
-import {
-	Box,
-	Drawer,
-	IconButton,
-	TextField,
-	Button,
-} from '@mui/material';
+import { Box, Drawer, IconButton, TextField, Button, Divider } from '@mui/material';
 import { Menu } from '@mui/icons-material';
-import { FC, memo, useEffect, useRef, useState } from 'react';
+import { FC, memo, useCallback, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Outlet } from 'react-router-dom';
 
@@ -19,7 +13,7 @@ import { Sorting } from '@js-camp/core/models/sorting';
 import { StudioFilterParams, StudioParams } from '@js-camp/core/models/studio/studio-params';
 import { InfinityScroll } from '@js-camp/react/components/InfinityScroll';
 import { AppShadowLoader } from '@js-camp/react/components/AppShadowLoader';
-import { clearStudios } from '@js-camp/react/store/studio/slice';
+import { clearStudios, clearStudiosState } from '@js-camp/react/store/studio/slice';
 import { MultipleSort } from '@js-camp/react/components/MultipleSort/MultipleSort';
 
 import styles from './StudiosPage.module.css';
@@ -39,10 +33,10 @@ const defaultParams: StudioParams = {
 interface FormValues {
 
 	/** Studio. */
-	search: string;
+	readonly search: string;
 
 	/** Sorting. */
-	sorting: Sorting<StudioSortingField>[];
+	readonly sorting: Sorting<StudioSortingField>[];
 }
 
 const defaultFormValues: FormValues = {
@@ -55,27 +49,29 @@ const StudiosPageComponent: FC = () => {
 	const studios = useAppSelector(selectStudios);
 	const isLoading = useAppSelector(selectAreStudiosLoading);
 
-	const [parameters, setParameters] = useState<StudioParams>(defaultParams);
 	const [isMenuOpen, setIsOpenMenu] = useState(false);
+	const [parameters, setParameters] = useState<StudioParams>(defaultParams);
 
-	const lastItemRef = useRef<HTMLLIElement | null>(null);
+	const [lastItemNode, setLastItemNode] = useState<HTMLLIElement | null>(null);
+
+	useEffect(() => {
+		dispatch(clearStudiosState());
+	}, []);
 
 	useEffect(() => {
 		dispatch(fetchStudios(parameters));
 	}, [parameters]);
 
-	const handleObserve = () => {
+	const { register, handleSubmit, control } = useForm<FormValues>({
+		defaultValues: defaultFormValues,
+	});
+
+	const getNextPagination = () => {
 		setParameters(prevState => ({
 			...prevState,
 			pagination: { ...prevState.pagination, pageNumber: prevState.pagination.pageNumber + 1 },
 		}));
 	};
-
-	const form = useForm<FormValues>({
-		defaultValues: defaultFormValues,
-	});
-
-	const { register, handleSubmit, control } = form;
 
 	const toggleMenu = () => {
 		setIsOpenMenu(prevState => !prevState);
@@ -90,6 +86,10 @@ const StudiosPageComponent: FC = () => {
 		});
 		toggleMenu();
 	};
+
+	const getLastItemNode = useCallback((node: HTMLLIElement) => {
+		setLastItemNode(node);
+	}, []);
 
 	return (
 		<Box sx={{ flex: 1, display: 'flex' }}>
@@ -109,11 +109,14 @@ const StudiosPageComponent: FC = () => {
 				<IconButton onClick={toggleMenu}>
 					<Menu />
 				</IconButton>
-				<InfinityScroll lastItemRef={lastItemRef} onObserve={handleObserve}>
+				<InfinityScroll lastItemNode={lastItemNode} onObserve={getNextPagination}>
 					<>
 						{isLoading && studios.length === 0 && <AppShadowLoader />}
 						{studios.map((studio, index) => (
-							<StudioCard ref={index === studios.length - 1 ? lastItemRef : null} key={studio.id} studio={studio} />
+							<Box key={studio.id}>
+								<StudioCard ref={index === studios.length - 1 ? getLastItemNode : null} studio={studio} />
+								<Divider />
+							</Box>
 						))}
 					</>
 				</InfinityScroll>

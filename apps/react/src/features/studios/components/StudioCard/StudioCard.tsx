@@ -27,11 +27,14 @@ const StudioCardComponent = forwardRef<HTMLLIElement | null, Props>(({ studio },
 		navigate(`${studio.id}`);
 	};
 
-	return <ListItem ref={forwardedRef} className={styles['card-container']} onClick={handleNavigateToDetails} sx={{ alignItems: 'center', gap: '25px' }}>
-		<ListItemAvatar sx={{ width: 80, height: 80 }}>
-			<Avatar alt="Studio cover" src={studio.thumbnailImg} sx={{ width: '100%', height: '100%' }} />
-		</ListItemAvatar>
-		<ListItemText primary={<Typography fontSize={17}>{studio.name}</Typography>} />
-	</ListItem>
+	return (
+		<ListItem ref={forwardedRef} className={styles.studioCard} onClick={handleNavigateToDetails}>
+			<ListItemAvatar className={styles.avatar}>
+				<Avatar alt="Studio cover" src={studio.thumbnailImg} className={styles.avatarImg} />
+			</ListItemAvatar>
+			<ListItemText primary={<Typography fontSize={17}>{studio.name}</Typography>} />
+		</ListItem>
+	);
 });
+
 export const StudioCard = memo(StudioCardComponent);
