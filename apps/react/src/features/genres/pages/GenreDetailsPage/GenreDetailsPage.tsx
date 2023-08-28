@@ -1,4 +1,4 @@
-import { Box, Divider, List, ListItem, Typography } from '@mui/material';
+import { Box, List, ListItemText, Typography } from '@mui/material';
 import { FC, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -44,16 +44,8 @@ const GenreDetailsPageComponent: FC = () => {
 					Genre details
 				</Typography>
 				<List>
-					<ListItem>
-						<Typography className={styles['details-subtitle']} component='span'>Name:</Typography>
-						{genre.name}
-					</ListItem>
-					<Divider />
-					<ListItem>
-						<Typography className={styles['details-subtitle']} component='span'>Type:</Typography>
-						{genre.type}
-					</ListItem>
-					<Divider />
+					<ListItemText primary='Name:' secondary={genre.name} />
+					<ListItemText primary='Type:' secondary={genre.type} />
 				</List>
 			</Box>
 		)

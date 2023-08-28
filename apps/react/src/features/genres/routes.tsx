@@ -2,7 +2,7 @@ import { lazy } from 'react';
 import { Navigate, RouteObject } from 'react-router-dom';
 
 import { BasePage } from '../BasePage';
-import { GenreDetailsPage } from './pages/GenreDetailsPage/GenreDetailsPage';
+import { GenreDetailsPage } from './pages/GenreDetailsPage';
 
 const GenresPage = lazy(() => import('./pages/GenresPage').then(module => ({ default: module.GenresPage })));
 
