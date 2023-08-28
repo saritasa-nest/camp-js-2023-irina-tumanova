@@ -17,8 +17,12 @@ import { defaultProfileValues, validationSchema } from './ProfilePage.settings';
 
 /** Profile page component. */
 const ProfilePageComponent: FC = () => {
+
 	const { user, isLoading } = useUserState();
+
+	/** Profile is readonly. */
 	const [isReadOnly, setIsReadOnly] = useState(true);
+
 	const {
 		register,
 		handleSubmit,
@@ -26,25 +30,38 @@ const ProfilePageComponent: FC = () => {
 		setValue,
 		control,
 	} = useForm({ defaultValues: user ?? defaultProfileValues, resolver: zodResolver(validationSchema) });
+
+	/** Avatar image. */
 	const [image, setImage] = useState<File | null>(null);
+
 	const dispatch = useAppDispatch();
 
+	/**
+	 * Submit profile form.
+	 * @param userForm User form.
+	 */
 	const onSubmit = (userForm: User): void => {
 		dispatch(UserDispatcher.updateCurrentUser({ image, user: userForm }));
 		setIsReadOnly(true);
 	};
 
+	/** Toggle profile is readonly. */
 	const toggleIsReadOnly = (): void => {
 		setIsReadOnly(value => !value);
 	};
 
+	/** Cansel changes. */
 	const cancelChanges = (): void => {
 		setIsReadOnly(true);
 	};
 
-	const changeImage = (newImage: File | null): void => {
-		const url = newImage ? URL.createObjectURL(newImage) : null;
-		setImage(newImage);
+	/**
+	 * Change avatar image.
+	 * @param uploadedImage Uploaded image.
+	 */
+	const changeImage = (uploadedImage: File | null): void => {
+		const url = uploadedImage ? URL.createObjectURL(uploadedImage) : null;
+		setImage(uploadedImage);
 		setValue('avatarUrl', url);
 	};
 
