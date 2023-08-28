@@ -45,12 +45,12 @@ const GenreDetailsPageComponent: FC = () => {
 				</Typography>
 				<List>
 					<ListItem>
-						<span className={styles['details-subtitle']}>Name:</span>
+						<Typography className={styles['details-subtitle']} component='span'>Name:</Typography>
 						{genre.name}
 					</ListItem>
 					<Divider />
 					<ListItem>
-						<span className={styles['details-subtitle']}>Type:</span>
+						<Typography className={styles['details-subtitle']} component='span'>Type:</Typography>
 						{genre.type}
 					</ListItem>
 					<Divider />

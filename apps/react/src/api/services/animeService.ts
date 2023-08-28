@@ -7,8 +7,7 @@ import { ListParamsMapper } from '@js-camp/core/mappers/list-params.mapper';
 import { AnimeFilterParamsMapper } from '@js-camp/core/mappers/anime/anime-filter-params.mapper';
 
 import { http } from '..';
-
-const url = 'anime/anime/';
+import { ApiUrlsConfig } from '../apiUrlsConfig';
 
 export namespace AnimeService {
 
@@ -17,7 +16,7 @@ export namespace AnimeService {
 	 * @param params Params from anime table.
 	 */
 	export async function fetchAnime(params: AnimeParams): Promise<Anime[]> {
-		const { data } = await http.get<PaginationDto<AnimeDto>>(url, {
+		const { data } = await http.get<PaginationDto<AnimeDto>>(ApiUrlsConfig.anime.getList, {
 			params: ListParamsMapper.toDto(
 				params,
 				AnimeFilterParamsMapper.toDto,

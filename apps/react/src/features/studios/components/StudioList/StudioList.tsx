@@ -16,7 +16,7 @@ const StudioListComponent: FC<Props> = ({ studios }) => {
 	const navigate = useNavigate();
 	const [selectedIndex, setSelectedIndex] = useState<number>();
 
-	const handleListItemClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, index: number) => {
+	const handleListItemClick = (index: number) => {
 		setSelectedIndex(index);
 		navigate(`/studios/${index}`);
 	};
@@ -28,8 +28,8 @@ const StudioListComponent: FC<Props> = ({ studios }) => {
 					<ListItemButton
 						selected={selectedIndex === studio.id}
 						alignItems="center"
-						onClick={event => {
-							handleListItemClick(event, studio.id);
+						onClick={() => {
+							handleListItemClick(studio.id);
 						}}
 					>
 						<ListItemIcon>
@@ -37,7 +37,7 @@ const StudioListComponent: FC<Props> = ({ studios }) => {
 						</ListItemIcon>
 						<ListItemText primary={studio.name}></ListItemText>
 					</ListItemButton>
-					<Divider></Divider>
+					<Divider />
 				</Box>
 			))}
 		</List>

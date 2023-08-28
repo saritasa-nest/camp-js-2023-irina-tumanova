@@ -15,10 +15,11 @@ type Props<T, R extends FieldValues> = {
 	/** Title. */
 	readonly title: string;
 
-	/** Makes items readable for users. */
+	/** Makes items readable fors users. */
 	readonly toReadable?: (value: T) => string;
 } & FormControlProps<R>;
 
+/** Multiple select. */
 const MultipleSelectComponent = <T extends string, R extends FieldValues>({
 	items,
 	title,

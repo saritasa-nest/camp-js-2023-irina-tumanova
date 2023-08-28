@@ -10,6 +10,11 @@ export const animeSlice = createSlice({
 		clearAnimeList(state) {
 			state.anime = [];
 		},
+		clearAnimeListState(state) {
+			state.anime = [];
+			state.isLoading = false;
+			state.error = undefined;
+		},
 	},
 	extraReducers: builder => builder
 		.addCase(fetchAnime.pending, state => {
@@ -27,4 +32,4 @@ export const animeSlice = createSlice({
 		}),
 });
 
-export const { clearAnimeList } = animeSlice.actions;
+export const { clearAnimeList, clearAnimeListState } = animeSlice.actions;

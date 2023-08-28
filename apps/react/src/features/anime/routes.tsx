@@ -10,6 +10,6 @@ export const animeRoutes: RouteObject[] = [
 	},
 	{
 		path: '*',
-		element: <Navigate to="AnimePage" />,
+		element: <Navigate to="anime" />,
 	},
 ];
