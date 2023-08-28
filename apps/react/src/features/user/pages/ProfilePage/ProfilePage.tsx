@@ -102,13 +102,10 @@ const ProfilePageComponent: FC = () => {
 				variant="standard"
 				{...register('lastName')}/>
 			<TextField
-				className={`${styles.profile__email} ${isReadOnly ? styles.profile__field_readonly : ''}`}
+				className={`${styles.profile__email} ${styles.profile__field_readonly}`}
 				id="email"
 				InputProps={{ readOnly: isReadOnly }}
-				required
 				autoComplete="email"
-				error={errors.email !== undefined}
-				helperText={errors.email?.message ?? ''}
 				label="Email"
 				variant="standard"
 				{...register('email')}/>

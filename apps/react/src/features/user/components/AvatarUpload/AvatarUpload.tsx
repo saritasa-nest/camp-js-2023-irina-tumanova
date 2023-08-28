@@ -101,7 +101,7 @@ const AvatarUploadComponent: FC<Props> = props => {
 			{!props.disable &&
 				<Box className={styles['avatar-upload__actions']}>
 					<Button>
-						Edit
+						Upload
 						<input type="file"
 							onChange={uploadImage}
 							accept={ACCEPT_FILE_TYPES.join(', ')}
