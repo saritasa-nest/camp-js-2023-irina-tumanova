@@ -1,5 +1,5 @@
-import { StudioDto } from '../../dtos/anime/studio.dto';
-import { Studio } from '../../models/anime/studio';
+import { StudioDto } from '../../dtos/studio/studio.dto';
+import { Studio } from '../../models/studio/studio';
 
 export namespace StudioMapper {
 
@@ -11,8 +11,6 @@ export namespace StudioMapper {
 		return new Studio({
 			id: dto.id,
 			name: dto.name,
-			created: new Date(dto.created),
-			modified: new Date(dto.modified),
 		});
 	}
 }

@@ -1,5 +1,5 @@
 import { memo, FC, ReactNode, useState, useCallback } from 'react';
-import { List } from '@mui/material';
+import { Box, List } from '@mui/material';
 
 import { useIntersectionObserver } from '@js-camp/react/hooks/useIntersactionObserver';
 
@@ -20,15 +20,16 @@ interface InfinityScrollProps {
 const InfinityScrollComponent: FC<InfinityScrollProps> = ({ lastItemNode, onObserve, children }) => {
 	const [rootNode, setRootNode] = useState<HTMLUListElement | null>(null);
 	useIntersectionObserver(rootNode, lastItemNode, onObserve);
-
-	const getRootNode = useCallback((node: HTMLUListElement) => {
+	const handleSetNode = useCallback((node: HTMLUListElement): void => {
 		setRootNode(node);
 	}, []);
 
 	return (
-		<List ref={getRootNode} sx={{ maxHeight: '100%', overflowY: 'auto' }}>
-			{children}
-		</List>
+		<Box sx={{ position: 'relative', flex: 1, display: 'flex', width: '100%' }}>
+			<List ref={handleSetNode} sx={{ overflowY: 'auto', position: 'absolute', inset: 0 }}>
+				{children}
+			</List>
+		</Box>
 	);
 };
 

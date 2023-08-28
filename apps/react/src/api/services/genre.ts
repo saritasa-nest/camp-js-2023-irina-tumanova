@@ -7,8 +7,7 @@ import { GenreParams } from '@js-camp/core/models/genre/genre-params';
 import { GenreFilterParamsMapper } from '@js-camp/core/mappers/genre/genre-filter-params';
 
 import { http } from '..';
-
-const url = 'anime/genres/';
+import { ApiUrlsConfig } from '../apiUrlsConfig';
 
 export namespace GenresService {
 
@@ -17,7 +16,7 @@ export namespace GenresService {
 	 * @param params Genre params.
 	 */
 	export async function fetchGenres(params: GenreParams): Promise<Genre[]> {
-		const { data } = await http.get<PaginationDto<GenreDto>>(url, {
+		const { data } = await http.get<PaginationDto<GenreDto>>(ApiUrlsConfig.genre.getList, {
 			params: ListParamsMapper.toDto(
 				params,
 				GenreFilterParamsMapper.toDto,
@@ -25,5 +24,14 @@ export namespace GenresService {
 			),
 		});
 		return data.results.map(dto => GenreMapper.fromDto(dto));
+	}
+
+	/**
+	 * Fetches genre details.
+	 * @param id Genre ID.
+	 */
+	export async function fetchGenreDetails(id: number): Promise<Genre> {
+		const { data } = await http.get<GenreDto>(ApiUrlsConfig.genre.getDetail(id));
+		return GenreMapper.fromDto(data);
 	}
 }

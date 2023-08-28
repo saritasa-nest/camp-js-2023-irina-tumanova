@@ -10,7 +10,7 @@ import { useUserState } from '@js-camp/react/hooks/useUserState';
 export const AuthGuard: FC = () => {
 	const dispatch = useAppDispatch();
 	const hasToken = UserSecretService.hasToken();
-	const { user, isUserLoading } = useUserState();
+	const { user, isLoading } = useUserState();
 
 	if (!hasToken) {
 		const redirect: To = {
@@ -20,7 +20,7 @@ export const AuthGuard: FC = () => {
 	}
 
 	if (user === null) {
-		if (!isUserLoading) {
+		if (!isLoading) {
 			dispatch(UserDispatcher.getCurrentUser());
 		}
 

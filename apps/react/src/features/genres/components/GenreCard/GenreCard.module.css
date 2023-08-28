@@ -1,3 +1,4 @@
-.card {
-	background-color: aliceblue;
+.card-container:hover {
+	cursor: pointer;
+	background-color: var(--on-surface);
 }

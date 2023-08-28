@@ -62,10 +62,12 @@ const AppDrawerComponent: FC<Props> = props => {
 						color="white">
 						Profile
 					</Button>
-					<Button startIcon={<LogoutIcon />}
+					<Button
+						startIcon={<LogoutIcon />}
 						onClick={handleLogout}
 						className={styles['drawer__user-action']}
-						color="white">
+						color="white"
+					>
 						Log out
 					</Button>
 				</Box>

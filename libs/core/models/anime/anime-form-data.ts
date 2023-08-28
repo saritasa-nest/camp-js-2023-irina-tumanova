@@ -1,11 +1,11 @@
 import { DateRange } from '../date-range';
-import { AnimeType } from './anime';
+import { AnimeType } from './anime-type';
 import { AnimeRating } from './anime-details';
 import { AnimeSeason } from './anime-season';
 import { AnimeSource } from './anime-source';
 import { AnimeStatus } from './anime-status';
 import { Genre } from '../genre/genre';
-import { Studio } from './studio';
+import { Studio } from '../studio/studio';
 
 /** Anime form data (edit, create). */
 export class AnimeFormData {
