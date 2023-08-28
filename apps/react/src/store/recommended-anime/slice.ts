@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchAnime } from './dispatchers';
+import { fetchRecommendedAnime } from './dispatchers';
 import { initialState } from './state';
 
 export const recommendedAnimeSlice = createSlice({
@@ -8,14 +8,14 @@ export const recommendedAnimeSlice = createSlice({
 	initialState,
 	reducers: {},
 	extraReducers: builder => builder
-		.addCase(fetchAnime.pending, state => {
+		.addCase(fetchRecommendedAnime.pending, state => {
 			state.isLoading = true;
 		})
-		.addCase(fetchAnime.fulfilled, (state, action) => {
-			state.anime = [...state.anime, ...action.payload];
+		.addCase(fetchRecommendedAnime.fulfilled, (state, action) => {
+			state.anime = action.payload;
 			state.isLoading = false;
 		})
-		.addCase(fetchAnime.rejected, (state, action) => {
+		.addCase(fetchRecommendedAnime.rejected, (state, action) => {
 			if (action.error.message) {
 				state.error = action.error.message;
 			}

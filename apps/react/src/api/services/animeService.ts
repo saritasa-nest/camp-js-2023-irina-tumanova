@@ -10,6 +10,7 @@ import { http } from '..';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { PaginationParamsMapper } from '@js-camp/core/mappers/pagination-params.mapper';
 
+
 const url = 'anime/anime/';
 
 export namespace AnimeService {
@@ -37,7 +38,7 @@ export namespace AnimeService {
 		const { data } = await http.get<PaginationDto<AnimeDto>>(url, {
 			params: {
 				...PaginationParamsMapper.toDto(params),
-				ordering: '-overall_score_annotated',
+				ordering: 'overall_score_annotated',
 			},
 		});
 		return data.results.map(dto => AnimeMapper.fromDto(dto));

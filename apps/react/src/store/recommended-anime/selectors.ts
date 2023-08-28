@@ -10,6 +10,6 @@ export const selectRecommendedAnime = createSelector(
 
 /** Selects anime loading state. */
 export const selectIsRecommendedAnimeLoading = createSelector(
-	(state: RootState) => state.recommendedAnime.anime,
+	(state: RootState) => state.recommendedAnime.isLoading,
 	isLoading => isLoading,
 );

@@ -1,0 +1,29 @@
+.mainPageContainer {
+	flex-direction: row;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: var(--space-m);
+	padding: var(--space-m) 0;
+}
+
+.animeCard {
+	width: 350px;
+	height: 150px;
+	border-radius: var(--border-radius);
+	display: flex;
+	gap: var(--space-m);
+	padding: var(--space-s)
+}
+
+.animeCardImage {
+	height: 150px;
+	max-width: 150px;
+	object-fit: contain;
+	border-radius: var(--border-radius);
+	border: 1px solid var(--on-surface);
+}
+
+.animeCard:hover {
+	background-color: var(--on-surface);
+	cursor: pointer;
+}
