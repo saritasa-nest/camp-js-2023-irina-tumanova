@@ -1,8 +1,15 @@
 .animeCard {
+	display: flex;
+	align-items: flex-start;
 	gap: 10px;
 }
 
 .animeCard:hover {
 	background-color: var(--on-surface);
 	cursor: pointer;
+}
+
+.animeAvatar {
+	width: 80px;
+	height: 80px;
 }

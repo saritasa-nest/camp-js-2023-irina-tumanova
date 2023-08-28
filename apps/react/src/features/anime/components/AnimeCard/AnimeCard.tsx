@@ -14,18 +14,18 @@ interface Props {
 
 /** Card with anime data. */
 const AnimeCardComponent = forwardRef<HTMLLIElement | null, Props>(({ anime }, forwardedRef) => (
-	<ListItem ref={forwardedRef} alignItems="flex-start" className={styles.animeCard}>
-		<Avatar sx={{ width: 80, height: 80 }} src={anime.imageUrl}></Avatar>
+	<ListItem ref={forwardedRef} className={styles.animeCard}>
+		<Avatar className={styles.animeAvatar} src={anime.imageUrl}></Avatar>
 		<ListItemText
 			primary={
-				<Typography sx={{ display: 'inline' }} component="h4" variant="body2" color="text.primary">
+				<Typography component="h4" variant="body2" color="text.primary">
 					{anime.titleJapanese}
 					<br />
 					{anime.titleEnglish}
 				</Typography>
 			}
 			secondary={
-				<Typography sx={{ display: 'inline' }} component="span" variant="body2" color="text.primary">
+				<Typography component="span" variant="body2" color="text.primary">
 					Type: {AnimeType.toReadable(anime.type)}
 					<br />
 					Status: {anime.status}
