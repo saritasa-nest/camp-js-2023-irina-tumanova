@@ -25,24 +25,24 @@ interface FormValues {
 	readonly search: string;
 
 	/** Anime sorting field. */
-	readonly sorting: Sorting<AnimeSortingField>[];
+	readonly sorting: readonly Sorting<AnimeSortingField>[];
 }
 
-const thisPageSortFields: Sorting<AnimeSortingField>[] = [
+const defaultPageSortFields: readonly Sorting<AnimeSortingField>[] = [
 	{ field: AnimeSortingField.TitleEnglish, direction: '' },
 	{ field: AnimeSortingField.Status, direction: '' },
 ];
 
 const defaultParams: AnimeParams = {
 	pagination: new PaginationParams({ pageSize: 30, pageNumber: 0 }),
-	sorting: thisPageSortFields,
+	sorting: defaultPageSortFields,
 	filters: new AnimeFilterParams({ types: [], search: '' }),
 };
 
 const defaultFormValues: FormValues = {
 	types: [],
 	search: '',
-	sorting: thisPageSortFields,
+	sorting: defaultPageSortFields,
 };
 
 /** Anime page component. */
@@ -71,9 +71,9 @@ const AnimePageComponent: FC = () => {
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<MultipleSelect name={'types'} control={control} items={AnimeType.toArray()} title={'Filter'} />
 				<MultipleSort
-					name={'sorting'}
+					name='sorting'
+					title='Sorting'
 					control={control}
-					title={'Sorting'}
 					toReadable={ReadableAnimeSortField.toReadable}
 				/>
 				<TextField label="Search" {...register('search')} />

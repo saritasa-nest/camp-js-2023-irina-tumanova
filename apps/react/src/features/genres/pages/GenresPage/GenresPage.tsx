@@ -105,16 +105,16 @@ const GenresPageComponent: FC = () => {
 				<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
 					<TextField label="Search" {...register('search')} />
 					<MultipleSelect
-						name={'types'}
+						name='types'
+						title='Filter'
 						toReadable={GenreType.toReadable}
 						control={control}
 						items={GenreType.toArray()}
-						title={'Filter'}
 					/>
 					<MultipleSort
-						name={'sorting'}
+						name='sorting'
+						title='Sorting'
 						control={control}
-						title={'Sorting'}
 						toReadable={GenreSortingField.toReadable}
 					/>
 					<Button type="submit">Apply</Button>

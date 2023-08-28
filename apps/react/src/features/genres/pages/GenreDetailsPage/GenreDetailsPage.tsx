@@ -24,12 +24,10 @@ const GenreDetailsPageComponent: FC = () => {
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		if (id) {
-			dispatch(fetchGenreDetails(Number(id)));
-		}
+		dispatch(fetchGenreDetails(Number(id)));
 	}, [id]);
 
-	if (errors) {
+	if (errors != null) {
 		return <NotFoundPage error={errors} />;
 	}
 
