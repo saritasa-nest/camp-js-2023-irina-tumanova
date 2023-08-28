@@ -10,6 +10,11 @@ export const genresSlice = createSlice({
 		clearGenres(state) {
 			state.genres = [];
 		},
+		clearGenresState(state) {
+			state.genres = [];
+			state.isLoading = false;
+			state.error = undefined;
+		},
 	},
 	extraReducers: builder =>
 		builder
@@ -28,4 +33,4 @@ export const genresSlice = createSlice({
 			}),
 });
 
-export const { clearGenres } = genresSlice.actions;
+export const { clearGenres, clearGenresState } = genresSlice.actions;

@@ -1,3 +1,5 @@
+import { enumToArray } from '../../../core/utils/enum-to-array';
+
 /** Anime type dto. */
 export enum AnimeType {
 	TV = 'TV',
@@ -20,6 +22,11 @@ export namespace AnimeType {
 		[AnimeType.Music]: 'Music',
 		[AnimeType.Unknown]: 'Unknown',
 	};
+
+	/** Converts enum genre type to array. */
+	export function toArray(): readonly AnimeType[] {
+		return enumToArray(AnimeType);
+	}
 
 	/**
 	 * Makes genre type readable.
