@@ -1,7 +1,7 @@
 import { Anime } from '@js-camp/core/models/anime/anime';
 
-/** Anime state. */
-export interface AnimeState {
+/** Recommended anime state. */
+export interface RecommendedAnimeState {
 
 	/** Anime list. */
 	readonly anime: Anime[];
@@ -13,7 +13,7 @@ export interface AnimeState {
 	readonly isLoading: boolean;
 }
 
-export const initialState: AnimeState = {
+export const initialState: RecommendedAnimeState = {
 	isLoading: false,
 	anime: [],
 };

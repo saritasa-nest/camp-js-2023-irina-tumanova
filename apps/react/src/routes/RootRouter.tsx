@@ -7,6 +7,7 @@ import { authRoutes } from '../features/auth/routes';
 import { AppLayout } from '../components/AppLayout/AppLayout';
 import { AuthGuard, NoAuthGuard } from './guards';
 import { studiosRoutes } from '../features/studios/routes';
+import { MainPage } from '../features/MainPage/MainPage';
 
 const routes: RouteObject[] = [
 	{
@@ -17,8 +18,8 @@ const routes: RouteObject[] = [
 				element: <AuthGuard />,
 				children: [
 					{
-						path: '/',
-						element: <div>Main</div>,
+						index: true,
+						element: <MainPage />,
 					},
 					...genresRoutes,
 					...animeRoutes,
