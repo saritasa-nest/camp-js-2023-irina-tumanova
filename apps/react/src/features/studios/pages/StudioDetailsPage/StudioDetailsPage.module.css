@@ -1,0 +1,14 @@
+.details-container {
+	padding: var(--space-m);
+	flex: 1;
+}
+
+.details-title {
+	text-align: center;
+	margin-bottom: var(--space-m);
+}
+
+.details-subtitle {
+	font-weight: 600;
+	margin-right: var(--space-s);
+}

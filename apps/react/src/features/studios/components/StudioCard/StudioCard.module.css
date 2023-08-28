@@ -1,0 +1,4 @@
+.card-container:hover {
+	cursor: pointer;
+	background-color: var(--on-surface);
+}

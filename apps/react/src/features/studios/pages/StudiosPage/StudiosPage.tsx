@@ -8,6 +8,7 @@ import {
 import { Menu } from '@mui/icons-material';
 import { FC, memo, useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { Outlet } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { fetchStudios } from '@js-camp/react/store/studio/dispatchers';
@@ -117,6 +118,7 @@ const StudiosPageComponent: FC = () => {
 					</>
 				</InfinityScroll>
 			</aside>
+			<Outlet />
 		</Box>
 	);
 };
