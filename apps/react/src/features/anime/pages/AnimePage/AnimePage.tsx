@@ -95,7 +95,7 @@ const AnimePageComponent: FC = () => {
 		toggleMenu();
 	};
 
-	const getLastItemNode = useCallback((node: HTMLLIElement) => {
+	const getLastAnimeNode = useCallback((node: HTMLLIElement) => {
 		setLastItemNode(node);
 	}, []);
 
@@ -130,7 +130,7 @@ const AnimePageComponent: FC = () => {
 						{animeList.map((anime, index) => (
 							<Box key={anime.id}>
 								<AnimeCard
-									ref={index === animeList.length - 1 ? getLastItemNode : null}
+									ref={index === animeList.length - 1 ? getLastAnimeNode : null}
 									anime={anime}
 								/>
 								<Divider />
