@@ -84,14 +84,14 @@ const AnimeDetailsComponent: FC = () => {
 						<ListItemText primary='Aired:' secondary={
 							getYearsRange(animeDetails.aired.start, animeDetails.aired.end)
 						} />
-						<ListItemText primary='Studios:' secondary={
+						<ListItemText className={styles.studios} primary='Studios:' secondary={
 							animeDetails.studios.length ? animeDetails.studios.map(studio => (
 								<span key={studio.id} className={styles.studio}>
 									{studio.name}
 								</span>
 							)) : 'Unknown'
 						} />
-						<ListItemText primary='Genres:' secondary={
+						<ListItemText className={styles.genres} primary='Genres:' secondary={
 							animeDetails.genres.length ? animeDetails.genres.map(genre => (
 								<span key={genre.id} className={styles.genre}>
 									{genre.name}

@@ -24,10 +24,19 @@
 	grid-template-columns: 1fr 1fr;
 }
 
+.studios p,
+.genres p {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+}
+
 .studio,
 .genre {
+	display: inline-block;
 	border: 1px solid gray;
 	border-radius: 10px;
+	flex-wrap: nowrap;
 	padding: 5px;
 }
 
@@ -39,6 +48,7 @@
 
 .trailer iframe {
 	max-width: 1280px;
-	max-height: calc(1280px * 9 / 16);
+	height: auto;
+	aspect-ratio: 16 / 9;
 	border: none;
 }
