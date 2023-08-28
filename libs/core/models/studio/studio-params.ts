@@ -3,7 +3,7 @@ import { PaginationParams } from '../pagination-params';
 import { Sorting } from '../sorting';
 import { StudioSortingField } from './studio-sort';
 
-/** Filters parameters for getting anime. */
+/** Filters parameters for getting studios. */
 export class StudioFilterParams {
 
 	/** Search. */
@@ -16,6 +16,7 @@ export class StudioFilterParams {
 
 type InitGenreFilterParams = StudioFilterParams;
 
+/** Request params for getting studios. */
 export type StudioParams = ListParams<StudioFilterParams, StudioSortingField>;
 
 export type QueryStudioParams = PaginationParams &

@@ -1,6 +1,6 @@
 import { Box, Drawer, IconButton, TextField, Button, Divider } from '@mui/material';
 import { Menu } from '@mui/icons-material';
-import { FC, memo, useCallback, useEffect, useRef, useState } from 'react';
+import { FC, memo, useCallback, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
@@ -30,6 +30,7 @@ const defaultParams: StudioParams = {
 };
 
 interface FormValues {
+
 	/** Studio. */
 	readonly search: string;
 
@@ -51,8 +52,6 @@ const StudiosPageComponent: FC = () => {
 	const [parameters, setParameters] = useState<StudioParams>(defaultParams);
 
 	const [lastItemNode, setLastItemNode] = useState<HTMLLIElement | null>(null);
-
-	// const lastItemRef = useRef<HTMLLIElement | null>(null);
 
 	useEffect(() => {
 		dispatch(clearStudiosState());
