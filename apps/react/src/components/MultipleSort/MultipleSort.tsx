@@ -33,7 +33,7 @@ const MultipleSortComponent = <T extends string, R extends FieldValues>({
 	 * @param index Index of sort field.
 	 */
 	function getNewValueWithToggledDirection<TValue extends FieldValues>(value: TValue, index: number) {
-		const newValueArray = { ...value };
+		const newValueArray = JSON.parse(JSON.stringify(value));
 		if (value[index].direction === 'asc') {
 			newValueArray[index].direction = 'desc';
 		} else if (value[index].direction === 'desc') {
