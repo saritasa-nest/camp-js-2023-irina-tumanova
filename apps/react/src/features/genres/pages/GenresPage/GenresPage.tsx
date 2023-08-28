@@ -21,7 +21,7 @@ import { MultipleSelect } from '@js-camp/react/components/MultipleSelect';
 import { GenreCard } from '../../components/GenreCard';
 import styles from './GenrePage.module.css';
 
-const genreSoringFields: Sorting<GenreSortingField>[] = [
+const genreSoringFields: readonly Sorting<GenreSortingField>[] = [
 	{ field: GenreSortingField.Name, direction: '' },
 	{ field: GenreSortingField.Type, direction: '' },
 ];
@@ -42,7 +42,7 @@ interface FormValues {
 	readonly search: string;
 
 	/** Genre sorting fields. */
-	readonly sorting: Sorting<GenreSortingField>[];
+	readonly sorting: readonly Sorting<GenreSortingField>[];
 }
 
 const defaultFormValues: FormValues = {
@@ -105,16 +105,16 @@ const GenresPageComponent: FC = () => {
 				<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
 					<TextField label="Search" {...register('search')} />
 					<MultipleSelect
-						name={'types'}
+						name='types'
+						title='Filter'
 						toReadable={GenreType.toReadable}
 						control={control}
 						items={GenreType.toArray()}
-						title={'Filter'}
 					/>
 					<MultipleSort
-						name={'sorting'}
+						name='sorting'
+						title='Sorting'
 						control={control}
-						title={'Sorting'}
 						toReadable={GenreSortingField.toReadable}
 					/>
 					<Button type="submit">Apply</Button>

@@ -21,14 +21,14 @@ import { InfinityScroll } from '@js-camp/react/components/InfinityScroll';
 import styles from './AnimePage.module.css';
 import { AnimeCard } from '../../components/AnimeCard';
 
-const animeSortingFields: Sorting<AnimeSortingField>[] = [
+const defaultPageSortFields: readonly Sorting<AnimeSortingField>[] = [
 	{ field: AnimeSortingField.TitleEnglish, direction: '' },
 	{ field: AnimeSortingField.Status, direction: '' },
 ];
 
 const defaultParams: AnimeParams = {
 	pagination: new PaginationParams({ pageSize: 15, pageNumber: 0 }),
-	sorting: animeSortingFields,
+	sorting: defaultPageSortFields,
 	filters: new AnimeFilterParams({ types: [], search: '' }),
 };
 
@@ -36,19 +36,19 @@ const defaultParams: AnimeParams = {
 interface FormValues {
 
 	/** Anime types. */
-	types: AnimeType[];
+	readonly types: AnimeType[];
 
 	/** Search. */
-	search: string;
+	readonly search: string;
 
 	/** Anime sorting field. */
-	sorting: Sorting<AnimeSortingField>[];
+	readonly sorting: readonly Sorting<AnimeSortingField>[];
 }
 
 const defaultFormValues: FormValues = {
 	types: [],
 	search: '',
-	sorting: animeSortingFields,
+	sorting: defaultPageSortFields,
 };
 
 /** Anime page component. */
@@ -112,9 +112,9 @@ const AnimePageComponent: FC = () => {
 						title={'Filter'}
 					/>
 					<MultipleSort
-						name={'sorting'}
+						name='sorting'
 						control={control}
-						title={'Sorting'}
+						title='Sorting'
 						toReadable={AnimeSortingField.toReadable}
 					/>
 					<Button type="submit">Apply</Button>
