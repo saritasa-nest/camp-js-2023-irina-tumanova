@@ -30,7 +30,7 @@ export namespace AnimeType {
 
 	/**
 	 * Makes anime type readable.
-	 * @param value Genre type.
+	 * @param value Anime type.
 	 */
 	export function toReadable(value: AnimeType): string {
 		return TO_READABLE_TYPE[value];

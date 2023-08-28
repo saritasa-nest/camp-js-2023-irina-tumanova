@@ -20,6 +20,7 @@ type Props = Readonly<{
  * @param props Component props.
  */
 const AppAuthHeaderComponent: FC<Props> = props => {
+
 	/** Drawer is open. */
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -41,11 +42,10 @@ const AppAuthHeaderComponent: FC<Props> = props => {
 					<Typography variant="body1">Hi, {props.user.firstName}</Typography>
 				</div>
 
-				{isNotMainPage && (
+				{isNotMainPage &&
 					<Button color="white" onClick={goToMainPage} startIcon={<ArrowBackIosIcon />}>
 						Main page
-					</Button>
-				)}
+					</Button>}
 
 				<AppDrawer isOpen={isDrawerOpen} close={() => setIsDrawerOpen(false)} />
 			</Toolbar>

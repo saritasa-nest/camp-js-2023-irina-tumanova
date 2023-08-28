@@ -7,7 +7,7 @@ export class ListParams<TFilters, TSortingField> {
 	public readonly pagination: PaginationParams;
 
 	/** Sorting: sort field and direction. */
-	public readonly sorting: Sorting<TSortingField>[];
+	public readonly sorting: readonly Sorting<TSortingField>[];
 
 	/** List filters. */
 	public readonly filters: TFilters;
