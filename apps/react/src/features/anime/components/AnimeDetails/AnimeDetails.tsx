@@ -104,9 +104,11 @@ const AnimeDetailsComponent: FC = () => {
 				</Box>
 
 				{animeDetails.trailerYoutubeId && (
-					<Box>
-						<YouTube videoId={animeDetails.trailerYoutubeId ?? undefined} opts={opts}></YouTube>
-					</Box>
+					<YouTube
+						className={styles.trailer}
+						videoId={animeDetails.trailerYoutubeId ?? undefined}
+						opts={opts}
+					></YouTube>
 				)}
 			</Box>
 		)

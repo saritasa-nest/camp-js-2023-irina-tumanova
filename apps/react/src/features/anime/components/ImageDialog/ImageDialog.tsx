@@ -1,4 +1,4 @@
-import { Dialog } from '@mui/material';
+import { Box, Dialog } from '@mui/material';
 import { FC, memo } from 'react';
 
 import styles from './ImageDialog.module.css';
@@ -21,9 +21,9 @@ const ImageDialogComponent: FC<ImageDialogProps> = (props: ImageDialogProps) => 
 
 	return (
 		<Dialog onClose={onClose} open={open}>
-			<div className={styles['img-wrapper']}>
+			<Box className={styles['img-wrapper']}>
 				<img src={imageSrc} className={styles.img}/>
-			</div>
+			</Box>
 		</Dialog>
 	);
 };
