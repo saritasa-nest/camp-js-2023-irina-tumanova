@@ -24,12 +24,10 @@ const StudioDetailsPageComponent: FC = () => {
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		if (id) {
-			dispatch(fetchStudioDetails(Number(id)));
-		}
+		dispatch(fetchStudioDetails(Number(id)));
 	}, [id]);
 
-	if (errors) {
+	if (errors != null) {
 		return <NotFoundPage error={errors} />;
 	}
 
