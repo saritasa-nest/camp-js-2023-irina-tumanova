@@ -8,11 +8,11 @@ import styles from './AnimeCard.module.css';
 
 interface Props {
 
-	/** Genre. */
+	/** Anime. */
 	readonly anime: Anime;
 }
 
-/** Card with genre data. */
+/** Card with anime data. */
 const AnimeCardComponent = forwardRef<HTMLLIElement | null, Props>(({ anime }, forwardedRef) => (
 	<ListItem ref={forwardedRef} alignItems="flex-start" className={styles.animeCard}>
 		<Avatar sx={{ width: 80, height: 80 }} src={anime.imageUrl}></Avatar>

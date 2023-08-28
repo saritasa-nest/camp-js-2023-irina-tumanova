@@ -35,7 +35,7 @@ const defaultParams: AnimeParams = {
 /** Form values. */
 interface FormValues {
 
-	/** Genre types. */
+	/** Anime types. */
 	types: AnimeType[];
 
 	/** Search. */
