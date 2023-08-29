@@ -16,3 +16,5 @@ http.interceptors.request.use(config => addTokenInterceptor(config),
 
 http.interceptors.response.use(response => response,
 	error => refreshSecretInterceptor(error));
+
+export const s3Http = axios.create({ baseURL: CONFIG.apiUrl });

@@ -11,5 +11,5 @@ export interface UserDto {
 	readonly last_name: string;
 
 	/** Avatar url. */
-	readonly avatar: string;
+	readonly avatar: string | null;
 }

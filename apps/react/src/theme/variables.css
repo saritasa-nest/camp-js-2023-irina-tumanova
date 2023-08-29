@@ -1,9 +1,11 @@
 :root {
 	/* Spaces */
+	--space-l: calc(var(--space-m) * 2);
 	--space-m: 16px;
 	--space-s: calc(var(--space-m) / 2);
 
 	/* Colors */
 	--on-surface: hsl(0deg 0% 0% / 16%);
+	--typography-color: hsl(0deg 0% 0% / 100%);
 	--background-color: #eaf9ff;
 }

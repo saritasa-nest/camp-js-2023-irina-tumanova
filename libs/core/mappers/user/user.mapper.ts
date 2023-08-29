@@ -15,4 +15,17 @@ export namespace UserMapper {
 			avatarUrl: dto.avatar,
 		});
 	}
+
+	/**
+	 * Maps model to DTO.
+	 * @param model User.
+	 */
+	export function toDto(model: User): UserDto {
+		return {
+			email: model.email,
+			first_name: model.firstName,
+			last_name: model.lastName,
+			avatar: model.avatarUrl,
+		};
+	}
 }
