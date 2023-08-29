@@ -30,8 +30,17 @@ export namespace AnimeService {
 	}
 
 	/**
+	 * Changes anime score.
+	 * @param id Anime ID.
+	 * @param score New anime score.
+	 */
+	export async function changeAnimeScore(id: Anime['id'], score: number | null): Promise<void> {
+		await http.post<void>(ApiUrlsConfig.anime.changeScore(id), { score });
+	}
+
+	/**
 	 * Fetches anime details.
-	 * @param id Anime id.
+	 * @param id Anime ID.
 	 */
 	export async function fetchAnimeDetails(id: Anime['id']): Promise<AnimeDetails> {
 		const { data } = await http.get<AnimeDetailsDto>(ApiUrlsConfig.anime.getDetail(id));

@@ -14,6 +14,7 @@ export namespace ApiUrlsConfig {
 		getDetail: (id: Anime['id']) => toApi(`anime/anime/${id}/`),
 		delete: (id: Anime['id']) => toApi(`anime/anime/${id}/`),
 		edit: (id: Anime['id']) => toApi(`anime/anime/${id}/`),
+		changeScore: (id: Anime['id']) => toApi(`anime/anime/${id}/score/`),
 		create: toApi('anime/anime/'),
 	};
 

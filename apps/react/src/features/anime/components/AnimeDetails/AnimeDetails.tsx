@@ -1,10 +1,10 @@
 import { FC, memo, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, List, ListItemText } from '@mui/material';
+import { Box, List, ListItemText, Rating } from '@mui/material';
 import YouTube, { YouTubeProps } from 'react-youtube';
 
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
-import { fetchAnimeDetails } from '@js-camp/react/store/anime-details/dispatchers';
+import { changeAnimeDetailsScore, fetchAnimeDetails } from '@js-camp/react/store/anime-details/dispatchers';
 import {
 	selectAnimeDetails,
 	selectAnimeDetailsError,
@@ -53,6 +53,12 @@ const AnimeDetailsComponent: FC = () => {
 		return <AppShadowLoader />;
 	}
 
+	const handleChangeScore = (score: number | null) => {
+		if (animeDetails != null) {
+			dispatch(changeAnimeDetailsScore({ id: animeDetails.id, score }));
+		}
+	};
+
 	return (
 		animeDetails && (
 			<Box className={styles.wrapper}>
@@ -77,6 +83,12 @@ const AnimeDetailsComponent: FC = () => {
 						<ListItemText primary='Rating:' secondary={animeDetails.rating} />
 						<ListItemText primary='Source:' secondary={animeDetails.source} />
 						<ListItemText primary='Season:' secondary={animeDetails.season} />
+						<ListItemText primary='Overall score:' secondary={
+							<Rating value={animeDetails.score} readOnly />} />
+						<ListItemText primary='Your score:' secondary={
+							<Rating name="userScore"
+								onChange={(_, score) => handleChangeScore(score)}
+								value={animeDetails.userScore} />} />
 					</List>
 
 					<List>

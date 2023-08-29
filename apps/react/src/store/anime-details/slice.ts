@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { castDraft } from 'immer';
 
-import { fetchAnimeDetails } from './dispatchers';
+import { changeAnimeDetailsScore, fetchAnimeDetails } from './dispatchers';
 import { initialState } from './state';
 
 export const animeDetailsSlice = createSlice({
@@ -21,6 +21,19 @@ export const animeDetailsSlice = createSlice({
 			state.isLoading = false;
 		})
 		.addCase(fetchAnimeDetails.rejected, (state, action) => {
+			if (action.error.message) {
+				state.error = action.error.message;
+			}
+			state.isLoading = false;
+		})
+		.addCase(changeAnimeDetailsScore.pending, state => {
+			state.isLoading = true;
+		})
+		.addCase(changeAnimeDetailsScore.fulfilled, (state, action) => {
+			state.animeDetails = castDraft(action.payload);
+			state.isLoading = false;
+		})
+		.addCase(changeAnimeDetailsScore.rejected, (state, action) => {
 			if (action.error.message) {
 				state.error = action.error.message;
 			}
