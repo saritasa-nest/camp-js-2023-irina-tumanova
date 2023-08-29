@@ -1,10 +1,9 @@
 import { xml2js } from 'xml-js';
-import axios from 'axios';
 
 import { S3UploadRequestDto } from '@js-camp/core/dtos/s3-upload-request.dto';
 
 import { ApiUrlsConfig } from '../apiUrlsConfig';
-import { http } from '..';
+import { http, s3Http } from '..';
 
 interface S3PostData {
 
@@ -53,7 +52,7 @@ export namespace S3Service {
 		});
 
 		const { formAction, formData } = createS3PostData(s3Request, imageFile);
-		const { data: s3Response } = await axios.post(formAction, formData);
+		const { data: s3Response } = await s3Http.post(formAction, formData);
 
 		const response = xml2js(s3Response, { compact: true }) as S3Response;
 		return response.PostResponse.Location._text;

@@ -4,7 +4,7 @@ import { UserMapper } from '@js-camp/core/mappers/user/user.mapper';
 
 import { ApiUrlsConfig } from '../apiUrlsConfig';
 import { http } from '..';
-import { S3Service } from './s3-bucket';
+import { S3Service } from './s3Bucket';
 
 /** User service. */
 export namespace UserService {
