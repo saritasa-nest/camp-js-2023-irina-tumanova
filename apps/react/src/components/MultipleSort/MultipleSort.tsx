@@ -5,6 +5,7 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 import { typedMemo } from '@js-camp/react/utils/typedMemo';
+import { SortDirection, Sorting } from '@js-camp/core/models/sorting';
 
 import { FormControlProps } from '../../utils/formControl';
 import styles from './MultipleSort.module.css';
@@ -19,6 +20,12 @@ type Props<T, R extends FieldValues> = {
 	readonly toReadable?: (value: T) => string;
 } & FormControlProps<R>;
 
+const directionToggleObject = {
+	[SortDirection.Asc]: SortDirection.Desc,
+	[SortDirection.Desc]: SortDirection.None,
+	[SortDirection.None]: SortDirection.Asc,
+};
+
 const MultipleSortComponent = <T extends string, R extends FieldValues>({
 	control,
 	name,
@@ -32,21 +39,28 @@ const MultipleSortComponent = <T extends string, R extends FieldValues>({
 	 * @param value Value.
 	 * @param index Index of sort field.
 	 */
-	function getNewValueWithToggledDirection<TValue extends FieldValues>(value: TValue, index: number) {
-		const newValueArray = JSON.parse(JSON.stringify(value));
-		if (value[index].direction === 'asc') {
-			newValueArray[index].direction = 'desc';
-		} else if (value[index].direction === 'desc') {
-			newValueArray[index].direction = '';
-		} else if (value[index].direction === '') {
-			newValueArray[index].direction = 'asc';
+	function getNewValueWithToggledDirection<TValue extends Sorting<FieldValues>>(
+		value: readonly TValue[],
+		index: number,
+	): TValue[] {
+		const elementForChange = value.at(index);
+
+		if (elementForChange == null) {
+			return [...value];
 		}
-		return newValueArray;
+
+		const newArr = [...value];
+		newArr[index] = {
+			...elementForChange,
+			direction: directionToggleObject[elementForChange.direction],
+		};
+
+		return newArr;
 	}
 
 	return (
 		<FormControl className={styles.formControl}>
-			<Typography color="gray">{title}</Typography>
+			<Typography className={styles.sortTitle}>{title}</Typography>
 			<Controller
 				control={control}
 				name={name}
