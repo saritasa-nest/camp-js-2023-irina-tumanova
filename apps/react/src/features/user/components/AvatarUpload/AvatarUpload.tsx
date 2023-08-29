@@ -36,7 +36,7 @@ const ERROR_DISPLAY_TIME = 1000 * 3;
  */
 const AvatarUploadComponent: FC<Props> = ({ imageUrl, changeImage, disable, className }) => {
 	const [error, setError] = useState<string | null>(null);
-	const errorTimer = useRef<NodeJS.Timeout | null>(null);
+	const errorTimer = useRef<typeof setTimeout | null>(null);
 
 	/**
 	 * Upload avatar image.
