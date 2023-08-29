@@ -1,5 +1,6 @@
 import { FC, useRef, useState } from 'react';
 import { Alert, Avatar, Box, Button } from '@mui/material';
+import clsx from 'clsx';
 
 import { typedMemo } from '@js-camp/react/utils/typedMemo';
 
@@ -33,7 +34,7 @@ const ERROR_DISPLAY_TIME = 1000 * 3;
  * Avatar upload component.
  * @param props Props.
  */
-const AvatarUploadComponent: FC<Props> = props => {
+const AvatarUploadComponent: FC<Props> = ({ imageUrl, changeImage, disable, className }) => {
 	const [error, setError] = useState<string | null>(null);
 	const errorTimer = useRef<NodeJS.Timeout | null>(null);
 
@@ -55,7 +56,7 @@ const AvatarUploadComponent: FC<Props> = props => {
 			return;
 		}
 
-		props.changeImage(file);
+		changeImage(file);
 	};
 
 	/** Clear image error. */
@@ -89,22 +90,22 @@ const AvatarUploadComponent: FC<Props> = props => {
 
 	/** Delete image. */
 	const deleteImage = (): void => {
-		props.changeImage(null);
+		changeImage(null);
 	};
 
 	return (
-		<Box className={`${styles['avatar-upload']} ${props.className ?? ''}`}>
+		<Box className={clsx(styles['avatar-upload'], className)}>
 			<Avatar alt="Current user avatar"
 				className={styles['avatar-upload__avatar']}
-				src={props.imageUrl ?? undefined}/>
-			{!props.disable &&
+				src={imageUrl ?? undefined} />
+			{!disable &&
 				<Box className={styles['avatar-upload__actions']}>
-					<Button>
+					<Button component={Box}>
 						Upload
 						<input type="file"
 							onChange={uploadImage}
 							accept={ACCEPT_FILE_TYPES.join(', ')}
-							className={styles['avatar-upload__input']}/>
+							className={styles['avatar-upload__input']} />
 					</Button>
 					<Button color="error" onClick={deleteImage}>Delete</Button>
 				</Box>}

@@ -3,6 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 import { Navigate } from 'react-router-dom';
 import { Box, Button, TextField, Typography } from '@mui/material';
+import clsx from 'clsx';
 
 import { useUserState } from '@js-camp/react/hooks/useUserState';
 import { typedMemo } from '@js-camp/react/utils/typedMemo';
@@ -50,7 +51,7 @@ const ProfilePageComponent: FC = () => {
 		setIsReadOnly(value => !value);
 	};
 
-	/** Cansel changes. */
+	/** Cancel changes. */
 	const cancelChanges = (): void => {
 		setIsReadOnly(true);
 	};
@@ -106,7 +107,7 @@ const ProfilePageComponent: FC = () => {
 				helperText={errors.firstName?.message ?? ''}
 				label="First name"
 				variant="standard"
-				{...register('firstName')}/>
+				{...register('firstName')} />
 			<TextField
 				className={isReadOnly ? styles.profile__field_readonly : ''}
 				id="lastName"
@@ -117,15 +118,15 @@ const ProfilePageComponent: FC = () => {
 				helperText={errors.lastName?.message ?? ''}
 				label="Last name"
 				variant="standard"
-				{...register('lastName')}/>
+				{...register('lastName')} />
 			<TextField
-				className={`${styles.profile__email} ${styles.profile__field_readonly}`}
+				className={clsx(styles.profile__email, styles.profile__field_readonly)}
 				id="email"
 				InputProps={{ readOnly: isReadOnly }}
 				autoComplete="email"
 				label="Email"
 				variant="standard"
-				{...register('email')}/>
+				{...register('email')} />
 		</form>
 	</Box>;
 };
