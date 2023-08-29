@@ -2,7 +2,10 @@
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	position: relative;
+	position: sticky;
+
+	/* height of header. */
+	top: 64px;
 	width: 360px;
 	background-color: var(--background-color);
 }
