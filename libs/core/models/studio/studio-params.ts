@@ -19,7 +19,8 @@ type InitGenreFilterParams = StudioFilterParams;
 /** Request params for getting studios. */
 export type StudioParams = ListParams<StudioFilterParams, StudioSortingField>;
 
+/** Query studio params. */
 export type QueryStudioParams = PaginationParams &
 Sorting<StudioSortingField> & {
-	search: string;
+	readonly search: string;
 };

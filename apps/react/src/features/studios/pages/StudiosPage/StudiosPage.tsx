@@ -35,7 +35,7 @@ interface FormValues {
 	readonly search: string;
 
 	/** Sorting. */
-	readonly sorting: Sorting<StudioSortingField>[];
+	readonly sorting: readonly Sorting<StudioSortingField>[];
 }
 
 const defaultFormValues: FormValues = {
