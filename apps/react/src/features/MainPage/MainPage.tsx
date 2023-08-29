@@ -1,5 +1,5 @@
 import { FC, useEffect } from 'react';
-import { Box, Container, List, ListItemText } from '@mui/material';
+import { Card, CardContent, CardMedia, Container, Rating, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
@@ -37,13 +37,22 @@ const MainPaigComponent: FC = () => {
 
 	return (
 		<Container sx={{ display: 'flex' }} className={styles.mainPageContainer}>
-			{anime.map(item => <Box onClick={() => handleNavigateToDetails(item.id)} className={styles.animeCard}>
-				<img className={styles.animeCardImage} src={item.imageUrl} alt={item.titleEnglish} />
-				<List>
-					{item.titleEnglish && <ListItemText primary='English title:' secondary={item.titleEnglish} />}
-					{item.titleJapanese && <ListItemText primary='Japanese title:' secondary={item.titleJapanese} />}
-				</List>
-			</Box>)}
+			{anime.map(item => <Card className={styles.animeCard} onClick={() => handleNavigateToDetails(item.id)}>
+				<CardMedia
+					sx={{ height: 140 }}
+					image={item.imageUrl}
+					title={item.titleEnglish}
+				/>
+				<CardContent>
+					<Typography gutterBottom variant="h5" component="div">
+						{item.titleEnglish}
+					</Typography>
+					<Typography gutterBottom variant="body2" color="text.secondary">
+						{item.titleJapanese}
+					</Typography>
+					<Rating name="read-only" className={styles.bla} value={item.score} readOnly />
+				</CardContent>
+			</Card>)};
 		</Container>
 	);
 };
