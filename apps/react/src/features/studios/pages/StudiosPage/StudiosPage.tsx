@@ -18,7 +18,7 @@ import { MultipleSort } from '@js-camp/react/components/MultipleSort/MultipleSor
 import styles from './StudiosPage.module.css';
 import { StudioCard } from '../../components/StudioCard/StudioCard';
 
-const studioSortingFields: Sorting<StudioSortingField>[] = [
+const studioSortingFields: readonly Sorting<StudioSortingField>[] = [
 	{ field: StudioSortingField.Name, direction: '' },
 	{ field: StudioSortingField.Modified, direction: '' },
 ];

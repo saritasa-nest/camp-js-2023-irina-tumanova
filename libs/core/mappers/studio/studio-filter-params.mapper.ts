@@ -14,7 +14,8 @@ export namespace StudioFilterParamsMapper {
 		};
 	}
 
-	export const STUDIO_SORT_FIELD_TO_DTO = {
+	/** Converts model enum value to dto value. */
+	export const STUDIO_SORT_FIELD_TO_DTO: Record<StudioSortingField, StudioSortingFieldDto> = {
 		[StudioSortingField.Modified]: StudioSortingFieldDto.Modified,
 		[StudioSortingField.Name]: StudioSortingFieldDto.Name,
 	};

@@ -19,4 +19,5 @@ const StudioCardComponent = forwardRef<HTMLLIElement | null, Props>(({ studio },
 		<ListItemText primary={<Typography fontSize={17}>{studio.name}</Typography>} />
 	</ListItem>
 ));
+
 export const StudioCard = memo(StudioCardComponent);
