@@ -2,19 +2,17 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import { RootState } from '../store';
 
-/** Selects studio details from store. */
+/** Selects studio details state. */
 export const selectStudioDetails = createSelector(
-	(state: RootState) => state.studioDetails.studioDetails,
-	genre => genre,
+	(state: RootState) => state.studioDetails,
+	state => ({
+		isLoading: state.isLoading,
+		studiosDetails: state.studioDetails,
+		error: state.error,
+	}),
 );
 
-/** Selects studio details loading state. */
-export const selectAreStudioDetailsLoading = createSelector(
-	(state: RootState) => state.studioDetails.isLoading,
-	isLoading => isLoading,
-);
-
-/** Selects studio details errors. */
+/** Selects studio details error from store. */
 export const selectStudioDetailsErrors = createSelector(
 	(state: RootState) => state.studioDetails.error,
 	error => error,

@@ -1,9 +1,9 @@
 import { Studio } from '@js-camp/core/models/studio/studio';
 
-/** Genres state. */
+/** Studio details state. */
 export interface StudioDetailsState {
 
-	/** Genre details. */
+	/** Studio details. */
 	readonly studioDetails: Studio | null;
 
 	/** Error. */

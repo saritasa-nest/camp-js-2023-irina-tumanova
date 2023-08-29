@@ -4,11 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import { AppShadowLoader } from '@js-camp/react/components/AppShadowLoader';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
-import {
-	selectAreStudioDetailsLoading,
-	selectStudioDetails,
-	selectStudioDetailsErrors,
-} from '@js-camp/react/store/studio-details/selectors';
+import { selectStudioDetails } from '@js-camp/react/store/studio-details/selectors';
 import { fetchStudioDetails } from '@js-camp/react/store/studio-details/dispatchers';
 import { NotFoundPage } from '@js-camp/react/features/NotFoundPage/NotFoundPage';
 import { typedMemo } from '@js-camp/react/utils/typedMemo';
@@ -18,17 +14,15 @@ import styles from './StudioDetailsPage.module.css';
 /** Studio details page component. */
 const StudioDetailsPageComponent: FC = () => {
 	const { id } = useParams();
-	const isLoading = useAppSelector(selectAreStudioDetailsLoading);
-	const studio = useAppSelector(selectStudioDetails);
-	const errors = useAppSelector(selectStudioDetailsErrors);
+	const { studiosDetails, isLoading, error } = useAppSelector(selectStudioDetails);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
 		dispatch(fetchStudioDetails(Number(id)));
 	}, [id]);
 
-	if (errors != null) {
-		return <NotFoundPage error={errors} />;
+	if (error != null) {
+		return <NotFoundPage error={error} />;
 	}
 
 	if (isLoading) {
@@ -36,7 +30,7 @@ const StudioDetailsPageComponent: FC = () => {
 	}
 
 	return (
-		studio && (
+		studiosDetails && (
 			<Box className={styles.detailsСontainer}>
 				<Typography className={styles.detailsTitle} variant="h4" component="h2">
 					Studio details
@@ -44,12 +38,12 @@ const StudioDetailsPageComponent: FC = () => {
 				<Box className={styles.imageWrapper}>
 					<img
 						className={styles.image}
-						src={studio.thumbnailImg}
-						alt={`${studio.name} image`}
+						src={studiosDetails.thumbnailImg}
+						alt={`${studiosDetails.name} image`}
 					/>
 				</Box>
 				<List>
-					<ListItemText primary='Name:' secondary={studio.name} />
+					<ListItemText primary='Name:' secondary={studiosDetails.name} />
 				</List>
 			</Box>
 		)
