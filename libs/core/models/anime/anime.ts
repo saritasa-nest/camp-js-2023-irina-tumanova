@@ -1,5 +1,6 @@
 import { DateRange } from '../date-range';
 import { AnimeStatus } from './anime-status';
+import { AnimeType } from './anime-type';
 
 /** Anime. */
 export class Anime {
@@ -52,14 +53,3 @@ export class Anime {
 }
 
 type InitAnimeParams = Anime;
-
-/** Anime type dto. */
-export enum AnimeType {
-	TV = 'TV',
-	OVA = 'OVA',
-	Movie = 'Movie',
-	Special = 'Special',
-	ONA = 'ONA',
-	Music = 'Music',
-	Unknown = 'Unknown',
-}

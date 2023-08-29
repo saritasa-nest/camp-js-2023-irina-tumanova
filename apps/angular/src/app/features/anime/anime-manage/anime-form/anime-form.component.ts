@@ -14,7 +14,7 @@ import { AnimeSeason } from '@js-camp/core/models/anime/anime-season';
 import { AnimeSource } from '@js-camp/core/models/anime/anime-source';
 import { AnimeStatus } from '@js-camp/core/models/anime/anime-status';
 import { Genre } from '@js-camp/core/models/genre/genre';
-import { Studio } from '@js-camp/core/models/anime/studio';
+import { Studio } from '@js-camp/core/models/studio/studio';
 import { DateRange } from '@js-camp/core/models/date-range';
 import { FormGroupOf } from '@js-camp/core/models/form-type-of';
 import { DefaultListParams } from '@js-camp/core/models/list-params';

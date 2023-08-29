@@ -4,12 +4,18 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { genresSlice } from './genre/slice';
 import { authSlice } from './auth/slice';
 import { userSlice } from './user/slice';
+import { genreDetailsSlice } from './genre-details/slice';
+import { animeSlice } from './anime/slice';
+import { studiosSlice } from './studio/slice';
 
 export const store = configureStore({
 	reducer: {
 		genres: genresSlice.reducer,
+		genreDetails: genreDetailsSlice.reducer,
 		auth: authSlice.reducer,
 		user: userSlice.reducer,
+		anime: animeSlice.reducer,
+		studios: studiosSlice.reducer,
 	},
 	middleware: getDefaultMiddleware =>
 		getDefaultMiddleware({

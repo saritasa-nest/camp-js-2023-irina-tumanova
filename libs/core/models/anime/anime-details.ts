@@ -2,7 +2,7 @@ import { Anime } from './anime';
 import { AnimeSeason } from './anime-season';
 import { AnimeSource } from './anime-source';
 import { Genre } from '../genre/genre';
-import { Studio } from './studio';
+import { Studio } from '../studio/studio';
 
 /** Anime details. */
 export class AnimeDetails extends Anime {

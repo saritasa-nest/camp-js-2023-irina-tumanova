@@ -1,6 +1,6 @@
 import { AnimeStatusDto, AnimeTypeDto } from '../../dtos/anime/anime.dto';
 import { AnimeStatus } from '../../models/anime/anime-status';
-import { AnimeType } from '../../models/anime/anime';
+import { AnimeType } from '../../models/anime/anime-type';
 import { AnimeRatingDto, AnimeSeasonDto, AnimeSourceDto } from '../../dtos/anime/anime-details.dto';
 import { AnimeSource } from '../../models/anime/anime-source';
 import { AnimeRating } from '../../models/anime/anime-details';

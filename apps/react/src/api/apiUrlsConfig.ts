@@ -1,10 +1,11 @@
 import { Anime } from '@js-camp/core/models/anime/anime';
+import { Studio } from '@js-camp/core/models/studio/studio';
+import { Genre } from '@js-camp/core/models/genre/genre';
 
 const AUTH_URL_PATH = 'auth';
 
 /** Urls used within the application. */
 export namespace ApiUrlsConfig {
-
 	const apiUrl = import.meta.env.VITE_APP_API_BASE_URL;
 
 	/** Anime routes. */
@@ -19,12 +20,14 @@ export namespace ApiUrlsConfig {
 	/** Genre routes. */
 	export const genre = {
 		getList: toApi('anime/genres/'),
+		getDetail: (id: Genre['id']) => toApi(`anime/genres/${id}/`),
 		create: toApi('anime/genres/'),
 	};
 
 	/** Studio routes. */
 	export const studio = {
 		getList: toApi('anime/studios/'),
+		getDetail: (id: Studio['id']) => toApi(`anime/studios/${id}/`),
 		create: toApi('anime/studios/'),
 	};
 

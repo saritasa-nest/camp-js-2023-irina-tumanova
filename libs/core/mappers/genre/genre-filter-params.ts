@@ -1,5 +1,6 @@
+import { GenreSortingField } from '../../../core/models/genre/genre-sort';
 import { GenreFilterParamsDto, GenreSortingFieldDto } from '../../../core/dtos/genre/genre-filter.dto';
-import { GenreFilterParams, GenreSortingField } from '../../../core/models/genre/genre-params';
+import { GenreFilterParams } from '../../../core/models/genre/genre-params';
 import { GenreMapper } from './genre.mapper';
 
 export namespace GenreFilterParamsMapper {
