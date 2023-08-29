@@ -8,9 +8,7 @@
 	flex-direction: column;
 	align-items: flex-start;
 	position: sticky;
-
-	/* height of header. */
-	top: 64px;
+	top: var(--app-header-height);
 	width: 360px;
 	background-color: var(--background-color);
 }

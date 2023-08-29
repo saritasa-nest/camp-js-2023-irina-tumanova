@@ -57,7 +57,7 @@ const AnimePageComponent: FC = () => {
 	const animeList = useAppSelector(selectAnime);
 	const isLoading = useAppSelector(selectIsAnimeLoading);
 
-	const [isOpenMenu, setIsOpenMenu] = useState(false);
+	const [isMenuOpened, setIsMenuOpened] = useState(false);
 	const [parameters, setParameters] = useState<AnimeParams>(defaultParams);
 
 	const [lastItemNode, setLastItemNode] = useState<HTMLLIElement | null>(null);
@@ -82,7 +82,7 @@ const AnimePageComponent: FC = () => {
 	});
 
 	const toggleMenu = () => {
-		setIsOpenMenu(prevState => !prevState);
+		setIsMenuOpened(prevState => !prevState);
 	};
 
 	const onSubmit: SubmitHandler<FormValues> = ({ types, search, sorting }) => {
@@ -101,20 +101,20 @@ const AnimePageComponent: FC = () => {
 
 	return (
 		<Box className={styles.pageWrapper}>
-			<Drawer open={isOpenMenu} onClose={toggleMenu}>
+			<Drawer open={isMenuOpened} onClose={toggleMenu}>
 				<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
 					<TextField label="Search" {...register('search')} />
 					<MultipleSelect
-						name={'types'}
+						name="types"
 						toReadable={AnimeType.toReadable}
 						control={control}
 						items={AnimeType.toArray()}
-						title={'Filter'}
+						title="Filter"
 					/>
 					<MultipleSort
-						name='sorting'
+						name="sorting"
 						control={control}
-						title='Sorting'
+						title="Sorting"
 						toReadable={AnimeSortingField.toReadable}
 					/>
 					<Button type="submit">Apply</Button>

@@ -1,7 +1,7 @@
 .animeCard {
 	display: flex;
 	align-items: flex-start;
-	gap: 10px;
+	gap: var(--card-gap);
 }
 
 .animeCard:hover {
@@ -10,6 +10,6 @@
 }
 
 .animeAvatar {
-	width: 80px;
-	height: 80px;
+	width: var(--card-avatar-width);
+	height: var(--card-avatar-height);
 }

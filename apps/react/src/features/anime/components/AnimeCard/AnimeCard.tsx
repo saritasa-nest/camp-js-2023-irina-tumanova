@@ -15,7 +15,7 @@ interface Props {
 /** Card with anime data. */
 const AnimeCardComponent = forwardRef<HTMLLIElement | null, Props>(({ anime }, forwardedRef) => (
 	<ListItem ref={forwardedRef} className={styles.animeCard}>
-		<Avatar className={styles.animeAvatar} src={anime.imageUrl}></Avatar>
+		<Avatar className={styles.animeAvatar} src={anime.imageUrl}/>
 		<ListItemText
 			primary={
 				<Typography component="h4" variant="body2">
