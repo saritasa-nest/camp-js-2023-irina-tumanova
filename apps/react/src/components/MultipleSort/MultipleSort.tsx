@@ -46,7 +46,7 @@ const MultipleSortComponent = <T extends string, R extends FieldValues>({
 
 	return (
 		<FormControl className={styles.formControl}>
-			<Typography color="gray">{title}</Typography>
+			<Typography className={styles.sortTitle}>{title}</Typography>
 			<Controller
 				control={control}
 				name={name}

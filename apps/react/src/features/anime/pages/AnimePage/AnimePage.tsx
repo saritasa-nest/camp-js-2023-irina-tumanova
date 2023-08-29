@@ -100,7 +100,7 @@ const AnimePageComponent: FC = () => {
 	}, []);
 
 	return (
-		<Box sx={{ flex: 1, display: 'flex' }}>
+		<Box className={styles.pageWrapper}>
 			<Drawer open={isOpenMenu} onClose={toggleMenu}>
 				<form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
 					<TextField label="Search" {...register('search')} />

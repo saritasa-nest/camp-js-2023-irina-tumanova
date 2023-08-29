@@ -18,14 +18,14 @@ const AnimeCardComponent = forwardRef<HTMLLIElement | null, Props>(({ anime }, f
 		<Avatar className={styles.animeAvatar} src={anime.imageUrl}></Avatar>
 		<ListItemText
 			primary={
-				<Typography component="h4" variant="body2" color="text.primary">
+				<Typography component="h4" variant="body2">
 					{anime.titleJapanese}
 					<br />
 					{anime.titleEnglish}
 				</Typography>
 			}
 			secondary={
-				<Typography component="span" variant="body2" color="text.primary">
+				<Typography component="span" variant="body2">
 					Type: {AnimeType.toReadable(anime.type)}
 					<br />
 					Status: {anime.status}
