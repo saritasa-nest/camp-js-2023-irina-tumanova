@@ -19,7 +19,7 @@ import { MultipleSort } from '@js-camp/react/components/MultipleSort/MultipleSor
 import styles from './StudiosPage.module.css';
 import { StudioCard } from '../../components/StudioCard/StudioCard';
 
-const studioSortingFields: Sorting<StudioSortingField>[] = [
+const studioSortingFields: readonly Sorting<StudioSortingField>[] = [
 	{ field: StudioSortingField.Name, direction: '' },
 	{ field: StudioSortingField.Modified, direction: '' },
 ];
@@ -36,7 +36,7 @@ interface FormValues {
 	readonly search: string;
 
 	/** Sorting. */
-	readonly sorting: Sorting<StudioSortingField>[];
+	readonly sorting: readonly Sorting<StudioSortingField>[];
 }
 
 const defaultFormValues: FormValues = {

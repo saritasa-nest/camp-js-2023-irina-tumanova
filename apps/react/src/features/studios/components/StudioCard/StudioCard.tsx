@@ -18,10 +18,10 @@ interface Props {
 /** Studio card component. */
 const StudioCardComponent = forwardRef<HTMLLIElement | null, Props>(({ studio }, forwardedRef) => {
 	const dispatch = useAppDispatch();
-	const errors = useAppSelector(selectStudioDetailsErrors);
+	const error = useAppSelector(selectStudioDetailsErrors);
 
 	const handleNavigateToDetails = () => {
-		if (errors) {
+		if (error) {
 			dispatch(clearStudioDetailsErrorsState());
 		}
 	};

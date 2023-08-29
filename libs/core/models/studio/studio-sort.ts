@@ -14,14 +14,14 @@ export namespace StudioSortingField {
 
 	};
 
-	/** Converts enum genreSortingField type to array. */
+	/** Converts enum studioSortingField type to array. */
 	export function toArray(): readonly StudioSortingField[] {
 		return enumToArray(StudioSortingField);
 	}
 
 	/**
 	 * Makes sort field type readable.
-	 * @param value Genre sort field type.
+	 * @param value Studio sort field type.
 	 */
 	export function toReadable(value: StudioSortingField): string {
 		return TO_READABLE_SORT[value];
