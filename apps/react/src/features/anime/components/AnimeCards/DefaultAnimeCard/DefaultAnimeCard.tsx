@@ -1,10 +1,10 @@
-import { memo, forwardRef } from 'react';
+import { memo, FC } from 'react';
 import { Avatar, ListItem, ListItemText, Typography } from '@mui/material';
 
 import { Anime } from '@js-camp/core/models/anime/anime';
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
 
-import styles from './AnimeCard.module.css';
+import styles from '../AnimeCard.module.css';
 
 interface Props {
 
@@ -13,8 +13,8 @@ interface Props {
 }
 
 /** Card with anime data. */
-const AnimeCardComponent = forwardRef<HTMLLIElement | null, Props>(({ anime }, forwardedRef) => (
-	<ListItem ref={forwardedRef} className={styles.animeCard}>
+const DefaultAnimeCardComponent: FC<Props> = ({ anime }) => (
+	<ListItem className={styles.animeCard}>
 		<Avatar className={styles.animeAvatar} src={anime.imageUrl}/>
 		<ListItemText
 			primary={
@@ -33,6 +33,6 @@ const AnimeCardComponent = forwardRef<HTMLLIElement | null, Props>(({ anime }, f
 			}
 		/>
 	</ListItem>
-));
+);
 
-export const AnimeCard = memo(AnimeCardComponent);
+export const DefaultAnimeCard = memo(DefaultAnimeCardComponent);

@@ -9,10 +9,10 @@ import { InfinityScroll } from '@js-camp/react/components/InfinityScroll';
 import { AnimeFilterParams } from '@js-camp/core/models/anime/anime-params';
 import { ParamsActionTypes, ParamsActions } from '@js-camp/react/utils/parametersReducer';
 import { AnimeSortingField } from '@js-camp/core/models/anime/anime-sort';
+import { EmptyCard } from '@js-camp/react/components/EmptyCard';
 
 import styles from './AnimeAsideList.module.css';
-import { AnimeCard } from '../../components/AnimeCard';
-import { EmptyCard } from '@js-camp/react/components/EmptyCard';
+import { DefaultAnimeCard, RefAnimeCard } from '../AnimeCards';
 
 interface Props {
 
@@ -50,10 +50,11 @@ const AnimeAsideListComponent = ({ toggleMenu, paramsDispatch }: Props) => {
 				{animeList.length === 0 && !isLoading && <EmptyCard />}
 				{animeList.map((anime, index) => (
 					<Box key={anime.id}>
-						<AnimeCard
-							ref={index === animeList.length - 1 ? getLastAnimeNode : null}
-							anime={anime}
-						/>
+						{index === animeList.length - 1 ? (
+							<DefaultAnimeCard anime={anime} />
+						) : (
+							<RefAnimeCard ref={getLastAnimeNode} anime={anime} />
+						)}
 						<Divider />
 					</Box>
 				))}
