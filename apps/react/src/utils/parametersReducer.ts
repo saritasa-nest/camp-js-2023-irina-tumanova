@@ -22,7 +22,7 @@ export const enum ParamsActionTypes {
 	ChangeFilterAndSorting = 'change_filter_and_sorting',
 }
 
-type Action<T, R> =
+export type ParamsActions<T, R> =
 	| ChangeSortingAction<T>
 	| ChangeFilterAndSortingAction<T, R>
 	| ChangePaginationAction
@@ -55,7 +55,7 @@ interface ChangeFilterAction<R> {
 	readonly payload: {
 
 		/** Filter. */
-		readonly filter: R;
+		readonly filters: R;
 
 		/** Default pagination. */
 		readonly defaultPagination: PaginationParams;
@@ -71,7 +71,7 @@ interface ChangeFilterAndSortingAction<T, R> {
 	readonly payload: {
 
 		/** Filter. */
-		readonly filter: R;
+		readonly filters: R;
 
 		/** Sorting. */
 		readonly sorting: readonly Sorting<T>[];
@@ -93,7 +93,7 @@ interface ChangePaginationAction {
  * @param state State.
  * @param action Action.
  */
-export const paramsReducer = <T, R>(state: InitState<T, R>, action: Action<T, R>): InitState<T, R> => {
+export const paramsReducer = <T, R>(state: InitState<T, R>, action: ParamsActions<T, R>): InitState<T, R> => {
 	switch (action.type) {
 		case ParamsActionTypes.ChangePagination: {
 			return {
@@ -112,14 +112,14 @@ export const paramsReducer = <T, R>(state: InitState<T, R>, action: Action<T, R>
 			return {
 				...state,
 				pagination: action.payload.defaultPagination,
-				filters: action.payload.filter,
+				filters: action.payload.filters,
 			};
 		}
 		case ParamsActionTypes.ChangeFilterAndSorting: {
 			return {
 				...state,
 				pagination: action.payload.defaultPagination,
-				filters: action.payload.filter,
+				filters: action.payload.filters,
 				sorting: action.payload.sorting,
 			};
 		}

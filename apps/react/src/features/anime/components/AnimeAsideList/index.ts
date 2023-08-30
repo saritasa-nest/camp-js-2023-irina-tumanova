@@ -1,0 +1,1 @@
+export { AnimeAsideList } from './AnimeAsideList';
