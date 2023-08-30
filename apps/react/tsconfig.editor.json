@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["**/*.ts", "../../libs", "src/features/genres/pages/StudiosPage/index.ts"],
+  "include": ["**/*.ts", "../../libs", "src/features/genres/pages/StudiosPage/index.ts", "src/utils/customNavLink.tsx"],
   "compilerOptions": {
     "types": ["node"]
   }

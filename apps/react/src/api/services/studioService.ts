@@ -25,4 +25,13 @@ export namespace StudiosService {
 		});
 		return data.results.map(dto => StudioMapper.fromDto(dto));
 	}
+
+	/**
+	 * Fetches studio details.
+	 * @param id Studio ID.
+	 */
+	export async function fetchStudioDetails(id: number): Promise<Studio> {
+		const { data } = await http.get<StudioDto>(ApiUrlsConfig.studio.getDetail(id));
+		return StudioMapper.fromDto(data);
+	}
 }

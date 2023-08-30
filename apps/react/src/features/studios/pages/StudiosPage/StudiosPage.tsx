@@ -2,6 +2,7 @@ import { Box, Drawer, IconButton, TextField, Button, Divider } from '@mui/materi
 import { Menu } from '@mui/icons-material';
 import { FC, memo, useCallback, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { Outlet } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { fetchStudios } from '@js-camp/react/store/studio/dispatchers';
@@ -120,6 +121,7 @@ const StudiosPageComponent: FC = () => {
 					</>
 				</InfinityScroll>
 			</aside>
+			<Outlet />
 		</Box>
 	);
 };
