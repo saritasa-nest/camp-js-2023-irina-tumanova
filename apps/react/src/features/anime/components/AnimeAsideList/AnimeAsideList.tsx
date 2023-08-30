@@ -12,6 +12,7 @@ import { AnimeSortingField } from '@js-camp/core/models/anime/anime-sort';
 
 import styles from './AnimeAsideList.module.css';
 import { AnimeCard } from '../../components/AnimeCard';
+import { EmptyCard } from '@js-camp/react/components/EmptyCard';
 
 interface Props {
 
@@ -46,6 +47,7 @@ const AnimeAsideListComponent = ({ toggleMenu, paramsDispatch }: Props) => {
 				<Menu />
 			</IconButton>
 			<InfinityScroll lastItemNode={lastItemNode} onObserve={getNextPaginationData}>
+				{animeList.length === 0 && !isLoading && <EmptyCard />}
 				{animeList.map((anime, index) => (
 					<Box key={anime.id}>
 						<AnimeCard
