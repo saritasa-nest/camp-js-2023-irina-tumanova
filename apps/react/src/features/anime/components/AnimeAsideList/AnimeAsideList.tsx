@@ -41,12 +41,12 @@ const AnimeAsideListComponent = ({ toggleMenu, paramsDispatch }: Props) => {
 
 	return (
 		<aside className={styles.aside}>
+			{isLoading && animeList.length === 0 && <AppShadowLoader />}
 			<IconButton onClick={toggleMenu}>
 				<Menu />
 			</IconButton>
 			<InfinityScroll lastItemNode={lastItemNode} onObserve={getNextPaginationData}>
 				<>
-					{isLoading && animeList.length === 0 && <AppShadowLoader />}
 					{animeList.map((anime, index) => (
 						<Box key={anime.id}>
 							<AnimeCard
