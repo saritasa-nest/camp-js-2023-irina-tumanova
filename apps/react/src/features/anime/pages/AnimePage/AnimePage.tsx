@@ -1,4 +1,4 @@
-import { memo, useEffect, FC, useState, useCallback } from 'react';
+import { memo, useEffect, FC, useState, useCallback, useReducer } from 'react';
 import { Box, Button, Divider, Drawer, IconButton, TextField } from '@mui/material';
 import { Menu } from '@mui/icons-material';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -16,10 +16,11 @@ import { clearAnimeList, clearAnimeListState } from '@js-camp/react/store/anime/
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
 import { MultipleSelect } from '@js-camp/react/components/MultipleSelect';
 import { AppShadowLoader } from '@js-camp/react/components/AppShadowLoader';
+import { ParamsActionTypes, paramsReducer } from '@js-camp/react/utils/parametersReducer';
 import { InfinityScroll } from '@js-camp/react/components/InfinityScroll';
 
-import styles from './AnimePage.module.css';
 import { AnimeCard } from '../../components/AnimeCard';
+import styles from './AnimePage.module.css';
 
 const defaultPageSortFields: readonly Sorting<AnimeSortingField>[] = [
 	{ field: AnimeSortingField.TitleEnglish, direction: '' },
@@ -57,16 +58,14 @@ const AnimePageComponent: FC = () => {
 	const animeList = useAppSelector(selectAnime);
 	const isLoading = useAppSelector(selectIsAnimeLoading);
 
+	const [params, paramsDispatch] = useReducer(paramsReducer<AnimeSortingField, AnimeFilterParams>, defaultParams);
+
 	const [isMenuOpened, setIsMenuOpened] = useState(false);
-	const [parameters, setParameters] = useState<AnimeParams>(defaultParams);
 
 	const [lastItemNode, setLastItemNode] = useState<HTMLLIElement | null>(null);
 
 	const getNextPaginationData = () => {
-		setParameters(prevState => ({
-			...prevState,
-			pagination: { ...prevState.pagination, pageNumber: prevState.pagination.pageNumber + 1 },
-		}));
+		paramsDispatch({ type: ParamsActionTypes.ChangePagination });
 	};
 
 	useEffect(() => {
@@ -74,8 +73,8 @@ const AnimePageComponent: FC = () => {
 	}, []);
 
 	useEffect(() => {
-		dispatch(fetchAnime(parameters));
-	}, [parameters]);
+		dispatch(fetchAnime(params as AnimeParams));
+	}, [params]);
 
 	const { register, handleSubmit, control } = useForm<FormValues>({
 		defaultValues: defaultFormValues,
@@ -87,10 +86,13 @@ const AnimePageComponent: FC = () => {
 
 	const onSubmit: SubmitHandler<FormValues> = ({ types, search, sorting }) => {
 		dispatch(clearAnimeList());
-		setParameters({
-			...defaultParams,
-			sorting,
-			filters: new AnimeFilterParams({ types, search }),
+		paramsDispatch({
+			type: ParamsActionTypes.ChangeFilterAndSorting,
+			payload: {
+				sorting,
+				filter: new AnimeFilterParams({ types, search }),
+				defaultPagination: defaultParams.pagination,
+			},
 		});
 		toggleMenu();
 	};
@@ -111,12 +113,7 @@ const AnimePageComponent: FC = () => {
 						items={AnimeType.toArray()}
 						title="Filter"
 					/>
-					<MultipleSort
-						name="sorting"
-						control={control}
-						title="Sorting"
-						toReadable={AnimeSortingField.toReadable}
-					/>
+					<MultipleSort name="sorting" control={control} title="Sorting" toReadable={AnimeSortingField.toReadable} />
 					<Button type="submit">Apply</Button>
 				</form>
 			</Drawer>
@@ -129,10 +126,7 @@ const AnimePageComponent: FC = () => {
 						{isLoading && animeList.length === 0 && <AppShadowLoader />}
 						{animeList.map((anime, index) => (
 							<Box key={anime.id}>
-								<AnimeCard
-									ref={index === animeList.length - 1 ? getLastAnimeNode : null}
-									anime={anime}
-								/>
+								<AnimeCard ref={index === animeList.length - 1 ? getLastAnimeNode : null} anime={anime} />
 								<Divider />
 							</Box>
 						))}
