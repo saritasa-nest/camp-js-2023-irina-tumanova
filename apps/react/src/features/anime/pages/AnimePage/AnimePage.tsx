@@ -7,7 +7,7 @@ import { useAppDispatch } from '@js-camp/react/store';
 import { AnimeFilterParams, AnimeParams } from '@js-camp/core/models/anime/anime-params';
 import { AnimeSortingField, ReadableAnimeSortField } from '@js-camp/core/models/anime/anime-sort';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
-import { Sorting } from '@js-camp/core/models/sorting';
+import { SortDirection, Sorting } from '@js-camp/core/models/sorting';
 import { MultipleSort } from '@js-camp/react/components/MultipleSort/MultipleSort';
 import { clearAnimeList } from '@js-camp/react/store/anime/slice';
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
@@ -29,8 +29,8 @@ interface FormValues {
 }
 
 const defaultPageSortFields: readonly Sorting<AnimeSortingField>[] = [
-	{ field: AnimeSortingField.TitleEnglish, direction: '' },
-	{ field: AnimeSortingField.Status, direction: '' },
+	{ field: AnimeSortingField.TitleEnglish, direction: SortDirection.None },
+	{ field: AnimeSortingField.Status, direction: SortDirection.None },
 ];
 
 const defaultParams: AnimeParams = {

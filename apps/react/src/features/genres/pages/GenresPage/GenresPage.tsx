@@ -11,7 +11,7 @@ import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { InfinityScroll } from '@js-camp/react/components/InfinityScroll';
 import { GenreType } from '@js-camp/core/models/genre/genre-type';
 import { GenreFilterParams, GenreParams } from '@js-camp/core/models/genre/genre-params';
-import { Sorting } from '@js-camp/core/models/sorting';
+import { SortDirection, Sorting } from '@js-camp/core/models/sorting';
 import { clearGenres, clearGenresState } from '@js-camp/react/store/genre/slice';
 import { GenreSortingField } from '@js-camp/core/models/genre/genre-sort';
 import { MultipleSort } from '@js-camp/react/components/MultipleSort/MultipleSort';
@@ -22,8 +22,8 @@ import { GenreCard } from '../../components/GenreCard';
 import styles from './GenrePage.module.css';
 
 const genreSoringFields: readonly Sorting<GenreSortingField>[] = [
-	{ field: GenreSortingField.Name, direction: '' },
-	{ field: GenreSortingField.Type, direction: '' },
+	{ field: GenreSortingField.Name, direction: SortDirection.None },
+	{ field: GenreSortingField.Type, direction: SortDirection.None },
 ];
 
 const defaultParams: GenreParams = {
