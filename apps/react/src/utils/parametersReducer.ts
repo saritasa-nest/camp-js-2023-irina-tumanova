@@ -98,7 +98,7 @@ export const paramsReducer = <T, R>(state: InitState<T, R>, action: ParamsAction
 		case ParamsActionTypes.ChangePagination: {
 			return {
 				...state,
-				pagination: { ...state.pagination, pageNumber: state.pagination.pageNumber + 1 },
+				pagination: new PaginationParams({ ...state.pagination, pageNumber: state.pagination.pageNumber + 1 }),
 			};
 		}
 		case ParamsActionTypes.ChangeSorting: {
