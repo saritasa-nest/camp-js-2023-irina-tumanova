@@ -46,17 +46,15 @@ const AnimeAsideListComponent = ({ toggleMenu, paramsDispatch }: Props) => {
 				<Menu />
 			</IconButton>
 			<InfinityScroll lastItemNode={lastItemNode} onObserve={getNextPaginationData}>
-				<>
-					{animeList.map((anime, index) => (
-						<Box key={anime.id}>
-							<AnimeCard
-								ref={index === animeList.length - 1 ? getLastAnimeNode : null}
-								anime={anime}
-							/>
-							<Divider />
-						</Box>
-					))}
-				</>
+				{animeList.map((anime, index) => (
+					<Box key={anime.id}>
+						<AnimeCard
+							ref={index === animeList.length - 1 ? getLastAnimeNode : null}
+							anime={anime}
+						/>
+						<Divider />
+					</Box>
+				))}
 			</InfinityScroll>
 		</aside>
 	);
