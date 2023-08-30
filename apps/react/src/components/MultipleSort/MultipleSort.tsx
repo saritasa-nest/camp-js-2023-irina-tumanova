@@ -44,12 +44,12 @@ const MultipleSortComponent = <T extends string, R extends FieldValues>({
 		index: number,
 	): TValue[] {
 		const elementForChange = value.at(index);
+		const newArr = [...value];
 
 		if (elementForChange == null) {
-			return [...value];
+			return newArr;
 		}
 
-		const newArr = [...value];
 		newArr[index] = {
 			...elementForChange,
 			direction: directionToggleObject[elementForChange.direction],

@@ -19,7 +19,7 @@ export namespace ListParamsMapper {
 	): ListParamsDto<TFiltersDto> {
 		return {
 			ordering: model.sorting
-				.map(sortField => sortField.direction === '' ? null :
+				.map(sortField => sortField.direction === SortDirection.None ? null :
 					`${SORT_DIRECTION_TO_DTO[sortField.direction]}${sortingFieldMapper(sortField.field)}`)
 				.filter(element => element !== null)
 				.join(','),
