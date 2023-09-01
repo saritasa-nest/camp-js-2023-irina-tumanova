@@ -7,8 +7,8 @@ import { userSlice } from './user/slice';
 import { genreDetailsSlice } from './genre-details/slice';
 import { animeSlice } from './anime/slice';
 import { studiosSlice } from './studio/slice';
+import { animeDetailsSlice } from './anime-details/slice';
 import { studioDetailsSlice } from './studio-details/slice';
-
 export const store = configureStore({
 	reducer: {
 		genres: genresSlice.reducer,
@@ -16,6 +16,7 @@ export const store = configureStore({
 		auth: authSlice.reducer,
 		user: userSlice.reducer,
 		anime: animeSlice.reducer,
+		animeDetails: animeDetailsSlice.reducer,
 		studios: studiosSlice.reducer,
 		studioDetails: studioDetailsSlice.reducer,
 	},

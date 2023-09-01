@@ -6,6 +6,7 @@
 
 	/* height of header. */
 	top: 64px;
+	height: calc(100vh - 64px);
 	width: 360px;
 	background-color: var(--background-color);
 }
