@@ -6,14 +6,23 @@ import { fetchStudios } from './dispatchers';
 export const studiosSlice = createSlice({
 	name: 'studios',
 	initialState,
-	reducers: {},
+	reducers: {
+		clearStudios(state) {
+			state.studios = [];
+		},
+		clearStudiosState(state) {
+			state.studios = [];
+			state.isLoading = false;
+			state.error = undefined;
+		},
+	},
 	extraReducers: builder =>
 		builder
 			.addCase(fetchStudios.pending, state => {
 				state.isLoading = true;
 			})
 			.addCase(fetchStudios.fulfilled, (state, action) => {
-				state.studios = action.payload;
+				state.studios = [...state.studios, ...action.payload];
 				state.isLoading = false;
 			})
 			.addCase(fetchStudios.rejected, (state, action) => {
@@ -23,3 +32,5 @@ export const studiosSlice = createSlice({
 				state.isLoading = false;
 			}),
 });
+
+export const { clearStudios, clearStudiosState } = studiosSlice.actions;

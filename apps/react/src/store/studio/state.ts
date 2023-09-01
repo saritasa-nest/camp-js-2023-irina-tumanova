@@ -14,6 +14,6 @@ export interface StudiosState {
 }
 
 export const initialState: StudiosState = {
-	isLoading: false,
+	isLoading: true,
 	studios: [],
 };

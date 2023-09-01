@@ -14,7 +14,7 @@ export const userSlice = createSlice({
 			state.error = undefined;
 		})
 		.addCase(UserDispatcher.getCurrentUser.fulfilled, (state, action) => {
-			state.isLoading = true;
+			state.isLoading = false;
 			state.user = action.payload;
 			state.error = undefined;
 		})
@@ -28,5 +28,8 @@ export const userSlice = createSlice({
 			state.error = undefined;
 			state.isLoading = false;
 			state.user = null;
+		})
+		.addCase(UserDispatcher.updateCurrentUser.fulfilled, (state, action) => {
+			state.user = action.payload;
 		}),
 });

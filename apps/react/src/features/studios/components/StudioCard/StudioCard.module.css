@@ -1,0 +1,19 @@
+.studioCard {
+	gap: var(--space-m);
+	align-items: center;
+}
+
+.studioCard:hover {
+	background-color: var(--on-surface);
+	cursor: pointer;
+}
+
+.avatar {
+	width: 80px;
+	height: 80px;
+}
+
+.avatarImg {
+	width: 100%;
+	height: 100%;
+}

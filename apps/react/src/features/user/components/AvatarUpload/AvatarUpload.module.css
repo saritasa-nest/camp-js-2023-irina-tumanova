@@ -1,0 +1,29 @@
+.avatar-upload {
+	--avatar-size: 100px;
+
+	display: grid;
+	grid-template-columns: var(--avatar-size) 1fr;
+	align-items: center;
+	gap: var(--space-m);
+}
+
+.avatar-upload__actions {
+	display: flex;
+	align-items: center;
+	gap: var(--space-s);
+}
+
+.avatar-upload__avatar {
+	width: var(--avatar-size);
+	height: var(--avatar-size);
+}
+
+.avatar-upload__input {
+	position: absolute;
+	inset: 0;
+	opacity: 0;
+}
+
+.avatar-upload__error {
+	grid-column: 1/3;
+}

@@ -38,7 +38,8 @@
         "outputPath": "dist/apps/react",
         "baseHref": "/",
         "configFile": "apps/react/vite.config.ts",
-        "frameworkConfigFile": "@nx/react/plugins/vite"
+        "frameworkConfigFile": "@nx/react/plugins/vite",
+        "port": 4200
       },
       "configurations": {
         "development": {
