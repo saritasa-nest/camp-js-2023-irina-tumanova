@@ -9,7 +9,7 @@ import { fetchStudios } from '@js-camp/react/store/studio/dispatchers';
 import { selectAreStudiosLoading, selectStudios } from '@js-camp/react/store/studio/selectors';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
 import { StudioSortingField } from '@js-camp/core/models/studio/studio-sort';
-import { Sorting } from '@js-camp/core/models/sorting';
+import { SortDirection, Sorting } from '@js-camp/core/models/sorting';
 import { StudioFilterParams, StudioParams } from '@js-camp/core/models/studio/studio-params';
 import { InfinityScroll } from '@js-camp/react/components/InfinityScroll';
 import { AppShadowLoader } from '@js-camp/react/components/AppShadowLoader';
@@ -20,8 +20,8 @@ import styles from './StudiosPage.module.css';
 import { StudioCard } from '../../components/StudioCard/StudioCard';
 
 const studioSortingFields: readonly Sorting<StudioSortingField>[] = [
-	{ field: StudioSortingField.Name, direction: '' },
-	{ field: StudioSortingField.Modified, direction: '' },
+	{ field: StudioSortingField.Name, direction: SortDirection.None },
+	{ field: StudioSortingField.Modified, direction: SortDirection.None },
 ];
 
 const defaultParams: StudioParams = {

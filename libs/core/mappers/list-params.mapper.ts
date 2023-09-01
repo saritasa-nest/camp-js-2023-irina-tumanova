@@ -1,6 +1,7 @@
 import { ListParamsDto } from '../dtos/list-params.dto';
 import { SortDirectionDto } from '../dtos/sort-direction.dto';
 import { ListParams } from '../models/list-params';
+import { SortDirection } from '../models/sorting';
 import { PaginationParamsMapper } from './pagination-params.mapper';
 
 export namespace ListParamsMapper {
@@ -18,15 +19,8 @@ export namespace ListParamsMapper {
 	): ListParamsDto<TFiltersDto> {
 		return {
 			ordering: model.sorting
-				.map(sortField => {
-					if (sortField.direction === 'desc') {
-						return `${SortDirectionDto.Desc}${sortingFieldMapper(sortField.field)}`;
-					}
-					if (sortField.direction === '') {
-						return null;
-					}
-					return `${SortDirectionDto.Asc}${sortingFieldMapper(sortField.field)}`;
-				})
+				.map(sortField => sortField.direction === SortDirection.None ? null :
+					`${SORT_DIRECTION_TO_DTO[sortField.direction]}${sortingFieldMapper(sortField.field)}`)
 				.filter(element => element !== null)
 				.join(','),
 
@@ -34,4 +28,9 @@ export namespace ListParamsMapper {
 			...filterMapper(model.filters),
 		};
 	}
+
+	export const SORT_DIRECTION_TO_DTO = {
+		[SortDirection.Asc]: SortDirectionDto.Asc,
+		[SortDirection.Desc]: SortDirectionDto.Desc,
+	};
 }
