@@ -5,12 +5,13 @@ import { Outlet } from 'react-router-dom';
 import { AnimeParams, AnimeFilterParams } from '@js-camp/core/models/anime/anime-params';
 import { AnimeSortingField } from '@js-camp/core/models/anime/anime-sort';
 import { PaginationParams } from '@js-camp/core/models/pagination-params';
-import { Sorting } from '@js-camp/core/models/sorting';
-import { MultipleSort } from '@js-camp/react/components/MultipleSort/MultipleSort';
-import { clearAnimeList } from '@js-camp/react/store/anime/slice';
+import { SortDirection, Sorting } from '@js-camp/core/models/sorting';
 import { AnimeType } from '@js-camp/core/models/anime/anime-type';
 import { ListFilterForm } from '@js-camp/core/models/list-filter-form';
 import { paramsReducer } from '@js-camp/react/utils/parametersReducer';
+import { useAppDispatch } from '@js-camp/react/store';
+import { clearAnimeListState } from '@js-camp/react/store/anime/slice';
+import { fetchAnime } from '@js-camp/react/store/anime/dispatchers';
 
 import styles from './AnimePage.module.css';
 import { AnimeDrawer } from '../../components/AnimeDrawer';
